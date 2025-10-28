@@ -35,7 +35,7 @@ export function About() {
                 I’m a Computer Science graduate from Aliko Dangote University of Science &amp; Technology, Wudil. My journey into technology began with a fascination for how software can solve real-world problems, which has since evolved into a career dedicated to building high-quality, impactful solutions.
               </p>
               <p>
-                Founder of <strong className="font-semibold text-primary">Nyra Technology Limited</strong> (2025), I focus on building SaaS and tech solutions that simplify business operations. My mission is to create technology that is not just functional but also a joy to use, empowering businesses to thrive in a digital-first world.
+                As the founder of the startup product <strong className="font-semibold text-primary">Nyra Meet</strong>, I'm developing a meeting application, similar to Google Meet, that provides live transcription during meetings and accessible summaries afterward. We are also planning to develop a chat application.
               </p>
             </div>
             <Button asChild size="lg" className="mt-4 rounded-full px-8">
