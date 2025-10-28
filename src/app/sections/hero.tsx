@@ -18,9 +18,13 @@ export function Hero() {
   }, []);
 
   return (
-    <section id="home" className="bg-background py-24 sm:py-32">
+    <section id="home" className="relative overflow-hidden bg-background py-24 sm:py-32">
+       <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-[radial-gradient(40%_50%_at_50%_20%,hsl(var(--primary)/0.1),transparent)]"
+      />
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid items-center gap-12 md:grid-cols-2">
+        <div className="grid items-center gap-12 lg:grid-cols-2">
             <div className={cn(
                 "space-y-8 transition-all duration-1000",
                 isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
@@ -47,21 +51,25 @@ export function Hero() {
               </div>
             </div>
              <div className={cn(
-                "transition-all duration-1000 delay-200",
+                "relative mx-auto h-[300px] w-[300px] transition-all duration-1000 delay-200 sm:h-[400px] sm:w-[400px] lg:mx-0",
                 isMounted ? "opacity-100 scale-100" : "opacity-0 scale-90"
             )}>
                 {heroImage && (
-                    <div className="overflow-hidden rounded-2xl">
-                        <Image
+                   <div className="group relative flex h-full w-full items-center justify-center">
+                    <div className="absolute h-full w-full animate-spin-slow rounded-full border-8 border-dashed border-primary/20"></div>
+                    <div className="absolute h-[85%] w-[85%] animate-spin-slow-reverse rounded-full border-8 border-dashed border-secondary/20"></div>
+                    <div className="relative h-[80%] w-[80%] overflow-hidden rounded-full shadow-2xl">
+                       <Image
                             src={heroImage.imageUrl}
                             alt={heroImage.description}
-                            width={1200}
-                            height={675}
-                            className="aspect-video w-full object-cover"
+                            width={400}
+                            height={400}
+                            className="h-full w-full object-cover"
                             data-ai-hint={heroImage.imageHint}
                             priority
                         />
                     </div>
+                </div>
                 )}
             </div>
         </div>
