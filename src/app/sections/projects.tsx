@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/button';
 
 const projects = [
   {
-    title: "Nyra Meet",
+    title: "Nyra Connect",
     description: "A meeting application that provides live transcription and accessible summaries after meetings. Also developing a chat application to complement the meeting functions.",
     tech: ["Next.js", "TypeScript", "Google AI", "WebRTC"],
     image: PlaceHolderImages.find(p => p.id === "project-nyra"),
@@ -44,7 +44,7 @@ const projects = [
     tech: ["Node.js", "Express", "MongoDB", "EJS"],
     image: PlaceHolderImages.find(p => p.id === "project-admission"),
     link: "#",
-    role: "Lead Developer"
+    role: "Full-Stack & Lead Developer"
   },
   {
     title: "Rental Management System",
