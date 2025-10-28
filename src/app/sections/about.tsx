@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -28,7 +29,7 @@ export function About() {
           </div>
           <div className="space-y-6 md:col-span-3">
             <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              My Story & Mission
+              My Story &amp; Mission
             </h2>
             <div className="space-y-4 text-lg text-foreground/80">
               <p>
