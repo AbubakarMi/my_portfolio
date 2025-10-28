@@ -25,17 +25,17 @@ export const blogPosts = [
   },
   {
     slug: "why-i-started-nyra-technology",
-    title: "Why I Started Nyra Technology Limited",
-    excerpt: "A personal reflection on the journey, motivation, and vision behind founding a tech company aimed at simplifying business operations and driving growth through software.",
+    title: "Why I Started The Nyra Startup",
+    excerpt: "A personal reflection on the journey, motivation, and vision behind founding a tech startup aimed at simplifying business operations and driving growth through software.",
     image: PlaceHolderImages.find(p => p.id === "blog-nyra-tech"),
     content: `
-      <p>The decision to start a company is never an easy one. For me, the journey to founding Nyra Technology Limited was driven by a deep-seated passion for problem-solving and a belief in the transformative power of software.</p>
+      <p>The decision to start a company is never an easy one. For me, the journey to founding the Nyra startup was driven by a deep-seated passion for problem-solving and a belief in the transformative power of software.</p>
       <h3 class="font-headline text-2xl font-bold mt-8 mb-4">From Passion to Profession</h3>
       <p>I've always been fascinated by how technology can be used to create elegant solutions to complex problems. Throughout my career, I've had the opportunity to work on a variety of projects, and I've seen firsthand how the right software can make a significant impact on a business's ability to operate efficiently and grow.</p>
       <p>However, I also noticed a recurring gap in the market. Many businesses, especially small and medium-sized enterprises (SMEs), were struggling with clunky, outdated, or ill-fitting software solutions. They needed tools that were not only powerful but also intuitive and accessible.</p>
-      <h3 class="font-headline text-2xl font-bold mt-8 mb-4">The Vision for Nyra Technology</h3>
-      <p>This is where the vision for Nyra Technology was born. My goal was to create a company that focuses on building high-quality, human-centric software that empowers businesses. I wanted to move beyond just writing code and instead focus on creating real value and driving growth for our clients.</p>
-      <p>Our flagship product, Nyra Connect, is the first step in this journey. It's a meeting application designed to make collaboration more effective with live transcription and accessible summaries. But this is just the beginning. The ultimate vision for Nyra Technology is to become a trusted partner for businesses, providing them with the software tools they need to thrive in a digital-first world.</p>
+      <h3 class="font-headline text-2xl font-bold mt-8 mb-4">The Vision for Nyra</h3>
+      <p>This is where the vision for Nyra was born. My goal was to create a startup that focuses on building high-quality, human-centric software that empowers businesses. I wanted to move beyond just writing code and instead focus on creating real value and driving growth for our clients.</p>
+      <p>Our flagship product, Nyra Connect, is the first step in this journey. It's a meeting application designed to make collaboration more effective with live transcription and accessible summaries. But this is just the beginning. The ultimate vision for Nyra is to become a trusted partner for businesses, providing them with the software tools they need to thrive in a digital-first world.</p>
       <p>Starting a company has been one of the most challenging and rewarding experiences of my life. It's a journey filled with learning, growth, and the opportunity to make a real impact. I'm excited about what the future holds and look forward to continuing to build solutions that matter.</p>
     `
   },
