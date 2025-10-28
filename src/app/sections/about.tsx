@@ -32,7 +32,7 @@ export function About() {
             </h2>
             <div className="space-y-4 text-lg text-foreground/80">
               <p>
-                I’m a Computer Science graduate from Aliko Dangote University of Science &amp; Technology, Wudil. My journey into technology began with a fascination for how software can solve real-world problems, which has since evolved into a career dedicated to building high-quality, impactful solutions.
+                I’m a Computer Science graduate from Aliko Dangote University of Science &amp; Technology, Wudil. My journey into technology began with a fascination for how software can solve real-world problems. This passion has evolved into a career where I focus on building high-quality, impactful SaaS products and delivering top-tier solutions as a freelance developer.
               </p>
               <p>
                 As the founder of the startup product <strong className="font-semibold text-primary">Nyra Meet</strong>, I'm developing a meeting application, similar to Google Meet, that provides live transcription during meetings and accessible summaries afterward. We are also planning to develop a chat application.
