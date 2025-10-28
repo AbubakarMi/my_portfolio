@@ -52,17 +52,17 @@ export function Hero() {
                 isMounted ? "opacity-100 scale-100" : "opacity-0 scale-90"
             )}>
                 {heroImage && (
-                    <div className="overflow-hidden rounded-2xl shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
+                    <Card className="overflow-hidden rounded-2xl shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
                         <Image
                             src={heroImage.imageUrl}
                             alt={heroImage.description}
-                            width={600}
-                            height={750}
-                            className="aspect-[4/5] w-full object-cover"
+                            width={1200}
+                            height={675}
+                            className="aspect-video w-full object-cover"
                             data-ai-hint={heroImage.imageHint}
                             priority
                         />
-                    </div>
+                    </Card>
                 )}
             </div>
         </div>
