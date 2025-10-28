@@ -13,6 +13,8 @@ import { Github, Linkedin, Mail, Phone, Twitter } from 'lucide-react';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { sendContactFormEmail } from '@/ai/flows/send-email-flow';
+import Image from 'next/image';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const contactFormSchema = z.object({
   name: z.string().min(2, "Please enter your name."),
@@ -24,26 +26,51 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 export function Contact() {
   const { toast } = useToast();
+  const heroImage = PlaceHolderImages.find(p => p.id === 'hero-portrait');
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: { name: "", email: "", message: "" },
   });
 
   async function onSubmit(data: ContactFormValues) {
+    // Optimistically show success toast
+    toast({
+      description: (
+          <div className="flex items-center gap-4">
+              {heroImage && (
+                  <Image
+                      src={heroImage.imageUrl}
+                      alt="Muhammad Idris Abubakar"
+                      width={64}
+                      height={64}
+                      className="rounded-full object-cover aspect-square"
+                  />
+              )}
+              <div className="flex-1 space-y-1">
+                  <p className="text-sm font-medium leading-none">
+                      Thank you, {data.name}!
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                      I've received your message and will reach out as soon as possible.
+                  </p>
+              </div>
+          </div>
+      ),
+    });
+    form.reset();
+
     try {
+      // Send email in the background
       await sendContactFormEmail(data);
-      toast({
-        title: "Message Sent!",
-        description: "Thanks for reaching out. I'll get back to you shortly.",
-      });
-      form.reset();
     } catch (error) {
       console.error("Failed to send email", error);
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem sending your message. Please try again later.",
-      });
+      // If sending fails, show a destructive toast.
+      // The user has already seen a success message, so this is for debugging/logging.
+       toast({
+         variant: "destructive",
+         title: "Message failed to send",
+         description: "There was a problem in the background. Please try again later.",
+       });
     }
   }
 
