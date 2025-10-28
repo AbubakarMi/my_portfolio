@@ -53,19 +53,19 @@ const skills = {
     { name: 'TypeScript', icon: TypeScriptIcon },
     { name: 'Tailwind CSS', icon: TailwindCssIcon },
   ],
-  'DevOps &amp; Tools': [
+  'DevOps & Tools': [
     { name: 'Docker', icon: Container },
     { name: 'SendGrid', icon: Mail },
-    { name: 'Git &amp; GitHub', icon: Github },
+    { name: 'Git & GitHub', icon: Github },
   ],
 };
 
 const SkillCard = ({ name, icon: Icon }: { name: string, icon: React.ElementType }) => (
-  <div className="flex items-center gap-4 rounded-2xl border bg-card p-4 shadow-sm transition-transform duration-300 hover:-translate-y-1 hover:shadow-md">
-    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-      <Icon className="h-7 w-7 text-primary" />
+  <div className="flex items-center gap-4 rounded-2xl border bg-card p-4 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-primary/50 hover:-translate-y-1">
+    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+      <Icon className="h-7 w-7" />
     </div>
-    <span className="font-semibold text-foreground">{name}</span>
+    <span className="font-semibold text-foreground text-lg">{name}</span>
   </div>
 );
 
@@ -82,13 +82,13 @@ export function Skills() {
           </p>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 gap-12 md:grid-cols-3">
+        <div className="mt-20">
           {Object.entries(skills).map(([category, items]) => (
-            <div key={category} className="space-y-6">
-              <h3 className="text-center font-headline text-2xl font-semibold text-foreground">
-                {category}
+            <div key={category} className="mb-12 last:mb-0">
+              <h3 className="text-center font-headline text-2xl font-semibold text-foreground mb-8">
+                {category.replace('&amp;', '&')}
               </h3>
-              <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {items.map(skill => (
                   <SkillCard key={skill.name} name={skill.name} icon={skill.icon} />
                 ))}
