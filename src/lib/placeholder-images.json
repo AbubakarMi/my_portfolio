@@ -1,3 +1,46 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-portrait",
+      "description": "Professional portrait of Muhammad Idris Abubakar",
+      "imageUrl": "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjE2Mzk1ODV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "professional portrait"
+    },
+    {
+      "id": "about-profile",
+      "description": "Profile image for the about section",
+      "imageUrl": "https://images.unsplash.com/photo-1622151834677-70f982c9adef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtYW4lMjB3b3JraW5nfGVufDB8fHx8MTc2MTYwMDAzM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "man working"
+    },
+    {
+      "id": "project-smarted",
+      "description": "Screenshot of the SmartEd School Management System",
+      "imageUrl": "https://images.unsplash.com/photo-1677617587258-685aaf1b1e1c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxkYXNoYm9hcmQlMjB1aXxlbnwwfHx8fDE3NjE1ODk5Mjh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "dashboard ui"
+    },
+    {
+      "id": "project-booking",
+      "description": "Screenshot of the Appointment Booking System",
+      "imageUrl": "https://images.unsplash.com/photo-1703081167405-0f4868739bc3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjYWxlbmRhciUyMGFwcHxlbnwwfHx8fDE3NjE1ODI4ODB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "calendar app"
+    },
+    {
+      "id": "blog-modular-saas",
+      "description": "Thumbnail for blog post on modular SaaS architecture",
+      "imageUrl": "https://images.unsplash.com/photo-1721244653652-268631ec049a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxhcmNoaXRlY3R1cmUlMjBkaWFncmFtfGVufDB8fHx8MTc2MTY1MDY3N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "architecture diagram"
+    },
+    {
+      "id": "blog-nyra-tech",
+      "description": "Thumbnail for blog post about starting Nyra Technology Limited",
+      "imageUrl": "https://images.unsplash.com/photo-1594235048794-fae8583a5af5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdGFydHVwJTIwb2ZmaWNlfGVufDB8fHx8MTc2MTY0OTYzN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "startup office"
+    },
+    {
+      "id": "blog-scaling-systems",
+      "description": "Thumbnail for blog post on designing scalable systems",
+      "imageUrl": "https://images.unsplash.com/flagged/photo-1579274216947-86eaa4b00475?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxuZXR3b3JrJTIwc2VydmVyc3xlbnwwfHx8fDE3NjE2NTA2Nzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "network servers"
+    }
+  ]
 }
