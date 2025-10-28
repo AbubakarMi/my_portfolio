@@ -2,29 +2,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { ArrowRight } from 'lucide-react';
-
-const blogPosts = [
-  {
-    title: "Building Modular SaaS Architectures with .NET & PostgreSQL",
-    excerpt: "Discover the principles behind creating flexible, scalable, and maintainable SaaS applications using a modular approach with the power of .NET and PostgreSQL.",
-    image: PlaceHolderImages.find(p => p.id === "blog-modular-saas"),
-    link: "#"
-  },
-  {
-    title: "Why I Started Nyra Technology Limited",
-    excerpt: "A personal reflection on the journey, motivation, and vision behind founding a tech company aimed at simplifying business operations and driving growth through software.",
-    image: PlaceHolderImages.find(p => p.id === "blog-nyra-tech"),
-    link: "#"
-  },
-  {
-    title: "Designing Systems That Scale with People, Not Just Code",
-    excerpt: "An exploration into human-centric system design, focusing on building software that adapts to user needs and organizational growth, ensuring long-term success.",
-    image: PlaceHolderImages.find(p => p.id === "blog-scaling-systems"),
-    link: "#"
-  }
-];
+import { blogPosts } from '@/lib/blog-data';
 
 export function Blog() {
   return (
@@ -43,7 +22,7 @@ export function Blog() {
           {blogPosts.map((post) => (
             <Card key={post.title} className="group flex flex-col overflow-hidden rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
               {post.image && (
-                <div className="overflow-hidden">
+                <Link href={`/blog/${post.slug}`} className="block overflow-hidden">
                   <Image
                     src={post.image.imageUrl}
                     alt={`Thumbnail for ${post.title}`}
@@ -52,17 +31,19 @@ export function Blog() {
                     className="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     data-ai-hint={post.image.imageHint}
                   />
-                </div>
+                </Link>
               )}
               <div className="flex flex-1 flex-col p-6">
                 <CardHeader className="p-0">
-                  <CardTitle className="text-xl font-semibold">{post.title}</CardTitle>
+                  <CardTitle className="text-xl font-semibold">
+                     <Link href={`/blog/${post.slug}`} className="hover:text-primary transition-colors">{post.title}</Link>
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="flex-1 p-0 pt-4">
                   <p className="text-foreground/80 line-clamp-3">{post.excerpt}</p>
                 </CardContent>
                 <CardFooter className="p-0 pt-6">
-                   <Link href={post.link} className="font-semibold text-primary transition-colors hover:text-accent group-hover:text-accent">
+                   <Link href={`/blog/${post.slug}`} className="font-semibold text-primary transition-colors hover:text-accent group-hover:text-accent">
                     Read More <ArrowRight className="ml-1 inline h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </CardFooter>

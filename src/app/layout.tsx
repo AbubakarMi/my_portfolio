@@ -4,7 +4,10 @@ import { cn } from '@/lib/utils';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Muhammad Idris Abubakar | Software Engineer & Founder',
+  title: {
+    default: 'Muhammad Idris Abubakar | Software Engineer & Founder',
+    template: '%s | Muhammad Idris Abubakar',
+  },
   description:
     'Personal portfolio of Muhammad Idris Abubakar, a Software Engineer and Founder of Nyra Technology Limited, specializing in scalable SaaS and custom software solutions.',
 };
