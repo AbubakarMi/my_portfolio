@@ -15,7 +15,7 @@ export function About() {
         <div className="grid items-center gap-12 md:grid-cols-5">
           <div className="md:col-span-2">
             {aboutImage && (
-              <Card className="overflow-hidden rounded-2xl shadow-lg transition-transform duration-300 hover:scale-105">
+              <Card className="overflow-hidden rounded-2xl shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
                 <Image
                   src={aboutImage.imageUrl}
                   alt={aboutImage.description}
