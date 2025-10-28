@@ -77,7 +77,22 @@ const chatFlow = ai.defineFlow(
     outputSchema: ChatOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
-    return output!;
+    try {
+      const {output} = await prompt(input);
+
+      if (!output) {
+        return {
+          response:
+            "Sorry, I'm having trouble thinking right now. Please try again.",
+        };
+      }
+      return output;
+    } catch (error) {
+      console.error('Error in chatFlow:', error);
+      return {
+        response:
+          "Sorry, an unexpected error occurred. I've logged the issue for my developer to review.",
+      };
+    }
   }
 );
