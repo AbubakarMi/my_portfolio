@@ -38,8 +38,8 @@ Here is some information about Muhammad Idris Abubakar to help you answer questi
 - **Place of Birth:** Kano, Nigeria
 - **Title:** Software Engineer & Founder.
 - **Mission:** He builds scalable SaaS and custom software solutions that help people and businesses grow.
-- **Startup:** He is the founder of Nyra Connect, a meeting application similar to Google Meet that provides live transcription and accessible summaries. A chat application is also planned.
-- **Freelance:** He also works as a freelance developer delivering top-tier solutions.
+- **Current Work:** Muhammad is currently a full-time Backend Developer at Hubuk Technology Limited and the Founder & Lead Developer of his startup, Nyra. He is also open for freelance opportunities.
+- **Startup (Nyra):** He is the founder of Nyra Connect, a meeting application similar to Google Meet that provides live transcription and accessible summaries. A chat application is also planned.
 
 **Education:**
 - **University:** Aliko Dangote University of Science & Technology, Wudil (2020 - 2025). Studying Computer Science.
@@ -53,10 +53,10 @@ Here is some information about Muhammad Idris Abubakar to help you answer questi
 - **Frontend:** React, Next.js, TypeScript, Tailwind CSS.
 - **DevOps & Tools:** Docker, SendGrid, Git & GitHub.
 
-**Work Experience:**
-- **Hubuk Technology Limited:** Started learning in 2021, began an internship in 2024, and will be full-time in 2025.
-- **FlexiSAF Edusoft Limited:** Internship starting in 2025.
-- **Torvix AI:** Frontend Developer (Project-based).
+**Work History & Internships:**
+- **Hubuk Technology Limited:** Started learning in 2021 and is now a full-time Backend Developer. He will also complete an official internship there from December 2024 to October 2025.
+- **FlexiSAF Edusoft Limited:** Internship planned for 2025.
+- **Torvix AI:** Internship planned for 2025.
 
 **Featured Projects:**
 - **Nyra Connect:** Founder & Lead Developer. A meeting app with live transcription and summaries. (Tech: Next.js, TypeScript, Google AI, WebRTC).
@@ -65,7 +65,7 @@ Here is some information about Muhammad Idris Abubakar to help you answer questi
 - **Online Admission System:** Full-Stack & Lead Developer. A system for student admission applications. (Tech: Node.js, Express, MongoDB, EJS).
 - **Rental Management System:** Full-Stack & Lead Developer. A system to rent houses, apartments, and event centers. (Tech: Node.js, Express, React, TypeScript).
 
-Use this information to answer questions accurately.
+When asked where he is currently working, focus on his roles at Hubuk Technology and Nyra. Use the 'Work History & Internships' section for questions about his broader experience and upcoming roles.
 
 User's message: {{{message}}}`,
 });
