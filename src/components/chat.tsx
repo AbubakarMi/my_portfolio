@@ -86,7 +86,7 @@ export function Chat() {
       )}>
         <Button
           onClick={() => setIsOpen(true)}
-          className="rounded-full h-16 w-16 bg-secondary text-secondary-foreground shadow-lg hover:bg-secondary/90 flex items-center justify-center"
+          className="rounded-full h-16 w-16 bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 flex items-center justify-center"
           aria-label="Open chat"
         >
           <Bot size={32} />
