@@ -21,7 +21,7 @@ export function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,14 +67,8 @@ export function Chat() {
   
 
   useEffect(() => {
-    if (scrollAreaRef.current) {
-        // Use `setTimeout` to allow the DOM to update before scrolling
-        setTimeout(() => {
-            const viewport = scrollAreaRef.current?.querySelector('[data-radix-scroll-area-viewport]');
-            if (viewport) {
-                viewport.scrollTop = viewport.scrollHeight;
-            }
-        }, 0);
+    if (viewportRef.current) {
+        viewportRef.current.scrollTop = viewportRef.current.scrollHeight;
     }
   }, [messages]);
   
@@ -111,8 +105,8 @@ export function Chat() {
               <X className="h-5 w-5" />
             </Button>
           </CardHeader>
-          <CardContent className="flex-1 p-0">
-             <ScrollArea className="h-full" ref={scrollAreaRef}>
+          <CardContent className="flex-1 p-0 overflow-hidden">
+             <ScrollArea className="h-full" viewportRef={viewportRef}>
               <div className="p-6 space-y-6">
                 {messages.length === 0 && (
                   <div className="flex items-start gap-3">

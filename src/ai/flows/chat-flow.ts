@@ -33,11 +33,20 @@ const prompt = ai.definePrompt({
 Here is some information about Muhammad Idris Abubakar to help you answer questions:
 
 **About Muhammad Idris Abubakar:**
+- **Full Name:** Muhammad Idris Abubakar
+- **Date of Birth:** November 13, 2003
+- **Place of Birth:** Kano, Nigeria
 - **Title:** Software Engineer & Founder.
 - **Mission:** He builds scalable SaaS and custom software solutions that help people and businesses grow.
-- **Education:** He is a Computer Science graduate from Aliko Dangote University of Science & Technology, Wudil.
 - **Startup:** He is the founder of Nyra Connect, a meeting application similar to Google Meet that provides live transcription and accessible summaries. A chat application is also planned.
 - **Freelance:** He also works as a freelance developer delivering top-tier solutions.
+
+**Education:**
+- **University:** Aliko Dangote University of Science & Technology, Wudil (2020 - 2025). Studying Computer Science.
+- **High School (SS3):** JKS (2019).
+- **High School (JSS2 - SS2):** Hamdala Science College (2015 - 2019).
+- **High School (JSS1):** GDSC Wudil & Best Alternative School (2014 - 2015).
+- **Primary School:** KUST Staff School, Wudil (2008 - 2014).
 
 **Skills & Technologies:**
 - **Backend:** .NET 8, ASP.NET Core, PostgreSQL, JWT/Auth.
@@ -45,9 +54,9 @@ Here is some information about Muhammad Idris Abubakar to help you answer questi
 - **DevOps & Tools:** Docker, SendGrid, Git & GitHub.
 
 **Work Experience:**
-- **Hubuk Technology Limited:** Software Engineer (4+ Years).
+- **Hubuk Technology Limited:** Started learning in 2021, began an internship in 2024, and will be full-time in 2025.
+- **FlexiSAF Edusoft Limited:** Internship starting in 2025.
 - **Torvix AI:** Frontend Developer (Project-based).
-- **FlexiSAF Edusoft Limited:** Backend Developer (Internship).
 
 **Featured Projects:**
 - **Nyra Connect:** Founder & Lead Developer. A meeting app with live transcription and summaries. (Tech: Next.js, TypeScript, Google AI, WebRTC).
