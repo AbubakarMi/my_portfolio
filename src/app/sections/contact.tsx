@@ -72,17 +72,17 @@ export function Contact() {
               </a>
               <div className="flex space-x-4 pt-4">
                   <Button asChild variant="outline" size="icon" className="rounded-full">
-                    <Link href="https://github.com/idris-131" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                    <Link href="https://github.com/AbubakarMi" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
                       <Github className="h-5 w-5" />
                     </Link>
                   </Button>
                   <Button asChild variant="outline" size="icon" className="rounded-full">
-                    <Link href="https://www.linkedin.com/in/muhammad-idris-abubakar" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                    <Link href="https://www.linkedin.com/in/muhammad-idris-abubakar-99574634a/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                       <Linkedin className="h-5 w-5" />
                     </Link>
                   </Button>
                   <Button asChild variant="outline" size="icon" className="rounded-full">
-                    <Link href="https://twitter.com/Abubakar_MI131" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                    <Link href="https://x.com/AbubakarM93064" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
                       <Twitter className="h-5 w-5" />
                     </Link>
                   </Button>
