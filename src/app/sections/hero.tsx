@@ -18,7 +18,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section id="home" className="relative w-full overflow-hidden bg-gradient-to-br from-primary/5 via-background to-sky-100/50 py-24 md:py-32 lg:py-40">
+    <section id="home" className="relative w-full overflow-hidden bg-background py-24 md:py-32 lg:py-40">
       <div className="container mx-auto grid grid-cols-1 items-center gap-12 px-4 md:grid-cols-2 md:px-6">
         <div className={cn(
             "space-y-6 text-center md:text-left transition-all duration-1000",
@@ -54,13 +54,13 @@ export function Hero() {
                 <Image
                     src={heroImage.imageUrl}
                     alt={heroImage.description}
-                    width={400}
-                    height={400}
-                    className="h-auto w-full max-w-xs rounded-full border-4 border-background object-cover shadow-2xl md:max-w-sm"
+                    width={450}
+                    height={600}
+                    className="h-auto w-full max-w-xs rounded-[4rem] border-4 border-background object-cover shadow-2xl md:max-w-sm"
                     data-ai-hint={heroImage.imageHint}
                     priority
                 />
-                <div className="absolute inset-0 rounded-full bg-primary/10 transition-opacity duration-300 group-hover:opacity-0"></div>
+                <div className="absolute inset-0 rounded-[4rem] bg-primary/10 transition-opacity duration-300 group-hover:opacity-0"></div>
              </div>
           )}
         </div>
