@@ -113,7 +113,7 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0], index: n
                         </DialogTrigger>
                     </div>
                 </div>
-                <CardHeader className="flex-grow bg-card">
+                <CardHeader className="flex-grow bg-card p-6">
                     <CardTitle className="text-xl font-bold">{project.title}</CardTitle>
                     <CardDescription className="font-medium text-primary">
                         {project.role}
