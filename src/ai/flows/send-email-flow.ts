@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -5,12 +6,21 @@
  */
 
 import { ai } from '@/ai/genkit';
-import { z } from 'genkit';
+import { z } from 'zod';
 import { Resend } from 'resend';
 
 // IMPORTANT: Add your Resend API key to your environment variables.
 // You can get a key from https://resend.com
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resendApiKey = process.env.RESEND_API_KEY;
+let resend: Resend | null = null;
+if (resendApiKey) {
+  resend = new Resend(resendApiKey);
+} else {
+  console.warn(
+    'RESEND_API_KEY is not set. Email functionality will be disabled. Please add it to your .env file.'
+  );
+}
+
 const TO_EMAIL = 'abubakarmi131@gmail.com';
 const FROM_EMAIL = 'onboarding@resend.dev'; // Resend requires a verified domain or this default email.
 
@@ -54,6 +64,10 @@ const sendContactFormEmailFlow = ai.defineFlow(
     outputSchema: z.object({ success: z.boolean() }),
   },
   async (input) => {
+    if (!resend) {
+      console.error('Resend is not initialized. Cannot send contact form email.');
+      throw new Error('Email service is not configured.');
+    }
     try {
       await resend.emails.send({
         from: FROM_EMAIL,
@@ -85,6 +99,11 @@ const sendChatTranscriptEmailFlow = ai.defineFlow(
     outputSchema: z.object({ success: z.boolean() }),
   },
   async (input) => {
+     if (!resend) {
+      console.error('Resend is not initialized. Cannot send chat transcript.');
+      // We don't throw here, as this is a background task and shouldn't fail the UI.
+      return { success: false };
+    }
     try {
       await resend.emails.send({
         from: FROM_EMAIL,
