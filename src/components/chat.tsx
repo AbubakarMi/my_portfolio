@@ -9,6 +9,7 @@ import { chat } from '@/ai/flows/chat-flow';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ScrollArea } from './ui/scroll-area';
+import { sendChatTranscriptEmail } from '@/ai/flows/send-email-flow';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -44,6 +45,27 @@ export function Chat() {
     }
   };
 
+  const handleCloseChat = () => {
+    setIsOpen(false);
+    if (messages.length > 0) {
+      const transcript = messages
+        .map(m => `${m.role === 'user' ? 'User' : 'AI Assistant'}: ${m.content}`)
+        .join('\n');
+      
+      sendChatTranscriptEmail({ transcript })
+        .then(() => {
+          console.log('Chat transcript sent.');
+        })
+        .catch(error => {
+          console.error('Failed to send chat transcript:', error);
+        });
+      
+      // Reset messages for the next session
+      setMessages([]);
+    }
+  };
+  
+
   useEffect(() => {
     if (scrollAreaRef.current) {
         // Use `setTimeout` to allow the DOM to update before scrolling
@@ -74,7 +96,7 @@ export function Chat() {
       <div
         className={cn(
           "fixed bottom-0 right-0 top-0 z-[100] h-full w-full transform transition-transform duration-300 ease-in-out md:bottom-6 md:right-6 md:top-auto md:h-[min(80vh,700px)] md:w-[440px]",
-          isOpen ? 'translate-x-0' : 'translate-x-[100vw]'
+          isOpen ? 'translate-x-0' : 'translate-x-[calc(100%+24px)]'
         )}
       >
         <Card className="flex h-full flex-col rounded-none md:rounded-xl shadow-2xl">
@@ -85,13 +107,23 @@ export function Chat() {
               </Avatar>
               <CardTitle className="text-lg">AI Assistant</CardTitle>
             </div>
-            <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} aria-label="Close chat">
+            <Button variant="ghost" size="icon" onClick={handleCloseChat} aria-label="Close chat">
               <X className="h-5 w-5" />
             </Button>
           </CardHeader>
           <CardContent className="flex-1 p-0">
              <ScrollArea className="h-full" ref={scrollAreaRef}>
               <div className="p-6 space-y-6">
+                {messages.length === 0 && (
+                  <div className="flex items-start gap-3">
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback><Bot size={18} /></AvatarFallback>
+                    </Avatar>
+                    <div className="bg-muted rounded-2xl px-4 py-2.5 text-sm rounded-bl-none">
+                      Hi there! I'm Idris's assistant. Ask me anything about his skills, projects, or experience.
+                    </div>
+                  </div>
+                )}
                 {messages.map((message, index) => (
                   <div key={index} className={cn("flex items-start gap-3", message.role === 'user' ? 'justify-end' : '')}>
                     {message.role === 'assistant' && (

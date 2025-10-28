@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import './globals.css';
+import { AnalyticsProvider } from '@/components/analytics-provider';
 
 export const metadata: Metadata = {
   title: {
@@ -32,6 +33,7 @@ export default function RootLayout({
         />
       </head>
       <body className={cn('font-body bg-background text-foreground antialiased')}>
+        <AnalyticsProvider />
         {children}
         <Toaster />
       </body>

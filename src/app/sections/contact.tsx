@@ -11,6 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Github, Linkedin, Mail, Phone, Twitter } from 'lucide-react';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
+import { sendContactFormEmail } from '@/ai/flows/send-email-flow';
 
 const contactFormSchema = z.object({
   name: z.string().min(2, "Please enter your name."),
@@ -21,18 +22,28 @@ const contactFormSchema = z.object({
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 export function Contact() {
+  const { toast } = useToast();
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: { name: "", email: "", message: "" },
   });
 
-  function onSubmit(data: ContactFormValues) {
-    console.log(data);
-    toast({
-      title: "Message Sent!",
-      description: "Thanks for reaching out. I'll get back to you shortly.",
-    });
-    form.reset();
+  async function onSubmit(data: ContactFormValues) {
+    try {
+      await sendContactFormEmail(data);
+      toast({
+        title: "Message Sent!",
+        description: "Thanks for reaching out. I'll get back to you shortly.",
+      });
+      form.reset();
+    } catch (error) {
+      console.error("Failed to send email", error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem sending your message. Please try again later.",
+      });
+    }
   }
 
   return (
@@ -121,8 +132,8 @@ export function Contact() {
                         </FormItem>
                       )}
                     />
-                    <Button type="submit" size="lg" className="w-full rounded-full">
-                      Send Message
+                    <Button type="submit" size="lg" className="w-full rounded-full" disabled={form.formState.isSubmitting}>
+                       {form.formState.isSubmitting ? 'Sending...' : 'Send Message'}
                     </Button>
                   </form>
                 </Form>
