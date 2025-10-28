@@ -21,6 +21,7 @@ const contactFormSchema = z.object({
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 export function Contact() {
+  const { toast } = useToast();
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: { name: "", email: "", message: "" },
@@ -29,47 +30,53 @@ export function Contact() {
   function onSubmit(data: ContactFormValues) {
     console.log(data);
     toast({
-      title: "Message Sent!",
+      title: "Message Sent! 🚀",
       description: "Thanks for reaching out. I'll get back to you shortly.",
     });
     form.reset();
   }
 
   return (
-    <section id="contact" className="bg-sky-50/50 dark:bg-sky-900/10 py-24 sm:py-32">
+    <section id="contact" className="bg-muted/50 py-24 sm:py-32">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center">
+        <div className="text-center space-y-3">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Let’s Build Something Great Together
+            Let’s Build Something Great
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-foreground/70">
-            Open to collaborations, software projects, and partnerships. Have a question or a proposal?
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+            Have a project in mind, a question, or just want to connect? I'd love to hear from you.
           </p>
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-3">
-          <div className="space-y-6 lg:col-span-1">
+          <div className="space-y-8 lg:col-span-1">
              <h3 className="font-headline text-2xl font-semibold text-foreground">Contact Information</h3>
-              <a href="mailto:abubakarmi131@gmail.com" className="flex items-center gap-4 text-lg text-foreground transition-colors hover:text-primary">
-                <Mail className="h-6 w-6 text-primary" />
-                <span>abubakarmi131@gmail.com</span>
-              </a>
-              <a href="tel:+2347042526971" className="flex items-center gap-4 text-lg text-foreground transition-colors hover:text-primary">
-                <Phone className="h-6 w-6 text-primary" />
-                <span>+234 704 252 6971</span>
-              </a>
-              <div className="flex space-x-4 pt-4">
-                  <Button asChild variant="outline" size="icon" className="rounded-full">
+              <div className="space-y-4">
+                <a href="mailto:abubakarmi131@gmail.com" className="group flex items-center gap-4 text-lg text-foreground transition-colors hover:text-primary">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted transition-colors group-hover:bg-primary">
+                    <Mail className="h-6 w-6 text-primary transition-colors group-hover:text-primary-foreground" />
+                  </div>
+                  <span>abubakarmi131@gmail.com</span>
+                </a>
+                <a href="tel:+2347042526971" className="group flex items-center gap-4 text-lg text-foreground transition-colors hover:text-primary">
+                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted transition-colors group-hover:bg-primary">
+                    <Phone className="h-6 w-6 text-primary transition-colors group-hover:text-primary-foreground" />
+                   </div>
+                  <span>+234 704 252 6971</span>
+                </a>
+              </div>
+              <div className="flex space-x-2 pt-4">
+                  <Button asChild variant="outline" size="icon" className="rounded-full h-12 w-12 transition-colors hover:bg-primary hover:text-primary-foreground hover:border-primary">
                     <Link href="https://github.com/idris-131" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
                       <Github className="h-5 w-5" />
                     </Link>
                   </Button>
-                  <Button asChild variant="outline" size="icon" className="rounded-full">
+                  <Button asChild variant="outline" size="icon" className="rounded-full h-12 w-12 transition-colors hover:bg-primary hover:text-primary-foreground hover:border-primary">
                     <Link href="https://www.linkedin.com/in/muhammad-idris-abubakar" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                       <Linkedin className="h-5 w-5" />
                     </Link>
                   </Button>
-                  <Button asChild variant="outline" size="icon" className="rounded-full">
+                  <Button asChild variant="outline" size="icon" className="rounded-full h-12 w-12 transition-colors hover:bg-primary hover:text-primary-foreground hover:border-primary">
                     <Link href="https://twitter.com/Abubakar_MI131" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
                       <Twitter className="h-5 w-5" />
                     </Link>
@@ -78,7 +85,7 @@ export function Contact() {
           </div>
           
           <div className="lg:col-span-2">
-            <Card className="rounded-2xl shadow-lg">
+            <Card className="rounded-2xl shadow-lg border-transparent">
               <CardContent className="p-8">
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

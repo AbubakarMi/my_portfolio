@@ -46,11 +46,11 @@ export function Header() {
   return (
     <header className={cn(
       "sticky top-0 z-50 w-full transition-all duration-300",
-      isScrolled ? "bg-background/80 shadow-md backdrop-blur-sm" : "bg-transparent"
+      isScrolled ? "bg-background/80 shadow-sm backdrop-blur-sm" : "bg-transparent"
     )}>
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         <Link href="/" className="text-lg font-bold text-foreground transition-colors hover:text-primary md:text-xl">
-          Muhammad Idris Abubakar
+          Idris.
         </Link>
         
         <nav className="hidden items-center space-x-8 md:flex">
@@ -59,11 +59,12 @@ export function Header() {
               key={link.id}
               href={`#${link.id}`}
               className={cn(
-                "font-medium transition-all hover:text-primary",
-                activeSection === link.id ? "text-accent scale-105" : "text-foreground/70"
+                "relative font-medium transition-colors hover:text-primary",
+                activeSection === link.id ? "text-primary" : "text-muted-foreground"
               )}
             >
               {link.name}
+              {activeSection === link.id && <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-4 bg-primary rounded-full"></span>}
             </Link>
           ))}
         </nav>
@@ -76,11 +77,11 @@ export function Header() {
                 <span className="sr-only">Open navigation menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[80%]">
+            <SheetContent side="right" className="w-[80%] bg-background">
               <div className="flex flex-col space-y-8 p-6">
                 <SheetClose asChild>
                   <Link href="/" className="text-xl font-bold text-foreground">
-                    M. I. Abubakar
+                    Idris.
                   </Link>
                 </SheetClose>
                 <nav className="flex flex-col space-y-6">
@@ -90,7 +91,7 @@ export function Header() {
                           href={`#${link.id}`}
                           className={cn(
                             "text-xl font-medium transition-colors hover:text-primary",
-                            activeSection === link.id ? "text-accent" : "text-foreground/80"
+                            activeSection === link.id ? "text-primary" : "text-foreground/80"
                           )}
                         >
                           {link.name}

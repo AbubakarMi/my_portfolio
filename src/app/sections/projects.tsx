@@ -87,39 +87,34 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0], index: n
             <Card
                 ref={cardRef}
                 className={cn(
-                    "group flex flex-col overflow-hidden rounded-2xl shadow-lg transition-all duration-500",
+                    "group flex flex-col overflow-hidden rounded-2xl border-transparent shadow-lg transition-all duration-500 bg-card",
                     isVisible ? 'animate-fade-in-up opacity-100' : 'opacity-0',
-                    "hover:shadow-2xl hover:-translate-y-2"
+                    "hover:shadow-primary/20 hover:-translate-y-2"
                 )}
                 style={{ animationDelay: `${index * 150}ms` }}
             >
-                <div className="relative overflow-hidden">
-                    {project.image && (
-                        <Image
-                            src={project.image.imageUrl}
-                            alt={project.image.description}
-                            width={800}
-                            height={600}
-                            className="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                            data-ai-hint={project.image.imageHint}
-                        />
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
-                    <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center text-white opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:backdrop-blur-sm">
-                        <DialogTrigger asChild>
-                           <Button variant="secondary" className="rounded-full">
-                             View Case Study <ArrowRight className="ml-2 h-4 w-4" />
-                           </Button>
-                        </DialogTrigger>
+                <DialogTrigger asChild>
+                    <div className="relative overflow-hidden cursor-pointer">
+                        {project.image && (
+                            <Image
+                                src={project.image.imageUrl}
+                                alt={project.image.description}
+                                width={800}
+                                height={600}
+                                className="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                data-ai-hint={project.image.imageHint}
+                            />
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                         <div className="absolute bottom-0 left-0 p-6">
+                            <CardTitle className="text-xl font-bold text-primary-foreground shadow-black [text-shadow:0_1px_2px_var(--tw-shadow-color)]">{project.title}</CardTitle>
+                            <CardDescription className="font-medium text-primary-foreground/80">
+                                {project.role}
+                            </CardDescription>
+                        </div>
                     </div>
-                </div>
-                <CardHeader className="flex-grow bg-card">
-                    <CardTitle className="text-xl font-bold">{project.title}</CardTitle>
-                    <CardDescription className="font-medium text-primary">
-                        {project.role}
-                    </CardDescription>
-                </CardHeader>
-                <div className="bg-card p-6 pt-0">
+                </DialogTrigger>
+                <div className="bg-card p-6 pt-4">
                     <div className="flex flex-wrap gap-2">
                         {project.tech.map((t) => (
                             <Badge key={t} variant="secondary">{t}</Badge>
@@ -148,7 +143,7 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0], index: n
                     </DialogHeader>
                 </div>
                 <div className="px-8 pb-8 pt-6 space-y-6">
-                    <p className="text-foreground/80 text-base leading-relaxed">{project.description}</p>
+                    <p className="text-muted-foreground text-base leading-relaxed">{project.description}</p>
                     <div>
                         <h4 className="font-semibold mb-3 text-foreground">Technologies Used:</h4>
                         <div className="flex flex-wrap gap-2">
@@ -176,11 +171,11 @@ export function Projects() {
   return (
     <section id="projects" className="bg-background py-24 sm:py-32">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center">
+        <div className="text-center space-y-3">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             Featured Projects
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-foreground/70">
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
             A selection of projects that showcase my skills and passion for building software.
           </p>
         </div>

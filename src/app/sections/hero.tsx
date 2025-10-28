@@ -18,18 +18,19 @@ export function Hero() {
   }, []);
 
   return (
-    <section id="home" className="relative w-full overflow-hidden bg-gradient-to-br from-primary/5 via-background to-sky-100/50 py-24 md:py-32 lg:py-40">
+    <section id="home" className="relative w-full overflow-hidden bg-background py-24 md:py-32 lg:py-40">
+       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-background -z-10"/>
       <div className="container mx-auto grid grid-cols-1 items-center gap-12 px-4 md:grid-cols-2 md:px-6">
         <div className={cn(
             "space-y-6 text-center md:text-left transition-all duration-1000",
             isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}>
           <div className="space-y-4">
-             <p className="font-semibold text-primary">Muhammad Idris Abubakar</p>
+             <p className="font-semibold text-primary tracking-wider">MUHAMMAD IDRIS ABUBAKAR</p>
             <h1 className="font-headline text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
               Software Engineer & Founder
             </h1>
-            <p className="mx-auto max-w-2xl text-lg text-foreground/80 md:mx-0 md:text-xl">
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground md:mx-0 md:text-xl">
               I build scalable SaaS and custom software solutions that help people and businesses grow.
             </p>
           </div>
@@ -37,7 +38,7 @@ export function Hero() {
             <Button asChild size="lg" className="rounded-full px-8">
               <Link href="#projects">View My Work <ArrowRight className="ml-2 h-5 w-5" /></Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="rounded-full border-2 px-8">
+            <Button asChild size="lg" variant="secondary" className="rounded-full px-8">
                <a href="/resume.pdf" download="Muhammad_Idris_Abubakar_Resume.pdf">
                 <Download className="mr-2 h-5 w-5" />
                 My Resume
@@ -54,8 +55,8 @@ export function Hero() {
                 <Image
                     src={heroImage.imageUrl}
                     alt={heroImage.description}
-                    width={400}
-                    height={400}
+                    width={450}
+                    height={450}
                     className="h-auto w-full max-w-sm rounded-full border-4 border-background object-cover shadow-2xl md:max-w-md"
                     data-ai-hint={heroImage.imageHint}
                     priority

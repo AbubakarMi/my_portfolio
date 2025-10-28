@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Bot, User, Send, X, CornerDownLeft } from 'lucide-react';
 import { chat } from '@/ai/flows/chat-flow';
 import { cn } from '@/lib/utils';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from './ui/scroll-area';
 
 type Message = {
@@ -15,9 +15,14 @@ type Message = {
   content: string;
 };
 
+const initialMessage: Message = {
+  role: 'assistant',
+  content: "Hello! I'm Idris's AI assistant. Feel free to ask me anything about his skills, projects, or experience."
+};
+
 export function Chat() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([initialMessage]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -46,7 +51,6 @@ export function Chat() {
 
   useEffect(() => {
     if (scrollAreaRef.current) {
-        // Use `setTimeout` to allow the DOM to update before scrolling
         setTimeout(() => {
             const viewport = scrollAreaRef.current?.querySelector('[data-radix-scroll-area-viewport]');
             if (viewport) {
@@ -60,7 +64,7 @@ export function Chat() {
     <>
       <div className={cn(
         "fixed bottom-6 right-6 z-50 transition-transform duration-300 ease-in-out",
-        isOpen ? 'translate-x-[100vw]' : 'translate-x-0'
+        isOpen ? 'translate-x-[calc(100%_+_2rem)]' : 'translate-x-0'
       )}>
         <Button
           onClick={() => setIsOpen(true)}
@@ -73,8 +77,8 @@ export function Chat() {
 
       <div
         className={cn(
-          "fixed bottom-0 right-0 top-0 z-[100] h-full w-full transform transition-transform duration-300 ease-in-out md:bottom-6 md:right-6 md:top-auto md:h-[min(80vh,700px)] md:w-[440px]",
-          isOpen ? 'translate-x-0' : 'translate-x-[100vw]'
+          "fixed bottom-0 right-0 top-0 z-[100] h-full w-full transform transition-transform duration-500 ease-in-out md:bottom-6 md:right-6 md:top-auto md:h-[min(80vh,700px)] md:w-[440px]",
+          isOpen ? 'translate-x-0' : 'translate-x-[calc(100%_+_2rem)]'
         )}
       >
         <Card className="flex h-full flex-col rounded-none md:rounded-xl shadow-2xl">
@@ -95,13 +99,13 @@ export function Chat() {
                 {messages.map((message, index) => (
                   <div key={index} className={cn("flex items-start gap-3", message.role === 'user' ? 'justify-end' : '')}>
                     {message.role === 'assistant' && (
-                      <Avatar className="h-8 w-8">
+                      <Avatar className="h-8 w-8 bg-muted">
                         <AvatarFallback><Bot size={18} /></AvatarFallback>
                       </Avatar>
                     )}
                     <div
                       className={cn(
-                        "max-w-[80%] rounded-2xl px-4 py-2.5 text-sm",
+                        "max-w-[85%] rounded-2xl px-4 py-2.5 text-sm prose dark:prose-invert prose-p:my-0",
                         message.role === 'user'
                           ? 'bg-primary text-primary-foreground rounded-br-none'
                           : 'bg-muted rounded-bl-none'
@@ -110,7 +114,7 @@ export function Chat() {
                       {message.content}
                     </div>
                      {message.role === 'user' && (
-                      <Avatar className="h-8 w-8">
+                      <Avatar className="h-8 w-8 bg-muted">
                         <AvatarFallback><User size={18}/></AvatarFallback>
                       </Avatar>
                     )}
@@ -118,7 +122,7 @@ export function Chat() {
                 ))}
                 {isLoading && (
                   <div className="flex items-start gap-3">
-                     <Avatar className="h-8 w-8">
+                     <Avatar className="h-8 w-8 bg-muted">
                         <AvatarFallback><Bot size={18} /></AvatarFallback>
                       </Avatar>
                     <div className="bg-muted rounded-2xl px-4 py-3 rounded-bl-none">
@@ -133,13 +137,13 @@ export function Chat() {
               </div>
             </ScrollArea>
           </CardContent>
-          <div className="border-t p-4">
+          <div className="border-t p-4 bg-background rounded-b-xl">
             <form onSubmit={handleSendMessage} className="relative">
               <Input
                 value={input}
                 onChange={e => setInput(e.target.value)}
-                placeholder="Ask me anything..."
-                className="rounded-full pr-12 h-12"
+                placeholder="Ask anything..."
+                className="rounded-full pr-12 h-12 bg-muted focus-visible:ring-primary"
                 disabled={isLoading}
               />
               <Button
@@ -153,7 +157,7 @@ export function Chat() {
               </Button>
             </form>
              <p className="text-xs text-center text-muted-foreground mt-2">
-              Press <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+              Press <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-card px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
                 <span className="text-xs">
                     <CornerDownLeft size={10}/>
                 </span>Enter

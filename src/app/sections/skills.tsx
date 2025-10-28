@@ -44,7 +44,7 @@ const NextjsIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg {...props} viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg {...props} viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://wwwডিয়া.w3.org/2000/svg">
         <circle cx="0" cy="0" r="2.05" fill="#61DAFB"/>
         <g stroke="#61DAFB" strokeWidth="1" fill="none">
             <ellipse rx="11" ry="4.2"/>
@@ -105,13 +105,13 @@ const SkillCard = ({ name, icon: Icon, index }: { name: string, icon: React.Elem
       <div 
         ref={cardRef}
         className={cn(
-          "flex items-center gap-3 rounded-xl border bg-card p-3 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-primary/50 hover:-translate-y-1",
+          "flex items-center gap-4 rounded-xl border-transparent bg-card p-4 shadow-lg transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-1.5",
           isVisible ? 'animate-fade-in-up' : 'opacity-0'
         )}
         style={{ animationDelay: `${index * 100}ms` }}
       >
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-          <Icon className="h-6 w-6" />
+        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted text-foreground">
+          <Icon className="h-7 w-7" />
         </div>
         <span className="font-semibold text-foreground text-md">{name}</span>
       </div>
@@ -121,13 +121,13 @@ const SkillCard = ({ name, icon: Icon, index }: { name: string, icon: React.Elem
 
 export function Skills() {
   return (
-    <section id="skills" className="bg-primary/5 py-24 sm:py-32">
+    <section id="skills" className="bg-background py-24 sm:py-32">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center">
+        <div className="text-center space-y-3">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             Skills &amp; Technologies
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-foreground/70">
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
             A look at the primary tools and technologies in my professional toolkit.
           </p>
         </div>
@@ -138,7 +138,7 @@ export function Skills() {
               <h3 className="text-center font-headline text-2xl font-semibold text-foreground mb-8">
                 {category.replace('&amp;', '&')}
               </h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
                 {items.map((skill, index) => (
                   <SkillCard key={skill.name} name={skill.name} icon={skill.icon} index={index} />
                 ))}
