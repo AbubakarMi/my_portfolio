@@ -3,61 +3,61 @@
     {
       "id": "hero-portrait",
       "description": "Professional portrait of Muhammad Idris Abubakar",
-      "imageUrl": "/images/hero-portrait.jpg",
+      "imageUrl": "/images/hero-portrait",
       "imageHint": "professional portrait"
     },
     {
       "id": "about-profile",
       "description": "Profile image for the about section",
-      "imageUrl": "/images/about-profile.jpg",
+      "imageUrl": "/images/about-profile",
       "imageHint": "man working"
     },
     {
       "id": "project-nyra",
       "description": "Screenshot of the Nyra Connect application",
-      "imageUrl": "/images/project-nyra.jpg",
+      "imageUrl": "/images/project-nyra",
       "imageHint": "video conference"
     },
     {
       "id": "project-buildtrack",
       "description": "Screenshot of BuildTrack Pro dashboard",
-      "imageUrl": "/images/project-buildtrack.jpg",
+      "imageUrl": "/images/project-buildtrack",
       "imageHint": "construction dashboard"
     },
     {
       "id": "project-invotrek",
       "description": "Screenshot of InvoTrek application",
-      "imageUrl": "/images/project-invotrek.jpg",
+      "imageUrl": "/images/project-invotrek",
       "imageHint": "document automation"
     },
     {
       "id": "project-admission",
       "description": "Screenshot of the Online Admission System",
-      "imageUrl": "/images/project-admission.jpg",
+      "imageUrl": "/images/project-admission",
       "imageHint": "online form"
     },
     {
       "id": "project-rental",
       "description": "Screenshot of the Rental Management System",
-      "imageUrl": "/images/project-rental.jpg",
+      "imageUrl": "/images/project-rental",
       "imageHint": "house rental"
     },
     {
       "id": "blog-modular-saas",
       "description": "Thumbnail for blog post on modular SaaS architecture",
-      "imageUrl": "/images/blog-modular-saas.jpg",
+      "imageUrl": "/images/blog-modular-saas",
       "imageHint": "architecture diagram"
     },
     {
       "id": "blog-nyra-tech",
       "description": "Thumbnail for blog post about starting Nyra Technology",
-      "imageUrl": "/images/blog-nyra-tech.jpg",
+      "imageUrl": "/images/blog-nyra-tech",
       "imageHint": "startup office"
     },
     {
       "id": "blog-scaling-systems",
       "description": "Thumbnail for blog post on designing scalable systems",
-      "imageUrl": "/images/blog-scaling-systems.jpg",
+      "imageUrl": "/images/blog-scaling-systems",
       "imageHint": "network servers"
     }
   ]

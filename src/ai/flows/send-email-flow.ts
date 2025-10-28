@@ -9,18 +9,6 @@ import { ai } from '@/ai/genkit';
 import { z } from 'zod';
 import { Resend } from 'resend';
 
-// IMPORTANT: Add your Resend API key to your environment variables.
-// You can get a key from https://resend.com
-const resendApiKey = process.env.RESEND_API_KEY;
-let resend: Resend | null = null;
-if (resendApiKey) {
-  resend = new Resend(resendApiKey);
-} else {
-  console.warn(
-    'RESEND_API_KEY is not set. Email functionality will be disabled. Please add it to your .env file.'
-  );
-}
-
 const TO_EMAIL = 'abubakarmi131@gmail.com';
 const FROM_EMAIL = 'onboarding@resend.dev'; // Resend requires a verified domain or this default email.
 
@@ -64,10 +52,13 @@ const sendContactFormEmailFlow = ai.defineFlow(
     outputSchema: z.object({ success: z.boolean() }),
   },
   async (input) => {
-    if (!resend) {
-      console.error('Resend is not initialized. Cannot send contact form email.');
+    const resendApiKey = process.env.RESEND_API_KEY;
+    if (!resendApiKey) {
+      console.error('RESEND_API_KEY is not set. Email functionality will be disabled.');
       throw new Error('Email service is not configured.');
     }
+    const resend = new Resend(resendApiKey);
+
     try {
       await resend.emails.send({
         from: FROM_EMAIL,
@@ -84,8 +75,6 @@ const sendContactFormEmailFlow = ai.defineFlow(
       return { success: true };
     } catch (error) {
       console.error('Error sending contact form email:', error);
-      // It's often better not to throw the raw error to the client.
-      // You could return a more generic error message.
       throw new Error('Failed to send email.');
     }
   }
@@ -99,11 +88,14 @@ const sendChatTranscriptEmailFlow = ai.defineFlow(
     outputSchema: z.object({ success: z.boolean() }),
   },
   async (input) => {
-     if (!resend) {
-      console.error('Resend is not initialized. Cannot send chat transcript.');
+     const resendApiKey = process.env.RESEND_API_KEY;
+     if (!resendApiKey) {
+      console.error('RESEND_API_KEY is not set. Cannot send chat transcript.');
       // We don't throw here, as this is a background task and shouldn't fail the UI.
       return { success: false };
     }
+    const resend = new Resend(resendApiKey);
+
     try {
       await resend.emails.send({
         from: FROM_EMAIL,
