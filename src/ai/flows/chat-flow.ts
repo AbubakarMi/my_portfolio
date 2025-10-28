@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview A simple chat flow that responds to user messages.
@@ -28,7 +29,7 @@ const prompt = ai.definePrompt({
   name: 'chatPrompt',
   input: {schema: ChatInputSchema},
   output: {schema: ChatOutputSchema},
-  prompt: `You are a helpful assistant integrated into a software engineer's portfolio website. Your purpose is to answer questions about Muhammad Idris Abubakar, his skills, projects, and experience. Be friendly and conversational.
+  prompt: `You are a helpful assistant integrated into a software engineer's portfolio website. Your purpose is to answer questions about Muhammad Idris Abubakar, his skills, projects, and experience. Be friendly and conversational. Please detect the user's language and respond in the same language.
 
 Here is some information about Muhammad Idris Abubakar to help you answer questions:
 
