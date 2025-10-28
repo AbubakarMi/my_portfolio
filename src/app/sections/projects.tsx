@@ -4,7 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription }
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ExternalLink } from 'lucide-react';
 
 const projects = [
   {
@@ -37,7 +37,7 @@ const projects = [
     tech: ["Node.js", "Express", "MongoDB", "EJS"],
     image: PlaceHolderImages.find(p => p.id === "project-admission"),
     link: "#",
-    role: "Backend Developer"
+    role: "Lead Developer"
   },
   {
     title: "Rental Management System",
@@ -45,7 +45,7 @@ const projects = [
     tech: ["Node.js", "Express", "React", "TypeScript"],
     image: PlaceHolderImages.find(p => p.id === "project-rental"),
     link: "#",
-    role: "Full-Stack Developer"
+    role: "Lead Developer"
   }
 ];
 
@@ -62,9 +62,9 @@ export function Projects() {
           </p>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-12">
+        <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
-            <Card key={project.title} className="flex flex-col overflow-hidden rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+            <Card key={project.title} className="group flex flex-col overflow-hidden rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
               {project.image && (
                 <div className="overflow-hidden">
                    <Image
@@ -78,25 +78,23 @@ export function Projects() {
                 </div>
               )}
               <CardHeader>
-                <CardTitle className="text-2xl font-bold">{project.title}</CardTitle>
-                <CardDescription>
-                  <strong>Role:</strong> {project.role}
+                <CardTitle className="text-xl font-bold">{project.title}</CardTitle>
+                <CardDescription className="font-medium text-primary">
+                  {project.role}
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex-grow">
-                <p className="text-foreground/80">{project.description}</p>
-                <div className="mt-4 flex flex-wrap gap-2">
+                <p className="text-foreground/80 line-clamp-3">{project.description}</p>
+              </CardContent>
+              <CardFooter className="flex flex-col items-start gap-4">
+                 <div className="flex flex-wrap gap-2">
                   {project.tech.map((t) => (
                     <Badge key={t} variant="secondary">{t}</Badge>
                   ))}
                 </div>
-              </CardContent>
-              <CardFooter>
-                <Button asChild variant="outline" className="w-full rounded-full">
-                  <Link href={project.link}>
-                    View Case Study <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
+                 <Link href={project.link} className="inline-flex items-center font-semibold text-primary transition-colors hover:text-accent group-hover:text-accent">
+                    View Case Study <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
               </CardFooter>
             </Card>
           ))}
