@@ -21,18 +21,18 @@ export function Hero() {
   return (
     <section id="home" className="bg-background py-24 sm:py-32">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid items-center gap-12 md:grid-cols-5">
+        <div className="grid items-center gap-12 md:grid-cols-2">
             <div className={cn(
-                "space-y-8 md:col-span-3 transition-all duration-1000",
+                "space-y-8 transition-all duration-1000",
                 isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
             )}>
               <div className="space-y-4">
-                <p className="font-semibold text-primary text-lg">Muhammad Idris Abubakar</p>
+                <p className="font-semibold text-primary text-lg">Hello, I'm Muhammad Idris Abubakar</p>
                 <h1 className="font-headline text-5xl font-bold tracking-tighter text-foreground sm:text-6xl lg:text-7xl">
                   Software Engineer & Founder
                 </h1>
                 <p className="max-w-2xl text-lg text-foreground/80 md:text-xl">
-                  I build scalable SaaS and custom software solutions that help people and businesses grow.
+                  I build scalable SaaS and custom software solutions that help people and businesses grow. From crafting elegant backend systems to leading my own startup, I am passionate about turning great ideas into high-impact technology.
                 </p>
               </div>
               <div className="flex flex-col gap-4 pt-4 sm:flex-row">
@@ -48,7 +48,7 @@ export function Hero() {
               </div>
             </div>
              <div className={cn(
-                "md:col-span-2 transition-all duration-1000 delay-200",
+                "transition-all duration-1000 delay-200",
                 isMounted ? "opacity-100 scale-100" : "opacity-0 scale-90"
             )}>
                 {heroImage && (
