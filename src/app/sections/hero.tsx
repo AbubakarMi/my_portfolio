@@ -55,12 +55,12 @@ export function Hero() {
                     src={heroImage.imageUrl}
                     alt={heroImage.description}
                     width={400}
-                    height={400}
-                    className="h-auto w-full max-w-sm rounded-full border-4 border-background object-cover shadow-2xl md:max-w-md"
+                    height={500}
+                    className="h-auto w-full max-w-xs rounded-[3rem] border-4 border-background object-cover shadow-2xl md:max-w-sm"
                     data-ai-hint={heroImage.imageHint}
                     priority
                 />
-                <div className="absolute inset-0 rounded-full bg-primary/10 transition-opacity duration-300 group-hover:opacity-0"></div>
+                <div className="absolute inset-0 rounded-[3rem] bg-primary/10 transition-opacity duration-300 group-hover:opacity-0"></div>
              </div>
           )}
         </div>
