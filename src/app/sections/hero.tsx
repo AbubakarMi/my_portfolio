@@ -54,9 +54,9 @@ export function Hero() {
                 <Image
                     src={heroImage.imageUrl}
                     alt={heroImage.description}
-                    width={450}
-                    height={600}
-                    className="h-auto w-full max-w-xs rounded-[4rem] border-4 border-background object-cover shadow-2xl md:max-w-sm"
+                    width={400}
+                    height={500}
+                    className="h-auto w-full max-w-xs rounded-[4rem] border-4 border-background object-cover shadow-2xl md:max-w-sm aspect-[4/5]"
                     data-ai-hint={heroImage.imageHint}
                     priority
                 />

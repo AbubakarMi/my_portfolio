@@ -10,7 +10,7 @@ export function About() {
   const aboutImage = PlaceHolderImages.find(p => p.id === "about-profile");
 
   return (
-    <section id="about" className="bg-background py-24 sm:py-32">
+    <section id="about" className="bg-sky-50/50 dark:bg-sky-900/10 py-24 sm:py-32">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid items-center gap-12 md:grid-cols-5">
           <div className="md:col-span-2">
