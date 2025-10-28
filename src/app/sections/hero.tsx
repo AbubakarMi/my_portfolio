@@ -51,7 +51,7 @@ export function Hero() {
                 isMounted ? "opacity-100 scale-100" : "opacity-0 scale-90"
             )}>
                 {heroImage && (
-                    <div className="overflow-hidden rounded-2xl shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
+                    <div className="overflow-hidden rounded-2xl">
                         <Image
                             src={heroImage.imageUrl}
                             alt={heroImage.description}
