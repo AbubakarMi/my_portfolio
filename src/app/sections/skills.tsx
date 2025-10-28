@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Bot, Container, KeyRound, Mail, Github } from 'lucide-react';
+import { Container, KeyRound, Mail, Github } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const DotNetIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -43,6 +43,18 @@ const NextjsIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg {...props} viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="0" cy="0" r="2.05" fill="#61DAFB"/>
+        <g stroke="#61DAFB" strokeWidth="1" fill="none">
+            <ellipse rx="11" ry="4.2"/>
+            <ellipse rx="11" ry="4.2" transform="rotate(60)"/>
+            <ellipse rx="11" ry="4.2" transform="rotate(120)"/>
+        </g>
+    </svg>
+);
+
+
 const skills = {
   Backend: [
     { name: '.NET 8', icon: DotNetIcon },
@@ -51,7 +63,7 @@ const skills = {
     { name: 'JWT/Auth', icon: KeyRound },
   ],
   Frontend: [
-    { name: 'React', icon: Bot },
+    { name: 'React', icon: ReactIcon },
     { name: 'Next.js', icon: NextjsIcon },
     { name: 'TypeScript', icon: TypeScriptIcon },
     { name: 'Tailwind CSS', icon: TailwindCssIcon },
@@ -93,15 +105,15 @@ const SkillCard = ({ name, icon: Icon, index }: { name: string, icon: React.Elem
       <div 
         ref={cardRef}
         className={cn(
-          "flex items-center gap-4 rounded-2xl border bg-card p-4 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-primary/50 hover:-translate-y-1",
+          "flex items-center gap-3 rounded-xl border bg-card p-3 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-primary/50 hover:-translate-y-1",
           isVisible ? 'animate-fade-in-up' : 'opacity-0'
         )}
         style={{ animationDelay: `${index * 100}ms` }}
       >
-        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
-          <Icon className="h-7 w-7" />
+        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+          <Icon className="h-6 w-6" />
         </div>
-        <span className="font-semibold text-foreground text-lg">{name}</span>
+        <span className="font-semibold text-foreground text-md">{name}</span>
       </div>
   );
 };
@@ -126,7 +138,7 @@ export function Skills() {
               <h3 className="text-center font-headline text-2xl font-semibold text-foreground mb-8">
                 {category.replace('&amp;', '&')}
               </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
                 {items.map((skill, index) => (
                   <SkillCard key={skill.name} name={skill.name} icon={skill.icon} index={index} />
                 ))}
