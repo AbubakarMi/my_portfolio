@@ -13,16 +13,34 @@
       "imageHint": "man working"
     },
     {
-      "id": "project-smarted",
-      "description": "Screenshot of the SmartEd School Management System",
-      "imageUrl": "https://images.unsplash.com/photo-1677617587258-685aaf1b1e1c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxkYXNoYm9hcmQlMjB1aXxlbnwwfHx8fDE3NjE1ODk5Mjh8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "dashboard ui"
+      "id": "project-nyra",
+      "description": "Screenshot of the Nyra Meet application",
+      "imageUrl": "https://images.unsplash.com/photo-1612831455359-970e23a1e4e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx2aWRlbyUyMGNvbmZlcmVuY2V8ZW58MHx8fHwxNzYxNjUzMDE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "video conference"
     },
     {
-      "id": "project-booking",
-      "description": "Screenshot of the Appointment Booking System",
-      "imageUrl": "https://images.unsplash.com/photo-1703081167405-0f4868739bc3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjYWxlbmRhciUyMGFwcHxlbnwwfHx8fDE3NjE1ODI4ODB8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "calendar app"
+      "id": "project-buildtrack",
+      "description": "Screenshot of BuildTrack Pro dashboard",
+      "imageUrl": "https://images.unsplash.com/photo-1614683361837-963af4039d58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjb25zdHJ1Y3Rpb24lMjBkYXNoYm9hcmR8ZW58MHx8fHwxNzYxNjUzMDE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "construction dashboard"
+    },
+    {
+      "id": "project-invotrek",
+      "description": "Screenshot of InvoTrek application",
+      "imageUrl": "https://images.unsplash.com/photo-1600267204091-5c1ab8b10c02?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkb2N1bWVudCUyMGF1dG9tYXRpb258ZW58MHx8fHwxNzYxNjUzMDE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "document automation"
+    },
+    {
+      "id": "project-admission",
+      "description": "Screenshot of the Online Admission System",
+      "imageUrl": "https://images.unsplash.com/photo-1558673532-102034a5f6e4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxvbmxpbmUlMjBmb3JtfGVufDB8fHx8MTc2MTU2NTIzMXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "online form"
+    },
+    {
+      "id": "project-rental",
+      "description": "Screenshot of the Rental Management System",
+      "imageUrl": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxob3VzZSUyMHJlbnRhbHxlbnwwfHx8fDE3NjE2NTMwMTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "house rental"
     },
     {
       "id": "blog-modular-saas",

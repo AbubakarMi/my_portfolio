@@ -8,18 +8,42 @@ import { ArrowRight } from 'lucide-react';
 
 const projects = [
   {
-    title: "SmartEd — School Management System",
-    description: "A modular SaaS for schools with dashboards, fee tracking, and parent portals. Built to simplify administrative tasks and enhance communication between school and home.",
-    tech: [".NET 8", "ASP.NET Core", "PostgreSQL", "React", "TypeScript"],
-    image: PlaceHolderImages.find(p => p.id === "project-smarted"),
+    title: "Nyra Meet",
+    description: "A meeting application that provides live transcription and accessible summaries after meetings. Also developing a chat application to complement the meeting functions.",
+    tech: ["Next.js", "TypeScript", "Google AI", "WebRTC"],
+    image: PlaceHolderImages.find(p => p.id === "project-nyra"),
     link: "#",
-    role: "Lead Developer & Architect"
+    role: "Founder & Lead Developer"
   },
   {
-    title: "Appointment Booking System",
-    description: "A versatile multi-industry appointment platform. Features a robust ASP.NET Core backend and a responsive frontend, allowing for seamless scheduling and management.",
-    tech: ["ASP.NET", "PostgreSQL", "React", "Next.js"],
-    image: PlaceHolderImages.find(p => p.id === "project-booking"),
+    title: "BuildTrack Pro",
+    description: "A multi-tenant web app for contractors to track construction expenses, material usage, and worker payments. Monitor daily spending, manage budgets, and prevent losses.",
+    tech: ["React", "Node.js", "PostgreSQL"],
+    image: PlaceHolderImages.find(p => p.id === "project-buildtrack"),
+    link: "#",
+    role: "Lead Developer"
+  },
+  {
+    title: "InvoTrek",
+    description: "A multi-tenant SaaS for smart document automation. Upload templates, fill client data, and auto-generate professional Word or PDF files. Features AI-assisted field detection.",
+    tech: ["React", "Node.js", "Google AI", "SaaS"],
+    image: PlaceHolderImages.find(p => p.id === "project-invotrek"),
+    link: "#",
+    role: "Creator & Lead Developer"
+  },
+  {
+    title: "Online Admission System",
+    description: "A system for students to register, log in, and submit admission details with documents. Admins can review, verify, and manage applications via a secure dashboard.",
+    tech: ["Node.js", "Express", "MongoDB", "EJS"],
+    image: PlaceHolderImages.find(p => p.id === "project-admission"),
+    link: "#",
+    role: "Backend Developer"
+  },
+  {
+    title: "Rental Management System",
+    description: "A system to rent houses, apartments, and event centers with secure bookings, payments, reviews, and role-based dashboards for renters, owners, and admins.",
+    tech: ["Node.js", "Express", "React", "TypeScript"],
+    image: PlaceHolderImages.find(p => p.id === "project-rental"),
     link: "#",
     role: "Full-Stack Developer"
   }
