@@ -1,6 +1,9 @@
-import React from 'react';
+"use client";
+
+import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Bot, Container, KeyRound, Mail, Github } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const DotNetIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -60,14 +63,49 @@ const skills = {
   ],
 };
 
-const SkillCard = ({ name, icon: Icon }: { name: string, icon: React.ElementType }) => (
-  <div className="flex items-center gap-4 rounded-2xl border bg-card p-4 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-primary/50 hover:-translate-y-1">
-    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
-      <Icon className="h-7 w-7" />
-    </div>
-    <span className="font-semibold text-foreground text-lg">{name}</span>
-  </div>
-);
+const SkillCard = ({ name, icon: Icon, index }: { name: string, icon: React.ElementType, index: number }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => {
+      if (cardRef.current) {
+        observer.unobserve(cardRef.current);
+      }
+    };
+  }, []);
+  
+  return (
+      <div 
+        ref={cardRef}
+        className={cn(
+          "flex items-center gap-4 rounded-2xl border bg-card p-4 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-primary/50 hover:-translate-y-1",
+          isVisible ? 'animate-fade-in-up' : 'opacity-0'
+        )}
+        style={{ animationDelay: `${index * 100}ms` }}
+      >
+        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+          <Icon className="h-7 w-7" />
+        </div>
+        <span className="font-semibold text-foreground text-lg">{name}</span>
+      </div>
+  );
+};
+
 
 export function Skills() {
   return (
@@ -89,8 +127,8 @@ export function Skills() {
                 {category.replace('&amp;', '&')}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {items.map(skill => (
-                  <SkillCard key={skill.name} name={skill.name} icon={skill.icon} />
+                {items.map((skill, index) => (
+                  <SkillCard key={skill.name} name={skill.name} icon={skill.icon} index={index} />
                 ))}
               </div>
             </div>
