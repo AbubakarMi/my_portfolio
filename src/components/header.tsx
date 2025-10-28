@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/s
 const navLinks = [
   { name: 'About', id: 'about' },
   { name: 'Skills', id: 'skills' },
+  { name: 'Experience', id: 'experience' },
   { name: 'Projects', id: 'projects' },
   { name: 'Blog', id: 'blog' },
   { name: 'Contact', id: 'contact' },

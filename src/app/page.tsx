@@ -3,6 +3,7 @@ import { Footer } from '@/components/footer';
 import { Hero } from '@/app/sections/hero';
 import { About } from '@/app/sections/about';
 import { Skills } from '@/app/sections/skills';
+import { Experience } from '@/app/sections/experience';
 import { Projects } from '@/app/sections/projects';
 import { Blog } from '@/app/sections/blog';
 import { Contact } from '@/app/sections/contact';
@@ -16,6 +17,7 @@ export default function Home() {
         <Hero />
         <About />
         <Skills />
+        <Experience />
         <Projects />
         <Blog />
         <Contact />
