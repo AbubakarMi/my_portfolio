@@ -13,14 +13,14 @@ const experiences = [
   {
     company: "Torvix AI",
     link: "#",
-    role: "AI Engineer (Contract)",
+    role: "Frontend Developer",
     duration: "Project-based",
     icon: Rocket
   },
   {
     company: "FlexiSAF Edusoft Limited",
     link: "https://flexisaf.com",
-    role: "Software Engineer Intern",
+    role: "Backend Developer",
     duration: "Internship",
     icon: GraduationCap
   }
