@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -53,17 +54,19 @@ export function Blog() {
                   />
                 </div>
               )}
-              <CardHeader className="flex-grow">
-                <CardTitle className="text-xl font-semibold">{post.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-foreground/80 line-clamp-3">{post.excerpt}</p>
-              </CardContent>
-              <CardFooter>
-                 <Link href={post.link} className="font-semibold text-primary transition-colors hover:text-accent group-hover:text-accent">
-                  Read More <ArrowRight className="ml-1 inline h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </CardFooter>
+              <div className="flex flex-1 flex-col p-6">
+                <CardHeader className="p-0">
+                  <CardTitle className="text-xl font-semibold">{post.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-1 p-0 pt-4">
+                  <p className="text-foreground/80 line-clamp-3">{post.excerpt}</p>
+                </CardContent>
+                <CardFooter className="p-0 pt-6">
+                   <Link href={post.link} className="font-semibold text-primary transition-colors hover:text-accent group-hover:text-accent">
+                    Read More <ArrowRight className="ml-1 inline h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </CardFooter>
+              </div>
             </Card>
           ))}
         </div>
