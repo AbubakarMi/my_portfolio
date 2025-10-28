@@ -6,6 +6,7 @@ import { Skills } from '@/app/sections/skills';
 import { Projects } from '@/app/sections/projects';
 import { Blog } from '@/app/sections/blog';
 import { Contact } from '@/app/sections/contact';
+import { Chat } from '@/components/chat';
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
+      <Chat />
     </div>
   );
 }
