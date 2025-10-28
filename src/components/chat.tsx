@@ -89,7 +89,7 @@ export function Chat() {
           className="rounded-full h-16 w-16 bg-secondary text-secondary-foreground shadow-lg hover:bg-secondary/90 flex items-center justify-center"
           aria-label="Open chat"
         >
-          <span className="text-2xl font-bold">N</span>
+          <Bot size={32} />
         </Button>
       </div>
 
@@ -120,7 +120,7 @@ export function Chat() {
                       <AvatarFallback><Bot size={18} /></AvatarFallback>
                     </Avatar>
                     <div className="bg-muted rounded-2xl px-4 py-2.5 text-sm rounded-bl-none">
-                      Hi there! I'm Idris's assistant. Ask me anything about his skills, projects, or experience.
+                      Hi there! I'm an assistant for Muhammad Idris Abubakar. Ask me anything about his skills, projects, or experience.
                     </div>
                   </div>
                 )}

@@ -28,7 +28,7 @@ const prompt = ai.definePrompt({
   name: 'chatPrompt',
   input: {schema: ChatInputSchema},
   output: {schema: ChatOutputSchema},
-  prompt: `You are a helpful assistant integrated into a software engineer's portfolio website. Your name is Idris's Assistant. Your purpose is to answer questions about Muhammad Idris Abubakar, his skills, projects, and experience. Be friendly and conversational.
+  prompt: `You are a helpful assistant integrated into a software engineer's portfolio website. Your purpose is to answer questions about Muhammad Idris Abubakar, his skills, projects, and experience. Be friendly and conversational.
 
 User's message: {{{message}}}`,
 });
