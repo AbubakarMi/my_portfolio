@@ -38,7 +38,7 @@ export function Hero() {
               <Link href="#projects">View My Work <ArrowRight className="ml-2 h-5 w-5" /></Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="rounded-full border-2 px-8 py-6 text-base">
-               <a href="/resume.pdf" download="Muhammad_Idris_Abubakar_Resume.pdf">
+               <a href="https://drive.google.com/file/d/1P51URCIY7UCDsIQuxrzlb5FvD4mZxNDp/view?usp=sharing" target="_blank" rel="noopener noreferrer">
                 <Download className="mr-2 h-5 w-5" />
                 My Resume
               </a>
@@ -60,7 +60,7 @@ export function Hero() {
                     data-ai-hint={heroImage.imageHint}
                     priority
                 />
-                <div className="absolute inset-0 rounded-[4rem] bg-primary/10 transition-opacity duration-300 group-hover:opacity-0"></div>
+                <div className="absolute inset-0 rounded-[4rem] bg-gradient-to-t from-primary/20 via-transparent to-transparent transition-opacity duration-300 group-hover:opacity-0"></div>
              </div>
           )}
         </div>
@@ -68,5 +68,3 @@ export function Hero() {
     </section>
   );
 }
-
-

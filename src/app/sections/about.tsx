@@ -40,7 +40,7 @@ export function About() {
               </p>
             </div>
             <Button asChild size="lg" className="mt-4 rounded-full px-8">
-              <a href="/resume.pdf" download="Muhammad_Idris_Abubakar_Resume.pdf">
+              <a href="https://drive.google.com/file/d/1P51URCIY7UCDsIQuxrzlb5FvD4mZxNDp/view?usp=sharing" target="_blank" rel="noopener noreferrer">
                 <Download className="mr-2 h-5 w-5" />
                 Download Resume
               </a>
