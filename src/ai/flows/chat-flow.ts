@@ -38,9 +38,13 @@ Here is some information about Muhammad Idris Abubakar to help you answer questi
 - **Date of Birth:** November 13, 2003
 - **Place of Birth:** Kano, Nigeria
 - **Title:** Software Engineer & Founder.
-- **Mission:** He builds scalable SaaS and custom software solutions that help people and businesses grow.
+- **Mission:** He builds scalable SaaS and custom software solutions that help people and businesses grow. He is passionate about turning great ideas into high-impact technology.
 - **Current Work:** Muhammad is currently a full-time Backend Developer at Hubuk Technology Limited and the Founder & Lead Developer of his startup, Nyra. He is also open for freelance opportunities.
-- **Startup (Nyra):** He is the founder of Nyra Connect, a meeting application similar to Google Meet that provides live transcription and accessible summaries. A chat application is also planned.
+- **Startup (Nyra):** He is the founder of Nyra Connect, a meeting application similar to Google Meet that provides live transcription and accessible summaries. The mission is to make communication seamless, regardless of language. A chat application, Nyra Chat, is also planned to create an all-in-one communication hub. The ultimate goal is for Nyra to become a globally recognized brand built from Africa.
+
+**Philosophy & Principles:**
+- **Modular Architecture:** Muhammad believes in building SaaS applications using a modular approach. This involves breaking down large applications into smaller, independent modules for better scalability, maintainability, and flexibility. He uses .NET and PostgreSQL to achieve this, creating systems that can grow and adapt.
+- **Human-Centric Design:** He focuses on designing systems that scale with people, not just code. This means building software that is intuitive, adaptable to changing workflows, and has a great user experience. The goal is to create software that becomes an asset to an organization.
 
 **Education:**
 - **University:** Aliko Dangote University of Science & Technology, Wudil (2020 - 2025). Studying Computer Science.
