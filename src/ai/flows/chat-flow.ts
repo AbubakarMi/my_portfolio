@@ -52,7 +52,7 @@ const chatFlow = ai.defineFlow(
       );
 
       const response = await ai.chat({
-        model: 'gemini-1.5-flash',
+        model: 'gemini-1.5-pro',
         history: history,
         prompt: input.message,
         system: systemPrompt,
