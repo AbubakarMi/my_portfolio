@@ -61,6 +61,22 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-invotrek"),
     link: "#",
     role: "Creator & Lead Developer"
+  },
+  {
+    title: "Online Admission System",
+    description: "A comprehensive online admission portal for educational institutions. Simplifies the application process for students and streamlines application review for administrators.",
+    tech: [".NET", "React", "SQL Server"],
+    image: PlaceHolderImages.find(p => p.id === "project-admission"),
+    link: "#",
+    role: "Full-Stack Developer"
+  },
+  {
+    title: "Rental Management System",
+    description: "A system to manage rental properties, tenants, payments, and maintenance requests. Designed for property managers to efficiently handle their portfolio.",
+    tech: ["Node.js", "React", "MongoDB"],
+    image: PlaceHolderImages.find(p => p.id === "project-rental"),
+    link: "#",
+    role: "Backend Developer"
   }
 ];
 
@@ -202,5 +218,7 @@ export function Projects() {
     </section>
   );
 }
+
+    
 
     
