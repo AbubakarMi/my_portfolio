@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { ExternalLink, Loader2, Play, Square } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { summarizeProject } from '@/ai/flows/summarize-project-flow';
@@ -249,7 +249,7 @@ const ProjectItem = ({ project, index, projectCache, forceUpdate }: { project: P
 export function Projects() {
     const projectCache = useRef(new Map<string, Cache>()).current;
     const [_, setForceRender] = useState(0);
-    const forceUpdate = () => setForceRender(r => r + 1);
+    const forceUpdate = useCallback(() => setForceRender(r => r + 1), []);
 
     return (
         <section id="projects" className="bg-primary/5 py-24 sm:py-32">
@@ -272,3 +272,5 @@ export function Projects() {
         </section>
     );
 }
+
+    

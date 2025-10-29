@@ -66,8 +66,19 @@ const summarizeProjectFlow = ai.defineFlow(
     inputSchema: SummarizeProjectInputSchema,
     outputSchema: SummarizeProjectOutputSchema,
   },
-  async input => {
-    const {output} = await prompt(input);
-    return output!;
+  async (input) => {
+    try {
+        const {output} = await prompt(input);
+        if (!output) throw new Error('No output from AI');
+        return output;
+    } catch (error: any) {
+        console.error(`Failed to summarize project "${input.title}":`, error);
+        // Re-throw a user-friendly error
+        throw new Error(
+            `I'm currently experiencing high demand and couldn't generate the summary. Please try again in a moment.`
+        );
+    }
   }
 );
+
+    

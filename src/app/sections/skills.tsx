@@ -212,26 +212,6 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
 
 
 export function Skills() {
- useEffect(() => {
-    // Pre-fetch analysis for all skills to make the "Analyze" feature feel instant.
-    const allSkills = Object.values(skills).flat();
-    allSkills.forEach(skill => {
-      if (!analysisCache.has(skill.name)) {
-        analyzeSkill({ skill: skill.name })
-          .then(result => {
-            if (result) {
-              analysisCache.set(skill.name, result);
-            }
-          })
-          .catch(error => {
-            // This catch block is intentionally left empty.
-            // We don't want to log errors to the console during the silent pre-fetch.
-            // If it fails, the user can still trigger the analysis manually by clicking the button.
-          });
-      }
-    });
-  }, []);
-
   return (
     <section id="skills" className="bg-background py-24 sm:py-32">
       <div className="container mx-auto px-4 md:px-6">
@@ -276,3 +256,5 @@ export function Skills() {
     </section>
   );
 }
+
+    
