@@ -6,10 +6,12 @@ import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { ExternalLink, Play, Square } from 'lucide-react';
+import { ExternalLink, Play, Square, Loader2 } from 'lucide-react';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { generateProjectAudio } from '@/ai/flows/generate-project-audio-flow';
+import { useToast } from '@/hooks/use-toast';
 
 const projects = [
    {
@@ -19,7 +21,6 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-nubenta"),
     link: "#",
     role: "Founder & Lead Developer",
-    audioUrl: "/audio/nubenta-care.mp3"
   },
   {
     title: "Nyra Connect",
@@ -28,7 +29,6 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-nyra"),
     link: "#",
     role: "Founder & Lead Developer",
-    audioUrl: "/audio/nyra-connect.mp3"
   },
   {
     title: "InvoTrek",
@@ -37,7 +37,6 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-invotrek"),
     link: "https://invotrek.netlify.app",
     role: "Creator & Lead Developer",
-    audioUrl: "/audio/invotrek.mp3"
   },
   {
     title: "BuildTrack Pro",
@@ -46,7 +45,6 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-buildtrack"),
     link: "#",
     role: "Lead Developer",
-    audioUrl: "/audio/buildtrack-pro.mp3"
   },
   {
     title: "SmartEd ERP",
@@ -55,7 +53,6 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-smarterp"),
     link: "#",
     role: "Lead Developer",
-    audioUrl: "/audio/smarted-erp.mp3"
   },
    {
     title: "BulkPay",
@@ -64,7 +61,6 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-bulkpay"),
     link: "#",
     role: "Backend Developer",
-    audioUrl: "/audio/bulkpay.mp3"
   },
   {
     title: "Adustech Bus Tracker",
@@ -73,7 +69,6 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-admission"),
     link: "https://bus-tracker-i4dn.vercel.app/",
     role: "Full-Stack Developer",
-    audioUrl: "/audio/adustech-bus-tracker.mp3"
   },
   {
     title: "Rewardify",
@@ -82,7 +77,6 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-rewardify"),
     link: "#",
     role: "Full-Stack Developer",
-    audioUrl: "/audio/rewardify.mp3"
   },
   {
     title: "Rental Management System",
@@ -91,7 +85,6 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-rental"),
     link: "#",
     role: "Software Engineer",
-    audioUrl: "/audio/rental-management-system.mp3"
   },
   {
     title: "Online Management System",
@@ -100,62 +93,101 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "blog-scaling-systems"),
     link: "#",
     role: "Web Developer",
-    audioUrl: "/audio/online-management-system.mp3"
   }
 ];
 
 type Project = (typeof projects)[0];
 
-const ProjectAudioPlayer = ({ audioUrl }: { audioUrl: string }) => {
-  const audioRef = useRef<HTMLAudioElement>(null);
+const ProjectAudioPlayer = ({ project }: { project: Project }) => {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [audioDataUri, setAudioDataUri] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const { toast } = useToast();
 
-  const togglePlayback = () => {
-    if (!audioRef.current) return;
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play().catch(e => {
-        console.error("Audio playback failed:", e);
-      });
-    }
-  };
-  
   useEffect(() => {
-    const audioElement = audioRef.current;
-    if (!audioElement) return;
+    // Create an audio element and set up its event listeners
+    const el = new Audio();
+    audioRef.current = el;
 
-    const handlePlay = () => setIsPlaying(true);
-    const handlePause = () => setIsPlaying(false);
-
-    audioElement.addEventListener('play', handlePlay);
-    audioElement.addEventListener('pause', handlePause);
-    audioElement.addEventListener('ended', handlePause);
-
+    const onPlay = () => setIsPlaying(true);
+    const onPause = () => setIsPlaying(false);
+    const onEnded = () => setIsPlaying(false);
+    
+    el.addEventListener('play', onPlay);
+    el.addEventListener('pause', onPause);
+    el.addEventListener('ended', onEnded);
+    
+    // Cleanup on unmount
     return () => {
-      audioElement.removeEventListener('play', handlePlay);
-      audioElement.removeEventListener('pause', handlePause);
-      audioElement.removeEventListener('ended', handlePause);
+      el.pause();
+      el.removeEventListener('play', onPlay);
+      el.removeEventListener('pause', onPause);
+      el.removeEventListener('ended', onEnded);
     };
   }, []);
 
+  const handleAudioPlayback = async () => {
+    const audioElement = audioRef.current;
+    if (!audioElement) return;
+    
+    // If it's already playing, pause it.
+    if (isPlaying) {
+      audioElement.pause();
+      return;
+    }
+
+    // If we have cached audio, play it.
+    if (audioDataUri) {
+      audioElement.play().catch(e => console.error("Audio playback failed:", e));
+      return;
+    }
+
+    // If we don't have cached audio, generate it.
+    setIsGenerating(true);
+    try {
+      const result = await generateProjectAudio({
+        title: project.title,
+        description: project.description,
+        tech: project.tech,
+      });
+
+      if (result.audioDataUri) {
+        setAudioDataUri(result.audioDataUri);
+        audioElement.src = result.audioDataUri;
+        audioElement.play().catch(e => console.error("Audio playback failed:", e));
+      } else {
+         throw new Error("Audio generation returned no data.");
+      }
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Audio Generation Failed",
+        description: "I couldn't generate the audio summary right now. Please try again in a moment.",
+      });
+      console.error("Audio generation failed:", error);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   return (
-    <>
-      <audio ref={audioRef} src={audioUrl} preload="metadata" />
-      <Button
-        size="lg"
-        variant="outline"
-        className="rounded-full px-8"
-        onClick={togglePlayback}
-      >
-        {isPlaying ? (
-          <Square className="mr-2 h-5 w-5" />
-        ) : (
-          <Play className="mr-2 h-5 w-5" />
-        )}
-        {isPlaying ? 'Stop' : 'Listen to Summary'}
-      </Button>
-    </>
+    <Button
+      size="lg"
+      variant="outline"
+      className="rounded-full px-8"
+      onClick={handleAudioPlayback}
+      disabled={isGenerating}
+    >
+      {isGenerating ? (
+        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+      ) : isPlaying ? (
+        <Square className="mr-2 h-5 w-5" />
+      ) : (
+        <Play className="mr-2 h-5 w-5" />
+      )}
+      {isGenerating ? "Generating..." : isPlaying ? 'Stop' : 'Listen to Summary'}
+    </Button>
   );
 };
 
@@ -214,7 +246,7 @@ const ProjectItem = ({ project, index }: { project: Project, index: number }) =>
                             View Project <ExternalLink className="ml-2 h-4 w-4" />
                         </Link>
                     </Button>
-                    <ProjectAudioPlayer audioUrl={project.audioUrl} />
+                    <ProjectAudioPlayer project={project} />
                 </div>
             </div>
         </div>
@@ -243,3 +275,5 @@ export function Projects() {
         </section>
     );
 }
+
+    
