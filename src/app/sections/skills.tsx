@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
-import { BrainCircuit, TestTube2, FileJson, Code, Server, GitBranch, Wind, Mail, Sparkles, Loader2 } from 'lucide-react';
+import { BrainCircuit, TestTube2, FileJson, Sparkles, Loader2 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -13,7 +13,7 @@ import { analyzeSkill, AnalyzeSkillOutput } from '@/ai/flows/analyze-skill-flow'
 
 const DockerIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M22.12 6.42c-1.57-2.6-3.77-3.23-3.77-3.23l-3.65.17s-2.48.59-3.9 1.83c-1.3.17-2.58.53-3.82 1.1-1.39-1.2-3.13-1.63-3.13-1.63L.25 8.32s2.07.28 3.53 1.5l.2 4.15c.32.14 2.65.98 3.05 1.13.5.2 1 .3 1.5.4l.2 4.07s1.78 1.13 3.63 1.13c3.95 0 4.28-4.13 4.28-4.13s-.5-2.7-3.93-3.32c.4-.33.78-.73 1.12-1.2.66.02 2.6-.03 2.6-.03s2.2-1.2 2.7-3.04a2.6 2.6 0 0 0-.2-1.9zm-9.15 7.15a.42.42 0 0 1-.41.42h-1.2a.42.42 0 0 1-.42-.42v-1.19c0-.23.19-.42.42-.42h1.19c.23 0 .42.19.42.42v1.19zm2.4 0a.42.42 0 0 1-.42.42h-1.2a.42.42 0 0 1-.41-.42v-1.19c0-.23.18-.42.41-.42h1.2a.42.42 0 0 1 .42.42v1.19zm2.39 0a.42.42 0 0 1-.42.42h-1.19a.42.42 0 0 1-.42-.42v-1.19c0-.23.19-.42.42-.42h1.19a.42.42 0 0 1 .42.42v1.19zm2.4 0a.42.42 0 0 1-.42.42h-1.2a.42.42-0-0-1-.41-.42v-1.19c0-.23.18-.42.41-.42h1.2a.42.42 0 0 1 .42.42v1.19z" fill="#2496ED" />
+        <path d="M22.12 6.42c-1.57-2.6-3.77-3.23-3.77-3.23l-3.65.17s-2.48.59-3.9 1.83c-1.3.17-2.58.53-3.82 1.1-1.39-1.2-3.13-1.63-3.13-1.63L.25 8.32s2.07.28 3.53 1.5l.2 4.15c.32.14 2.65.98 3.05 1.13.5.2 1 .3 1.5.4l.2 4.07s1.78 1.13 3.63 1.13c3.95 0 4.28-4.13 4.28-4.13s-.5-2.7-3.93-3.32c.4-.33.78-.73 1.12-1.2.66.02 2.6-.03 2.6-.03s2.2-1.2 2.7-3.04a2.6 2.6 0 0 0-.2-1.9zm-9.15 7.15a.42.42 0 0 1-.41.42h-1.2a.42.42 0 0 1-.42-.42v-1.19c0-.23.19-.42.42-.42h1.19c.23 0 .42.19.42.42v1.19zm2.4 0a.42.42 0 0 1-.42.42h-1.2a.42.42 0 0 1-.41-.42v-1.19c0-.23.18-.42.41-.42h1.2a.42.42 0 0 1 .42.42v1.19zm2.39 0a.42.42 0 0 1-.42.42h-1.19a.42.42 0 0 1-.42-.42v-1.19c0-.23.19-.42.42-.42h1.19a.42.42 0 0 1 .42.42v1.19zm2.4 0a.42.42 0 0 1-.42.42h-1.2a.42.42 0 0 1-.41-.42v-1.19c0-.23.18-.42.41-.42h1.2a.42.42 0 0 1 .42.42v1.19z" fill="#2496ED" />
     </svg>
 );
 
@@ -78,11 +78,51 @@ const CSharpIcon = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
 );
 
+const CodeIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="16 18 22 12 16 6"></polyline>
+        <polyline points="8 6 2 12 8 18"></polyline>
+    </svg>
+);
+
+const ServerIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+        <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+        <line x1="6" y1="6" x2="6.01" y2="6"></line>
+        <line x1="6" y1="18" x2="6.01" y2="18"></line>
+    </svg>
+);
+
+const WindIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"></path>
+        <path d="M9.6 4.6A2 2 0 1 1 11 8H2"></path>
+        <path d="M12.6 19.4A2 2 0 1 0 14 16H2"></path>
+    </svg>
+);
+
+const MailIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+    </svg>
+);
+
+const GitBranchIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="6" x2="6" y1="3" y2="15"></line>
+        <circle cx="18" cy="6" r="3"></circle>
+        <circle cx="6" cy="18" r="3"></circle>
+        <path d="M18 9a9 9 0 0 1-9 9"></path>
+    </svg>
+);
+
 const skills = {
   "AI & Testing": [
     { name: 'LLM Evaluation', icon: BrainCircuit },
     { name: 'QA Design', icon: TestTube2 },
-    { name: 'NLP Annotation', icon: Code },
+    { name: 'NLP Annotation', icon: CodeIcon },
     { name: 'JSON/YAML Modeling', icon: FileJson },
   ],
   "Languages": [
@@ -93,23 +133,22 @@ const skills = {
   ],
   "Backend": [
     { name: '.NET 8', icon: DotNetIcon },
-    { name: 'Node.js', icon: Server },
+    { name: 'Node.js', icon: ServerIcon },
     { name: 'PostgreSQL', icon: PostgresqlIcon },
-    { name: 'Clean Architecture', icon: Server },
+    { name: 'Clean Architecture', icon: ServerIcon },
   ],
   "Frontend": [
     { name: 'React', icon: ReactIcon },
     { name: 'Next.js', icon: NextjsIcon },
-    { name: 'Tailwind CSS', icon: Wind },
+    { name: 'Tailwind CSS', icon: WindIcon },
   ],
    "DevOps & Tools": [
     { name: 'Docker', icon: DockerIcon },
-    { name: 'SendGrid', icon: Mail },
-    { name: 'Git & GitHub', icon: GitBranch },
+    { name: 'SendGrid', icon: MailIcon },
+    { name: 'Git & GitHub', icon: GitBranchIcon },
   ]
 };
 
-// A simple in-memory cache for the skill analysis results
 const analysisCache = new Map<string, AnalyzeSkillOutput>();
 
 const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.ElementType; style: React.CSSProperties }) => {
@@ -119,21 +158,18 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
 
   const handleAnalyze = async () => {
     setIsDialogOpen(true);
-    
-    // Check cache first
-    const cachedAnalysis = analysisCache.get(name);
-    if (cachedAnalysis) {
-      setAnalysis(cachedAnalysis);
+
+    if (analysisCache.has(name)) {
+      setAnalysis(analysisCache.get(name)!);
       setIsLoading(false);
       return;
     }
 
-    // If not in cache, show loader and fetch
     setIsLoading(true);
     try {
       const result = await analyzeSkill({ skill: name });
       setAnalysis(result);
-      analysisCache.set(name, result); // Cache the result
+      analysisCache.set(name, result);
     } catch (error) {
       console.error("Skill analysis failed:", error);
       setAnalysis({
@@ -148,15 +184,18 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <Card
-        className="group relative animate-fade-in-up overflow-hidden rounded-2xl transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1"
+        className="group animate-fade-in-up rounded-2xl transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1"
         style={style}
       >
-        <div className="flex h-full flex-col items-center justify-center gap-4 p-6 text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
-            <Icon className="h-8 w-8" />
+        <div className="flex h-full flex-col items-center justify-between gap-4 p-6 text-center">
+          <div className="flex flex-col items-center gap-4">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
+                <Icon className="h-8 w-8" />
+              </div>
+              <span className="font-semibold text-foreground text-lg">{name}</span>
           </div>
-          <span className="font-semibold text-foreground text-lg mt-2">{name}</span>
-          <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+
+          <div className="h-9 transition-all duration-300 opacity-0 group-hover:opacity-100">
              <Button
                 variant="outline"
                 size="sm"
@@ -202,18 +241,14 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
 
 export function Skills() {
   useEffect(() => {
-    // Aggressively pre-fetch all skill analyses as soon as this component mounts.
     const allSkills = Object.values(skills).flat();
     allSkills.forEach(skill => {
-      // Fire-and-forget; we don't need to wait for the result here.
-      // The result will be populated in the cache when it's ready.
       if (!analysisCache.has(skill.name)) {
           analyzeSkill({ skill: skill.name })
             .then(result => {
               analysisCache.set(skill.name, result);
             })
             .catch(error => {
-              // Log error but don't block. The app can still function.
               console.error(`Pre-fetching analysis for ${skill.name} failed:`, error);
             });
       }
@@ -264,5 +299,3 @@ export function Skills() {
     </section>
   );
 }
-
-    
