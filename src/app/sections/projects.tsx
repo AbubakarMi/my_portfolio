@@ -3,7 +3,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { ArrowRight, ExternalLink } from 'lucide-react';
@@ -123,49 +123,46 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0], index: n
 
     return (
         <Dialog>
-            <Card
-                ref={cardRef}
-                className={cn(
-                    "group flex flex-col overflow-hidden rounded-2xl shadow-lg transition-all duration-500",
-                    isVisible ? 'animate-fade-in-up opacity-100' : 'opacity-0',
-                    "hover:shadow-2xl hover:-translate-y-2"
-                )}
-                style={{ animationDelay: `${index * 100}ms` }}
-            >
-                <div className="relative overflow-hidden">
-                    {project.image && (
-                        <Image
-                            src={project.image.imageUrl}
-                            alt={project.image.description}
-                            width={800}
-                            height={600}
-                            className="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                            data-ai-hint={project.image.imageHint}
-                        />
+            <DialogTrigger asChild>
+                <Card
+                    ref={cardRef}
+                    className={cn(
+                        "group flex cursor-pointer flex-col overflow-hidden rounded-2xl shadow-lg transition-all duration-300",
+                        isVisible ? 'animate-fade-in-up opacity-100' : 'opacity-0',
+                        "hover:shadow-2xl hover:-translate-y-2"
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
-                    <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center text-white opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:backdrop-blur-sm">
-                        <DialogTrigger asChild>
-                           <Button variant="secondary" className="rounded-full">
-                             View Case Study <ArrowRight className="ml-2 h-4 w-4" />
-                           </Button>
-                        </DialogTrigger>
+                    style={{ animationDelay: `${index * 100}ms` }}
+                >
+                    {project.image && (
+                        <div className="overflow-hidden">
+                            <Image
+                                src={project.image.imageUrl}
+                                alt={project.image.description}
+                                width={800}
+                                height={600}
+                                className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                data-ai-hint={project.image.imageHint}
+                            />
+                        </div>
+                    )}
+                    <div className="flex flex-1 flex-col p-6">
+                        <CardHeader className="p-0">
+                            <CardTitle className="text-xl font-bold">{project.title}</CardTitle>
+                            <CardDescription className="font-medium text-primary pt-1">
+                                {project.role}
+                            </CardDescription>
+                        </CardHeader>
+                         <CardContent className="flex-1 p-0 pt-4">
+                            <p className="text-foreground/80 line-clamp-3">{project.description}</p>
+                        </CardContent>
+                        <CardFooter className="p-0 pt-6">
+                            <div className="font-semibold text-primary transition-colors group-hover:text-accent">
+                              Read More <ArrowRight className="ml-1 inline h-4 w-4 transition-transform group-hover:translate-x-1" />
+                            </div>
+                        </CardFooter>
                     </div>
-                </div>
-                <CardHeader className="flex-grow bg-card p-6">
-                    <CardTitle className="text-xl font-bold">{project.title}</CardTitle>
-                    <CardDescription className="font-medium text-primary">
-                        {project.role}
-                    </CardDescription>
-                </CardHeader>
-                <div className="bg-card p-6 pt-0">
-                    <div className="flex flex-wrap gap-2">
-                        {project.tech.map((t) => (
-                            <Badge key={t} variant="secondary">{t}</Badge>
-                        ))}
-                    </div>
-                </div>
-            </Card>
+                </Card>
+            </DialogTrigger>
             <DialogContent className="max-w-4xl p-0">
                  <div className="relative">
                     {project.image && (
