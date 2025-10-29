@@ -106,7 +106,6 @@ const ProjectAudioPlayer = ({ project }: { project: Project }) => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Create an audio element and set up its event listeners
     const el = new Audio();
     audioRef.current = el;
 
@@ -118,7 +117,6 @@ const ProjectAudioPlayer = ({ project }: { project: Project }) => {
     el.addEventListener('pause', onPause);
     el.addEventListener('ended', onEnded);
     
-    // Cleanup on unmount
     return () => {
       el.pause();
       el.removeEventListener('play', onPlay);
@@ -127,23 +125,28 @@ const ProjectAudioPlayer = ({ project }: { project: Project }) => {
     };
   }, []);
 
+  useEffect(() => {
+    const audioElement = audioRef.current;
+    if (audioDataUri && audioElement) {
+      audioElement.src = audioDataUri;
+      audioElement.play().catch(e => console.error("Audio playback failed:", e));
+    }
+  }, [audioDataUri]);
+
   const handleAudioPlayback = async () => {
     const audioElement = audioRef.current;
     if (!audioElement) return;
-    
-    // If it's already playing, pause it.
+
     if (isPlaying) {
       audioElement.pause();
       return;
     }
 
-    // If we have cached audio, play it.
     if (audioDataUri) {
       audioElement.play().catch(e => console.error("Audio playback failed:", e));
       return;
     }
 
-    // If we don't have cached audio, generate it.
     setIsGenerating(true);
     try {
       const result = await generateProjectAudio({
@@ -154,16 +157,14 @@ const ProjectAudioPlayer = ({ project }: { project: Project }) => {
 
       if (result.audioDataUri) {
         setAudioDataUri(result.audioDataUri);
-        audioElement.src = result.audioDataUri;
-        audioElement.play().catch(e => console.error("Audio playback failed:", e));
       } else {
-         throw new Error("Audio generation returned no data.");
+        throw new Error("Audio generation returned no data.");
       }
     } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Audio Generation Failed",
-        description: "I couldn't generate the audio summary right now. Please try again in a moment.",
+        description: error.message || "I couldn't generate the audio summary right now. Please try again in a moment.",
       });
       console.error("Audio generation failed:", error);
     } finally {
@@ -275,5 +276,7 @@ export function Projects() {
         </section>
     );
 }
+
+    
 
     
