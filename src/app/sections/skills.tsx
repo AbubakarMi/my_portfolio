@@ -1,7 +1,7 @@
 
 "use client";
 
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { BrainCircuit, TestTube2, FileJson, Code, Server, GitBranch, Wind, Mail } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -94,25 +94,60 @@ const skills = {
 };
 
 const SkillCard = ({ name, icon: Icon, style }: { name: string, icon: React.ElementType, style: React.CSSProperties }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = cardRef.current;
+    if (!card) return;
+
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const rotateX = (y / rect.height - 0.5) * -20; // Max rotation 10 degrees
+    const rotateY = (x / rect.width - 0.5) * 20;  // Max rotation 10 degrees
+
+    card.style.setProperty('--x', `${x}px`);
+    card.style.setProperty('--y', `${y}px`);
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  };
+
+  const handleMouseLeave = () => {
+    const card = cardRef.current;
+    if (card) {
+      card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+    }
+  };
+
   return (
     <div
-      className="group relative animate-fade-in-up"
+      ref={cardRef}
+      className="group relative animate-fade-in-up [transform-style:preserve-3d] transition-transform duration-300 ease-out"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       style={style}
     >
-      <Card
-        className={cn(
-          "flex h-full flex-col items-center justify-center gap-4 p-6 text-center transition-all duration-300",
-          "bg-card/50 border-transparent",
-          "hover:border-primary/30 hover:shadow-2xl hover:-translate-y-2"
-        )}
-      >
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.1),transparent_60%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-        <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
+      <div className={cn(
+        "relative flex h-full flex-col items-center justify-center gap-4 p-6 text-center rounded-2xl",
+        "bg-card/60 border border-border/20 shadow-lg",
+        "transition-all duration-300 ease-out",
+        "group-hover:shadow-2xl group-hover:shadow-primary/20",
+        "before:absolute before:inset-0 before:w-full before:h-full before:rounded-2xl before:opacity-0 before:[background:radial-gradient(80%_60%_at_var(--x)_var(--y),hsl(var(--primary)/0.15),transparent)] group-hover:before:opacity-100",
+        "after:absolute after:inset-0 after:w-full after:h-full after:rounded-2xl after:opacity-0 after:border after:border-primary/50 group-hover:after:opacity-100"
+      )}>
+        <div 
+          className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground" 
+          style={{ transform: 'translateZ(20px)' }}
+        >
           <Icon className="h-8 w-8" />
         </div>
-        <span className="relative font-semibold text-foreground text-lg mt-2">{name}</span>
-      </Card>
-      <div className="absolute -inset-px rounded-xl border-2 border-transparent opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:border-primary/50 -z-10" />
+        <span 
+          className="font-semibold text-foreground text-lg mt-2"
+          style={{ transform: 'translateZ(10px)' }}
+        >
+          {name}
+        </span>
+      </div>
     </div>
   );
 };
@@ -136,7 +171,7 @@ export function Skills() {
                     <TabsTrigger 
                       key={category} 
                       value={category} 
-                      className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-md"
+                      className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-md rounded-lg"
                     >
                       {category}
                     </TabsTrigger>
