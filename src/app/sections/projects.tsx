@@ -6,12 +6,11 @@ import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { ExternalLink, Loader2, Play, Square } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { ExternalLink, Loader2, Play, Square, Headphones } from 'lucide-react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { summarizeProject } from '@/ai/flows/summarize-project-flow';
-import { textToSpeech } from '@/ai/flows/tts-flow';
+import { generateAllProjectSummaries } from '@/ai/flows/generate-all-summaries';
 
 const projects = [
    {
@@ -97,18 +96,70 @@ const projects = [
 ];
 
 type Project = (typeof projects)[0];
-type AudioState = {
-  status: 'idle' | 'loading' | 'playing' | 'error';
-  audioDataUri?: string;
-};
 
 const audioCache = new Map<string, string>();
 
-const ProjectItem = ({ project, index }: { project: Project, index: number }) => {
+const ProjectAudioPlayer = ({ projectTitle, audioDataUri }: { projectTitle: string, audioDataUri: string | undefined }) => {
+    const [isPlaying, setIsPlaying] = useState(false);
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+
+    useEffect(() => {
+        if (!audioRef.current) {
+            audioRef.current = new Audio();
+        }
+        const audio = audioRef.current;
+        
+        const handlePlay = () => setIsPlaying(true);
+        const handlePause = () => setIsPlaying(false);
+
+        audio.addEventListener('play', handlePlay);
+        audio.addEventListener('pause', handlePause);
+        audio.addEventListener('ended', handlePause);
+
+        return () => {
+            audio.removeEventListener('play', handlePlay);
+            audio.removeEventListener('pause', handlePause);
+            audio.removeEventListener('ended', handlePause);
+            audio.pause();
+        };
+    }, []);
+
+    const handlePlayback = () => {
+        const audio = audioRef.current;
+        if (!audio || !audioDataUri) return;
+
+        if (isPlaying) {
+            audio.pause();
+            audio.currentTime = 0;
+        } else {
+            audio.src = audioDataUri;
+            audio.play().catch(e => console.error("Audio playback error:", e));
+        }
+    };
+    
+    return (
+        <Button
+            size="lg"
+            variant="outline"
+            className="rounded-full px-8"
+            onClick={handlePlayback}
+            disabled={!audioDataUri}
+        >
+            {isPlaying ? (
+                <Square className="mr-2 h-5 w-5" />
+            ) : (
+                <Play className="mr-2 h-5 w-5" />
+            )}
+            {isPlaying ? 'Stop' : 'Listen to Summary'}
+        </Button>
+    );
+};
+
+
+const ProjectItem = ({ project, index, audioDataUri }: { project: Project, index: number, audioDataUri: string | undefined }) => {
     const [isVisible, setIsVisible] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
-    const [audioState, setAudioState] = useState<AudioState>({ status: 'idle' });
-    const audioRef = useRef<HTMLAudioElement | null>(null);
+    const isReversed = index % 2 !== 0;
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -118,90 +169,16 @@ const ProjectItem = ({ project, index }: { project: Project, index: number }) =>
                     observer.unobserve(entry.target);
                 }
             },
-            { threshold: 0.2, triggerOnce: true }
+            { threshold: 0.2, once: true }
         );
 
         const currentRef = ref.current;
-        if (currentRef) {
-            observer.observe(currentRef);
-        }
-
-        return () => {
-            if (currentRef) {
-                observer.unobserve(currentRef);
-            }
-        };
+        if (currentRef) observer.observe(currentRef);
+        return () => { if (currentRef) observer.unobserve(currentRef); };
     }, []);
-
-    const handleAudioPlayback = async () => {
-      const audio = audioRef.current;
-      if (!audio) return;
-
-      // If playing, stop and reset
-      if (audioState.status === 'playing') {
-          audio.pause();
-          audio.currentTime = 0;
-          setAudioState(prev => ({...prev, status: 'idle'}));
-          return;
-      }
-
-      // If cached, just play
-      const cachedAudio = audioCache.get(project.title);
-      if (cachedAudio) {
-          audio.src = cachedAudio;
-          audio.play().catch(e => console.error("Audio playback error:", e));
-          setAudioState({ status: 'playing', audioDataUri: cachedAudio });
-          return;
-      }
-
-      // Not cached, so fetch, cache, and play
-      setAudioState({ status: 'loading' });
-      try {
-          const { summaryScript } = await summarizeProject({
-              title: project.title,
-              description: project.description,
-              tech: project.tech,
-          });
-          const { audioDataUri } = await textToSpeech({ text: summaryScript });
-          
-          audioCache.set(project.title, audioDataUri);
-          audio.src = audioDataUri;
-          audio.play().catch(e => console.error("Audio playback error:", e));
-          setAudioState({ status: 'playing', audioDataUri });
-      } catch (error) {
-          console.error("Failed to generate audio summary:", error);
-          setAudioState({ status: 'error' });
-      }
-    };
-    
-    useEffect(() => {
-      const audio = audioRef.current;
-
-      const onEnded = () => setAudioState(prev => ({ ...prev, status: 'idle' }));
-      const onPlay = () => setAudioState(prev => ({ ...prev, status: 'playing' }));
-      const onPause = () => setAudioState(prev => ({ ...prev, status: 'idle' }));
-
-      if (audio) {
-        audio.addEventListener('ended', onEnded);
-        audio.addEventListener('play', onPlay);
-        audio.addEventListener('pause', onPause);
-      }
-
-      return () => {
-        if (audio) {
-          audio.removeEventListener('ended', onEnded);
-          audio.removeEventListener('play', onPlay);
-          audio.removeEventListener('pause', onPause);
-        }
-      };
-    }, []);
-
-
-    const isReversed = index % 2 !== 0;
 
     return (
         <div ref={ref} className={cn("grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16 transition-all duration-1000", isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
-            <audio ref={audioRef} className="hidden" />
             <div className={cn("group relative", isReversed && "lg:order-last")}>
                 <Card className="overflow-hidden rounded-2xl shadow-lg transition-shadow duration-300 group-hover:shadow-2xl">
                     {project.image && (
@@ -233,18 +210,7 @@ const ProjectItem = ({ project, index }: { project: Project, index: number }) =>
                             View Project <ExternalLink className="ml-2 h-4 w-4" />
                         </Link>
                     </Button>
-                     <Button 
-                        size="lg" 
-                        variant="outline"
-                        className="rounded-full px-8"
-                        onClick={handleAudioPlayback}
-                        disabled={audioState.status === 'loading'}
-                    >
-                        {audioState.status === 'loading' && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
-                        {audioState.status === 'playing' && <Square className="mr-2 h-5 w-5" />}
-                        {audioState.status !== 'playing' && audioState.status !== 'loading' && <Play className="mr-2 h-5 w-5" />}
-                        {audioState.status === 'playing' ? 'Stop' : 'Listen to Summary'}
-                     </Button>
+                    <ProjectAudioPlayer projectTitle={project.title} audioDataUri={audioDataUri} />
                 </div>
             </div>
         </div>
@@ -252,6 +218,30 @@ const ProjectItem = ({ project, index }: { project: Project, index: number }) =>
 }
 
 export function Projects() {
+    const [audioCache, setAudioCache] = useState<Map<string, string>>(new Map());
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const prefetchAudio = async () => {
+            try {
+                const projectDetails = projects.map(p => ({ title: p.title, description: p.description, tech: p.tech }));
+                const results = await generateAllProjectSummaries({ projects: projectDetails });
+                
+                const newCache = new Map<string, string>();
+                results.forEach(result => {
+                    newCache.set(result.title, result.audioDataUri);
+                });
+                setAudioCache(newCache);
+            } catch (error) {
+                console.error("Failed to pre-fetch project audio summaries:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        prefetchAudio();
+    }, []);
+
   return (
     <section id="projects" className="bg-primary/5 py-24 sm:py-32">
       <div className="container mx-auto px-4 md:px-6">
@@ -263,10 +253,15 @@ export function Projects() {
             A selection of projects that showcase my skills in AI, SaaS development, and system architecture.
           </p>
         </div>
-
+         {isLoading && (
+            <div className="flex items-center justify-center gap-3 text-lg text-foreground/70 mt-16">
+                <Loader2 className="animate-spin h-6 w-6" />
+                <span>Generating AI audio summaries...</span>
+            </div>
+        )}
         <div className="mt-24 space-y-24">
           {projects.map((project, index) => (
-            <ProjectItem key={project.title} project={project} index={index} />
+            <ProjectItem key={project.title} project={project} index={index} audioDataUri={audioCache.get(project.title)} />
           ))}
         </div>
       </div>
