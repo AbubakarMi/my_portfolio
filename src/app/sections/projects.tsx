@@ -110,9 +110,10 @@ const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: Proje
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
     useEffect(() => {
+        // Initialize audio element once
         audioRef.current = new Audio();
         const audio = audioRef.current;
-        
+
         const onPlay = () => setState('playing');
         const onPause = () => setState('idle');
         const onEnded = () => setState('idle');
@@ -120,8 +121,9 @@ const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: Proje
         audio.addEventListener('play', onPlay);
         audio.addEventListener('pause', onPause);
         audio.addEventListener('ended', onEnded);
-        
+
         return () => {
+            // Cleanup on component unmount
             if (audio) {
                 audio.pause();
                 audio.removeEventListener('play', onPlay);
@@ -135,6 +137,7 @@ const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: Proje
         const audio = audioRef.current;
         if (!audio) return;
 
+        // If audio is currently playing, stop it.
         if (state === 'playing') {
             audio.pause();
             audio.currentTime = 0;
@@ -142,23 +145,33 @@ const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: Proje
         }
 
         const projectCache = cache.get(project.title) || {};
+        
+        // If audio is already cached, play it immediately.
         if (projectCache.audio) {
-            audio.src = projectCache.audio;
+            // Ensure the src is set and play
+            if (audio.src !== projectCache.audio) {
+                audio.src = projectCache.audio;
+            }
             audio.play().catch(() => setState('error'));
             return;
         }
-
+        
+        // If not cached, generate it.
         setState('loading');
         try {
-            const summaryResult = await summarizeProject({ title: project.title, description: project.description, tech: project.tech });
-            const summaryText = summaryResult.summaryScript;
+            let summaryText = projectCache.text;
+            if (!summaryText) {
+                const summaryResult = await summarizeProject({ title: project.title, description: project.description, tech: project.tech });
+                summaryText = summaryResult.summaryScript;
+            }
             
-            const ttsResult = await textToSpeech({ text: summaryText });
+            const ttsResult = await textToSpeech({ text: summaryText! });
             const audioDataUri = ttsResult.audioDataUri;
             
             cache.set(project.title, { text: summaryText, audio: audioDataUri });
             audio.src = audioDataUri;
             audio.play().catch(() => setState('error'));
+
         } catch (error) {
             console.error("Failed to generate or play audio for", project.title, error);
             setState('error');
@@ -181,7 +194,6 @@ const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: Proje
         </Button>
     );
 };
-
 
 const ProjectItem = ({ project, index, projectCache }: { project: Project, index: number, projectCache: ProjectCache }) => {
     const [isVisible, setIsVisible] = useState(false);
@@ -292,3 +304,5 @@ export function Projects() {
         </section>
     );
 }
+
+    
