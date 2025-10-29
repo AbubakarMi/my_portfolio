@@ -134,9 +134,9 @@ const ProjectItem = ({ project, index }: { project: Project, index: number }) =>
     }, []);
 
     const handleAudioPlayback = async () => {
-        if (audioState.status === 'playing') {
-            audioRef.current?.pause();
-            setAudioState({ ...audioState, status: 'idle' });
+        if (audioState.status === 'playing' && audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
             return;
         }
 
@@ -174,11 +174,20 @@ const ProjectItem = ({ project, index }: { project: Project, index: number }) =>
         setAudioState({ status: 'idle', audioDataUri: audioState.audioDataUri });
     };
 
+    const onPlayPause = () => {
+        if (audioRef.current?.paused) {
+            setAudioState(prev => ({...prev, status: 'idle' }))
+        } else {
+            setAudioState(prev => ({...prev, status: 'playing' }))
+        }
+    }
+
+
     const isReversed = index % 2 !== 0;
 
     return (
         <div ref={ref} className={cn("grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16 transition-all duration-1000", isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
-            <audio ref={audioRef} onEnded={onEnded} className="hidden" />
+            <audio ref={audioRef} onEnded={onEnded} onPlay={onPlayPause} onPause={onPlayPause} className="hidden" />
             <div className={cn("group relative", isReversed && "lg:order-last")}>
                 <Card className="overflow-hidden rounded-2xl shadow-lg transition-shadow duration-300 group-hover:shadow-2xl">
                     {project.image && (
@@ -250,3 +259,4 @@ export function Projects() {
     </section>
   );
 }
+
