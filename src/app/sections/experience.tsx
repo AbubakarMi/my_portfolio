@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { Building, Rocket, GraduationCap, Code } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Card } from '@/components/ui/card';
 
 const experiences = [
   {
@@ -87,13 +86,13 @@ const ExperienceItem = ({
 
         return () => {
             if (ref.current) {
+                // eslint-disable-next-line react-hooks/exhaustive-deps
                 observer.unobserve(ref.current);
             }
         };
     }, []);
     
     const directionClass = isLeft ? 'md:flex-row' : 'md:flex-row-reverse';
-    const initialPositionClass = isLeft ? 'md:-translate-x-8' : 'md:translate-x-8';
 
     return (
         <div 
@@ -104,17 +103,19 @@ const ExperienceItem = ({
           )}
         >
             {/* Content */}
-            <div className={cn(
-                "w-full md:w-5/12 transition-all duration-700 ease-out",
-                 isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 ' + initialPositionClass
-            )}>
-                <Card className="p-6 rounded-xl shadow-lg border border-border/50 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
-                    <p className="text-primary font-semibold mb-1">{experience.duration}</p>
-                    <h3 className="font-headline text-xl font-bold text-foreground mb-1">{experience.role}</h3>
-                    <Link href={experience.link} target="_blank" rel="noopener noreferrer" className="font-semibold text-foreground/80 hover:text-primary transition-colors">
+            <div className={cn("w-full md:w-5/12")}>
+                 <div className={cn(
+                    "p-6 rounded-xl border border-transparent hover:border-border/50 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300",
+                    "transform-gpu",
+                    isVisible ? "opacity-100" : "opacity-0",
+                    isLeft ? (isVisible ? "translate-x-0" : "-translate-x-8") : (isVisible ? "translate-x-0" : "translate-x-8")
+                 )}>
+                    <p className={cn("text-primary font-semibold mb-1 transition-all duration-500 delay-100", isVisible ? "opacity-100" : "opacity-0")}>{experience.duration}</p>
+                    <h3 className={cn("font-headline text-xl font-bold text-foreground mb-1 transition-all duration-500 delay-200", isVisible ? "opacity-100" : "opacity-0")}>{experience.role}</h3>
+                    <Link href={experience.link} target="_blank" rel="noopener noreferrer" className={cn("font-semibold text-foreground/80 hover:text-primary transition-all duration-500 delay-300", isVisible ? "opacity-100" : "opacity-0")}>
                         {experience.company}
                     </Link>
-                    <ul className="mt-4 space-y-3 text-foreground/80">
+                    <ul className={cn("mt-4 space-y-3 text-foreground/80 transition-all duration-500 delay-400", isVisible ? "opacity-100" : "opacity-0")}>
                         {experience.description.map((item, idx) => (
                             <li key={idx} className="flex items-start gap-2">
                                 <svg className="h-5 w-5 flex-shrink-0 mt-0.5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -124,18 +125,18 @@ const ExperienceItem = ({
                             </li>
                         ))}
                     </ul>
-                </Card>
+                </div>
             </div>
 
             {/* Timeline Node */}
             <div className="hidden md:flex w-2/12 justify-center">
                 <div className="relative h-full">
                     <div className={cn(
-                      "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center transition-all duration-500",
+                      "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-10 w-10 bg-background border-2 border-primary rounded-full flex items-center justify-center transition-all duration-500",
                       isVisible ? "scale-100" : "scale-75"
                     )}>
-                        <div className="h-6 w-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center">
-                            <experience.icon className="h-4 w-4" />
+                        <div className="h-6 w-6 text-primary flex items-center justify-center">
+                            <experience.icon className="h-5 w-5" />
                         </div>
                          {isVisible && <div className="absolute h-10 w-10 rounded-full bg-primary/20 animate-ping -z-10"></div>}
                     </div>
