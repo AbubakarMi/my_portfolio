@@ -1,17 +1,17 @@
 {
   "placeholderImages": [
-    {
-      "id": "hero-portrait",
-      "description": "Professional portrait of Muhammad Idris Abubakar",
-      "imageUrl": "https://images.unsplash.com/photo-1607990283143-e81e7a2c9349?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjE2Mzk1ODV8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "professional portrait"
-    },
-    {
-      "id": "about-profile",
-      "description": "Profile image for the about section",
-      "imageUrl": "https://images.unsplash.com/photo-1448932223592-d1fc686e76ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtYW4lMjB3b3JraW5nfGVufDB8fHx8MTc2MTYwMDAzM3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "man working"
-    },
+   {
+  "id": "hero-portrait",
+  "description": "Professional portrait of Muhammad Idris Abubakar",
+  "imageUrl": "/images/Muhammad.JPG",
+  "imageHint": "professional portrait"
+},
+   {
+  "id": "about-profile",
+  "description": "Profile image for the about section",
+  "imageUrl": "/images/about.jpeg",
+  "imageHint": "man working"
+},
     {
       "id": "project-nyra",
       "description": "Image representing a productivity application",
