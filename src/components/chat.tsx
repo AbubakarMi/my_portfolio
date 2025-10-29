@@ -24,11 +24,11 @@ export function Chat() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
-  const [speechApi, setSpeechApi] = useState<any>(null);
+  const [isSpeaking, setIsSpeaking]       = useState(false);
   const viewportRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [speechApi, setSpeechApi] = useState<any>(null);
 
   // Initialize SpeechRecognition
   useEffect(() => {
