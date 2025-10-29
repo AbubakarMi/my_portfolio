@@ -103,26 +103,28 @@ type Cache = {
 };
 type ProjectCache = Map<string, Cache>;
 
-const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: ProjectCache }) => {
+const ProjectAudioPlayer = ({ audioDataUri }: { audioDataUri?: string }) => {
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [isPlaying, setIsPlaying] = useState(false);
-    
-    const audioDataUri = cache.get(project.title)?.audio;
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const audio = new Audio();
         audioRef.current = audio;
 
+        const onCanPlay = () => setIsLoading(false);
         const onPlay = () => setIsPlaying(true);
         const onPause = () => setIsPlaying(false);
         const onEnded = () => setIsPlaying(false);
 
+        audio.addEventListener('canplay', onCanPlay);
         audio.addEventListener('play', onPlay);
         audio.addEventListener('pause', onPause);
         audio.addEventListener('ended', onEnded);
         
         return () => {
             audio.pause();
+            audio.removeEventListener('canplay', onCanPlay);
             audio.removeEventListener('play', onPlay);
             audio.removeEventListener('pause', onPause);
             audio.removeEventListener('ended', onEnded);
@@ -131,16 +133,18 @@ const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: Proje
 
     useEffect(() => {
         const audio = audioRef.current;
-        if (audio && audioDataUri) {
-            if (audio.src !== audioDataUri) {
-                audio.src = audioDataUri;
-            }
+        if (audio && audioDataUri && audio.src !== audioDataUri) {
+            setIsLoading(true);
+            audio.src = audioDataUri;
+            audio.load();
+        } else if (audioDataUri) {
+             setIsLoading(false);
         }
     }, [audioDataUri]);
 
-    const handleAudioPlayback = () => {
+    const handlePlayback = () => {
         const audio = audioRef.current;
-        if (!audio || !audioDataUri) return;
+        if (!audio) return;
 
         if (isPlaying) {
             audio.pause();
@@ -157,14 +161,14 @@ const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: Proje
             size="lg"
             variant="outline"
             className="rounded-full px-8"
-            onClick={handleAudioPlayback}
-            disabled={!audioDataUri}
+            onClick={handlePlayback}
+            disabled={isLoading}
         >
-            {!audioDataUri && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
-            {audioDataUri && isPlaying && <Square className="mr-2 h-5 w-5" />}
-            {audioDataUri && !isPlaying && <Play className="mr-2 h-5 w-5" />}
+            {isLoading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+            {!isLoading && isPlaying && <Square className="mr-2 h-5 w-5" />}
+            {!isLoading && !isPlaying && <Play className="mr-2 h-5 w-5" />}
 
-            {isPlaying ? 'Stop' : 'Listen to Summary'}
+            {isLoading ? 'Loading...' : isPlaying ? 'Stop' : 'Listen to Summary'}
         </Button>
     );
 };
@@ -190,6 +194,8 @@ const ProjectItem = ({ project, index, projectCache }: { project: Project, index
         if (currentRef) observer.observe(currentRef);
         return () => { if (currentRef) observer.unobserve(currentRef); };
     }, []);
+
+    const audioDataUri = projectCache.get(project.title)?.audio;
 
     return (
         <div ref={ref} className={cn("grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16 transition-all duration-1000", isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
@@ -224,7 +230,7 @@ const ProjectItem = ({ project, index, projectCache }: { project: Project, index
                             View Project <ExternalLink className="ml-2 h-4 w-4" />
                         </Link>
                     </Button>
-                    <ProjectAudioPlayer project={project} cache={projectCache} />
+                    <ProjectAudioPlayer audioDataUri={audioDataUri} />
                 </div>
             </div>
         </div>
@@ -238,20 +244,24 @@ export function Projects() {
     useEffect(() => {
         projects.forEach(project => {
             if (!projectCache.has(project.title)) {
+                // Silently pre-fetch both text and audio
                 summarizeProject({ title: project.title, description: project.description, tech: project.tech })
                 .then(summaryResult => {
                     const summaryText = summaryResult.summaryScript;
                     projectCache.set(project.title, { text: summaryText });
-                    setForceRender(r => r + 1);
+                    // Force a re-render to pass the text to the audio player if needed
+                    setForceRender(r => r + 1); 
                     return textToSpeech({ text: summaryText });
                 })
                 .then(ttsResult => {
                     const existingCache = projectCache.get(project.title) || {};
                     projectCache.set(project.title, { ...existingCache, audio: ttsResult.audioDataUri });
+                    // Force a re-render to pass the audio URI to the player
                     setForceRender(r => r + 1);
                 })
                 .catch(error => {
-                    console.error(`Silent audio pre-fetch failed for ${project.title}:`, error);
+                    // Fail silently. The user can still click to try again later.
+                    console.error(`Audio pre-fetch failed for ${project.title}:`, error);
                 });
             }
         });
@@ -279,3 +289,5 @@ export function Projects() {
         </section>
     );
 }
+
+    
