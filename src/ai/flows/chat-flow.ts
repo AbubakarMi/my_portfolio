@@ -11,6 +11,7 @@
 import {ai} from '@/ai/genkit';
 import {type Message, type Role} from 'genkit';
 import {z} from 'zod';
+import { googleAI } from '@genkit-ai/google-genai';
 
 const MessageSchema = z.object({
   role: z.enum(['user', 'assistant']),
@@ -47,7 +48,7 @@ const chatFlow = ai.defineFlow(
     }));
 
     const response = await ai.generate({
-      model: 'gemini-1.5-flash',
+      model: googleAI.model('gemini-1.5-flash'),
       history: history,
       prompt: input.message,
       system: systemPrompt,
