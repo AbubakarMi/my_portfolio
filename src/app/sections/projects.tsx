@@ -11,6 +11,8 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { summarizeProject } from '@/ai/flows/summarize-project-flow';
+import { textToSpeech } from '@/ai/flows/tts-flow';
 
 const projects = [
    {
@@ -98,84 +100,91 @@ const projects = [
 type Project = (typeof projects)[0];
 
 const ProjectAudioPlayer = ({ project }: { project: Project }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const [audioState, setAudioState] = useState<'idle' | 'loading' | 'playing' | 'error'>('idle');
+  const [audioDataUri, setAudioDataUri] = useState<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { toast } = useToast();
 
-  const getSummaryText = useCallback(() => {
-    return `${project.title}. Role: ${project.role}. ${project.description}. Technologies used include: ${project.tech.join(', ')}.`;
-  }, [project]);
+  const handleAudioPlayback = async () => {
+    if (audioState === 'playing' && audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setAudioState('idle');
+      return;
+    }
 
-  useEffect(() => {
-    const synth = window.speechSynthesis;
-    const utterance = new SpeechSynthesisUtterance(getSummaryText());
-    utterance.onstart = () => setIsPlaying(true);
-    utterance.onend = () => setIsPlaying(false);
-    utterance.onerror = () => setIsPlaying(false);
-    utteranceRef.current = utterance;
+    if (audioDataUri && audioRef.current) {
+      audioRef.current.play().catch(e => {
+        console.error("Audio playback failed:", e);
+        setAudioState('error');
+      });
+      return;
+    }
 
-    // Cleanup on component unmount
-    return () => {
-      synth.cancel();
-    };
-  }, [getSummaryText]);
-
-
-  const handleAudioPlayback = () => {
-    const synth = window.speechSynthesis;
-
-    if (isPlaying) {
-      synth.cancel();
-      setIsPlaying(false);
-    } else {
-      if (utteranceRef.current) {
-        // If speech is paused, resume it. Otherwise, start fresh.
-        if (synth.paused) {
-          synth.resume();
-        } else {
-           // Cancel any previous speech before starting a new one
-          synth.cancel();
-          synth.speak(utteranceRef.current);
-        }
-        setIsPlaying(true);
-      }
+    setAudioState('loading');
+    try {
+      const summaryResult = await summarizeProject({
+        title: project.title,
+        description: project.description,
+        tech: project.tech
+      });
+      const ttsResult = await textToSpeech({ text: summaryResult.summaryScript });
+      setAudioDataUri(ttsResult.audioDataUri);
+    } catch (error) {
+      console.error("Failed to generate audio summary:", error);
+      setAudioState('error');
+      toast({
+        variant: "destructive",
+        title: "Audio Summary Failed",
+        description: "Couldn't generate an audio summary for this project. Please try again later.",
+      });
     }
   };
-  
-  // This effect will listen for changes in the speech synthesis state
+
   useEffect(() => {
-    const onBoundary = () => {
-      // This is just a way to keep checking if it's still speaking
+    if (audioDataUri && audioRef.current) {
+      audioRef.current.src = audioDataUri;
+      audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
     }
-    const interval = setInterval(() => {
-      if (!window.speechSynthesis.speaking && isPlaying) {
-        setIsPlaying(false);
+  }, [audioDataUri]);
+
+  useEffect(() => {
+    const audioElement = audioRef.current;
+    if (audioElement) {
+      const onPlay = () => setAudioState('playing');
+      const onPause = () => setAudioState('idle');
+      const onEnded = () => setAudioState('idle');
+      
+      audioElement.addEventListener('play', onPlay);
+      audioElement.addEventListener('pause', onPause);
+      audioElement.addEventListener('ended', onEnded);
+      
+      return () => {
+        audioElement.removeEventListener('play', onPlay);
+        audioElement.removeEventListener('pause', onPause);
+        audioElement.removeEventListener('ended', onEnded);
       }
-    }, 500);
-
-    window.speechSynthesis.addEventListener('boundary', onBoundary);
-    return () => {
-      clearInterval(interval);
-      window.speechSynthesis.removeEventListener('boundary', onBoundary)
     }
-  }, [isPlaying]);
-
+  }, [audioRef.current]);
 
   return (
-    <Button
-      size="lg"
-      variant="outline"
-      className="rounded-full px-8"
-      onClick={handleAudioPlayback}
-    >
-      {isPlaying ? (
-        <Square className="mr-2 h-5 w-5" />
-      ) : (
-        <Play className="mr-2 h-5 w-5" />
-      )}
-      {isPlaying ? 'Stop' : 'Listen to Summary'}
-    </Button>
+    <>
+      <audio ref={audioRef} className="hidden" />
+      <Button
+        size="lg"
+        variant="outline"
+        className="rounded-full px-8"
+        onClick={handleAudioPlayback}
+        disabled={audioState === 'loading'}
+      >
+        {audioState === 'loading' && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+        {audioState === 'playing' ? <Square className="mr-2 h-5 w-5" /> : <Play className="mr-2 h-5 w-5" />}
+        {audioState === 'playing' ? 'Stop' : 'Listen to Summary'}
+      </Button>
+    </>
   );
 };
+
 
 
 const ProjectItem = ({ project, index }: { project: Project, index: number }) => {
@@ -261,3 +270,5 @@ export function Projects() {
         </section>
     );
 }
+
+    
