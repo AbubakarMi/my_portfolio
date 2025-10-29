@@ -67,17 +67,19 @@ const analyzeSkillFlow = ai.defineFlow(
         attempt++;
         if (attempt >= maxRetries) {
           console.error(`Failed to analyze skill "${input.skill}" after ${maxRetries} attempts.`, error);
-          // Re-throw a user-friendly error on the final attempt.
-          throw new Error(
-            `I'm currently experiencing high demand. Please try again in a moment.`
-          );
+          return {
+            explanation: "I'm currently unable to provide an analysis for this skill.",
+            importance: "This may be due to high demand or a temporary connection issue. Please try again in a moment."
+          }
         }
         // Wait for a short period before retrying
         await new Promise(resolve => setTimeout(resolve, 500 * attempt));
       }
     }
-     throw new Error(
-      `I'm currently experiencing high demand. Please try again in a moment.`
-    );
+     // This should not be reached, but as a fallback:
+     return {
+        explanation: "An unexpected error occurred.",
+        importance: "Please try again later."
+     }
   }
 );
