@@ -33,7 +33,7 @@
     {
       "id": "project-admission",
       "description": "Image for a university bus tracking app",
-      "imageUrl": "https://images.unsplash.com/photo-1570125909248-b39b06d64483?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxidXMlMjB0cmFja2luZ3xlbnwwfHx8fDE3NjE5NzU0ODd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1622390573893-d61510131108?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxidXMlMjB0cmFja2luZ3xlbnwwfHx8fDE3NjE3NDY2OTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "bus tracking"
     },
     {
@@ -57,13 +57,13 @@
     {
       "id": "project-rental",
       "description": "Image for a Rental Management System",
-      "imageUrl": "https://images.unsplash.com/photo-1560518883-ce09059ee212?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyZW50YWwlMjBwcm9wZXJ0eXxlbnwwfHx8fDE3NjIxODY4MDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1484154218962-a197022b5858?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxyZW50YWwlMjBwcm9wZXJ0eXxlbnwwfHx8fDE3NjE3NDY2OTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "rental property"
     },
     {
       "id": "project-rewardify",
       "description": "Image for Rewardify gamification platform",
-      "imageUrl": "https://images.unsplash.com/photo-1599305445671-ac291c6aeaaa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyZXdhcmRzJTIwZ2FtaWZpY2F0aW9ufGVufDB8fHx8MTc2MjE4NjgwNHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1695462131540-5e91d57a2e51?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxyZXdhcmRzJTIwZ2FtaWZpY2F0aW9ufGVufDB8fHx8MTc2MTc0NjY5OXww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "rewards gamification"
     },
     {
