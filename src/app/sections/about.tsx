@@ -1,10 +1,30 @@
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Download } from 'lucide-react';
+import { Download, Layers, Code, Rocket, Award } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+
+const highlights = [
+    {
+        icon: <Award className="h-8 w-8 text-primary" />,
+        value: "4+ Years",
+        label: "Experience"
+    },
+    {
+        icon: <Rocket className="h-8 w-8 text-primary" />,
+        value: "5+",
+        label: "Major Projects"
+    },
+    {
+        icon: <Layers className="h-8 w-8 text-primary" />,
+        label: "Full-Stack Expertise"
+    },
+    {
+        icon: <Code className="h-8 w-8 text-primary" />,
+        label: ".NET & React"
+    }
+];
 
 export function About() {
   const aboutImage = PlaceHolderImages.find(p => p.id === "about-profile");
@@ -12,8 +32,8 @@ export function About() {
   return (
     <section id="about" className="bg-sky-50/50 dark:bg-sky-900/10 py-24 sm:py-32">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid items-center gap-12 md:grid-cols-5">
-          <div className="md:col-span-2">
+        <div className="grid items-center gap-12 lg:grid-cols-5 lg:gap-20">
+          <div className="lg:col-span-2">
             {aboutImage && (
               <Card className="overflow-hidden rounded-2xl shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
                 <Image
@@ -27,17 +47,19 @@ export function About() {
               </Card>
             )}
           </div>
-          <div className="space-y-6 md:col-span-3">
-            <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              My Story &amp; Mission
-            </h2>
-            <div className="space-y-4 text-lg text-foreground/80">
-              <p>
-                I’m a Computer Science graduate from Aliko Dangote University of Science &amp; Technology, Wudil. My journey into technology began with a fascination for how software can solve real-world problems. This passion has evolved into a career where I focus on building high-quality, impactful SaaS products and delivering top-tier solutions as a freelance developer.
-              </p>
-              <p>
-                As the founder of the startup product <strong className="font-semibold text-primary">Nyra Connect</strong>, I'm developing a meeting application, similar to Google Meet, that provides live transcription during meetings and accessible summaries afterward. We are also planning to develop a chat application.
-              </p>
+          <div className="space-y-8 md:col-span-3">
+            <div className="space-y-4">
+                <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                  My Story: From Curiosity to Creator
+                </h2>
+                <div className="space-y-4 text-lg text-foreground/80">
+                  <p>
+                    My journey into technology wasn't just a career choice; it was a calling. From a young age, I was captivated by the power of software to transform ideas into tangible solutions that could impact lives. This curiosity-fueled passion led me to pursue Computer Science at Aliko Dangote University of Science & Technology, where I honed my skills and solidified my mission: to build technology that empowers people and businesses to grow.
+                  </p>
+                  <p>
+                    Today, I channel that mission into two key roles: as a full-time Software Engineer building robust systems, and as the founder of <strong className="font-semibold text-primary">Nyra</strong>, a startup dedicated to breaking down communication barriers. Whether I'm architecting a scalable backend or leading my own product vision, my goal is always the same: to create software that is not only powerful and efficient, but also human-centric and a joy to use.
+                  </p>
+                </div>
             </div>
             <Button asChild size="lg" className="mt-4 rounded-full px-8">
               <a href="https://drive.google.com/file/d/1P51URCIY7UCDsIQuxrzlb5FvD4mZxNDp/view?usp=sharing" target="_blank" rel="noopener noreferrer">
@@ -47,6 +69,21 @@ export function About() {
             </Button>
           </div>
         </div>
+        
+        <div className="mt-24">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                {highlights.map((highlight) => (
+                    <div key={highlight.label} className="text-center">
+                        <div className="flex justify-center items-center h-16 w-16 mx-auto mb-4 rounded-full bg-primary/10">
+                           {highlight.icon}
+                        </div>
+                        {highlight.value && <p className="text-3xl font-bold text-foreground">{highlight.value}</p>}
+                        <p className="text-md text-foreground/70 mt-1">{highlight.label}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+
       </div>
     </section>
   );
