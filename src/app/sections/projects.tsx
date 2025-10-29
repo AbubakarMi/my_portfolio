@@ -103,56 +103,67 @@ type Cache = {
 };
 type ProjectCache = Map<string, Cache>;
 
-const ProjectAudioPlayer = ({ audioDataUri }: { audioDataUri?: string }) => {
+const ProjectAudioPlayer = ({ project, projectCache, forceUpdate }: { project: Project, projectCache: ProjectCache, forceUpdate: () => void }) => {
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const audioDataUri = projectCache.get(project.title)?.audio;
 
     useEffect(() => {
-        const audio = new Audio();
-        audioRef.current = audio;
+        // Initialize the audio element once.
+        if (!audioRef.current) {
+            audioRef.current = new Audio();
+            const audio = audioRef.current;
+            audio.addEventListener('play', () => setIsPlaying(true));
+            audio.addEventListener('pause', () => setIsPlaying(false));
+            audio.addEventListener('ended', () => setIsPlaying(false));
+        }
 
-        const onCanPlay = () => setIsLoading(false);
-        const onPlay = () => setIsPlaying(true);
-        const onPause = () => setIsPlaying(false);
-        const onEnded = () => setIsPlaying(false);
-
-        audio.addEventListener('canplay', onCanPlay);
-        audio.addEventListener('play', onPlay);
-        audio.addEventListener('pause', onPause);
-        audio.addEventListener('ended', onEnded);
-        
+        // Cleanup function to pause and remove listeners
         return () => {
-            audio.pause();
-            audio.removeEventListener('canplay', onCanPlay);
-            audio.removeEventListener('play', onPlay);
-            audio.removeEventListener('pause', onPause);
-            audio.removeEventListener('ended', onEnded);
+            const audio = audioRef.current;
+            if (audio) {
+                audio.pause();
+                audio.removeEventListener('play', () => setIsPlaying(true));
+                audio.removeEventListener('pause', () => setIsPlaying(false));
+                audio.removeEventListener('ended', () => setIsPlaying(false));
+            }
         };
     }, []);
 
-    useEffect(() => {
-        const audio = audioRef.current;
-        if (audio && audioDataUri && audio.src !== audioDataUri) {
-            setIsLoading(true);
-            audio.src = audioDataUri;
-            audio.load();
-        } else if (audioDataUri) {
-             setIsLoading(false);
-        }
-    }, [audioDataUri]);
-
-    const handlePlayback = () => {
+    const handlePlayback = async () => {
         const audio = audioRef.current;
         if (!audio) return;
 
         if (isPlaying) {
             audio.pause();
-        } else {
-            audio.play().catch(e => {
-                console.error("Audio playback failed:", e);
-                setIsPlaying(false);
-            });
+            return;
+        }
+
+        if (audioDataUri) {
+            if (audio.src !== audioDataUri) {
+                audio.src = audioDataUri;
+            }
+            audio.play().catch(console.error);
+            return;
+        }
+
+        setIsLoading(true);
+        try {
+            const summaryResult = await summarizeProject({ title: project.title, description: project.description, tech: project.tech });
+            const summaryText = summaryResult.summaryScript;
+            
+            const ttsResult = await textToSpeech({ text: summaryText });
+            const newAudioDataUri = ttsResult.audioDataUri;
+            
+            projectCache.set(project.title, { text: summaryText, audio: newAudioDataUri });
+            audio.src = newAudioDataUri;
+            audio.play().catch(console.error);
+            forceUpdate();
+        } catch (error) {
+            console.error(`Failed to generate audio for ${project.title}:`, error);
+        } finally {
+            setIsLoading(false);
         }
     };
     
@@ -174,7 +185,7 @@ const ProjectAudioPlayer = ({ audioDataUri }: { audioDataUri?: string }) => {
 };
 
 
-const ProjectItem = ({ project, index, projectCache }: { project: Project, index: number, projectCache: ProjectCache }) => {
+const ProjectItem = ({ project, index, projectCache, forceUpdate }: { project: Project, index: number, projectCache: ProjectCache, forceUpdate: () => void }) => {
     const [isVisible, setIsVisible] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
     const isReversed = index % 2 !== 0;
@@ -194,9 +205,7 @@ const ProjectItem = ({ project, index, projectCache }: { project: Project, index
         if (currentRef) observer.observe(currentRef);
         return () => { if (currentRef) observer.unobserve(currentRef); };
     }, []);
-
-    const audioDataUri = projectCache.get(project.title)?.audio;
-
+    
     return (
         <div ref={ref} className={cn("grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16 transition-all duration-1000", isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
             <div className={cn("group relative", isReversed && "lg:order-last")}>
@@ -230,7 +239,7 @@ const ProjectItem = ({ project, index, projectCache }: { project: Project, index
                             View Project <ExternalLink className="ml-2 h-4 w-4" />
                         </Link>
                     </Button>
-                    <ProjectAudioPlayer audioDataUri={audioDataUri} />
+                    <ProjectAudioPlayer project={project} projectCache={projectCache} forceUpdate={forceUpdate} />
                 </div>
             </div>
         </div>
@@ -240,6 +249,7 @@ const ProjectItem = ({ project, index, projectCache }: { project: Project, index
 export function Projects() {
     const projectCache = useRef(new Map<string, Cache>()).current;
     const [_, setForceRender] = useState(0);
+    const forceUpdate = () => setForceRender(r => r + 1);
 
     useEffect(() => {
         projects.forEach(project => {
@@ -249,18 +259,14 @@ export function Projects() {
                 .then(summaryResult => {
                     const summaryText = summaryResult.summaryScript;
                     projectCache.set(project.title, { text: summaryText });
-                    // Force a re-render to pass the text to the audio player if needed
-                    setForceRender(r => r + 1); 
                     return textToSpeech({ text: summaryText });
                 })
                 .then(ttsResult => {
                     const existingCache = projectCache.get(project.title) || {};
                     projectCache.set(project.title, { ...existingCache, audio: ttsResult.audioDataUri });
-                    // Force a re-render to pass the audio URI to the player
-                    setForceRender(r => r + 1);
+                    forceUpdate();
                 })
                 .catch(error => {
-                    // Fail silently. The user can still click to try again later.
                     console.error(`Audio pre-fetch failed for ${project.title}:`, error);
                 });
             }
@@ -282,12 +288,10 @@ export function Projects() {
                 
                 <div className="mt-24 space-y-24">
                     {projects.map((project, index) => (
-                        <ProjectItem key={project.title} project={project} index={index} projectCache={projectCache} />
+                        <ProjectItem key={project.title} project={project} index={index} projectCache={projectCache} forceUpdate={forceUpdate} />
                     ))}
                 </div>
             </div>
         </section>
     );
 }
-
-    
