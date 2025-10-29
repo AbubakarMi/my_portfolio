@@ -7,13 +7,13 @@ import { BrainCircuit, TestTube2, FileJson, Code, Server, GitBranch, Wind, Mail,
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 import { analyzeSkill, AnalyzeSkillOutput } from '@/ai/flows/analyze-skill-flow';
 
 
 const DockerIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M22.12 6.42c-1.57-2.6-3.77-3.23-3.77-3.23l-3.65.17s-2.48.59-3.9 1.83c-1.3.17-2.58.53-3.82 1.1-1.39-1.2-3.13-1.63-3.13-1.63L.25 8.32s2.07.28 3.53 1.5l.2 4.15c.32.14 2.65.98 3.05 1.13.5.2 1 .3 1.5.4l.2 4.07s1.78 1.13 3.63 1.13c3.95 0 4.28-4.13 4.28-4.13s-.5-2.7-3.93-3.32c.4-.33.78-.73 1.12-1.2.66.02 2.6-.03 2.6-.03s2.2-1.2 2.7-3.04a2.6 2.6 0 0 0-.2-1.9zm-9.15 7.15a.42.42 0 0 1-.41.42h-1.2a.42.42 0 0 1-.42-.42v-1.19c0-.23.19-.42.42-.42h1.19c.23 0 .42.19.42.42v1.19zm2.4 0a.42.42 0 0 1-.42.42h-1.2a.42.42 0 0 1-.41-.42v-1.19c0-.23.18-.42.41-.42h1.2a.42.42 0 0 1 .42.42v1.19zm2.39 0a.42.42 0 0 1-.42.42h-1.19a.42.42 0 0 1-.42-.42v-1.19c0-.23.19-.42.42-.42h1.19a.42.42 0 0 1 .42.42v1.19zm2.4 0a.42.42 0 0 1-.42.42h-1.2a.42.42 0 0 1-.41-.42v-1.19c0-.23.18-.42.41-.42h1.2a.42.42 0 0 1 .42.42v1.19z" fill="#2496ED" />
+        <path d="M22.12 6.42c-1.57-2.6-3.77-3.23-3.77-3.23l-3.65.17s-2.48.59-3.9 1.83c-1.3.17-2.58.53-3.82 1.1-1.39-1.2-3.13-1.63-3.13-1.63L.25 8.32s2.07.28 3.53 1.5l.2 4.15c.32.14 2.65.98 3.05 1.13.5.2 1 .3 1.5.4l.2 4.07s1.78 1.13 3.63 1.13c3.95 0 4.28-4.13 4.28-4.13s-.5-2.7-3.93-3.32c.4-.33.78-.73 1.12-1.2.66.02 2.6-.03 2.6-.03s2.2-1.2 2.7-3.04a2.6 2.6 0 0 0-.2-1.9zm-9.15 7.15a.42.42 0 0 1-.41.42h-1.2a.42.42 0 0 1-.42-.42v-1.19c0-.23.19-.42.42-.42h1.19c.23 0 .42.19.42.42v1.19zm2.4 0a.42.42 0 0 1-.42.42h-1.2a.42.42 0 0 1-.41-.42v-1.19c0-.23.18-.42.41-.42h1.2a.42.42 0 0 1 .42.42v1.19zm2.39 0a.42.42 0 0 1-.42.42h-1.19a.42.42 0 0 1-.42-.42v-1.19c0-.23.19-.42.42-.42h1.19a.42.42 0 0 1 .42.42v1.19zm2.4 0a.42.42 0 0 1-.42.42h-1.2a.42.42-0-0-1-.41-.42v-1.19c0-.23.18-.42.41-.42h1.2a.42.42 0 0 1 .42.42v1.19z" fill="#2496ED" />
     </svg>
 );
 
@@ -62,7 +62,7 @@ const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const JavaIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M18.87 19.48c-1.3-2.13-1.63-4.13-1.63-4.13s.32-2 1.63-4.14c.1-.17.03-.38-.13-.48l-1.57-.96c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l.9.56c.33.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-1.42-.88c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.42.88c.32.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-.9-.55c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.57.96c.16.1.36.06.47-.1 1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.13c-.1-.17-.03-.38.13-.48l1.57-.96c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38.13.48l-1.8 1.1-.68-1.07c-.2-.32-.64-.4-.96-.2l-1.42.88c-.16.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.42.88c.32.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-1.42-.88c-.16-.1-.36-.06-.47.1l-.8.92c-3.1 3.2-2.1 4.4 0 5.4l2.16-1.32c1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.13a.27.27 0 01.14-.48L9.2 2.52c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.42.88c-.32.2-.4.63-.2.95l1.2 1.9c.2.32.63.4.95.2l1.42-.88c.16-.1.36-.06-.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.42.88c-.32.2-.4.63-.2.95l1.2 1.9c.2.32.63.4.95.2l1.42-.88c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.57.96c-.16.1-.36.06-.47-.1-1.3-2.14-1.63-4.14-1.63-4.14s.32-2 1.63-4.13c1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.14c-.1-.17-.03-.38.13-.48l1.57-.96c.16-.1.36-.06.47.1l.6.9a5.2 5.2 0 01-1.5 5.5c-1.3 2.14-1.63 4.14-1.63-4.14s.32 2 1.63 4.14c1.3 2.13 1.63 4.13 1.63-4.13s-.32 2-1.63 4.14a.27.27 0 01.13-.48l1.57-.96c.16-.1.36-.06.47.1l.82 1.25z" fill="#f89820"/><path d="M21.1 9.02c.33 0 .6-.27.6-.6V7.3c0-1.22-1.1-2.2-2.45-2.2H16.5v1.2h2.75c.68 0 1.25.5 1.25 1.1v1.12c0 .33.27.6.6.6z" fill="#5382a1"/></svg>
+    <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M18.87 19.48c-1.3-2.13-1.63-4.13-1.63-4.13s.32-2 1.63-4.14c.1-.17.03-.38-.13-.48l-1.57-.96c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l.9.56c.33.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-1.42-.88c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.42.88c.32.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-.9-.55c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.57.96c.16.1.36.06.47-.1 1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.13c-.1-.17-.03-.38.13-.48l1.57-.96c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38.13.48l-1.8 1.1-.68-1.07c-.2-.32-.64-.4-.96-.2l-1.42.88c-.16.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.42.88c.32.2.4.63.2.95l-1ovo 1.9c-.2.32-.63.4-.95.2l-1.42-.88c-.16-.1-.36-.06-.47.1l-.8.92c-3.1 3.2-2.1 4.4 0 5.4l2.16-1.32c1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.13a.27.27 0 01.14-.48L9.2 2.52c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.42.88c-.32.2-.4.63-.2.95l1.2 1.9c.2.32.63.4.95.2l1.42-.88c.16-.1.36-.06-.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.42.88c-.32.2-.4.63-.2.95l1.2 1.9c.2.32.63.4.95.2l1.42-.88c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.57.96c-.16.1-.36.06-.47-.1-1.3-2.14-1.63-4.14-1.63-4.14s.32-2 1.63-4.13c1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.14c-.1-.17-.03-.38.13-.48l1.57-.96c.16-.1.36-.06.47.1l.6.9a5.2 5.2 0 01-1.5 5.5c-1.3 2.14-1.63 4.14-1.63-4.14s.32 2 1.63 4.14c1.3 2.13 1.63 4.13 1.63-4.13s-.32 2-1.63 4.14a.27.27 0 01.13-.48l1.57-.96c.16-.1.36-.06.47.1l.82 1.25z" fill="#f89820"/><path d="M21.1 9.02c.33 0 .6-.27.6-.6V7.3c0-1.22-1.1-2.2-2.45-2.2H16.5v1.2h2.75c.68 0 1.25.5 1.25 1.1v1.12c0 .33.27.6.6.6z" fill="#5382a1"/></svg>
 );
 
 
@@ -126,91 +126,89 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string, icon: React.Elem
     }
   };
   
-  const handleAnalyzeClick = async () => {
-    setIsDialogOpen(true);
-    if (!analysis) {
-        setIsLoading(true);
-        try {
-            const result = await analyzeSkill({ skill: name });
-            setAnalysis(result);
-        } catch (error) {
-            console.error("Skill analysis failed:", error);
-            setAnalysis({ explanation: "Sorry, I couldn't analyze this skill at the moment.", importance: "Please try again later." });
-        } finally {
-            setIsLoading(false);
-        }
+  const handleAnalyze = async () => {
+    if (analysis) return; // Don't re-fetch if we already have the data
+    
+    setIsLoading(true);
+    try {
+        const result = await analyzeSkill({ skill: name });
+        setAnalysis(result);
+    } catch (error) {
+        console.error("Skill analysis failed:", error);
+        setAnalysis({ explanation: "Sorry, I couldn't analyze this skill at the moment.", importance: "Please try again later." });
+    } finally {
+        setIsLoading(false);
     }
   };
 
-
   return (
-    <>
-    <div
-      ref={cardRef}
-      className="group relative animate-fade-in-up [transform-style:preserve-3d] transition-transform duration-300 ease-out"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={style}
-    >
-      <div className={cn(
-        "relative flex h-full flex-col items-center justify-center gap-4 p-6 text-center rounded-2xl",
-        "bg-card/60 border border-border/20",
-        "transition-all duration-300 ease-out",
-        "group-hover:shadow-2xl group-hover:shadow-primary/20",
-        "before:absolute before:inset-0 before:w-full before:h-full before:rounded-2xl before:opacity-0 before:[background:radial-gradient(80%_60%_at_var(--x)_var(--y),hsl(var(--primary)/0.15),transparent)] group-hover:before:opacity-100",
-        "after:absolute after:inset-0 after:w-full after:h-full after:rounded-2xl after:opacity-0 after:border after:border-primary/50 group-hover:after:opacity-100"
-      )}>
-        <div 
-          className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground" 
-          style={{ transform: 'translateZ(40px)' }}
-        >
-          <Icon className="h-8 w-8" />
-        </div>
-        <span 
-          className="font-semibold text-foreground text-lg mt-2"
-          style={{ transform: 'translateZ(20px)' }}
-        >
-          {name}
-        </span>
-         <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ transform: 'translateZ(50px)' }}>
-            <Button size="sm" variant="outline" className="rounded-full bg-background/80 backdrop-blur-sm" onClick={handleAnalyzeClick}>
-                <Sparkles className="mr-2 h-4 w-4 text-primary" /> Analyze
-            </Button>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <div
+        ref={cardRef}
+        className="group relative animate-fade-in-up [transform-style:preserve-3d] transition-transform duration-300 ease-out"
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={style}
+      >
+        <div className={cn(
+          "relative flex h-full flex-col items-center justify-center gap-4 p-6 text-center rounded-2xl",
+          "bg-card/60 border border-border/20",
+          "transition-all duration-300 ease-out",
+          "group-hover:shadow-2xl group-hover:shadow-primary/20",
+          "before:absolute before:inset-0 before:w-full before:h-full before:rounded-2xl before:opacity-0 before:[background:radial-gradient(80%_60%_at_var(--x)_var(--y),hsl(var(--primary)/0.15),transparent)] group-hover:before:opacity-100",
+          "after:absolute after:inset-0 after:w-full after:h-full after:rounded-2xl after:opacity-0 after:border after:border-primary/50 group-hover:after:opacity-100"
+        )}>
+          <div 
+            className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground" 
+            style={{ transform: 'translateZ(40px)' }}
+          >
+            <Icon className="h-8 w-8" />
+          </div>
+          <span 
+            className="font-semibold text-foreground text-lg mt-2"
+            style={{ transform: 'translateZ(20px)' }}
+          >
+            {name}
+          </span>
+          <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ transform: 'translateZ(50px)' }}>
+              <DialogTrigger asChild>
+                <Button size="sm" variant="outline" className="rounded-full bg-background/80 backdrop-blur-sm" onClick={handleAnalyze}>
+                    <Sparkles className="mr-2 h-4 w-4 text-primary" /> Analyze
+                </Button>
+              </DialogTrigger>
+          </div>
         </div>
       </div>
-    </div>
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-xl">
-            <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-2xl font-headline">
-                <Sparkles className="h-6 w-6 text-primary" />
-                AI Analysis: {name}
-            </DialogTitle>
-            <DialogDescription>
-                An AI-generated breakdown of this skill and its relevance.
-            </DialogDescription>
-            </DialogHeader>
-            <div className="py-4 space-y-6">
-            {isLoading ? (
-                <div className="flex items-center justify-center py-8">
-                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                </div>
-            ) : analysis ? (
-                <>
-                    <div>
-                        <h3 className="font-semibold text-foreground mb-2">What it is</h3>
-                        <p className="text-sm text-foreground/80">{analysis.explanation}</p>
-                    </div>
-                    <div>
-                        <h3 className="font-semibold text-foreground mb-2">Why it's important</h3>
-                        <p className="text-sm text-foreground/80">{analysis.importance}</p>
-                    </div>
-                </>
-            ) : null}
-            </div>
-        </DialogContent>
+      <DialogContent className="max-w-xl">
+          <DialogHeader>
+          <DialogTitle className="flex items-center gap-2 text-2xl font-headline">
+              <Sparkles className="h-6 w-6 text-primary" />
+              AI Analysis: {name}
+          </DialogTitle>
+          <DialogDescription>
+              An AI-generated breakdown of this skill and its relevance.
+          </DialogDescription>
+          </DialogHeader>
+          <div className="py-4 space-y-6">
+          {isLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              </div>
+          ) : analysis ? (
+              <>
+                  <div>
+                      <h3 className="font-semibold text-foreground mb-2">What it is</h3>
+                      <p className="text-sm text-foreground/80">{analysis.explanation}</p>
+                  </div>
+                  <div>
+                      <h3 className="font-semibold text-foreground mb-2">Why it's important</h3>
+                      <p className="text-sm text-foreground/80">{analysis.importance}</p>
+                  </div>
+              </>
+          ) : null}
+          </div>
+      </DialogContent>
     </Dialog>
-    </>
   );
 };
 
