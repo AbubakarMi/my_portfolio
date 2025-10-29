@@ -6,12 +6,10 @@ import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { ExternalLink, Loader2, Play, Square } from 'lucide-react';
+import { ExternalLink, Play, Square } from 'lucide-react';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/hooks/use-toast';
-
 
 const projects = [
    {
@@ -108,62 +106,56 @@ const projects = [
 
 type Project = (typeof projects)[0];
 
-
 const ProjectAudioPlayer = ({ audioUrl }: { audioUrl: string }) => {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  useEffect(() => {
-    // Initialize audio element
-    if (!audioRef.current) {
-        audioRef.current = new Audio(audioUrl);
-    }
-    const audioElement = audioRef.current;
-
-    const onPlay = () => setIsPlaying(true);
-    const onPause = () => setIsPlaying(false);
-    const onEnded = () => setIsPlaying(false);
-
-    audioElement.addEventListener('play', onPlay);
-    audioElement.addEventListener('pause', onPause);
-    audioElement.addEventListener('ended', onEnded);
-
-    return () => {
-      audioElement.pause();
-      audioElement.removeEventListener('play', onPlay);
-      audioElement.removeEventListener('pause', onPause);
-      audioElement.removeEventListener('ended', onEnded);
-    };
-  }, [audioUrl]);
-
-  const handlePlayback = () => {
-    const audioElement = audioRef.current;
-    if (!audioElement) return;
-
+  const togglePlayback = () => {
+    if (!audioRef.current) return;
     if (isPlaying) {
-      audioElement.pause();
-      audioElement.currentTime = 0; // Rewind to start
+      audioRef.current.pause();
     } else {
-      audioElement.play().catch(e => {
+      audioRef.current.play().catch(e => {
         console.error("Audio playback failed:", e);
       });
     }
   };
+  
+  useEffect(() => {
+    const audioElement = audioRef.current;
+    if (!audioElement) return;
+
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+
+    audioElement.addEventListener('play', handlePlay);
+    audioElement.addEventListener('pause', handlePause);
+    audioElement.addEventListener('ended', handlePause);
+
+    return () => {
+      audioElement.removeEventListener('play', handlePlay);
+      audioElement.removeEventListener('pause', handlePause);
+      audioElement.removeEventListener('ended', handlePause);
+    };
+  }, []);
 
   return (
-    <Button
-      size="lg"
-      variant="outline"
-      className="rounded-full px-8"
-      onClick={handlePlayback}
-    >
-      {isPlaying ? (
-        <Square className="mr-2 h-5 w-5" />
-      ) : (
-        <Play className="mr-2 h-5 w-5" />
-      )}
-      {isPlaying ? 'Stop' : 'Listen to Summary'}
-    </Button>
+    <>
+      <audio ref={audioRef} src={audioUrl} preload="metadata" />
+      <Button
+        size="lg"
+        variant="outline"
+        className="rounded-full px-8"
+        onClick={togglePlayback}
+      >
+        {isPlaying ? (
+          <Square className="mr-2 h-5 w-5" />
+        ) : (
+          <Play className="mr-2 h-5 w-5" />
+        )}
+        {isPlaying ? 'Stop' : 'Listen to Summary'}
+      </Button>
+    </>
   );
 };
 
