@@ -7,7 +7,7 @@ import { BrainCircuit, TestTube2, FileJson, Code, Server, GitBranch, Wind, Mail,
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { analyzeSkill, AnalyzeSkillOutput } from '@/ai/flows/analyze-skill-flow';
 
 
@@ -125,8 +125,9 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string, icon: React.Elem
       card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
     }
   };
-  
+
   const handleAnalyze = async () => {
+    setIsDialogOpen(true);
     if (analysis) return; // Don't re-fetch if we already have the data
     
     setIsLoading(true);
@@ -142,7 +143,7 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string, icon: React.Elem
   };
 
   return (
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+    <>
       <div
         ref={cardRef}
         className="group relative animate-fade-in-up [transform-style:preserve-3d] transition-transform duration-300 ease-out"
@@ -171,44 +172,44 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string, icon: React.Elem
             {name}
           </span>
           <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ transform: 'translateZ(50px)' }}>
-              <DialogTrigger asChild>
                 <Button size="sm" variant="outline" className="rounded-full bg-background/80 backdrop-blur-sm" onClick={handleAnalyze}>
                     <Sparkles className="mr-2 h-4 w-4 text-primary" /> Analyze
                 </Button>
-              </DialogTrigger>
           </div>
         </div>
       </div>
-      <DialogContent className="max-w-xl">
-          <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-2xl font-headline">
-              <Sparkles className="h-6 w-6 text-primary" />
-              AI Analysis: {name}
-          </DialogTitle>
-          <DialogDescription>
-              An AI-generated breakdown of this skill and its relevance.
-          </DialogDescription>
-          </DialogHeader>
-          <div className="py-4 space-y-6">
-          {isLoading ? (
-              <div className="flex items-center justify-center py-8">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-              </div>
-          ) : analysis ? (
-              <>
-                  <div>
-                      <h3 className="font-semibold text-foreground mb-2">What it is</h3>
-                      <p className="text-sm text-foreground/80">{analysis.explanation}</p>
-                  </div>
-                  <div>
-                      <h3 className="font-semibold text-foreground mb-2">Why it's important</h3>
-                      <p className="text-sm text-foreground/80">{analysis.importance}</p>
-                  </div>
-              </>
-          ) : null}
-          </div>
-      </DialogContent>
-    </Dialog>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="max-w-xl">
+            <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-2xl font-headline">
+                <Sparkles className="h-6 w-6 text-primary" />
+                AI Analysis: {name}
+            </DialogTitle>
+            <DialogDescription>
+                An AI-generated breakdown of this skill and its relevance.
+            </DialogDescription>
+            </DialogHeader>
+            <div className="py-4 space-y-6">
+            {isLoading ? (
+                <div className="flex items-center justify-center py-8">
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                </div>
+            ) : analysis ? (
+                <>
+                    <div>
+                        <h3 className="font-semibold text-foreground mb-2">What it is</h3>
+                        <p className="text-sm text-foreground/80">{analysis.explanation}</p>
+                    </div>
+                    <div>
+                        <h3 className="font-semibold text-foreground mb-2">Why it's important</h3>
+                        <p className="text-sm text-foreground/80">{analysis.importance}</p>
+                    </div>
+                </>
+            ) : null}
+            </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
@@ -257,3 +258,5 @@ export function Skills() {
     </section>
   );
 }
+
+    
