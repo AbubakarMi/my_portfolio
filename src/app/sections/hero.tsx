@@ -24,33 +24,50 @@ export function Hero() {
         aria-hidden="true"
         className="absolute inset-0 -z-10 bg-[radial-gradient(40%_50%_at_50%_20%,hsl(var(--primary)/0.1),transparent)]"
       />
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="grid items-center gap-12">
-            <div className={cn(
-                "space-y-8 transition-all duration-1000",
-                isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-            )}>
-              <div className="space-y-4 text-center lg:text-left">
-                <p className="font-semibold text-primary text-lg">Hello, I'm Muhammad Idris Abubakar</p>
-                <h1 className="font-headline text-5xl font-bold tracking-tighter text-foreground sm:text-6xl lg:text-7xl">
-                  Software Engineer & Founder
-                </h1>
-                <p className="mx-auto max-w-2xl text-lg text-foreground/80 md:text-xl lg:mx-0">
-                  I build scalable SaaS and custom software solutions that help people and businesses grow. From crafting elegant backend systems to leading my own startup, I am passionate about turning great ideas into high-impact technology.
-                </p>
-              </div>
-              <div className="flex flex-col gap-4 pt-4 sm:flex-row sm:justify-center lg:justify-start">
-                <Button asChild size="lg" className="rounded-full px-8 py-6 text-base">
-                  <Link href="#projects">View My Work <ArrowRight className="ml-2 h-5 w-5" /></Link>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="rounded-full border-2 px-8 py-6 text-base">
-                   <a href="https://drive.google.com/file/d/1P51URCIY7UCDsIQuxrzlb5FvD4mZxNDp/view?usp=sharing" target="_blank" rel="noopener noreferrer">
-                    <Download className="mr-2 h-5 w-5" />
-                    My Resume
-                  </a>
-                </Button>
-              </div>
-            </div>
+      <div className="container mx-auto grid grid-cols-1 items-center gap-12 px-4 md:grid-cols-2 md:px-6">
+        <div className={cn(
+            "space-y-8 transition-all duration-1000",
+            isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+        )}>
+          <div className="space-y-4 text-center lg:text-left">
+            <p className="font-semibold text-primary text-lg">Hello, I'm Muhammad Idris Abubakar</p>
+            <h1 className="font-headline text-5xl font-bold tracking-tighter text-foreground sm:text-6xl lg:text-7xl">
+              Software Engineer & Founder
+            </h1>
+            <p className="mx-auto max-w-2xl text-lg text-foreground/80 md:text-xl lg:mx-0">
+              I build scalable SaaS and custom software solutions that help people and businesses grow. From crafting elegant backend systems to leading my own startup, I am passionate about turning great ideas into high-impact technology.
+            </p>
+          </div>
+          <div className="flex flex-col gap-4 pt-4 sm:flex-row sm:justify-center lg:justify-start">
+            <Button asChild size="lg" className="rounded-full px-8 py-6 text-base">
+              <Link href="#projects">View My Work <ArrowRight className="ml-2 h-5 w-5" /></Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="rounded-full border-2 px-8 py-6 text-base">
+               <a href="https://drive.google.com/file/d/1P51URCIY7UCDsIQuxrzlb5FvD4mZxNDp/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+                <Download className="mr-2 h-5 w-5" />
+                My Resume
+              </a>
+            </Button>
+          </div>
+        </div>
+
+        <div className={cn(
+            "relative hidden lg:flex items-center justify-center transition-all duration-1000",
+            isMounted ? "opacity-100 scale-100" : "opacity-0 scale-90"
+        )}>
+           <div className="absolute h-[320px] w-[320px] rounded-full border-2 border-dashed border-primary/50 animate-spin-slow"></div>
+           <div className="absolute h-[420px] w-[420px] rounded-full border-2 border-dashed border-secondary/30 animate-spin-slow-reverse"></div>
+           {heroImage && (
+             <div className="relative h-[280px] w-[280px]">
+                <Image
+                    src={heroImage.imageUrl}
+                    alt="Muhammad Idris Abubakar"
+                    fill
+                    className="rounded-full object-cover shadow-2xl"
+                    priority
+                />
+             </div>
+           )}
         </div>
       </div>
     </section>
