@@ -4,11 +4,6 @@ import { type Message, type Role } from 'genkit';
 import { z } from 'zod';
 import { googleAI } from '@genkit-ai/google-genai';
 
-// Force correct API version (optional but safe)
-googleAI.configure({
-  baseUrl: "https://generativelanguage.googleapis.com/v1",
-});
-
 const MessageSchema = z.object({
   role: z.enum(['user', 'assistant']),
   content: z.string(),
