@@ -134,60 +134,74 @@ const ProjectItem = ({ project, index }: { project: Project, index: number }) =>
     }, []);
 
     const handleAudioPlayback = async () => {
-        if (audioState.status === 'playing' && audioRef.current) {
-            audioRef.current.pause();
-            audioRef.current.currentTime = 0;
-            return;
-        }
+      const audio = audioRef.current;
+      if (!audio) return;
 
-        if (audioCache.has(project.title)) {
-            setAudioState({ status: 'playing', audioDataUri: audioCache.get(project.title) });
-            return;
-        }
+      // If playing, stop and reset
+      if (audioState.status === 'playing') {
+          audio.pause();
+          audio.currentTime = 0;
+          setAudioState(prev => ({...prev, status: 'idle'}));
+          return;
+      }
 
-        setAudioState({ status: 'loading' });
-        try {
-            const { summaryScript } = await summarizeProject({
-                title: project.title,
-                description: project.description,
-                tech: project.tech,
-            });
-            const { audioDataUri } = await textToSpeech({ text: summaryScript });
-            
-            audioCache.set(project.title, audioDataUri);
-            setAudioState({ status: 'playing', audioDataUri });
-        } catch (error) {
-            console.error("Failed to generate audio summary:", error);
-            setAudioState({ status: 'error' });
-        }
+      // If cached, just play
+      const cachedAudio = audioCache.get(project.title);
+      if (cachedAudio) {
+          audio.src = cachedAudio;
+          audio.play().catch(e => console.error("Audio playback error:", e));
+          setAudioState({ status: 'playing', audioDataUri: cachedAudio });
+          return;
+      }
+
+      // Not cached, so fetch, cache, and play
+      setAudioState({ status: 'loading' });
+      try {
+          const { summaryScript } = await summarizeProject({
+              title: project.title,
+              description: project.description,
+              tech: project.tech,
+          });
+          const { audioDataUri } = await textToSpeech({ text: summaryScript });
+          
+          audioCache.set(project.title, audioDataUri);
+          audio.src = audioDataUri;
+          audio.play().catch(e => console.error("Audio playback error:", e));
+          setAudioState({ status: 'playing', audioDataUri });
+      } catch (error) {
+          console.error("Failed to generate audio summary:", error);
+          setAudioState({ status: 'error' });
+      }
     };
     
-     useEffect(() => {
-        const audio = audioRef.current;
-        if (audioState.status === 'playing' && audioState.audioDataUri && audio) {
-            audio.src = audioState.audioDataUri;
-            audio.play().catch(e => console.error("Audio playback error:", e));
-        }
-    }, [audioState]);
-    
-    const onEnded = () => {
-        setAudioState({ status: 'idle', audioDataUri: audioState.audioDataUri });
-    };
+    useEffect(() => {
+      const audio = audioRef.current;
 
-    const onPlayPause = () => {
-        if (audioRef.current?.paused) {
-            setAudioState(prev => ({...prev, status: 'idle' }))
-        } else {
-            setAudioState(prev => ({...prev, status: 'playing' }))
+      const onEnded = () => setAudioState(prev => ({ ...prev, status: 'idle' }));
+      const onPlay = () => setAudioState(prev => ({ ...prev, status: 'playing' }));
+      const onPause = () => setAudioState(prev => ({ ...prev, status: 'idle' }));
+
+      if (audio) {
+        audio.addEventListener('ended', onEnded);
+        audio.addEventListener('play', onPlay);
+        audio.addEventListener('pause', onPause);
+      }
+
+      return () => {
+        if (audio) {
+          audio.removeEventListener('ended', onEnded);
+          audio.removeEventListener('play', onPlay);
+          audio.removeEventListener('pause', onPause);
         }
-    }
+      };
+    }, []);
 
 
     const isReversed = index % 2 !== 0;
 
     return (
         <div ref={ref} className={cn("grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16 transition-all duration-1000", isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
-            <audio ref={audioRef} onEnded={onEnded} onPlay={onPlayPause} onPause={onPlayPause} className="hidden" />
+            <audio ref={audioRef} className="hidden" />
             <div className={cn("group relative", isReversed && "lg:order-last")}>
                 <Card className="overflow-hidden rounded-2xl shadow-lg transition-shadow duration-300 group-hover:shadow-2xl">
                     {project.image && (
@@ -259,4 +273,3 @@ export function Projects() {
     </section>
   );
 }
-
