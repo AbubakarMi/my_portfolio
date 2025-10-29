@@ -106,6 +106,10 @@ export default {
         'spin-slow-reverse': {
             from: { transform: 'rotate(360deg)' },
             to: { transform: 'rotate(0deg)' },
+        },
+         'pulse-slow': {
+            '0%, 100%': { opacity: '0.5', transform: 'scale(0.9)' },
+            '50%': { opacity: '1', transform: 'scale(1.05)' },
         }
       },
       animation: {
@@ -114,6 +118,7 @@ export default {
         'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
         'spin-slow': 'spin-slow 20s linear infinite',
         'spin-slow-reverse': 'spin-slow-reverse 20s linear infinite',
+        'pulse-slow': 'pulse-slow 8s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       typography: ({ theme }: { theme: (path: string) => string }) => ({
         DEFAULT: {
