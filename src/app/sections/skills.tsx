@@ -104,18 +104,18 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string, icon: React.Elem
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    const rotateX = (y / rect.height - 0.5) * -20; // Max rotation 10 degrees
-    const rotateY = (x / rect.width - 0.5) * 20;  // Max rotation 10 degrees
+    const rotateX = (y / rect.height - 0.5) * -25;
+    const rotateY = (x / rect.width - 0.5) * 25;
 
     card.style.setProperty('--x', `${x}px`);
     card.style.setProperty('--y', `${y}px`);
-    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
   };
 
   const handleMouseLeave = () => {
     const card = cardRef.current;
     if (card) {
-      card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+      card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
     }
   };
 
@@ -129,7 +129,7 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string, icon: React.Elem
     >
       <div className={cn(
         "relative flex h-full flex-col items-center justify-center gap-4 p-6 text-center rounded-2xl",
-        "bg-card/60 border border-border/20 shadow-lg",
+        "bg-card/60 border border-border/20",
         "transition-all duration-300 ease-out",
         "group-hover:shadow-2xl group-hover:shadow-primary/20",
         "before:absolute before:inset-0 before:w-full before:h-full before:rounded-2xl before:opacity-0 before:[background:radial-gradient(80%_60%_at_var(--x)_var(--y),hsl(var(--primary)/0.15),transparent)] group-hover:before:opacity-100",
@@ -137,13 +137,13 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string, icon: React.Elem
       )}>
         <div 
           className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground" 
-          style={{ transform: 'translateZ(20px)' }}
+          style={{ transform: 'translateZ(40px)' }}
         >
           <Icon className="h-8 w-8" />
         </div>
         <span 
           className="font-semibold text-foreground text-lg mt-2"
-          style={{ transform: 'translateZ(10px)' }}
+          style={{ transform: 'translateZ(20px)' }}
         >
           {name}
         </span>
@@ -197,5 +197,7 @@ export function Skills() {
     </section>
   );
 }
+
+    
 
     
