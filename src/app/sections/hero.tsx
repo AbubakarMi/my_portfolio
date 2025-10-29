@@ -25,21 +25,21 @@ export function Hero() {
         className="absolute inset-0 -z-10 bg-[radial-gradient(40%_50%_at_50%_20%,hsl(var(--primary)/0.1),transparent)]"
       />
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid items-center gap-12 lg:grid-cols-2">
+        <div className="grid items-center gap-12">
             <div className={cn(
                 "space-y-8 transition-all duration-1000",
                 isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
             )}>
-              <div className="space-y-4">
+              <div className="space-y-4 text-center lg:text-left">
                 <p className="font-semibold text-primary text-lg">Hello, I'm Muhammad Idris Abubakar</p>
                 <h1 className="font-headline text-5xl font-bold tracking-tighter text-foreground sm:text-6xl lg:text-7xl">
                   Software Engineer & Founder
                 </h1>
-                <p className="max-w-2xl text-lg text-foreground/80 md:text-xl">
+                <p className="mx-auto max-w-2xl text-lg text-foreground/80 md:text-xl lg:mx-0">
                   I build scalable SaaS and custom software solutions that help people and businesses grow. From crafting elegant backend systems to leading my own startup, I am passionate about turning great ideas into high-impact technology.
                 </p>
               </div>
-              <div className="flex flex-col gap-4 pt-4 sm:flex-row">
+              <div className="flex flex-col gap-4 pt-4 sm:flex-row sm:justify-center lg:justify-start">
                 <Button asChild size="lg" className="rounded-full px-8 py-6 text-base">
                   <Link href="#projects">View My Work <ArrowRight className="ml-2 h-5 w-5" /></Link>
                 </Button>
@@ -50,22 +50,6 @@ export function Hero() {
                   </a>
                 </Button>
               </div>
-            </div>
-             <div className={cn(
-                "relative mx-auto transition-all duration-1000 delay-200 lg:mx-0",
-                isMounted ? "opacity-100 scale-100" : "opacity-0 scale-90"
-            )}>
-                {heroImage && (
-                  <Image
-                      src={heroImage.imageUrl}
-                      alt={heroImage.description}
-                      width={600}
-                      height={400}
-                      className="w-full"
-                      data-ai-hint={heroImage.imageHint}
-                      priority
-                  />
-                )}
             </div>
         </div>
       </div>
