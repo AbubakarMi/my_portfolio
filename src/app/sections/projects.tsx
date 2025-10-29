@@ -62,7 +62,7 @@ const projects = [
     link: "#",
     role: "Creator & Lead Developer"
   },
-  {
+   {
     title: "Online Admission System",
     description: "A comprehensive online admission portal for educational institutions. Simplifies the application process for students and streamlines application review for administrators.",
     tech: [".NET", "React", "SQL Server"],
@@ -218,7 +218,3 @@ export function Projects() {
     </section>
   );
 }
-
-    
-
-    
