@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Github, Linkedin, Mail, Phone, Twitter, Send } from 'lucide-react';
 import Link from 'next/link';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { sendContactFormEmail } from '@/ai/flows/send-email-flow';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
