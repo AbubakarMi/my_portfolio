@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Building, Rocket, GraduationCap, Code } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
+import { Card } from '@/components/ui/card';
 
 const experiences = [
   {
@@ -83,19 +84,23 @@ const ExperienceItem = ({ exp, index }: { exp: typeof experiences[0], index: num
     }, []);
 
     return (
-        <div
-            ref={itemRef}
-            className={cn(
-                "relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group",
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10",
-                "transition-all duration-700 ease-out"
-            )}
-        >
-            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center md:order-1 md:group-odd:-ml-5 md:group-even:-mr-5 z-10">
-                <exp.icon className="h-5 w-5"/>
+        <div ref={itemRef} className="relative w-full">
+            <div className="md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
+                <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <exp.icon className="h-6 w-6" />
+                </div>
             </div>
-            <div className={cn("w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] rounded-2xl p-6", isLeft ? "order-1 text-right" : "order-0")}>
-                <div className="space-y-3">
+
+            <Card className={cn(
+                "w-full md:w-[calc(50%-2.5rem)] group transition-all duration-1000 ease-out",
+                isLeft ? "md:mr-auto" : "md:ml-auto",
+                isVisible ? 'opacity-100' : 'opacity-0',
+                isVisible && isLeft && 'md:translate-x-0',
+                !isVisible && isLeft && 'md:-translate-x-12',
+                isVisible && !isLeft && 'md:translate-x-0',
+                !isVisible && !isLeft && 'md:translate-x-12',
+            )}>
+                 <div className="space-y-3 p-6">
                     <p className="font-semibold text-primary text-lg">{exp.role}</p>
                     <h3 className="font-headline text-2xl font-bold text-foreground">
                         <Link href={exp.link} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
@@ -103,16 +108,13 @@ const ExperienceItem = ({ exp, index }: { exp: typeof experiences[0], index: num
                         </Link>
                     </h3>
                     <p className="font-medium text-foreground/60 text-sm">{exp.duration}</p>
-                    <ul className={cn(
-                        "space-y-2 text-foreground/80 list-disc pl-5",
-                        isLeft ? "text-right list-inside" : "text-left"
-                    )}>
+                    <ul className="space-y-2 text-foreground/80 list-disc pl-5 text-left">
                         {exp.description.map((item, idx) => (
                             <li key={idx}>{item}</li>
                         ))}
                     </ul>
                 </div>
-            </div>
+            </Card>
         </div>
     );
 };
@@ -132,7 +134,7 @@ export function Experience() {
         </div>
 
         <div className="relative mt-24 space-y-16">
-          <div className="absolute left-1/2 top-0 hidden h-full w-0.5 -translate-x-1/2 bg-border md:block" aria-hidden="true" />
+          <div className="absolute left-0 top-0 h-full w-0.5 -translate-x-1/2 bg-border md:left-1/2" aria-hidden="true" />
           {experiences.map((exp, index) => (
             <ExperienceItem key={exp.company} exp={exp} index={index} />
           ))}
