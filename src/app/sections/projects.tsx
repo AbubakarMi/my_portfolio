@@ -150,17 +150,13 @@ const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: Proje
 
         setState('loading');
         try {
-            let summaryText = projectCache.text;
-            if (!summaryText) {
-                const summaryResult = await summarizeProject({ title: project.title, description: project.description, tech: project.tech });
-                summaryText = summaryResult.summaryScript;
-                cache.set(project.title, { text: summaryText });
-            }
+            const summaryResult = await summarizeProject({ title: project.title, description: project.description, tech: project.tech });
+            const summaryText = summaryResult.summaryScript;
             
             const ttsResult = await textToSpeech({ text: summaryText });
             const audioDataUri = ttsResult.audioDataUri;
             
-            cache.set(project.title, { ...projectCache, audio: audioDataUri });
+            cache.set(project.title, { text: summaryText, audio: audioDataUri });
             audio.src = audioDataUri;
             audio.play().catch(() => setState('error'));
         } catch (error) {
@@ -252,20 +248,28 @@ export function Projects() {
     const projectCache = useRef(new Map<string, Cache>()).current;
 
     useEffect(() => {
-        // Silently pre-fetch text summaries for all projects in the background.
+        // Silently pre-fetch text summaries and audio for all projects in the background.
         projects.forEach(project => {
-            if (!projectCache.has(project.title) || !projectCache.get(project.title)?.text) {
+            const cachedItem = projectCache.get(project.title);
+            if (!cachedItem || !cachedItem.audio) {
                 summarizeProject({ title: project.title, description: project.description, tech: project.tech })
                 .then(summaryResult => {
-                    projectCache.set(project.title, { text: summaryResult.summaryScript });
+                    const summaryText = summaryResult.summaryScript;
+                    projectCache.set(project.title, { text: summaryText }); // Cache text first
+                    return textToSpeech({ text: summaryText });
+                })
+                .then(ttsResult => {
+                    const existingCache = projectCache.get(project.title);
+                    projectCache.set(project.title, { ...existingCache, audio: ttsResult.audioDataUri });
                 })
                 .catch(error => {
-                    // Fail silently. The user can still generate it on-demand by clicking.
-                    console.error(`Silent pre-fetch failed for ${project.title}:`, error);
+                    // Fail silently. User can still generate on-demand by clicking.
+                    console.error(`Silent audio pre-fetch failed for ${project.title}:`, error);
                 });
             }
         });
-    }, [projectCache]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <section id="projects" className="bg-primary/5 py-24 sm:py-32">
