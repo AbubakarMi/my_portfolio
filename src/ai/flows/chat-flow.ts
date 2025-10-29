@@ -100,7 +100,7 @@ Here is the exclusive information about Muhammad Idris Abubakar:
 
 **Contact:**
 - **Email:** abubakarmi131@gmail.com
-- **Phone:** +234 704 252 6971
+- **Phone:** +234 704 252 6971, +234 706 916 3505
 - **GitHub:** github.com/AbubakarMi
 - **LinkedIn:** linkedin.com/in/muhammad-idris-abubakar
 

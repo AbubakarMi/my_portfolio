@@ -102,6 +102,10 @@ export function Contact() {
                             <Phone className="h-6 w-6" />
                             <span>+234 704 252 6971</span>
                         </a>
+                         <a href="tel:+2347069163505" className="flex items-center gap-4 text-lg transition-colors hover:text-primary">
+                            <Phone className="h-6 w-6" />
+                            <span>+234 706 916 3505</span>
+                        </a>
                         <a href="mailto:abubakarmi131@gmail.com" className="flex items-center gap-4 text-lg transition-colors hover:text-primary">
                             <Mail className="h-6 w-6" />
                             <span>abubakarmi131@gmail.com</span>
