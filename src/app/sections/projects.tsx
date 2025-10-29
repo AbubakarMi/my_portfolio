@@ -10,9 +10,8 @@ import { ExternalLink, Loader2, Play, Square } from 'lucide-react';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { summarizeProject } from '@/ai/flows/summarize-project-flow';
-import { textToSpeech } from '@/ai/flows/tts-flow';
 import { useToast } from '@/hooks/use-toast';
+
 
 const projects = [
    {
@@ -21,7 +20,8 @@ const projects = [
     tech: ["Node.js", "PostgreSQL", "AI/NLP", "SendGrid"],
     image: PlaceHolderImages.find(p => p.id === "project-nubenta"),
     link: "#",
-    role: "Founder & Lead Developer"
+    role: "Founder & Lead Developer",
+    audioUrl: "/audio/nubenta-care.mp3"
   },
   {
     title: "Nyra Connect",
@@ -29,7 +29,8 @@ const projects = [
     tech: [".NET 8", "React", "PostgreSQL", "Clean Architecture"],
     image: PlaceHolderImages.find(p => p.id === "project-nyra"),
     link: "#",
-    role: "Founder & Lead Developer"
+    role: "Founder & Lead Developer",
+    audioUrl: "/audio/nyra-connect.mp3"
   },
   {
     title: "InvoTrek",
@@ -37,7 +38,8 @@ const projects = [
     tech: ["Node.js", "PostgreSQL", "Google AI", "SaaS"],
     image: PlaceHolderImages.find(p => p.id === "project-invotrek"),
     link: "https://invotrek.netlify.app",
-    role: "Creator & Lead Developer"
+    role: "Creator & Lead Developer",
+    audioUrl: "/audio/invotrek.mp3"
   },
   {
     title: "BuildTrack Pro",
@@ -45,7 +47,8 @@ const projects = [
     tech: ["React", "Node.js", "PostgreSQL"],
     image: PlaceHolderImages.find(p => p.id === "project-buildtrack"),
     link: "#",
-    role: "Lead Developer"
+    role: "Lead Developer",
+    audioUrl: "/audio/buildtrack-pro.mp3"
   },
   {
     title: "SmartEd ERP",
@@ -53,7 +56,8 @@ const projects = [
     tech: ["ASP.NET Core 8", "PostgreSQL", "MVC"],
     image: PlaceHolderImages.find(p => p.id === "project-smarterp"),
     link: "#",
-    role: "Lead Developer"
+    role: "Lead Developer",
+    audioUrl: "/audio/smarted-erp.mp3"
   },
    {
     title: "BulkPay",
@@ -61,7 +65,8 @@ const projects = [
     tech: [".NET", "MVC", "PostgreSQL"],
     image: PlaceHolderImages.find(p => p.id === "project-bulkpay"),
     link: "#",
-    role: "Backend Developer"
+    role: "Backend Developer",
+    audioUrl: "/audio/bulkpay.mp3"
   },
   {
     title: "Adustech Bus Tracker",
@@ -69,7 +74,8 @@ const projects = [
     tech: ["Node.js", "Firebase"],
     image: PlaceHolderImages.find(p => p.id === "project-admission"),
     link: "https://bus-tracker-i4dn.vercel.app/",
-    role: "Full-Stack Developer"
+    role: "Full-Stack Developer",
+    audioUrl: "/audio/adustech-bus-tracker.mp3"
   },
   {
     title: "Rewardify",
@@ -77,7 +83,8 @@ const projects = [
     tech: ["Node.js", "PostgreSQL", "React", "Gamification"],
     image: PlaceHolderImages.find(p => p.id === "project-rewardify"),
     link: "#",
-    role: "Full-Stack Developer"
+    role: "Full-Stack Developer",
+    audioUrl: "/audio/rewardify.mp3"
   },
   {
     title: "Rental Management System",
@@ -85,7 +92,8 @@ const projects = [
     tech: ["Node.js", "React", "PostgreSQL"],
     image: PlaceHolderImages.find(p => p.id === "project-rental"),
     link: "#",
-    role: "Software Engineer"
+    role: "Software Engineer",
+    audioUrl: "/audio/rental-management-system.mp3"
   },
   {
     title: "Online Management System",
@@ -93,27 +101,23 @@ const projects = [
     tech: ["Node.js", "React", "PostgreSQL"],
     image: PlaceHolderImages.find(p => p.id === "blog-scaling-systems"),
     link: "#",
-    role: "Web Developer"
+    role: "Web Developer",
+    audioUrl: "/audio/online-management-system.mp3"
   }
 ];
 
 type Project = (typeof projects)[0];
-type AudioCache = {
-  [key: string]: { audioDataUri?: string; text?: string; };
-};
 
 
-const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: AudioCache }) => {
-  const { toast } = useToast();
+const ProjectAudioPlayer = ({ audioUrl }: { audioUrl: string }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isGenerating, setIsGenerating] = useState(false);
-  
-  const audioDataUri = cache[project.title]?.audioDataUri;
-  
+
   useEffect(() => {
-    // Create and configure the audio element
-    audioRef.current = new Audio();
+    // Initialize audio element
+    if (!audioRef.current) {
+        audioRef.current = new Audio(audioUrl);
+    }
     const audioElement = audioRef.current;
 
     const onPlay = () => setIsPlaying(true);
@@ -123,70 +127,26 @@ const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: Audio
     audioElement.addEventListener('play', onPlay);
     audioElement.addEventListener('pause', onPause);
     audioElement.addEventListener('ended', onEnded);
-    
+
     return () => {
       audioElement.pause();
       audioElement.removeEventListener('play', onPlay);
       audioElement.removeEventListener('pause', onPause);
       audioElement.removeEventListener('ended', onEnded);
     };
-  }, []);
-  
-   useEffect(() => {
-    // When audio data becomes available from the pre-fetch, load it.
-    if (audioDataUri && audioRef.current && audioRef.current.src !== audioDataUri) {
-      audioRef.current.src = audioDataUri;
-    }
-  }, [audioDataUri]);
+  }, [audioUrl]);
 
-
-  const handlePlayback = async () => {
+  const handlePlayback = () => {
     const audioElement = audioRef.current;
     if (!audioElement) return;
 
     if (isPlaying) {
       audioElement.pause();
-      return;
-    }
-    
-    // If audio is loaded, play it.
-    if (audioElement.src) {
-        audioElement.play().catch(e => {
-            console.error("Audio playback failed:", e);
-            toast({
-                variant: 'destructive',
-                title: 'Playback Error',
-                description: 'Could not play the audio file.'
-            });
-        });
-        return;
-    }
-
-    // If audio is not loaded (e.g., pre-fetch failed or hasn't completed), generate it on-demand.
-    setIsGenerating(true);
-    try {
-        let summaryText = cache[project.title]?.text;
-        if (!summaryText) {
-             const summaryResult = await summarizeProject({ title: project.title, description: project.description, tech: project.tech });
-             summaryText = summaryResult.summaryScript;
-             cache[project.title] = { ...cache[project.title], text: summaryText };
-        }
-       
-        const ttsResult = await textToSpeech({ text: summaryText });
-        const newAudioDataUri = ttsResult.audioDataUri;
-        cache[project.title] = { ...cache[project.title], audioDataUri: newAudioDataUri };
-
-        audioElement.src = newAudioDataUri;
-        audioElement.play();
-    } catch (error: any) {
-        console.error("On-demand audio generation failed:", error);
-        toast({
-            variant: "destructive",
-            title: "Audio Generation Failed",
-            description: error.message || "Could not generate audio at this time.",
-        });
-    } finally {
-        setIsGenerating(false);
+      audioElement.currentTime = 0; // Rewind to start
+    } else {
+      audioElement.play().catch(e => {
+        console.error("Audio playback failed:", e);
+      });
     }
   };
 
@@ -196,22 +156,19 @@ const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: Audio
       variant="outline"
       className="rounded-full px-8"
       onClick={handlePlayback}
-      disabled={isGenerating}
     >
-      {isGenerating ? (
-        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-      ) : isPlaying ? (
+      {isPlaying ? (
         <Square className="mr-2 h-5 w-5" />
       ) : (
         <Play className="mr-2 h-5 w-5" />
       )}
-      {isGenerating ? 'Generating...' : isPlaying ? 'Stop' : 'Listen to Summary'}
+      {isPlaying ? 'Stop' : 'Listen to Summary'}
     </Button>
   );
 };
 
 
-const ProjectItem = ({ project, index, cache }: { project: Project, index: number, cache: AudioCache }) => {
+const ProjectItem = ({ project, index }: { project: Project, index: number }) => {
     const [isVisible, setIsVisible] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
     const isReversed = index % 2 !== 0;
@@ -265,7 +222,7 @@ const ProjectItem = ({ project, index, cache }: { project: Project, index: numbe
                             View Project <ExternalLink className="ml-2 h-4 w-4" />
                         </Link>
                     </Button>
-                    <ProjectAudioPlayer project={project} cache={cache} />
+                    <ProjectAudioPlayer audioUrl={project.audioUrl} />
                 </div>
             </div>
         </div>
@@ -273,46 +230,6 @@ const ProjectItem = ({ project, index, cache }: { project: Project, index: numbe
 }
 
 export function Projects() {
-    const [cache, setCache] = useState<AudioCache>({});
-    const isGeneratingSummaries = useRef(false);
-
-    useEffect(() => {
-        // Prevent this effect from running multiple times
-        if (isGeneratingSummaries.current) return;
-        isGeneratingSummaries.current = true;
-        
-        const generateAllSummaries = async () => {
-            console.log("Starting silent pre-generation of all project audio...");
-            for (const project of projects) {
-                try {
-                    // Check if audio already exists from a previous run this session
-                    if (cache[project.title]?.audioDataUri) continue;
-                    
-                    const summaryResult = await summarizeProject({ title: project.title, description: project.description, tech: project.tech });
-                    const text = summaryResult.summaryScript;
-                    
-                    const ttsResult = await textToSpeech({ text });
-                    const audioDataUri = ttsResult.audioDataUri;
-                    
-                    setCache(prevCache => ({
-                        ...prevCache,
-                        [project.title]: { text, audioDataUri }
-                    }));
-
-                    console.log(`Successfully pre-generated audio for: ${project.title}`);
-
-                } catch (error) {
-                    // Fail silently in the console. The on-demand generation will act as a fallback.
-                    console.error(`Silent pre-generation failed for "${project.title}":`, error);
-                }
-            }
-            console.log("All silent pre-generation attempts are complete.");
-        };
-
-        generateAllSummaries();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     return (
         <section id="projects" className="bg-primary/5 py-24 sm:py-32">
             <div className="container mx-auto px-4 md:px-6">
@@ -327,12 +244,10 @@ export function Projects() {
                 
                 <div className="mt-24 space-y-24">
                     {projects.map((project, index) => (
-                        <ProjectItem key={project.title} project={project} index={index} cache={cache} />
+                        <ProjectItem key={project.title} project={project} index={index} />
                     ))}
                 </div>
             </div>
         </section>
     );
 }
-
-    

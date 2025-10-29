@@ -66,9 +66,10 @@ const summarizeProjectFlow = ai.defineFlow(
     inputSchema: SummarizeProjectInputSchema,
     outputSchema: SummarizeProjectOutputSchema,
   },
-  async (input) => {
+  async (input, streamingCallback) => {
     const maxRetries = 2;
     let attempt = 0;
+
     while (attempt < maxRetries) {
       try {
         const {output} = await prompt(input);
@@ -80,7 +81,7 @@ const summarizeProjectFlow = ai.defineFlow(
           console.error(`Failed to summarize project "${input.title}" after ${maxRetries} attempts.`, error);
           // Re-throw a user-friendly error on the final attempt.
           throw new Error(
-            `I'm currently experiencing high demand and couldn't generate the summary. Please try again in a moment.`
+            `I'm currently experiencing high demand. Please try again in a moment.`
           );
         }
         // Wait for a short period before retrying
