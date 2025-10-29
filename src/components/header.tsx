@@ -49,7 +49,7 @@ export function Header() {
     )}>
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         <Link href="/" className="text-lg font-bold text-foreground transition-colors hover:text-primary md:text-xl">
-          Idris.
+        Muhammad Idris Abubakar.
         </Link>
         
         <nav className="hidden items-center space-x-8 md:flex">

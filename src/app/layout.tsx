@@ -3,6 +3,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import './globals.css';
 import { AnalyticsProvider } from '@/components/analytics-provider';
+import { GeistSans, GeistMono } from 'geist/font'; // ✅ Add this line
 
 export const metadata: Metadata = {
   title: {
