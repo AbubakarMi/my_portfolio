@@ -22,6 +22,7 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-nubenta"),
     link: "#",
     role: "Founder & Lead Developer",
+    summaryScript: "Nubenta Care is an AI-powered health management system that digitizes and connects all hospital departments. By integrating administration, doctors, and labs, it streamlines operations and improves patient care through smart, automated workflows."
   },
   {
     title: "Nyra Connect",
@@ -30,6 +31,7 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-nyra"),
     link: "#",
     role: "Founder & Lead Developer",
+    summaryScript: "Nyra Connect is an AI-driven productivity application built on a scalable, modular architecture using .NET and React. It enhances focus and organization through intelligent journals, AI-powered insights, and integrated notification systems."
   },
   {
     title: "InvoTrek",
@@ -38,6 +40,7 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-invotrek"),
     link: "https://invotrek.netlify.app",
     role: "Creator & Lead Developer",
+    summaryScript: "InvoTrek is a multi-tenant SaaS platform designed for intelligent document automation. Using Node.js and Google AI, it offers features like AI-assisted field detection and inventory management to streamline business workflows."
   },
   {
     title: "BuildTrack Pro",
@@ -46,6 +49,7 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-buildtrack"),
     link: "#",
     role: "Lead Developer",
+    summaryScript: "BuildTrack Pro is a web platform for construction management. Built with React and Node.js, it empowers contractors to track expenses, monitor material usage, and manage worker payments through an intuitive, real-time dashboard."
   },
   {
     title: "SmartEd ERP",
@@ -54,6 +58,7 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-smarterp"),
     link: "#",
     role: "Lead Developer",
+    summaryScript: "SmartEd ERP is a comprehensive school management system built with ASP.NET Core. It simplifies administrative tasks by managing attendance, grades, and payments, all secured with a robust, role-based access control system."
   },
    {
     title: "BulkPay",
@@ -62,6 +67,7 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-bulkpay"),
     link: "#",
     role: "Backend Developer",
+    summaryScript: "BulkPay is an automated salary payment system developed with .NET. It streamlines payroll for companies, enabling efficient management and disbursement of employee salaries through a secure and reliable platform."
   },
   {
     title: "Adustech Bus Tracker",
@@ -70,6 +76,7 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-admission"),
     link: "https://bus-tracker-i4dn.vercel.app/",
     role: "Full-Stack Developer",
+    summaryScript: "The Adustech Bus Tracker is a real-time booking and tracking platform for university transportation. Using Node.js and Firebase, it provides students and administrators with a seamless way to manage campus transit."
   },
   {
     title: "Rewardify",
@@ -78,6 +85,7 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-rewardify"),
     link: "#",
     role: "Full-Stack Developer",
+    summaryScript: "Rewardify is a gamification platform that boosts user engagement. By integrating a points-based reward system using React and Node.js, it helps businesses incentivize and retain their users effectively."
   },
   {
     title: "Rental Management System",
@@ -86,6 +94,7 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-rental"),
     link: "#",
     role: "Software Engineer",
+    summaryScript: "This Rental Management System allows property owners to efficiently manage their rental properties. Built with React and Node.js, it features payment tracking, maintenance request handling, and tenant management."
   },
   {
     title: "Online Management System",
@@ -94,6 +103,7 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "blog-scaling-systems"),
     link: "#",
     role: "Web Developer",
+    summaryScript: "This Online Management System is a versatile tool for small businesses. It helps track inventory, monitor sales, and manage customer data through a clean and simple interface built with React and Node.js."
   }
 ];
 
@@ -123,12 +133,10 @@ const ProjectAudioPlayer = ({ project }: { project: Project }) => {
 
     setAudioState('loading');
     try {
-      const summaryResult = await summarizeProject({
-        title: project.title,
-        description: project.description,
-        tech: project.tech
-      });
-      const ttsResult = await textToSpeech({ text: summaryResult.summaryScript });
+      if (!project.summaryScript) {
+        throw new Error("No summary script available for this project.");
+      }
+      const ttsResult = await textToSpeech({ text: project.summaryScript });
       setAudioDataUri(ttsResult.audioDataUri);
     } catch (error) {
       console.error("Failed to generate audio summary:", error);
@@ -270,5 +278,7 @@ export function Projects() {
         </section>
     );
 }
+
+    
 
     
