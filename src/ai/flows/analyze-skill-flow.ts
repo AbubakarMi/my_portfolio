@@ -54,8 +54,30 @@ const analyzeSkillFlow = ai.defineFlow(
     inputSchema: AnalyzeSkillInputSchema,
     outputSchema: AnalyzeSkillOutputSchema,
   },
-  async input => {
-    const {output} = await prompt(input);
-    return output!;
+  async (input, streamingCallback) => {
+    const maxRetries = 2;
+    let attempt = 0;
+
+    while (attempt < maxRetries) {
+      try {
+        const {output} = await prompt(input);
+        if (!output) throw new Error('No output from AI');
+        return output;
+      } catch (error: any) {
+        attempt++;
+        if (attempt >= maxRetries) {
+          console.error(`Failed to analyze skill "${input.skill}" after ${maxRetries} attempts.`, error);
+          // Re-throw the error on the final attempt to let the caller handle it.
+          throw new Error(
+            `I'm currently experiencing high demand. Please try again in a moment.`
+          );
+        }
+        // Wait for a short period before retrying
+        await new Promise(resolve => setTimeout(resolve, 500 * attempt));
+      }
+    }
+     throw new Error(
+      `I'm currently experiencing high demand. Please try again in a moment.`
+    );
   }
 );

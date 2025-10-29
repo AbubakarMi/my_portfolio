@@ -149,6 +149,7 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [analysis, setAnalysis] = useState<AnalyzeSkillOutput | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handleAnalyze = async () => {
     setIsDialogOpen(true);
@@ -158,16 +159,14 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
     }
 
     setIsLoading(true);
+    setError(null);
     try {
       const result = await analyzeSkill({ skill: name });
       setAnalysis(result);
       analysisCache.set(name, result);
-    } catch (error) {
-      console.error("Skill analysis failed:", error);
-      setAnalysis({
-        explanation: "Sorry, I couldn't analyze this skill at the moment.",
-        importance: "Please try again later.",
-      });
+    } catch (e: any) {
+      console.error("Skill analysis failed:", e);
+      setError(e.message || "Sorry, I couldn't analyze this skill at the moment.");
     } finally {
       setIsLoading(false);
     }
@@ -212,6 +211,11 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
             <div className="flex items-center justify-center py-8">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
+          ) : error ? (
+             <div>
+                <h3 className="font-semibold text-destructive mb-2">Analysis Failed</h3>
+                <p className="text-destructive/80">{error}</p>
+              </div>
           ) : analysis ? (
             <>
               <div>
@@ -232,17 +236,21 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
 
 
 export function Skills() {
-  useEffect(() => {
+ useEffect(() => {
+    // Pre-fetch analysis for all skills to make the "Analyze" feature feel instant.
     const allSkills = Object.values(skills).flat();
     allSkills.forEach(skill => {
       if (!analysisCache.has(skill.name)) {
-          analyzeSkill({ skill: skill.name })
-            .then(result => {
+        analyzeSkill({ skill: skill.name })
+          .then(result => {
+            if (result) {
               analysisCache.set(skill.name, result);
-            })
-            .catch(error => {
-              console.error(`Pre-fetching analysis for ${skill.name} failed:`, error);
-            });
+            }
+          })
+          .catch(error => {
+            // Don't log anything to the console, as it's just a pre-fetch attempt
+            // and the user can retry by clicking the button.
+          });
       }
     });
   }, []);
