@@ -3,7 +3,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { ExternalLink } from 'lucide-react';
@@ -94,79 +94,72 @@ const projects = [
   }
 ];
 
-const ProjectCard = ({ project, isVisible }: { project: typeof projects[0], isVisible: boolean }) => (
-  <Link href={project.link} target="_blank" rel="noopener noreferrer" className="group block">
-    <Card
-      className={cn(
-        "overflow-hidden rounded-2xl h-full flex flex-col transition-all duration-500 ease-out",
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-      )}
-    >
-      <div className="relative overflow-hidden">
-        {project.image && (
-          <Image
-            src={project.image.imageUrl}
-            alt={project.title}
-            width={800}
-            height={600}
-            className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            data-ai-hint={project.image.imageHint}
-          />
-        )}
-        <div className="absolute inset-0 flex items-center justify-center bg-black/70 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-          <div className="flex items-center gap-2 text-white">
-            <ExternalLink className="h-5 w-5" />
-            <span className="font-semibold">View Project</span>
-          </div>
-        </div>
-      </div>
-      <CardContent className="flex flex-1 flex-col p-6">
-        <h3 className="font-headline text-xl font-bold text-foreground">{project.title}</h3>
-        <p className="mt-2 flex-1 text-base text-foreground/80">{project.description}</p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {project.tech.map((t) => (
-            <Badge key={t} variant="secondary" className="px-2 py-1 text-xs">{t}</Badge>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
-  </Link>
-);
+const ProjectItem = ({ project, index }: { project: typeof projects[0], index: number }) => {
+    const [isVisible, setIsVisible] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
 
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                    observer.unobserve(entry.target);
+                }
+            },
+            { threshold: 0.2, triggerOnce: true }
+        );
+
+        if (ref.current) {
+            observer.observe(ref.current);
+        }
+
+        return () => {
+            if (ref.current) {
+                observer.unobserve(ref.current);
+            }
+        };
+    }, []);
+
+    const isReversed = index % 2 !== 0;
+
+    return (
+        <div ref={ref} className={cn("grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16 transition-all duration-1000", isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
+            <div className={cn("group relative", isReversed && "lg:order-last")}>
+                <Card className="overflow-hidden rounded-2xl shadow-lg transition-shadow duration-300 group-hover:shadow-2xl">
+                    {project.image && (
+                         <Image
+                            src={project.image.imageUrl}
+                            alt={project.title}
+                            width={1200}
+                            height={900}
+                            className="aspect-video w-full object-cover"
+                            data-ai-hint={project.image.imageHint}
+                        />
+                    )}
+                </Card>
+            </div>
+            <div className="space-y-6">
+                <div>
+                   <p className="font-semibold text-primary">{project.role}</p>
+                    <h3 className="mt-2 font-headline text-3xl font-bold text-foreground">{project.title}</h3>
+                </div>
+                <p className="text-lg text-foreground/80">{project.description}</p>
+                <div className="flex flex-wrap gap-3">
+                    {project.tech.map((t) => (
+                        <Badge key={t} variant="secondary" className="px-3 py-1 text-sm">{t}</Badge>
+                    ))}
+                </div>
+                <Button asChild size="lg" className="rounded-full px-8">
+                    <Link href={project.link} target="_blank" rel="noopener noreferrer">
+                        View Project <ExternalLink className="ml-2 h-4 w-4" />
+                    </Link>
+                </Button>
+            </div>
+        </div>
+    )
+}
 
 export function Projects() {
-  const [visibleCount, setVisibleCount] = useState(6);
-  const [visibleItems, setVisibleItems] = useState<Record<number, boolean>>({});
-  const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-
-    itemsRef.current.forEach((item, index) => {
-      if (item) {
-        const observer = new IntersectionObserver(
-          ([entry]) => {
-            if (entry.isIntersecting) {
-              setVisibleItems(prev => ({...prev, [index]: true}));
-              observer.unobserve(item);
-            }
-          },
-          { threshold: 0.1, triggerOnce: true }
-        );
-        observer.observe(item);
-        observers.push(observer);
-      }
-    });
-
-    return () => {
-      observers.forEach(observer => observer.disconnect());
-    };
-  }, []);
-  
-  const showMoreProjects = () => {
-    setVisibleCount(projects.length);
-  };
-
   return (
     <section id="projects" className="bg-primary/5 py-24 sm:py-32">
       <div className="container mx-auto px-4 md:px-6">
@@ -179,22 +172,11 @@ export function Projects() {
           </p>
         </div>
 
-        <div className="mt-20 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {projects.slice(0, visibleCount).map((project, index) => (
-            <div key={project.title} ref={el => itemsRef.current[index] = el}>
-                <ProjectCard project={project} isVisible={!!visibleItems[index]} />
-            </div>
+        <div className="mt-24 space-y-24">
+          {projects.map((project, index) => (
+            <ProjectItem key={project.title} project={project} index={index} />
           ))}
         </div>
-
-        {visibleCount < projects.length && (
-            <div className="mt-16 text-center">
-                <Button size="lg" onClick={showMoreProjects} className="rounded-full px-8">
-                    Show More Projects
-                </Button>
-            </div>
-        )}
-
       </div>
     </section>
   );
