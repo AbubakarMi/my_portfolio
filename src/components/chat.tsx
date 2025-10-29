@@ -32,37 +32,39 @@ export function Chat() {
 
   // Initialize SpeechRecognition
   useEffect(() => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (SpeechRecognition) {
-      setSpeechApi(() => SpeechRecognition);
-      const recognition = new SpeechRecognition();
-      recognition.continuous = true;
-      recognition.interimResults = true;
-      recognition.lang = 'en-US';
-  
-      recognition.onresult = (event) => {
-        let finalTranscript = '';
-        for (let i = event.resultIndex; i < event.results.length; ++i) {
-          if (event.results[i].isFinal) {
-            finalTranscript += event.results[i][0].transcript;
+    if (typeof window !== 'undefined') {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        setSpeechApi(() => SpeechRecognition);
+        const recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = 'en-US';
+    
+        recognition.onresult = (event) => {
+          let finalTranscript = '';
+          for (let i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+              finalTranscript += event.results[i][0].transcript;
+            }
           }
-        }
-        if (finalTranscript) {
-          setInput(prev => prev + finalTranscript);
-        }
-      };
-      
-      recognition.onend = () => {
-        setIsListening(false);
-      };
-  
-      recognitionRef.current = recognition;
-  
-      return () => {
-        recognition.stop();
-      };
-    } else {
-      console.warn("SpeechRecognition API not supported in this browser.");
+          if (finalTranscript) {
+            setInput(prev => prev + finalTranscript);
+          }
+        };
+        
+        recognition.onend = () => {
+          setIsListening(false);
+        };
+    
+        recognitionRef.current = recognition;
+    
+        return () => {
+          recognition.stop();
+        };
+      } else {
+        console.warn("SpeechRecognition API not supported in this browser.");
+      }
     }
   }, []);
 
@@ -87,12 +89,17 @@ export function Chat() {
     }
 
     const userMessage: Message = { role: 'user', content: input };
-    setMessages(prev => [...prev, userMessage]);
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);
     setInput('');
     setIsLoading(true);
 
     try {
-      const result = await chat({ message: input });
+      const result = await chat({
+        history: messages,
+        message: input
+      });
+
       const assistantMessage: Message = { role: 'assistant', content: result.response };
       setMessages(prev => [...prev, assistantMessage]);
       
