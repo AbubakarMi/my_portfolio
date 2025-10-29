@@ -1,10 +1,10 @@
 
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Container, KeyRound, Mail, Github, BrainCircuit, TestTube2, FileJson, Code, Server, GitBranch, Wind } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import React from 'react';
+import { Card } from '@/components/ui/card';
+import { BrainCircuit, TestTube2, FileJson, Code, Server, GitBranch, Wind, Mail } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const DockerIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -76,9 +76,9 @@ const skills = {
   ],
   "Backend": [
     { name: '.NET 8', icon: DotNetIcon },
-    { name: 'Node.js', icon: Code },
+    { name: 'Node.js', icon: Server },
     { name: 'PostgreSQL', icon: PostgresqlIcon },
-    { name: 'Clean Architecture', icon: Container },
+    { name: 'Clean Architecture', icon: Server },
   ],
   "Frontend": [
     { name: 'React', icon: ReactIcon },
@@ -92,46 +92,14 @@ const skills = {
   ]
 };
 
-const SkillCard = ({ name, icon: Icon, index }: { name: string, icon: React.ElementType, index: number }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
-    return () => {
-      if (cardRef.current) {
-        observer.unobserve(cardRef.current);
-      }
-    };
-  }, []);
-  
+const SkillCard = ({ name, icon: Icon }: { name: string, icon: React.ElementType }) => {
   return (
-      <div 
-        ref={cardRef}
-        className={cn(
-          "flex items-center gap-3 rounded-xl border bg-card p-3 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-primary/50 hover:-translate-y-1",
-          isVisible ? 'animate-fade-in-up' : 'opacity-0'
-        )}
-        style={{ animationDelay: `${index * 100}ms` }}
-      >
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-          <Icon className="h-6 w-6" />
+      <Card className="flex items-center gap-4 p-4 transition-all duration-300 hover:shadow-lg hover:border-primary/50 hover:-translate-y-1">
+        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+          <Icon className="h-7 w-7" />
         </div>
-        <span className="font-semibold text-foreground text-md">{name}</span>
-      </div>
+        <span className="font-semibold text-foreground text-lg">{name}</span>
+      </Card>
   );
 };
 
@@ -149,21 +117,27 @@ export function Skills() {
           </p>
         </div>
 
-        <div className="mt-20">
-          {Object.entries(skills).map(([category, items]) => (
-            <div key={category} className="mb-12 last:mb-0">
-              <h3 className="text-center font-headline text-2xl font-semibold text-foreground mb-8">
-                {category.replace('&amp;', '&')}
-              </h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-                {items.map((skill, index) => (
-                  <SkillCard key={skill.name} name={skill.name} icon={skill.icon} index={index} />
+        <Tabs defaultValue="AI & Testing" className="mt-16 w-full">
+            <TabsList className="mx-auto grid w-full max-w-2xl grid-cols-2 sm:grid-cols-3 md:grid-cols-5">
+                {Object.keys(skills).map((category) => (
+                    <TabsTrigger key={category} value={category}>{category}</TabsTrigger>
                 ))}
-              </div>
-            </div>
-          ))}
-        </div>
+            </TabsList>
+
+            {Object.entries(skills).map(([category, items]) => (
+                <TabsContent key={category} value={category}>
+                    <div className="mt-10 grid animate-fade-in-up grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        {items.map((skill) => (
+                        <SkillCard key={skill.name} name={skill.name} icon={skill.icon} />
+                        ))}
+                    </div>
+                </TabsContent>
+             ))}
+        </Tabs>
       </div>
     </section>
   );
 }
+
+
+    
