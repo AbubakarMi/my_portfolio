@@ -10,7 +10,6 @@ import { ExternalLink, Play, Square, Loader2 } from 'lucide-react';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { generateProjectAudio } from '@/ai/flows/generate-project-audio-flow';
 import { useToast } from '@/hooks/use-toast';
 
 const projects = [
@@ -99,78 +98,67 @@ const projects = [
 type Project = (typeof projects)[0];
 
 const ProjectAudioPlayer = ({ project }: { project: Project }) => {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [audioDataUri, setAudioDataUri] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const { toast } = useToast();
+  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+
+  const getSummaryText = useCallback(() => {
+    return `${project.title}. Role: ${project.role}. ${project.description}. Technologies used include: ${project.tech.join(', ')}.`;
+  }, [project]);
 
   useEffect(() => {
-    const el = new Audio();
-    audioRef.current = el;
+    const synth = window.speechSynthesis;
+    const utterance = new SpeechSynthesisUtterance(getSummaryText());
+    utterance.onstart = () => setIsPlaying(true);
+    utterance.onend = () => setIsPlaying(false);
+    utterance.onerror = () => setIsPlaying(false);
+    utteranceRef.current = utterance;
 
-    const onPlay = () => setIsPlaying(true);
-    const onPause = () => setIsPlaying(false);
-    const onEnded = () => setIsPlaying(false);
-    
-    el.addEventListener('play', onPlay);
-    el.addEventListener('pause', onPause);
-    el.addEventListener('ended', onEnded);
-    
+    // Cleanup on component unmount
     return () => {
-      el.pause();
-      el.removeEventListener('play', onPlay);
-      el.removeEventListener('pause', onPause);
-      el.removeEventListener('ended', onEnded);
+      synth.cancel();
     };
-  }, []);
+  }, [getSummaryText]);
 
-  useEffect(() => {
-    const audioElement = audioRef.current;
-    if (audioDataUri && audioElement) {
-      audioElement.src = audioDataUri;
-      audioElement.play().catch(e => console.error("Audio playback failed:", e));
-    }
-  }, [audioDataUri]);
 
-  const handleAudioPlayback = async () => {
-    const audioElement = audioRef.current;
-    if (!audioElement) return;
+  const handleAudioPlayback = () => {
+    const synth = window.speechSynthesis;
 
     if (isPlaying) {
-      audioElement.pause();
-      return;
-    }
-
-    if (audioDataUri) {
-      audioElement.play().catch(e => console.error("Audio playback failed:", e));
-      return;
-    }
-
-    setIsGenerating(true);
-    try {
-      const result = await generateProjectAudio({
-        title: project.title,
-        description: project.description,
-        tech: project.tech,
-      });
-
-      if (result.audioDataUri) {
-        setAudioDataUri(result.audioDataUri);
-      } else {
-        throw new Error("Audio generation returned no data.");
+      synth.cancel();
+      setIsPlaying(false);
+    } else {
+      if (utteranceRef.current) {
+        // If speech is paused, resume it. Otherwise, start fresh.
+        if (synth.paused) {
+          synth.resume();
+        } else {
+           // Cancel any previous speech before starting a new one
+          synth.cancel();
+          synth.speak(utteranceRef.current);
+        }
+        setIsPlaying(true);
       }
-    } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Audio Generation Failed",
-        description: error.message || "I couldn't generate the audio summary right now. Please try again in a moment.",
-      });
-      console.error("Audio generation failed:", error);
-    } finally {
-      setIsGenerating(false);
     }
   };
+  
+  // This effect will listen for changes in the speech synthesis state
+  useEffect(() => {
+    const onBoundary = () => {
+      // This is just a way to keep checking if it's still speaking
+    }
+    const interval = setInterval(() => {
+      if (!window.speechSynthesis.speaking && isPlaying) {
+        setIsPlaying(false);
+      }
+    }, 500);
+
+    window.speechSynthesis.addEventListener('boundary', onBoundary);
+    return () => {
+      clearInterval(interval);
+      window.speechSynthesis.removeEventListener('boundary', onBoundary)
+    }
+  }, [isPlaying]);
+
 
   return (
     <Button
@@ -178,16 +166,13 @@ const ProjectAudioPlayer = ({ project }: { project: Project }) => {
       variant="outline"
       className="rounded-full px-8"
       onClick={handleAudioPlayback}
-      disabled={isGenerating}
     >
-      {isGenerating ? (
-        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-      ) : isPlaying ? (
+      {isPlaying ? (
         <Square className="mr-2 h-5 w-5" />
       ) : (
         <Play className="mr-2 h-5 w-5" />
       )}
-      {isGenerating ? "Generating..." : isPlaying ? 'Stop' : 'Listen to Summary'}
+      {isPlaying ? 'Stop' : 'Listen to Summary'}
     </Button>
   );
 };
@@ -276,5 +261,3 @@ export function Projects() {
         </section>
     );
 }
-
-    
