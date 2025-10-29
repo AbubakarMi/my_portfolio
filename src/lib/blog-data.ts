@@ -44,7 +44,7 @@ export const blogPosts = [
       <h3 class="font-headline text-2xl font-bold mt-8 mb-4">From Passion to Profession</h3>
       <p>My journey into technology started with a simple curiosity about how software could solve real problems. Over time, that curiosity grew into a passion and then into a purpose. I’ve seen how well-built software can change how people work and live, and I wanted to be part of that change.</p>
       <p>Founding Nyra has been a deeply personal mission for me. It’s not just about creating an app; it’s about proving that with the right vision and discipline, you can start from anywhere and build something meaningful.</p>
-      <p>To be sincere, one of my biggest motivations is to become the youngest Nigerian founder to build a startup that reaches the global stage. I want Nyra to be a living example that innovation can come from anywhere—even from a young dreamer in Nigeria who believed in the power of software to unite people.</p>
+      <p>To be sincere, one of my biggest motivations is to become the youngest Nigerian founder to build a startup that reaches the global stage. I want Nyra to be a living example that innovation can come from anywhere even from a young dreamer in Nigeria who believed in the power of software to unite people.</p>
     `
   },
   {
