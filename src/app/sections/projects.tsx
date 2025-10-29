@@ -14,6 +14,30 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from '@/components/ui/button';
 
 const projects = [
+   {
+    title: "Nubenta Care",
+    description: "An AI-driven health management system designed to digitize hospital operations and improve patient care. It connects all departments—admin, doctors, pharmacy, lab, and finance—into one secure, intelligent platform, featuring AI-assisted documentation, prescription suggestions, and predictive analytics to make hospitals smarter, faster, and more efficient.",
+    tech: ["AI", ".NET 8", "React", "PostgreSQL", "CQRS"],
+    image: PlaceHolderImages.find(p => p.id === "project-nubenta"),
+    link: "#",
+    role: "Lead Developer"
+  },
+  {
+    title: "MultiLedger",
+    description: "A modular financial and staff management system built with .NET 8 and React. It supports multi-branch operations, staff attendance, transactions, and reporting with role-based security, clean architecture, CQRS, and EF Core for scalable enterprise solutions.",
+    tech: [".NET 8", "React", "CQRS", "EF Core", "Modular Architecture"],
+    image: PlaceHolderImages.find(p => p.id === "project-multiledger"),
+    link: "#",
+    role: "Lead Developer"
+  },
+  {
+    title: "Rewardify",
+    description: "Helps small companies boost employee motivation through instant micro-rewards, badges, and leaderboards. Recognize performance, issue gift cards, and track engagement all in one simple platform. Affordable, fun, and built to make every employee feel valued.",
+    tech: ["Node.js", "React", "Gamification", "SaaS"],
+    image: PlaceHolderImages.find(p => p.id === "project-rewardify"),
+    link: "#",
+    role: "Creator & Lead Developer"
+  },
   {
     title: "Nyra Connect",
     description: "A meeting application that provides live transcription and accessible summaries after meetings. Also developing a chat application to complement the meeting functions.",
@@ -37,22 +61,6 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-invotrek"),
     link: "#",
     role: "Creator & Lead Developer"
-  },
-  {
-    title: "Online Admission System",
-    description: "A system for students to register, log in, and submit admission details with documents. Admins can review, verify, and manage applications via a secure dashboard.",
-    tech: ["Node.js", "Express", "MongoDB", "EJS"],
-    image: PlaceHolderImages.find(p => p.id === "project-admission"),
-    link: "#",
-    role: "Full-Stack & Lead Developer"
-  },
-  {
-    title: "Rental Management System",
-    description: "A system to rent houses, apartments, and event centers with secure bookings, payments, reviews, and role-based dashboards for renters, owners, and admins.",
-    tech: ["Node.js", "Express", "React", "TypeScript"],
-    image: PlaceHolderImages.find(p => p.id === "project-rental"),
-    link: "#",
-    role: "Full-Stack & Lead Developer"
   }
 ];
 

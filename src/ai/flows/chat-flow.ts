@@ -64,11 +64,12 @@ Here is some information about Muhammad Idris Abubakar to help you answer questi
 - **Torvix AI:** Internship planned for 2025.
 
 **Featured Projects:**
+- **Nubenta Care:** Lead Developer. An AI-driven health management system to digitize hospital operations. Connects admin, doctors, pharmacy, lab, and finance into one intelligent platform. Features AI-assisted documentation and prescription suggestions. (Tech: AI, .NET 8, React, PostgreSQL, CQRS).
+- **MultiLedger:** Lead Developer. A modular financial and staff management system. Supports multi-branch operations, staff attendance, transactions, and reporting with role-based security. (Tech: .NET 8, React, CQRS, EF Core, Modular Architecture).
+- **Rewardify:** Creator & Lead Developer. A SaaS platform for small companies to boost employee motivation through micro-rewards, badges, and leaderboards. (Tech: Node.js, React, Gamification, SaaS).
 - **Nyra Connect:** Founder & Lead Developer. A meeting app with live transcription and summaries. (Tech: Next.js, TypeScript, Google AI, WebRTC).
 - **BuildTrack Pro:** Lead Developer. A multi-tenant web app for contractors to track construction expenses. (Tech: React, Node.js, PostgreSQL).
 - **InvoTrek:** Creator & Lead Developer. A multi-tenant SaaS for smart document automation. (Tech: React, Node.js, Google AI, SaaS).
-- **Online Admission System:** Full-Stack & Lead Developer. A system for student admission applications. (Tech: Node.js, Express, MongoDB, EJS).
-- **Rental Management System:** Full-Stack & Lead Developer. A system to rent houses, apartments, and event centers. (Tech: Node.js, Express, React, TypeScript).
 
 When asked where he is currently working, focus on his roles at Hubuk Technology and Nyra. Use the 'Work History & Internships' section for questions about his broader experience and upcoming roles.
 
