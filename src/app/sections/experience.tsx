@@ -63,7 +63,7 @@ const experiences = [
 const ExperienceCard = ({ experience }: { experience: typeof experiences[0] }) => (
     <div className={cn(
         "p-6 md:p-8 rounded-2xl border bg-card/50 transition-all duration-300 ease-out",
-        "border-transparent hover:border-primary/20 hover:shadow-2xl hover:-translate-y-1"
+        "border-transparent group-hover:border-primary/20 group-hover:shadow-2xl group-hover:-translate-y-1"
     )}>
         <h3 className="font-headline text-xl font-bold text-foreground">{experience.role}</h3>
         <p className="text-sm text-primary font-medium mt-1">{experience.duration}</p>
@@ -114,7 +114,7 @@ const TimelineItem = ({ experience, index }: { experience: typeof experiences[0]
     return (
         <div ref={itemRef} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
             <div className={cn(
-                "w-full md:w-[calc(50%-2.5rem)] transition-all duration-700 ease-out",
+                "w-full md:w-[calc(50%-2.5rem)] transition-all duration-700 ease-in-out",
                 isVisible ? "opacity-100" : "opacity-0",
                 isLeft ? (isVisible ? 'md:translate-x-0' : 'md:-translate-x-10') : (isVisible ? 'md:translate-x-0' : 'md:translate-x-10')
             )}>
@@ -122,10 +122,13 @@ const TimelineItem = ({ experience, index }: { experience: typeof experiences[0]
             </div>
 
             <div className={cn(
-                "absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex items-center justify-center transition-all duration-700 delay-300",
-                isVisible ? "opacity-100 scale-100" : "opacity-0 scale-50"
+                "absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex items-center justify-center"
             )}>
-                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary border-4 border-background">
+                 <div className={cn(
+                    "flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary border-4 border-background transition-all duration-300",
+                    "group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground group-hover:shadow-lg group-hover:shadow-primary/30",
+                    isVisible ? "scale-100 opacity-100" : "scale-50 opacity-0"
+                 )}>
                      <experience.icon className="h-6 w-6" />
                  </div>
             </div>
