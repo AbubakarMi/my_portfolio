@@ -2,18 +2,10 @@
 "use client";
 
 import Link from 'next/link';
-import { Building, Rocket, GraduationCap, Code, ArrowRight, ArrowLeft } from 'lucide-react';
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { Building, Rocket, GraduationCap, Code } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  type CarouselApi,
-} from "@/components/ui/carousel"
-import { Button } from '@/components/ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
-
 
 const experiences = [
   {
@@ -68,22 +60,14 @@ const experiences = [
   }
 ];
 
-const ExperienceCard = ({ experience, isVisible }: { experience: typeof experiences[0], isVisible: boolean }) => (
-  <div className={cn(
-        "p-6 md:p-8 rounded-2xl border bg-card/50 transition-all duration-500 ease-out",
-        "border-transparent hover:border-primary/20 hover:shadow-2xl hover:-translate-y-1",
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+const ExperienceCard = ({ experience }: { experience: typeof experiences[0] }) => (
+    <div className={cn(
+        "p-6 md:p-8 rounded-2xl border bg-card/50 transition-all duration-300 ease-out",
+        "border-transparent hover:border-primary/20 hover:shadow-2xl hover:-translate-y-1"
     )}>
-        <div className="flex items-center gap-4 mb-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-                <experience.icon className="h-6 w-6" />
-            </div>
-            <div>
-                <h3 className="font-headline text-xl font-bold text-foreground">{experience.role}</h3>
-                <p className="text-sm text-primary font-medium">{experience.duration}</p>
-            </div>
-        </div>
-        <Link href={experience.link} target="_blank" rel="noopener noreferrer" className="font-semibold text-foreground/80 hover:text-primary transition-colors">
+        <h3 className="font-headline text-xl font-bold text-foreground">{experience.role}</h3>
+        <p className="text-sm text-primary font-medium mt-1">{experience.duration}</p>
+        <Link href={experience.link} target="_blank" rel="noopener noreferrer" className="font-semibold text-foreground/80 hover:text-primary transition-colors mt-2 inline-block">
             {experience.company}
         </Link>
         <ul className="mt-4 space-y-3 text-foreground/80">
@@ -99,67 +83,77 @@ const ExperienceCard = ({ experience, isVisible }: { experience: typeof experien
     </div>
 );
 
-const DesktopTimeline = () => {
-    const [api, setApi] = useState<CarouselApi>()
-    const [current, setCurrent] = useState(0)
-    const [count, setCount] = useState(0)
+const TimelineItem = ({ experience, index }: { experience: typeof experiences[0], index: number }) => {
+    const itemRef = useRef<HTMLDivElement>(null);
+    const [isVisible, setIsVisible] = useState(false);
+    const isLeft = index % 2 === 0;
 
     useEffect(() => {
-        if (!api) return;
-        setCount(api.scrollSnapList().length);
-        setCurrent(api.selectedScrollSnap() + 1);
-        api.on("select", () => {
-            setCurrent(api.selectedScrollSnap() + 1);
-        });
-    }, [api]);
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                    observer.unobserve(entry.target);
+                }
+            },
+            { threshold: 0.2, triggerOnce: true }
+        );
 
-    const scrollPrev = useCallback(() => api?.scrollPrev(), [api]);
-    const scrollNext = useCallback(() => api?.scrollNext(), [api]);
+        if (itemRef.current) {
+            observer.observe(itemRef.current);
+        }
 
-    const progress = count > 0 ? (current / count) * 100 : 0;
-
+        return () => {
+            if (itemRef.current) {
+                // eslint-disable-next-line react-hooks/exhaustive-deps
+                observer.unobserve(itemRef.current);
+            }
+        };
+    }, []);
+    
     return (
-        <div className="mt-16 hidden md:block">
-            <Carousel setApi={setApi} className="w-full">
-                <CarouselContent>
-                    {experiences.map((exp, index) => (
-                        <CarouselItem key={exp.value} className="md:basis-1/2 lg:basis-1/3">
-                            <div className="p-4">
-                               <ExperienceCard experience={exp} isVisible={true} />
-                            </div>
-                        </CarouselItem>
-                    ))}
-                </CarouselContent>
-            </Carousel>
-            <div className="mt-12">
-                <div className="flex items-center justify-center gap-6">
-                    <Button variant="outline" size="icon" className="rounded-full h-12 w-12" onClick={scrollPrev} disabled={current === 1}>
-                        <ArrowLeft className="h-6 w-6" />
-                    </Button>
-                    
-                    <div className="w-full max-w-sm">
-                       <div className="relative h-1 w-full rounded-full bg-border">
-                           <div 
-                             className="absolute h-1 rounded-full bg-primary transition-all duration-300"
-                             style={{width: `${progress}%`}}
-                           />
-                       </div>
-                    </div>
+        <div ref={itemRef} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+            <div className={cn(
+                "w-full md:w-[calc(50%-2.5rem)] transition-all duration-700 ease-out",
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10",
+                isLeft ? "md:translate-x-0" : "md:translate-x-0",
+                isVisible && isLeft ? "md:opacity-100 md:translate-x-0" : "md:opacity-0 md:-translate-x-10",
+                isVisible && !isLeft ? "md:opacity-100 md:translate-x-0" : "md:opacity-0 md:translate-x-10"
+            )}>
+                <ExperienceCard experience={experience} />
+            </div>
 
-                    <Button variant="outline" size="icon" className="rounded-full h-12 w-12" onClick={scrollNext} disabled={current === count}>
-                        <ArrowRight className="h-6 w-6" />
-                    </Button>
-                </div>
+            <div className={cn(
+                "absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex items-center justify-center transition-all duration-700 delay-300",
+                isVisible ? "opacity-100 scale-100" : "opacity-0 scale-50"
+            )}>
+                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary border-4 border-background">
+                     <experience.icon className="h-6 w-6" />
+                 </div>
             </div>
         </div>
     );
 };
 
+const DesktopTimeline = () => {
+    return (
+        <div className="relative mt-16 hidden md:block">
+            <div className="absolute left-1/2 top-0 h-full w-0.5 bg-border -translate-x-1/2" aria-hidden="true" />
+            <div className="space-y-16">
+                 {experiences.map((exp, index) => (
+                    <TimelineItem key={exp.value} experience={exp} index={index} />
+                ))}
+            </div>
+        </div>
+    );
+};
+
+
 const MobileTimeline = () => {
   return (
     <div className="mt-16 space-y-12 md:hidden">
-      {experiences.map((exp, index) => (
-        <ExperienceCard key={exp.value} experience={exp} isVisible={true} />
+      {experiences.map((exp) => (
+        <ExperienceCard key={exp.value} experience={exp} />
       ))}
     </div>
   );
@@ -185,5 +179,3 @@ export function Experience() {
         </section>
     );
 }
-
-    
