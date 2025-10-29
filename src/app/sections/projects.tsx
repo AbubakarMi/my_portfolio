@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { summarizeProject } from '@/ai/flows/summarize-project-flow';
 import { textToSpeech } from '@/ai/flows/tts-flow';
+import { useToast } from '@/hooks/use-toast';
 
 const projects = [
    {
@@ -101,15 +102,14 @@ type Cache = {
     text?: string;
     audio?: string;
 };
-type ProjectCache = Map<string, Cache>;
+const projectCache = new Map<string, Cache>();
 
-const ProjectAudioPlayer = ({ project, projectCache, forceUpdate }: { project: Project, projectCache: ProjectCache, forceUpdate: () => void }) => {
+const ProjectAudioPlayer = ({ project }: { project: Project }) => {
+    const { toast } = useToast();
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     
-    const audioDataUri = projectCache.get(project.title)?.audio;
-
     useEffect(() => {
         const audio = new Audio();
         audioRef.current = audio;
@@ -139,9 +139,10 @@ const ProjectAudioPlayer = ({ project, projectCache, forceUpdate }: { project: P
             return;
         }
 
-        if (audioDataUri) {
-            if (audio.src !== audioDataUri) {
-                audio.src = audioDataUri;
+        const cached = projectCache.get(project.title);
+        if (cached?.audio) {
+            if (audio.src !== cached.audio) {
+                audio.src = cached.audio;
             }
             audio.play().catch(console.error);
             return;
@@ -149,19 +150,26 @@ const ProjectAudioPlayer = ({ project, projectCache, forceUpdate }: { project: P
 
         setIsLoading(true);
         try {
-            const summaryResult = await summarizeProject({ title: project.title, description: project.description, tech: project.tech });
-            const summaryText = summaryResult.summaryScript;
-            
+            let summaryText = cached?.text;
+            if (!summaryText) {
+                const summaryResult = await summarizeProject({ title: project.title, description: project.description, tech: project.tech });
+                summaryText = summaryResult.summaryScript;
+            }
+
             const ttsResult = await textToSpeech({ text: summaryText });
             const newAudioDataUri = ttsResult.audioDataUri;
             
             projectCache.set(project.title, { text: summaryText, audio: newAudioDataUri });
-            forceUpdate(); // Re-render parent to acknowledge cache update.
             
             audio.src = newAudioDataUri;
             audio.play().catch(console.error);
-        } catch (error) {
+        } catch (error: any) {
             console.error(`Failed to generate audio for ${project.title}:`, error);
+            toast({
+                variant: 'destructive',
+                title: 'Audio Generation Failed',
+                description: error.message || 'Could not generate the audio summary right now. Please try again later.',
+            });
         } finally {
             setIsLoading(false);
         }
@@ -179,13 +187,13 @@ const ProjectAudioPlayer = ({ project, projectCache, forceUpdate }: { project: P
             {!isLoading && isPlaying && <Square className="mr-2 h-5 w-5" />}
             {!isLoading && !isPlaying && <Play className="mr-2 h-5 w-5" />}
 
-            {isLoading ? 'Loading...' : isPlaying ? 'Stop' : 'Listen to Summary'}
+            {isLoading ? 'Generating...' : isPlaying ? 'Stop' : 'Listen to Summary'}
         </Button>
     );
 };
 
 
-const ProjectItem = ({ project, index, projectCache, forceUpdate }: { project: Project, index: number, projectCache: ProjectCache, forceUpdate: () => void }) => {
+const ProjectItem = ({ project, index }: { project: Project, index: number }) => {
     const [isVisible, setIsVisible] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
     const isReversed = index % 2 !== 0;
@@ -239,7 +247,7 @@ const ProjectItem = ({ project, index, projectCache, forceUpdate }: { project: P
                             View Project <ExternalLink className="ml-2 h-4 w-4" />
                         </Link>
                     </Button>
-                    <ProjectAudioPlayer project={project} projectCache={projectCache} forceUpdate={forceUpdate} />
+                    <ProjectAudioPlayer project={project} />
                 </div>
             </div>
         </div>
@@ -247,10 +255,6 @@ const ProjectItem = ({ project, index, projectCache, forceUpdate }: { project: P
 }
 
 export function Projects() {
-    const projectCache = useRef(new Map<string, Cache>()).current;
-    const [_, setForceRender] = useState(0);
-    const forceUpdate = useCallback(() => setForceRender(r => r + 1), []);
-
     return (
         <section id="projects" className="bg-primary/5 py-24 sm:py-32">
             <div className="container mx-auto px-4 md:px-6">
@@ -265,7 +269,7 @@ export function Projects() {
                 
                 <div className="mt-24 space-y-24">
                     {projects.map((project, index) => (
-                        <ProjectItem key={project.title} project={project} index={index} projectCache={projectCache} forceUpdate={forceUpdate} />
+                        <ProjectItem key={project.title} project={project} index={index} />
                     ))}
                 </div>
             </div>
