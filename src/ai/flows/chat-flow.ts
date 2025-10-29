@@ -46,7 +46,7 @@ const chatFlow = ai.defineFlow(
       content: [{text: h.content}],
     }));
 
-    const response = await ai.chat({
+    const response = await ai.generate({
       model: 'gemini-1.5-flash',
       history: history,
       prompt: input.message,
@@ -55,7 +55,7 @@ const chatFlow = ai.defineFlow(
 
     const responseText = response.text;
     if (!responseText) {
-      return {
+       return {
         response:
           "I'm sorry, I couldn't generate a response. Please try again.",
       };
