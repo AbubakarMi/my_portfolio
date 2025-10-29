@@ -82,30 +82,45 @@ export function Chat() {
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
-
+  
     if (recognitionRef.current && isListening) {
       recognitionRef.current.stop();
       setIsListening(false);
     }
-
+  
     const userMessage: Message = { role: 'user', content: input };
-    const newMessages = [...messages, userMessage];
-    setMessages(newMessages);
+    setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
-
+  
     try {
-      const result = await chat({
+      // @ts-ignore
+      const { stream, response } = await chat({
         history: messages,
-        message: input
-      });
-
-      const assistantMessage: Message = { role: 'assistant', content: result.response };
-      setMessages(prev => [...prev, assistantMessage]);
+        message: input,
+      }, { stream: true });
+  
+      let fullResponse = '';
+      let assistantMessage: Message = { role: 'assistant', content: '' };
       
-      // Convert response to speech
+      setMessages(prev => [...prev, assistantMessage]);
+  
+      for await (const chunk of stream) {
+        if (chunk.response) {
+            fullResponse += chunk.response;
+            setMessages(prev => {
+                const newMessages = [...prev];
+                newMessages[newMessages.length - 1].content = fullResponse;
+                return newMessages;
+            });
+        }
+      }
+  
+      setIsLoading(false);
+      
+      // Convert response to speech after streaming is complete
       setIsSpeaking(true);
-      const audioResult = await textToSpeech({ text: result.response });
+      const audioResult = await textToSpeech({ text: fullResponse });
       
       if (audioRef.current) {
         audioRef.current.src = audioResult.audioDataUri;
@@ -114,13 +129,12 @@ export function Chat() {
       } else {
         setIsSpeaking(false);
       }
-
+  
     } catch (error) {
       console.error("Error in chat flow or TTS flow:", error);
       const errorMessage: Message = { role: 'assistant', content: "Sorry, I'm having trouble connecting. Please try again later." };
       setMessages(prev => [...prev, errorMessage]);
       setIsSpeaking(false);
-    } finally {
       setIsLoading(false);
     }
   };
@@ -220,6 +234,9 @@ export function Chat() {
                       )}
                     >
                       {message.content}
+                       {isLoading && index === messages.length - 1 && (
+                         <span className="inline-block w-2 h-4 bg-foreground ml-1 animate-pulse" />
+                       )}
                     </div>
                      {message.role === 'user' && (
                       <Avatar className="h-8 w-8">
@@ -228,20 +245,6 @@ export function Chat() {
                     )}
                   </div>
                 ))}
-                {isLoading && (
-                  <div className="flex items-start gap-3">
-                     <Avatar className="h-8 w-8">
-                        <AvatarFallback><Bot size={18} /></AvatarFallback>
-                      </Avatar>
-                    <div className="bg-muted rounded-2xl px-4 py-3 rounded-bl-none">
-                        <div className="flex items-center gap-2">
-                           <span className="h-2 w-2 bg-foreground/50 rounded-full animate-pulse delay-0"></span>
-                           <span className="h-2 w-2 bg-foreground/50 rounded-full animate-pulse delay-200"></span>
-                           <span className="h-2 w-2 bg-foreground/50 rounded-full animate-pulse delay-400"></span>
-                        </div>
-                    </div>
-                  </div>
-                )}
               </div>
             </ScrollArea>
           </CardContent>
