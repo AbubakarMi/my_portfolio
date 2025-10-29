@@ -9,6 +9,8 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { analyzeSkill, AnalyzeSkillOutput } from '@/ai/flows/analyze-skill-flow';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faNodeJs } from '@fortawesome/free-brands-svg-icons';
 
 
 const DockerIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -62,13 +64,13 @@ const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const JavaIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M18.87 19.48c-1.3-2.13-1.63-4.13-1.63-4.13s.32-2 1.63-4.14c.1-.17.03-.38-.13-.48l-1.57-.96c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l.9.56c.33.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-1.42-.88c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.42.88c.32.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-.9-.55c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.57.96c.16.1.36.06.47-.1 1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.13c-.1-.17-.03-.38.13-.48l1.57-.96c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38.13.48l-1.8 1.1-.68-1.07c-.2-.32-.64-.4-.96-.2l-1.42.88c-.16.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.42.88c.32.2.4.63.2.95l-1 1.9c-.2.32-.63.4-.95.2l-1.42-.88c-.16-.1-.36-.06-.47.1l-.8.92c-3.1 3.2-2.1 4.4 0 5.4l2.16-1.32c1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.13a.27.27 0 01.14-.48L9.2 2.52c.16-.1.36-.06.47.1l1.4 2.1c.1.17-.03.38-.13.48l-1.42.88c-.32.2-.4.63-.2.95l1.2 1.9c.2.32.63.4.95.2l1.42-.88c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.42.88c-.32.2-.4.63-.2.95l1.2 1.9c.2.32.63.4.95.2l1.42-.88c.16-.1.36-.06.47.1l1.4 2.1c.1.17-.03.38-.13.48l-1.57.96c-.16.1-.36.06-.47-.1-1.3-2.14-1.63-4.14-1.63-4.14s.32-2 1.63-4.13c1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.14c-.1-.17-.03-.38.13-.48l1.57-.96c.16-.1.36-.06.47.1l.6.9a5.2 5.2 0 01-1.5 5.5c-1.3 2.14-1.63 4.14-1.63-4.14s.32 2 1.63 4.14c1.3 2.13 1.63 4.13 1.63-4.13s-.32 2-1.63 4.14a.27.27 0 01.13-.48l1.57-.96c.16-.1.36-.06.47.1l.82 1.25z" fill="#f89820"/><path d="M21.1 9.02c.33 0 .6-.27.6-.6V7.3c0-1.22-1.1-2.2-2.45-2.2H16.5v1.2h2.75c.68 0 1.25.5 1.25 1.1v1.12c0 .33.27.6.6.6z" fill="#5382a1"/></svg>
+    <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M18.87 19.48c-1.3-2.13-1.63-4.13-1.63-4.13s.32-2 1.63-4.14c.1-.17.03-.38-.13-.48l-1.57-.96c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l.9.56c.33.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-1.42-.88c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.42.88c.32.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-.9-.55c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.57.96c.16.1.36.06.47-.1 1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.13c-.1-.17-.03-.38.13-.48l1.57-.96c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38.13.48l-1.8 1.1-.68-1.07c-.2-.32-.64-.4-.96-.2l-1.42.88c-.16.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03. ৩৮.13.48l1.42.88c.32.2.4.63.2.95l-1 1.9c-.2.32-.63.4-.95.2l-1.42-.88c-.16-.1-.36-.06-.47.1l-.8.92c-3.1 3.2-2.1 4.4 0 5.4l2.16-1.32c1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.13a.27.27 0 01.14-.48L9.2 2.52c.16-.1.36-.06.47.1l1.4 2.1c.1.17-.03.38-.13.48l-1.42.88c-.32.2-.4.63-.2.95l1.2 1.9c.2.32.63.4.95.2l1.42-.88c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.42.88c-.32.2-.4.63-.2.95l1.2 1.9c.2.32.63.4.95.2l1.42-.88c.16-.1.36-.06.47.1l1.4 2.1c.1.17-.03.38-.13.48l-1.57.96c-.16.1-.36.06-.47-.1-1.3-2.14-1.63-4.14-1.63-4.14s.32-2 1.63-4.13c1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.14c-.1-.17-.03-.38.13-.48l1.57-.96c.16-.1.36-.06.47.1l.6.9a5.2 5.2 0 01-1.5 5.5c-1.3 2.14-1.63 4.14-1.63-4.14s.32 2 1.63 4.14c1.3 2.13 1.63 4.13 1.63-4.13s-.32 2-1.63 4.14a.27.27 0 01.13-.48l1.57-.96c.16-.1.36-.06.47.1l.82 1.25z" fill="#f89820"/><path d="M21.1 9.02c.33 0 .6-.27.6-.6V7.3c0-1.22-1.1-2.2-2.45-2.2H16.5v1.2h2.75c.68 0 1.25.5 1.25 1.1v1.12c0 .33.27.6.6.6z" fill="#5382a1"/></svg>
 );
 
 const PythonIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 5.5c-1.28 0-1.99.35-2.6.83a2.3 2.3 0 00-.9.9c-.48.61-.83 1.32-.83 2.6V12h4.66v-2.1c0-1.04.53-1.67 1.34-1.95.7-.24 1.5-.24 2.2 0 .8.28 1.33.91 1.33 1.95V12h4.67v-2.17c0-1.28-.35-1.99-.83-2.6a2.3 2.3 0 00-.9-.9c-.61-.48-1.32-.83-2.6-.83h-4.34z" fill="#3776ab"/>
-        <path d="M12 18.5c1.28 0 1.99-.35 2.6-.83a2.3 2.3 0 00.9-.9c.48-.61.83-1.32.83-2.6V12H11.66v2.1c0 1.04-.53 1.67-1.34 1.95-.7.24-1.5.24-2.2 0-.8-.28-1.33-.91-1.33-1.95V12H2.12v2.17c0 1.28.35 1.99.83 2.6a2.3 2.3 0 00.9.9c.61.48 1.32.83 2.6.83h5.55z" fill="#ffc331"/>
+        <path d="M12 18.5c1.28 0 1.99-.35 2.6-.83a2.3 2.3 0 00.9-.9c.48-.61.83-1.32.83-2.6V12H11.66v2.1c0 1.04-.53 1.67-1.34 1.95-.7.24-1.5-.24-2.2 0-.8-.28-1.33-.91-1.33-1.95V12H2.12v2.17c0 1.28.35 1.99.83 2.6a2.3 2.3 0 00.9.9c.61.48 1.32.83 2.6.83h5.55z" fill="#ffc331"/>
     </svg>
 );
 
@@ -85,14 +87,6 @@ const CodeIcon = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
 );
 
-const ServerIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
-        <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
-        <line x1="6" y1="6" x2="6.01" y2="6"></line>
-        <line x1="6" y1="18" x2="6.01" y2="18"></line>
-    </svg>
-);
 
 const WindIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -133,9 +127,9 @@ const skills = {
   ],
   "Backend": [
     { name: '.NET 8', icon: DotNetIcon },
-    { name: 'Node.js', icon: ServerIcon },
+    { name: 'Node.js', icon: (props: any) => <FontAwesomeIcon icon={faNodeJs} {...props} /> },
     { name: 'PostgreSQL', icon: PostgresqlIcon },
-    { name: 'Clean Architecture', icon: ServerIcon },
+    { name: 'Clean Architecture', icon: GitBranchIcon },
   ],
   "Frontend": [
     { name: 'React', icon: ReactIcon },
@@ -158,10 +152,8 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
 
   const handleAnalyze = async () => {
     setIsDialogOpen(true);
-
     if (analysisCache.has(name)) {
       setAnalysis(analysisCache.get(name)!);
-      setIsLoading(false);
       return;
     }
 
@@ -187,15 +179,15 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
         className="group animate-fade-in-up rounded-2xl transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1"
         style={style}
       >
-        <div className="flex h-full flex-col items-center justify-between gap-4 p-6 text-center">
-          <div className="flex flex-col items-center gap-4">
+        <div className="flex h-full flex-col items-center justify-center p-6 text-center">
+          <div className="flex flex-1 flex-col items-center justify-center gap-4">
               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
                 <Icon className="h-8 w-8" />
               </div>
               <span className="font-semibold text-foreground text-lg">{name}</span>
           </div>
 
-          <div className="h-9 transition-all duration-300 opacity-0 group-hover:opacity-100">
+          <div className="h-9 mt-4 transition-all duration-300 opacity-0 group-hover:opacity-100">
              <Button
                 variant="outline"
                 size="sm"
