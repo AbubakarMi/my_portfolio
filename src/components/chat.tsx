@@ -1,62 +1,243 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Bot, User, Send, X, CornerDownLeft } from 'lucide-react';
+import { Bot, User, Send, X, CornerDownLeft, Mic, Volume2, Loader2, Play } from 'lucide-react';
 import { chat } from '@/ai/flows/chat-flow';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from './ui/scroll-area';
+import { sendChatTranscriptEmail } from '@/ai/flows/send-email-flow';
+import { textToSpeech } from '@/ai/flows/tts-flow';
 
 type Message = {
+  id: string;
   role: 'user' | 'assistant';
   content: string;
+  audioDataUri?: string;
+  isGeneratingAudio?: boolean;
 };
 
-const initialMessage: Message = {
-  role: 'assistant',
-  content: "Hello! I'm Idris's AI assistant. Feel free to ask me anything about his skills, projects, or experience."
+const AssistantMessage = ({ message }: { message: Message }) => {
+  const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
+  const [audioDataUri, setAudioDataUri] = useState<string | undefined>(undefined);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const handlePlayAudio = async () => {
+    if (isPlaying && audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setIsPlaying(false);
+      return;
+    }
+
+    if (audioDataUri && audioRef.current) {
+      audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+      return;
+    }
+
+    setIsGeneratingAudio(true);
+    try {
+      const audioResult = await textToSpeech({ text: message.content });
+      setAudioDataUri(audioResult.audioDataUri);
+    } catch (error) {
+      console.error("TTS generation failed:", error);
+    } finally {
+      setIsGeneratingAudio(false);
+    }
+  };
+  
+  useEffect(() => {
+    if (audioDataUri && audioRef.current) {
+        audioRef.current.src = audioDataUri;
+        audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+    }
+  }, [audioDataUri]);
+
+  useEffect(() => {
+    const audioElement = audioRef.current;
+    if (audioElement) {
+      const onPlay = () => setIsPlaying(true);
+      const onPause = () => setIsPlaying(false);
+      const onEnded = () => setIsPlaying(false);
+      
+      audioElement.addEventListener('play', onPlay);
+      audioElement.addEventListener('pause', onPause);
+      audioElement.addEventListener('ended', onEnded);
+      
+      return () => {
+        audioElement.removeEventListener('play', onPlay);
+        audioElement.removeEventListener('pause', onPause);
+        audioElement.removeEventListener('ended', onEnded);
+      }
+    }
+  }, [audioRef.current]);
+
+  return (
+    <div className="flex items-start gap-3">
+       <audio ref={audioRef} className="hidden" />
+      <Avatar className="h-8 w-8">
+        <AvatarFallback><Bot size={18} /></AvatarFallback>
+      </Avatar>
+      <div className="flex-1 space-y-2">
+        <div className="bg-muted rounded-2xl px-4 py-2.5 text-sm rounded-bl-none">
+          {message.content}
+        </div>
+        <div className="flex items-center">
+          <Button
+            size="icon"
+            variant="ghost"
+            className="h-8 w-8 text-muted-foreground"
+            onClick={handlePlayAudio}
+            disabled={isGeneratingAudio}
+            aria-label={isPlaying ? "Stop audio" : "Play audio"}
+          >
+            {isGeneratingAudio ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : isPlaying ? (
+              <Volume2 className="h-4 w-4 text-primary" />
+            ) : (
+              <Play className="h-4 w-4" />
+            )}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
 };
+
 
 export function Chat() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([initialMessage]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const [isListening, setIsListening] = useState(false);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const [speechApi, setSpeechApi] = useState<any>(null);
+
+  // Initialize SpeechRecognition
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        setSpeechApi(() => SpeechRecognition);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (speechApi) {
+      const recognition = new speechApi();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+  
+      recognition.onresult = (event: any) => {
+        let finalTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            finalTranscript += event.results[i][0].transcript;
+          }
+        }
+        if (finalTranscript) {
+          setInput(prev => prev + finalTranscript);
+        }
+      };
+      
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+  
+      recognitionRef.current = recognition;
+  
+      return () => {
+        recognition.stop();
+      };
+    }
+  }, [speechApi]);
+
+  const handleMicClick = () => {
+    if (!recognitionRef.current) return;
+    if (isListening) {
+      recognitionRef.current.stop();
+    } else {
+      setInput('');
+      recognitionRef.current.start();
+    }
+    setIsListening(!isListening);
+  };
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
 
-    const userMessage: Message = { role: 'user', content: input };
+    if (recognitionRef.current && isListening) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    }
+
+    const userMessage: Message = { id: Date.now().toString(), role: 'user', content: input };
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
     try {
-      const result = await chat({ message: input });
-      const assistantMessage: Message = { role: 'assistant', content: result.response };
+      const result = await chat({
+        history: messages.map(m => ({role: m.role, content: m.content})),
+        message: input,
+      });
+
+      const assistantMessage: Message = { 
+          id: (Date.now() + 1).toString(),
+          role: 'assistant', 
+          content: result.response 
+      };
       setMessages(prev => [...prev, assistantMessage]);
     } catch (error) {
-      console.error("Error calling chat flow:", error);
-      const errorMessage: Message = { role: 'assistant', content: "Sorry, I'm having trouble connecting. Please try again later." };
+      console.error("Error in chat flow:", error);
+      const errorMessage: Message = { id: (Date.now() + 1).toString(), role: 'assistant', content: "Sorry, I'm having trouble connecting. Please try again later." };
       setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
   };
 
+  const handleCloseChat = () => {
+    setIsOpen(false);
+    // Don't send an email if there was no meaningful conversation.
+    if (messages.length > 1) {
+      const transcript = messages
+        .map(m => `${m.role === 'user' ? 'User' : 'AI Assistant'}: ${m.content}`)
+        .join('\n\n');
+      
+      console.log('Sending chat transcript to email...');
+      sendChatTranscriptEmail({ transcript })
+        .then((response) => {
+          if (response.success) {
+            console.log('Chat transcript sent successfully.');
+          } else {
+            console.error('Failed to send chat transcript: Service returned failure.');
+          }
+        })
+        .catch(error => {
+          // This error is already logged in the flow, but we can log here too.
+          console.error('An error occurred while trying to send the chat transcript:', error);
+        });
+      
+      // Reset messages for the next session
+      setMessages([]);
+    }
+  };
+
   useEffect(() => {
-    if (scrollAreaRef.current) {
-        setTimeout(() => {
-            const viewport = scrollAreaRef.current?.querySelector('[data-radix-scroll-area-viewport]');
-            if (viewport) {
-                viewport.scrollTop = viewport.scrollHeight;
-            }
-        }, 0);
+    if (viewportRef.current) {
+        viewportRef.current.scrollTop = viewportRef.current.scrollHeight;
     }
   }, [messages]);
   
@@ -68,17 +249,17 @@ export function Chat() {
       )}>
         <Button
           onClick={() => setIsOpen(true)}
-          className="rounded-full h-16 w-16 bg-primary shadow-lg hover:bg-primary/90"
+          className="rounded-full h-16 w-16 bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 flex items-center justify-center"
           aria-label="Open chat"
         >
-          <Bot className="h-8 w-8" />
+          <Bot size={32} />
         </Button>
       </div>
 
       <div
         className={cn(
-          "fixed bottom-0 right-0 top-0 z-[100] h-full w-full transform transition-transform duration-500 ease-in-out md:bottom-6 md:right-6 md:top-auto md:h-[min(80vh,700px)] md:w-[440px]",
-          isOpen ? 'translate-x-0' : 'translate-x-[calc(100%_+_2rem)]'
+          "fixed bottom-0 right-0 top-0 z-[100] h-full w-full transform transition-transform duration-300 ease-in-out md:bottom-6 md:right-6 md:top-auto md:h-[min(80vh,700px)] md:w-[440px]",
+          isOpen ? 'translate-x-0' : 'translate-x-[calc(100%+24px)]'
         )}
       >
         <Card className="flex h-full flex-col rounded-none md:rounded-xl shadow-2xl">
@@ -89,72 +270,87 @@ export function Chat() {
               </Avatar>
               <CardTitle className="text-lg">AI Assistant</CardTitle>
             </div>
-            <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} aria-label="Close chat">
-              <X className="h-5 w-5" />
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" size="icon" onClick={handleCloseChat} aria-label="Close chat">
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
           </CardHeader>
-          <CardContent className="flex-1 p-0">
-             <ScrollArea className="h-full" ref={scrollAreaRef}>
+          <CardContent className="flex-1 p-0 overflow-hidden">
+             <ScrollArea className="h-full" viewportRef={viewportRef}>
               <div className="p-6 space-y-6">
-                {messages.map((message, index) => (
-                  <div key={index} className={cn("flex items-start gap-3", message.role === 'user' ? 'justify-end' : '')}>
-                    {message.role === 'assistant' && (
-                      <Avatar className="h-8 w-8 bg-muted">
-                        <AvatarFallback><Bot size={18} /></AvatarFallback>
-                      </Avatar>
-                    )}
-                    <div
-                      className={cn(
-                        "max-w-[85%] rounded-2xl px-4 py-2.5 text-sm prose dark:prose-invert prose-p:my-0",
-                        message.role === 'user'
-                          ? 'bg-primary text-primary-foreground rounded-br-none'
-                          : 'bg-muted rounded-bl-none'
-                      )}
-                    >
-                      {message.content}
+                {messages.length === 0 && (
+                  <div className="flex items-start gap-3">
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback><Bot size={18} /></AvatarFallback>
+                    </Avatar>
+                    <div className="bg-muted rounded-2xl px-4 py-2.5 text-sm rounded-bl-none">
+                      Hi there! I'm an assistant for Muhammad Idris Abubakar. You can ask me anything about his skills, projects, or experience—or use the mic to speak your question.
                     </div>
-                     {message.role === 'user' && (
-                      <Avatar className="h-8 w-8 bg-muted">
-                        <AvatarFallback><User size={18}/></AvatarFallback>
-                      </Avatar>
+                  </div>
+                )}
+                {messages.map((message) => (
+                  <div key={message.id}>
+                    {message.role === 'assistant' ? (
+                       <AssistantMessage message={message} />
+                    ) : (
+                      <div className="flex items-start gap-3 justify-end">
+                        <div className="max-w-[80%] rounded-2xl px-4 py-2.5 text-sm bg-primary text-primary-foreground rounded-br-none">
+                          {message.content}
+                        </div>
+                        <Avatar className="h-8 w-8">
+                          <AvatarFallback><User size={18}/></AvatarFallback>
+                        </Avatar>
+                      </div>
                     )}
                   </div>
                 ))}
-                {isLoading && (
-                  <div className="flex items-start gap-3">
-                     <Avatar className="h-8 w-8 bg-muted">
-                        <AvatarFallback><Bot size={18} /></AvatarFallback>
-                      </Avatar>
-                    <div className="bg-muted rounded-2xl px-4 py-3 rounded-bl-none">
-                        <div className="flex items-center gap-2">
-                           <span className="h-2 w-2 bg-foreground/50 rounded-full animate-pulse delay-0"></span>
-                           <span className="h-2 w-2 bg-foreground/50 rounded-full animate-pulse delay-200"></span>
-                           <span className="h-2 w-2 bg-foreground/50 rounded-full animate-pulse delay-400"></span>
+                 {isLoading && messages[messages.length - 1]?.role === 'user' && (
+                    <div className="flex items-start gap-3">
+                        <Avatar className="h-8 w-8">
+                            <AvatarFallback><Bot size={18} /></AvatarFallback>
+                        </Avatar>
+                        <div className="bg-muted rounded-2xl px-4 py-2.5 text-sm rounded-bl-none">
+                            <span className="inline-block w-2 h-4 bg-foreground ml-1 animate-pulse" />
                         </div>
                     </div>
-                  </div>
                 )}
               </div>
             </ScrollArea>
           </CardContent>
-          <div className="border-t p-4 bg-background rounded-b-xl">
-            <form onSubmit={handleSendMessage} className="relative">
+          <div className="border-t p-4">
+            <form onSubmit={handleSendMessage} className="relative flex items-center gap-2">
               <Input
                 value={input}
                 onChange={e => setInput(e.target.value)}
-                placeholder="Ask anything..."
-                className="rounded-full pr-12 h-12 bg-muted focus-visible:ring-primary"
+                placeholder={isListening ? "Listening..." : "Ask me anything..."}
+                className="rounded-full pr-24 h-12"
                 disabled={isLoading}
               />
-              <Button
-                type="submit"
-                size="icon"
-                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full h-9 w-9"
-                disabled={isLoading || !input.trim()}
-                aria-label="Send message"
-              >
-                <Send className="h-4 w-4" />
-              </Button>
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center">
+                {speechApi && (
+                  <Button
+                    type="button"
+                    size="icon"
+                    variant={isListening ? "destructive" : "ghost"}
+                    className="rounded-full h-9 w-9"
+                    onClick={handleMicClick}
+                    disabled={isLoading}
+                    aria-label={isListening ? "Stop listening" : "Start listening"}
+                  >
+                    <Mic className="h-4 w-4" />
+                  </Button>
+                )}
+                <Button
+                  type="submit"
+                  size="icon"
+                  className="rounded-full h-9 w-9"
+                  disabled={isLoading || !input.trim()}
+                  aria-label="Send message"
+                >
+                  <Send className="h-4 w-4" />
+                </Button>
+              </div>
             </form>
              <p className="text-xs text-center text-muted-foreground mt-2">
               Press <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-card px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">

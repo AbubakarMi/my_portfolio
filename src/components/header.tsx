@@ -45,8 +45,7 @@ export function Header() {
 
   return (
     <header className={cn(
-      "sticky top-0 z-50 w-full transition-all duration-300",
-      isScrolled ? "bg-background/80 shadow-sm backdrop-blur-sm" : "bg-transparent"
+      "sticky top-0 z-50 w-full transition-all duration-300 bg-background/95 backdrop-blur-sm border-b",
     )}>
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         <Link href="/" className="text-lg font-bold text-foreground transition-colors hover:text-primary md:text-xl">
@@ -59,8 +58,8 @@ export function Header() {
               key={link.id}
               href={`#${link.id}`}
               className={cn(
-                "relative font-medium transition-colors hover:text-primary",
-                activeSection === link.id ? "text-primary" : "text-muted-foreground"
+                "font-medium transition-all hover:text-primary",
+                activeSection === link.id ? "text-primary" : "text-foreground/70"
               )}
             >
               {link.name}

@@ -1,11 +1,11 @@
 
+"use client"
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, Calendar } from 'lucide-react';
+import { ArrowRight, Calendar, User } from 'lucide-react';
 import { blogPosts } from '@/lib/blog-data';
 import { format } from 'date-fns';
-import { Badge } from '@/components/ui/badge';
 
 export function Blog() {
   return (
@@ -22,39 +22,47 @@ export function Blog() {
 
         <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {blogPosts.map((post) => (
-            <Card key={post.title} className="group flex flex-col overflow-hidden rounded-2xl border-transparent shadow-lg transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-2 bg-card">
-              {post.image && (
-                <Link href={`/blog/${post.slug}`} className="block overflow-hidden">
-                  <Image
-                    src={post.image.imageUrl}
-                    alt={`Thumbnail for ${post.title}`}
-                    width={800}
-                    height={500}
-                    className="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    data-ai-hint={post.image.imageHint}
-                  />
-                </Link>
-              )}
-              <div className="flex flex-1 flex-col p-6">
-                <CardHeader className="p-0">
-                  <div className="mb-2 flex items-center gap-2 text-sm text-muted-foreground">
-                     <Calendar className="h-4 w-4" />
-                     <time dateTime={post.date}>{format(new Date(post.date), "MMMM d, yyyy")}</time>
+            <Link href={`/blog/${post.slug}`} key={post.slug} className="group block">
+                <Card className="flex h-full flex-col overflow-hidden rounded-2xl shadow-lg transition-all duration-300 group-hover:shadow-2xl group-hover:-translate-y-1">
+                  {post.image && (
+                      <div className="overflow-hidden">
+                        <Image
+                            src={post.image.imageUrl}
+                            alt={`Thumbnail for ${post.title}`}
+                            width={800}
+                            height={500}
+                            className="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            data-ai-hint={post.image.imageHint}
+                        />
+                      </div>
+                  )}
+                  <div className="flex flex-1 flex-col p-6">
+                    <CardHeader className="p-0">
+                      <CardTitle className="text-xl font-semibold leading-snug">
+                         {post.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="flex-1 p-0 pt-4">
+                      <p className="text-foreground/80 line-clamp-3">{post.excerpt}</p>
+                    </CardContent>
+                    <CardFooter className="flex-col items-start p-0 pt-6">
+                        <div className="flex w-full items-center justify-between text-sm text-foreground/60">
+                           <div className="flex items-center gap-2">
+                             <User className="h-4 w-4" />
+                             <span>M.I. Abubakar</span>
+                           </div>
+                           <div className="flex items-center gap-2">
+                              <Calendar className="h-4 w-4" />
+                              <time dateTime={post.date}>{format(new Date(post.date), "MMM d, yyyy")}</time>
+                           </div>
+                        </div>
+                        <div className="pt-4 font-semibold text-primary transition-colors group-hover:text-accent">
+                          Read More <ArrowRight className="ml-1 inline h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </div>
+                    </CardFooter>
                   </div>
-                  <CardTitle className="text-xl font-semibold">
-                     <Link href={`/blog/${post.slug}`} className="hover:text-primary transition-colors">{post.title}</Link>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="flex-1 p-0 pt-4">
-                  <p className="text-muted-foreground line-clamp-3">{post.excerpt}</p>
-                </CardContent>
-                <CardFooter className="p-0 pt-6">
-                   <Link href={`/blog/${post.slug}`} className="font-semibold text-primary transition-colors hover:text-accent group-hover:text-accent">
-                    Read More <ArrowRight className="ml-1 inline h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </CardFooter>
-              </div>
-            </Card>
+                </Card>
+            </Link>
           ))}
         </div>
       </div>

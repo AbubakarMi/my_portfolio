@@ -26,19 +26,25 @@ export const blogPosts = [
   },
   {
     slug: "why-i-started-nyra-technology",
-    title: "Why I Started The Nyra Startup",
+    title: "Why I Started Nyra",
     excerpt: "A personal reflection on the journey, motivation, and vision behind founding a tech startup aimed at simplifying business operations and driving growth through software.",
     image: PlaceHolderImages.find(p => p.id === "blog-nyra-tech"),
     date: "2024-07-15",
     content: `
-      <p>The decision to start a company is never an easy one. For me, the journey to founding the Nyra startup was driven by a deep-seated passion for problem-solving and a belief in the transformative power of software.</p>
-      <h3 class="font-headline text-2xl font-bold mt-8 mb-4">From Passion to Profession</h3>
-      <p>I've always been fascinated by how technology can be used to create elegant solutions to complex problems. Throughout my career, I've had the opportunity to work on a variety of projects, and I've seen firsthand how the right software can make a significant impact on a business's ability to operate efficiently and grow.</p>
-      <p>However, I also noticed a recurring gap in the market. Many businesses, especially small and medium-sized enterprises (SMEs), were struggling with clunky, outdated, or ill-fitting software solutions. They needed tools that were not only powerful but also intuitive and accessible.</p>
+      <p>Starting Nyra wasn’t just about building another tech product—it was about solving a real problem that I deeply cared about. As someone passionate about communication and technology, I’ve always believed that the ability to connect and understand one another should never be limited by language or distance.</p>
+      <p>The idea came to me when I realized how many people and companies struggle to collaborate effectively across different languages. Imagine two people—one who speaks only Hausa and another who speaks only English—trying to hold an important meeting. In today’s globalized world, this kind of barrier still exists everywhere. I wanted to change that.</p>
+      <p>Nyra was born from this mission: to make communication between people and businesses seamless, no matter what language they speak. Through live translation and transcription, Nyra helps people understand each other instantly, making collaboration more natural and inclusive.</p>
+      <p>But Nyra isn’t only about conversation—it’s also about productivity. Many organizations waste valuable time taking notes, filling forms, and managing paperwork after every meeting. I wanted Nyra to simplify that by automatically summarizing meetings, extracting key action points, and keeping records of important discussions, all within one platform.</p>
+      
       <h3 class="font-headline text-2xl font-bold mt-8 mb-4">The Vision for Nyra</h3>
-      <p>This is where the vision for Nyra was born. My goal was to create a startup that focuses on building high-quality, human-centric software that empowers businesses. I wanted to move beyond just writing code and instead focus on creating real value and driving growth for our clients.</p>
-      <p>Our flagship product, Nyra Connect, is the first step in this journey. It's a meeting application designed to make collaboration more effective with live transcription and accessible summaries. But this is just the beginning. The ultimate vision for Nyra is to become a trusted partner for businesses, providing them with the software tools they need to thrive in a digital-first world.</p>
-      <p>Starting a company has been one of the most challenging and rewarding experiences of my life. It's a journey filled with learning, growth, and the opportunity to make a real impact. I'm excited about what the future holds and look forward to continuing to build solutions that matter.</p>
+      <p>My vision for Nyra goes far beyond meetings. I want Nyra to become a global productivity platform that redefines how people connect, collaborate, and communicate. The dream is to see Nyra used worldwide—from startups in Africa to enterprises in Silicon Valley—helping teams break barriers, save time, and work smarter.</p>
+      <p>In the near future, I plan to introduce Nyra Chat, an all-in-one communication hub that combines chats, groups, feeds, and meetings into a single powerful app. Nyra Chat will also include live transcription and language translation, allowing people from different regions to communicate effortlessly in real time.</p>
+      <p>My ultimate goal is to make Nyra a globally recognized brand built from Africa—a product that reflects innovation, inclusion, and excellence. I want it to show that young Nigerians can build technology that competes at a world-class level.</p>
+
+      <h3 class="font-headline text-2xl font-bold mt-8 mb-4">From Passion to Profession</h3>
+      <p>My journey into technology started with a simple curiosity about how software could solve real problems. Over time, that curiosity grew into a passion and then into a purpose. I’ve seen how well-built software can change how people work and live, and I wanted to be part of that change.</p>
+      <p>Founding Nyra has been a deeply personal mission for me. It’s not just about creating an app; it’s about proving that with the right vision and discipline, you can start from anywhere and build something meaningful.</p>
+      <p>To be sincere, one of my biggest motivations is to become the youngest Nigerian founder to build a startup that reaches the global stage. I want Nyra to be a living example that innovation can come from anywhere—even from a young dreamer in Nigeria who believed in the power of software to unite people.</p>
     `
   },
   {

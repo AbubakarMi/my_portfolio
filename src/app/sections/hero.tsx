@@ -17,53 +17,57 @@ export function Hero() {
     setIsMounted(true);
   }, []);
 
+  const animationClass = (delay: string) => cn(
+    "transition-all duration-700 ease-out",
+    isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5",
+    delay
+  );
+
   return (
-    <section id="home" className="relative w-full overflow-hidden bg-background py-24 md:py-32 lg:py-40">
-       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-background -z-10"/>
-      <div className="container mx-auto grid grid-cols-1 items-center gap-12 px-4 md:grid-cols-2 md:px-6">
-        <div className={cn(
-            "space-y-6 text-center md:text-left transition-all duration-1000",
-            isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        )}>
-          <div className="space-y-4">
-             <p className="font-semibold text-primary tracking-wider">MUHAMMAD IDRIS ABUBAKAR</p>
-            <h1 className="font-headline text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-              Software Engineer & Founder
+    <section id="home" className="relative overflow-hidden bg-background py-24 sm:py-32">
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-[radial-gradient(40%_50%_at_50%_50%,hsl(var(--primary)/0.1),transparent)]"
+      />
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="flex flex-col items-center justify-center text-center">
+
+           {heroImage && (
+             <div className={cn("relative mb-8", animationClass("delay-100"))} style={{transform: "translateZ(0)"}}>
+                <Image
+                    src={heroImage.imageUrl}
+                    alt="Muhammad Idris Abubakar"
+                    width={160}
+                    height={160}
+                    className="rounded-full object-cover shadow-2xl border-4 border-background"
+                    priority
+                />
+             </div>
+           )}
+          
+          <div className={cn("space-y-6 max-w-4xl", animationClass("delay-200"))}>
+            <p className="font-semibold text-primary text-lg">
+              Hello, I'm Muhammad Idris Abubakar
+            </p>
+            <h1 className="font-headline text-5xl font-bold tracking-tighter text-foreground sm:text-6xl lg:text-7xl">
+              Software & AI Evaluation Engineer
             </h1>
-            <p className="mx-auto max-w-2xl text-lg text-muted-foreground md:mx-0 md:text-xl">
-              I build scalable SaaS and custom software solutions that help people and businesses grow.
+            <p className="mx-auto max-w-2xl text-lg text-foreground/80 md:text-xl">
+              I build scalable systems and conduct AI evaluation workflows. As the founder of <strong className="font-semibold text-primary">Nyra</strong>, my mission is to build world-class productivity software that makes communication seamless, no matter what language people speak.
             </p>
           </div>
-          <div className="flex flex-col gap-4 pt-4 sm:flex-row sm:justify-center md:justify-start">
-            <Button asChild size="lg" className="rounded-full px-8">
+
+          <div className={cn("flex flex-col gap-4 pt-8 sm:flex-row sm:justify-center", animationClass("delay-300"))}>
+            <Button asChild size="lg" className="rounded-full px-8 py-6 text-base">
               <Link href="#projects">View My Work <ArrowRight className="ml-2 h-5 w-5" /></Link>
             </Button>
-            <Button asChild size="lg" variant="secondary" className="rounded-full px-8">
-               <a href="/resume.pdf" download="Muhammad_Idris_Abubakar_Resume.pdf">
+            <Button asChild size="lg" variant="outline" className="rounded-full border-2 px-8 py-6 text-base">
+               <a href="https://drive.google.com/file/d/1P51URCIY7UCDsIQuxrzlb5FvD4mZxNDp/view?usp=sharing" target="_blank" rel="noopener noreferrer">
                 <Download className="mr-2 h-5 w-5" />
                 My Resume
               </a>
             </Button>
           </div>
-        </div>
-         <div className={cn(
-            "relative mx-auto w-fit transition-all duration-1000 delay-200",
-            isMounted ? "opacity-100 scale-100" : "opacity-0 scale-90"
-        )}>
-          {heroImage && (
-             <div className="group relative">
-                <Image
-                    src={heroImage.imageUrl}
-                    alt={heroImage.description}
-                    width={450}
-                    height={450}
-                    className="h-auto w-full max-w-sm rounded-full border-4 border-background object-cover shadow-2xl md:max-w-md"
-                    data-ai-hint={heroImage.imageHint}
-                    priority
-                />
-                <div className="absolute inset-0 rounded-full bg-primary/10 transition-opacity duration-300 group-hover:opacity-0"></div>
-             </div>
-          )}
         </div>
       </div>
     </section>

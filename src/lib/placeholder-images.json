@@ -1,63 +1,87 @@
 {
   "placeholderImages": [
-    {
-      "id": "hero-portrait",
-      "description": "Professional portrait of Muhammad Idris Abubakar",
-      "imageUrl": "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjE2Mzk1ODV8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "professional portrait"
-    },
-    {
-      "id": "about-profile",
-      "description": "Profile image for the about section",
-      "imageUrl": "https://images.unsplash.com/photo-1622151834677-70f982c9adef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtYW4lMjB3b3JraW5nfGVufDB8fHx8MTc2MTYwMDAzM3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "man working"
-    },
+   {
+  "id": "hero-portrait",
+  "description": "Professional portrait of Muhammad Idris Abubakar",
+  "imageUrl": "/images/Muhammad.JPG",
+  "imageHint": "professional portrait"
+},
+   {
+  "id": "about-profile",
+  "description": "Profile image for the about section",
+  "imageUrl": "/images/about.jpeg",
+  "imageHint": "man working"
+},
     {
       "id": "project-nyra",
-      "description": "Screenshot of the Nyra Connect application",
-      "imageUrl": "https://images.unsplash.com/photo-1612831455359-970e23a1e4e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx2aWRlbyUyMGNvbmZlcmVuY2V8ZW58MHx8fHwxNzYxNjUzMDE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "video conference"
+      "description": "Image representing a productivity application",
+      "imageUrl": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHx2aWRlbyUyMGNvbmZlcmVuY2V8ZW58MHx8fHwxNzYxNjUzMDE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "productivity app"
     },
     {
       "id": "project-buildtrack",
       "description": "Screenshot of BuildTrack Pro dashboard",
-      "imageUrl": "https://images.unsplash.com/photo-1614683361837-963af4039d58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjb25zdHJ1Y3Rpb24lMjBkYXNoYm9hcmR8ZW58MHx8fHwxNzYxNjUzMDE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1627805460755-0f4a9a90c5f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjb25zdHJ1Y3Rpb24lMjBkYXNoYm9hcmR8ZW58MHx8fHwxNzYxNjUzMDE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "construction dashboard"
     },
     {
       "id": "project-invotrek",
-      "description": "Screenshot of InvoTrek application",
-      "imageUrl": "https://images.unsplash.com/photo-1600267204091-5c1ab8b10c02?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkb2N1bWVudCUyMGF1dG9tYXRpb258ZW58MHx8fHwxNzYxNjUzMDE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "document automation"
+      "description": "Image representing InvoTrek application for document automation",
+      "imageUrl": "https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxpbnZvaWNlJTIwbWFuYWdlbWVudHxlbnwwfHx8fDE3NjIyMDYwODV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "invoice management"
     },
     {
       "id": "project-admission",
-      "description": "Screenshot of the Online Admission System",
-      "imageUrl": "https://images.unsplash.com/photo-1558673532-102034a5f6e4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxvbmxpbmUlMjBmb3JtfGVufDB8fHx8MTc2MTU2NTIzMXww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "online form"
+      "description": "Image for a university bus tracking app",
+      "imageUrl": "https://images.unsplash.com/photo-1622390573893-d61510131108?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxidXMlMjB0cmFja2luZ3xlbnwwfHx8fDE3NjE3NDY2OTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "bus tracking"
+    },
+    {
+      "id": "project-smarterp",
+      "description": "Image for a school ERP system",
+      "imageUrl": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzY2hvb2wlMjBtYW5hZ2VtZW50fGVufDB8fHx8MTc2MTk3NTQ4N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "school management"
+    },
+    {
+      "id": "project-nubenta",
+      "description": "Image representing an AI-powered health management system",
+      "imageUrl": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxoZWFsdGhjYXJlJTIwdGVjaG5vbG9neXxlbnwwfHx8fDE3NjE3MTIzMzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "healthcare technology"
+    },
+    {
+      "id": "project-bulkpay",
+      "description": "Image for BulkPay salary payment system",
+      "imageUrl": "https://images.unsplash.com/photo-1554224155-1696413565d3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwYXlyb2xsfGVufDB8fHx8MTc2MjE4NjgwNHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "payroll system"
     },
     {
       "id": "project-rental",
-      "description": "Screenshot of the Rental Management System",
-      "imageUrl": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxob3VzZSUyMHJlbnRhbHxlbnwwfHx8fDE3NjE2NTMwMTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "house rental"
+      "description": "Image for a Rental Management System",
+      "imageUrl": "https://images.unsplash.com/photo-1484154218962-a197022b5858?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxyZW50YWwlMjBwcm9wZXJ0eXxlbnwwfHx8fDE3NjE3NDY2OTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "rental property"
+    },
+    {
+      "id": "project-rewardify",
+      "description": "Image for Rewardify gamification platform",
+      "imageUrl": "https://images.unsplash.com/photo-1695462131540-5e91d57a2e51?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxyZXdhcmRzJTIwZ2FtaWZpY2F0aW9ufGVufDB8fHx8MTc2MTc0NjY5OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "rewards gamification"
     },
     {
       "id": "blog-modular-saas",
       "description": "Thumbnail for blog post on modular SaaS architecture",
-      "imageUrl": "https://images.unsplash.com/photo-1721244653652-268631ec049a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxhcmNoaXRlY3R1cmUlMjBkaWFncmFtfGVufDB8fHx8MTc2MTY1MDY3N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1721132537184-5494c01ed87f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhcmNoaXRlY3R1cmUlMjBkaWFncmFtfGVufDB8fHx8MTc2MTY1MDY3N3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "architecture diagram"
     },
     {
       "id": "blog-nyra-tech",
-      "description": "Thumbnail for blog post about starting Nyra Technology Limited",
-      "imageUrl": "https://images.unsplash.com/photo-1594235048794-fae8583a5af5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdGFydHVwJTIwb2ZmaWNlfGVufDB8fHx8MTc2MTY0OTYzN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "description": "Thumbnail for blog post about starting Nyra Technology",
+      "imageUrl": "https://images.unsplash.com/photo-1594235046256-90e5572fd5f9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzdGFydHVwJTIwb2ZmaWNlfGVufDB8fHx8MTc2MTY0OTYzN3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "startup office"
     },
     {
       "id": "blog-scaling-systems",
       "description": "Thumbnail for blog post on designing scalable systems",
-      "imageUrl": "https://images.unsplash.com/flagged/photo-1579274216947-86eaa4b00475?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxuZXR3b3JrJTIwc2VydmVyc3xlbnwwfHx8fDE3NjE2NTA2Nzd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1597138804456-e7dca7f59d54?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bmV0d29yayUyMHNlcnZlcnN8ZW58MHx8fHwxNzYxNjUwNjc3fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "network servers"
     }
   ]

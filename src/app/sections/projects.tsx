@@ -1,191 +1,284 @@
 
-
 "use client";
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { ArrowRight, ExternalLink } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { ExternalLink, Play, Square, Loader2 } from 'lucide-react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { cn } from '@/lib/utils';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
+import { summarizeProject } from '@/ai/flows/summarize-project-flow';
+import { textToSpeech } from '@/ai/flows/tts-flow';
 
 const projects = [
-  {
-    title: "Nyra Connect",
-    description: "A meeting application that provides live transcription and accessible summaries after meetings. Also developing a chat application to complement the meeting functions.",
-    tech: ["Next.js", "TypeScript", "Google AI", "WebRTC"],
-    image: PlaceHolderImages.find(p => p.id === "project-nyra"),
+   {
+    title: "Nubenta Care",
+    description: "An AI-driven health management system designed to digitize hospital operations. It connects admin, doctors, pharmacy, lab, and finance into one intelligent platform.",
+    tech: ["Node.js", "PostgreSQL", "AI/NLP", "SendGrid"],
+    image: PlaceHolderImages.find(p => p.id === "project-nubenta"),
     link: "#",
-    role: "Founder & Lead Developer"
+    role: "Founder & Lead Developer",
+    summaryScript: "Nubenta Care is an AI-powered health management system that digitizes and connects all hospital departments. By integrating administration, doctors, and labs, it streamlines operations and improves patient care through smart, automated workflows."
   },
   {
-    title: "BuildTrack Pro",
-    description: "A multi-tenant web app for contractors to track construction expenses, material usage, and worker payments. Monitor daily spending, manage budgets, and prevent losses.",
-    tech: ["React", "Node.js", "PostgreSQL"],
-    image: PlaceHolderImages.find(p => p.id === "project-buildtrack"),
+    title: "Nyra Connect",
+    description: "A scalable modular system for an AI-powered productivity app. Features include journals, AI insights, focus sessions, and notifications.",
+    tech: [".NET 8", "React", "PostgreSQL", "Clean Architecture"],
+    image: PlaceHolderImages.find(p => p.id === "project-nyra"),
     link: "#",
-    role: "Lead Developer"
+    role: "Founder & Lead Developer",
+    summaryScript: "Nyra Connect is an AI-driven productivity application built on a scalable, modular architecture using .NET and React. It enhances focus and organization through intelligent journals, AI-powered insights, and integrated notification systems."
   },
   {
     title: "InvoTrek",
-    description: "A multi-tenant SaaS for smart document automation. Upload templates, fill client data, and auto-generate professional Word or PDF files. Features AI-assisted field detection.",
-    tech: ["React", "Node.js", "Google AI", "SaaS"],
+    description: "A multi-tenant SaaS for smart document automation. Features AI-assisted field detection and inventory tracking.",
+    tech: ["Node.js", "PostgreSQL", "Google AI", "SaaS"],
     image: PlaceHolderImages.find(p => p.id === "project-invotrek"),
-    link: "#",
-    role: "Creator & Lead Developer"
+    link: "https://invotrek.netlify.app",
+    role: "Creator & Lead Developer",
+    summaryScript: "InvoTrek is a multi-tenant SaaS platform designed for intelligent document automation. Using Node.js and Google AI, it offers features like AI-assisted field detection and inventory management to streamline business workflows."
   },
   {
-    title: "Online Admission System",
-    description: "A system for students to register, log in, and submit admission details with documents. Admins can review, verify, and manage applications via a secure dashboard.",
-    tech: ["Node.js", "Express", "MongoDB", "EJS"],
-    image: PlaceHolderImages.find(p => p.id === "project-admission"),
+    title: "BuildTrack Pro",
+    description: "A multi-tenant web app for contractors to track construction expenses, material usage, and worker payments.",
+    tech: ["React", "Node.js", "PostgreSQL"],
+    image: PlaceHolderImages.find(p => p.id === "project-buildtrack"),
     link: "#",
-    role: "Full-Stack & Lead Developer"
+    role: "Lead Developer",
+    summaryScript: "BuildTrack Pro is a web platform for construction management. Built with React and Node.js, it empowers contractors to track expenses, monitor material usage, and manage worker payments through an intuitive, real-time dashboard."
+  },
+  {
+    title: "SmartEd ERP",
+    description: "A comprehensive school ERP for managing attendance, grades, and payments, featuring role-based security.",
+    tech: ["ASP.NET Core 8", "PostgreSQL", "MVC"],
+    image: PlaceHolderImages.find(p => p.id === "project-smarterp"),
+    link: "#",
+    role: "Lead Developer",
+    summaryScript: "SmartEd ERP is a comprehensive school management system built with ASP.NET Core. It simplifies administrative tasks by managing attendance, grades, and payments, all secured with a robust, role-based access control system."
+  },
+   {
+    title: "BulkPay",
+    description: "An automated salary payment system designed for companies to manage and disburse salaries to employees efficiently.",
+    tech: [".NET", "MVC", "PostgreSQL"],
+    image: PlaceHolderImages.find(p => p.id === "project-bulkpay"),
+    link: "#",
+    role: "Backend Developer",
+    summaryScript: "BulkPay is an automated salary payment system developed with .NET. It streamlines payroll for companies, enabling efficient management and disbursement of employee salaries through a secure and reliable platform."
+  },
+  {
+    title: "Adustech Bus Tracker",
+    description: "A real-time bus booking and tracking platform designed for university students to manage transportation.",
+    tech: ["Node.js", "Firebase"],
+    image: PlaceHolderImages.find(p => p.id === "project-admission"),
+    link: "https://bus-tracker-i4dn.vercel.app/",
+    role: "Full-Stack Developer",
+    summaryScript: "The Adustech Bus Tracker is a real-time booking and tracking platform for university transportation. Using Node.js and Firebase, it provides students and administrators with a seamless way to manage campus transit."
+  },
+  {
+    title: "Rewardify",
+    description: "A gamification platform that helps businesses increase user engagement by integrating a points-based reward system.",
+    tech: ["Node.js", "PostgreSQL", "React", "Gamification"],
+    image: PlaceHolderImages.find(p => p.id === "project-rewardify"),
+    link: "#",
+    role: "Full-Stack Developer",
+    summaryScript: "Rewardify is a gamification platform that boosts user engagement. By integrating a points-based reward system using React and Node.js, it helps businesses incentivize and retain their users effectively."
   },
   {
     title: "Rental Management System",
-    description: "A system to rent houses, apartments, and event centers with secure bookings, payments, reviews, and role-based dashboards for renters, owners, and admins.",
-    tech: ["Node.js", "Express", "React", "TypeScript"],
+    description: "A system for property owners to manage rental properties, track payments, and handle maintenance requests.",
+    tech: ["Node.js", "React", "PostgreSQL"],
     image: PlaceHolderImages.find(p => p.id === "project-rental"),
     link: "#",
-    role: "Full-Stack & Lead Developer"
+    role: "Software Engineer",
+    summaryScript: "This Rental Management System allows property owners to efficiently manage their rental properties. Built with React and Node.js, it features payment tracking, maintenance request handling, and tenant management."
+  },
+  {
+    title: "Online Management System",
+    description: "A general-purpose system for small businesses to track inventory, sales, and customer data.",
+    tech: ["Node.js", "React", "PostgreSQL"],
+    image: PlaceHolderImages.find(p => p.id === "blog-scaling-systems"),
+    link: "#",
+    role: "Web Developer",
+    summaryScript: "This Online Management System is a versatile tool for small businesses. It helps track inventory, monitor sales, and manage customer data through a clean and simple interface built with React and Node.js."
   }
 ];
 
-const ProjectCard = ({ project, index }: { project: typeof projects[0], index: number }) => {
+type Project = (typeof projects)[0];
+
+const ProjectAudioPlayer = ({ project }: { project: Project }) => {
+  const [audioState, setAudioState] = useState<'idle' | 'loading' | 'playing' | 'error'>('idle');
+  const [audioDataUri, setAudioDataUri] = useState<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { toast } = useToast();
+
+  const handleAudioPlayback = async () => {
+    if (audioState === 'playing' && audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setAudioState('idle');
+      return;
+    }
+
+    if (audioDataUri && audioRef.current) {
+      audioRef.current.play().catch(e => {
+        console.error("Audio playback failed:", e);
+        setAudioState('error');
+      });
+      return;
+    }
+
+    setAudioState('loading');
+    try {
+      if (!project.summaryScript) {
+        throw new Error("No summary script available for this project.");
+      }
+      const ttsResult = await textToSpeech({ text: project.summaryScript });
+      setAudioDataUri(ttsResult.audioDataUri);
+    } catch (error) {
+      console.error("Failed to generate audio summary:", error);
+      setAudioState('error');
+      toast({
+        variant: "destructive",
+        title: "Audio Summary Failed",
+        description: "Couldn't generate an audio summary for this project. Please try again later.",
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (audioDataUri && audioRef.current) {
+      audioRef.current.src = audioDataUri;
+      audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+    }
+  }, [audioDataUri]);
+
+  useEffect(() => {
+    const audioElement = audioRef.current;
+    if (audioElement) {
+      const onPlay = () => setAudioState('playing');
+      const onPause = () => setAudioState('idle');
+      const onEnded = () => setAudioState('idle');
+      
+      audioElement.addEventListener('play', onPlay);
+      audioElement.addEventListener('pause', onPause);
+      audioElement.addEventListener('ended', onEnded);
+      
+      return () => {
+        audioElement.removeEventListener('play', onPlay);
+        audioElement.removeEventListener('pause', onPause);
+        audioElement.removeEventListener('ended', onEnded);
+      }
+    }
+  }, [audioRef.current]);
+
+  return (
+    <>
+      <audio ref={audioRef} className="hidden" />
+      <Button
+        size="lg"
+        variant="outline"
+        className="rounded-full px-8"
+        onClick={handleAudioPlayback}
+        disabled={audioState === 'loading'}
+      >
+        {audioState === 'loading' && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+        {audioState === 'playing' ? <Square className="mr-2 h-5 w-5" /> : <Play className="mr-2 h-5 w-5" />}
+        {audioState === 'playing' ? 'Stop' : 'Listen to Summary'}
+      </Button>
+    </>
+  );
+};
+
+
+
+const ProjectItem = ({ project, index }: { project: Project, index: number }) => {
     const [isVisible, setIsVisible] = useState(false);
-    const cardRef = useRef<HTMLDivElement>(null);
+    const ref = useRef<HTMLDivElement>(null);
+    const isReversed = index % 2 !== 0;
 
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
                     setIsVisible(true);
-                    observer.disconnect();
+                    observer.unobserve(entry.target);
                 }
             },
-            { threshold: 0.1 }
+            { threshold: 0.2, once: true }
         );
 
-        if (cardRef.current) {
-            observer.observe(cardRef.current);
-        }
-
-        return () => {
-            if (cardRef.current) {
-                observer.unobserve(cardRef.current);
-            }
-        };
+        const currentRef = ref.current;
+        if (currentRef) observer.observe(currentRef);
+        return () => { if (currentRef) observer.unobserve(currentRef); };
     }, []);
-
+    
     return (
-        <Dialog>
-            <Card
-                ref={cardRef}
-                className={cn(
-                    "group flex flex-col overflow-hidden rounded-2xl border-transparent shadow-lg transition-all duration-500 bg-card",
-                    isVisible ? 'animate-fade-in-up opacity-100' : 'opacity-0',
-                    "hover:shadow-primary/20 hover:-translate-y-2"
-                )}
-                style={{ animationDelay: `${index * 150}ms` }}
-            >
-                <DialogTrigger asChild>
-                    <div className="relative overflow-hidden cursor-pointer">
-                        {project.image && (
-                            <Image
-                                src={project.image.imageUrl}
-                                alt={project.image.description}
-                                width={800}
-                                height={600}
-                                className="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                data-ai-hint={project.image.imageHint}
-                            />
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                         <div className="absolute bottom-0 left-0 p-6">
-                            <CardTitle className="text-xl font-bold text-primary-foreground shadow-black [text-shadow:0_1px_2px_var(--tw-shadow-color)]">{project.title}</CardTitle>
-                            <CardDescription className="font-medium text-primary-foreground/80">
-                                {project.role}
-                            </CardDescription>
-                        </div>
-                    </div>
-                </DialogTrigger>
-                <div className="bg-card p-6 pt-4">
-                    <div className="flex flex-wrap gap-2">
-                        {project.tech.map((t) => (
-                            <Badge key={t} variant="secondary">{t}</Badge>
-                        ))}
-                    </div>
-                </div>
-            </Card>
-            <DialogContent className="max-w-4xl p-0">
-                 <div className="relative">
+        <div ref={ref} className={cn("grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16 transition-all duration-1000", isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
+            <div className={cn("group relative", isReversed && "lg:order-last")}>
+                <Card className="overflow-hidden rounded-2xl shadow-lg transition-shadow duration-300 group-hover:shadow-2xl">
                     {project.image && (
-                        <div className="overflow-hidden rounded-t-lg max-h-[400px]">
-                            <Image
-                                src={project.image.imageUrl}
-                                alt={project.image.description}
-                                width={1200}
-                                height={675}
-                                className="w-full object-cover"
-                                data-ai-hint={project.image.imageHint}
-                            />
-                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                        </div>
+                         <Image
+                            src={project.image.imageUrl}
+                            alt={project.title}
+                            width={1200}
+                            height={900}
+                            className="aspect-video w-full object-cover"
+                            data-ai-hint={project.image.imageHint}
+                        />
                     )}
-                    <DialogHeader className="absolute bottom-0 left-0 p-8 text-white">
-                        <DialogTitle className="text-4xl font-bold tracking-tight shadow-black [text-shadow:0_2px_4px_var(--tw-shadow-color)]">{project.title}</DialogTitle>
-                        <p className="text-xl font-medium text-white/90 shadow-black [text-shadow:0_1px_2px_var(--tw-shadow-color)]">{project.role}</p>
-                    </DialogHeader>
+                </Card>
+            </div>
+            <div className="space-y-6">
+                <div>
+                   <p className="font-semibold text-primary">{project.role}</p>
+                    <h3 className="mt-2 font-headline text-3xl font-bold text-foreground">{project.title}</h3>
                 </div>
-                <div className="px-8 pb-8 pt-6 space-y-6">
-                    <p className="text-muted-foreground text-base leading-relaxed">{project.description}</p>
-                    <div>
-                        <h4 className="font-semibold mb-3 text-foreground">Technologies Used:</h4>
-                        <div className="flex flex-wrap gap-2">
-                            {project.tech.map((t) => (
-                                <Badge key={t} variant="secondary" className="text-sm py-1 px-3">{t}</Badge>
-                            ))}
-                        </div>
-                    </div>
-                     <div className="pt-4">
-                        <Button asChild size="lg" className="rounded-full">
-                            <Link href={project.link} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink className="mr-2 h-5 w-5" />
-                                Live Demo
-                            </Link>
-                        </Button>
-                    </div>
+                <p className="text-lg text-foreground/80">{project.description}</p>
+                <div className="flex flex-wrap gap-3">
+                    {project.tech.map((t) => (
+                        <Badge key={t} variant="secondary" className="px-3 py-1 text-sm">{t}</Badge>
+                    ))}
                 </div>
-            </DialogContent>
-        </Dialog>
-    );
-};
-
+                <div className="flex flex-wrap gap-4">
+                     <Button asChild size="lg" className="rounded-full px-8">
+                        <Link href={project.link} target="_blank" rel="noopener noreferrer">
+                            View Project <ExternalLink className="ml-2 h-4 w-4" />
+                        </Link>
+                    </Button>
+                    <ProjectAudioPlayer project={project} />
+                </div>
+            </div>
+        </div>
+    )
+}
 
 export function Projects() {
-  return (
-    <section id="projects" className="bg-background py-24 sm:py-32">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center space-y-3">
-          <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Featured Projects
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
-            A selection of projects that showcase my skills and passion for building software.
-          </p>
-        </div>
-
-        <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.title} project={project} index={index} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+    return (
+        <section id="projects" className="bg-primary/5 py-24 sm:py-32">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="text-center">
+                    <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                        Featured Projects
+                    </h2>
+                    <p className="mx-auto mt-4 max-w-2xl text-lg text-foreground/70">
+                        A selection of projects that showcase my skills in AI, SaaS development, and system architecture.
+                    </p>
+                </div>
+                
+                <div className="mt-24 space-y-24">
+                    {projects.map((project, index) => (
+                        <ProjectItem key={project.title} project={project} index={index} />
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
 }
+
+    
+
+    

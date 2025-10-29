@@ -1,9 +1,21 @@
+
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Container, KeyRound, Mail, Github } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import React, { useState } from 'react';
+import { Card } from '@/components/ui/card';
+import { BrainCircuit, TestTube2, FileJson, Sparkles, Server, Code, Wind, GitBranch, Mail } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faNodeJs } from '@fortawesome/free-brands-svg-icons';
+import { SkillAnalysisDialog } from '@/components/skill-analysis-dialog';
+
+const DockerIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.12 6.42c-1.57-2.6-3.77-3.23-3.77-3.23l-3.65.17s-2.48.59-3.9 1.83c-1.3.17-2.58.53-3.82 1.1-1.39-1.2-3.13-1.63-3.13-1.63L.25 8.32s2.07.28 3.53 1.5l.2 4.15c.32.14 2.65.98 3.05 1.13.5.2 1 .3 1.5.4l.2 4.07s1.78 1.13 3.63 1.13c3.95 0 4.28-4.13 4.28-4.13s-.5-2.7-3.93-3.32c.4-.33.78-.73 1.12-1.2.66.02 2.6-.03 2.6-.03s2.2-1.2 2.7-3.04a2.6 2.6 0 0 0-.2-1.9zm-9.15 7.15a.42.42 0 0 1-.41.42h-1.2a.42.42 0 0 1-.42-.42v-1.19c0-.23.19-.42.42-.42h1.19c.23 0 .42.19.42.42v1.19zm2.4 0a.42.42 0 0 1-.42.42h-1.2a.42.42 0 0 1-.41-.42v-1.19c0-.23.18-.42.41-.42h1.2a.42.42 0 0 1 .42.42v1.19zm2.39 0a.42.42 0 0 1-.42.42h-1.19a.42.42 0 0 1-.42-.42v-1.19c0-.23.19-.42.42-.42h1.19a.42.42 0 0 1 .42.42v1.19zm2.4 0a.42.42 0 0 1-.42.42h-1.2a.42.42 0 0 1-.41-.42v-1.19c0-.23.18-.42.41-.42h1.2a.42.42 0 0 1 .42.42v1.19z" fill="#2496ED" />
+    </svg>
+);
+
 
 const DotNetIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -21,12 +33,6 @@ const TypeScriptIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M1.5 1.5h21v21h-21z" fill="#3178c6"/>
     <path d="M12.3 10.6c.1-.1.3-.2.5-.2s.4.1.5.2l3.4 3.4c.1.1.2.3.2.5s-.1.4-.2.5l-.9.9c-.1.1-.3.2-.5.2s-.4-.1-.5-.2L12 12.3l-2.9 2.9c-.1.1-.3.2-.5.2s-.4-.1-.5-.2l-.9-.9c-.1-.1-.2-.3-.2-.5s.1-.4.2-.5zm-4-1.7V4.5h11.2v4.4h-4.4v8.9h-2.4V8.9z" fill="#fff"/>
-  </svg>
-);
-
-const TailwindCssIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.18 10.37c-1.09 1.09-2.52 1.63-4.23 1.63-1.63 0-3-.5-4.1-1.5-.53-.48-.7-1.25-.38-1.84.32-.59.98-.81 1.58-.51.4.2.73.52.96.75 1.05 1 2.58 1 3.6 0 .5-.5.78-1.18.78-1.88 0-1.2-.59-1.8-1.78-2.07-1.13-.25-2.28-.68-2.28-2.26 0-.91.56-1.68 1.48-2.1.4-.18.84-.23 1.28-.15.7.12 1.34.52 1.78 1 .32.36.31.92-.03 1.27-.34.36-.9.37-1.25.02-.2-.2-.46-.35-.76-.35-.5 0-.8.3-.8.75 0 .6.47.88 1.65 1.15 1.35.31 2.41 1.05 2.41 2.54 0 .97-.56 1.83-1.42 2.37z" fill="#38b2ac"/>
   </svg>
 );
 
@@ -54,99 +60,150 @@ const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
 );
 
+const JavaIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M18.87 19.48c-1.3-2.13-1.63-4.13-1.63-4.13s.32-2 1.63-4.14c.1-.17.03-.38-.13-.48l-1.57-.96c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l.9.56c.33.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-1.42-.88c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.42.88c.32.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-.9-.55c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.57.96c.16.1.36.06.47-.1 1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.13c-.1-.17-.03-.38.13-.48l1.57-.96c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38.13.48l-1.8 1.1-.68-1.07c-.2-.32-.64-.4-.96-.2l-1.42.88c-.16.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.42.88c.32.2.4.63.2.95l-1 1.9c-.2.32-.63.4-.95.2l-1.42-.88c-.16-.1-.36-.06-.47.1l-.8.92c-3.1 3.2-2.1 4.4 0 5.4l2.16-1.32c1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.13a.27.27 0 01.14-.48L9.2 2.52c.16-.1.36-.06.47.1l1.4 2.1c.1.17-.03.38-.13.48l-1.42.88c-.32.2-.4.63-.2.95l1.2 1.9c.2.32.63.4.95.2l1.42-.88c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.42.88c-.32.2-.4.63-.2.95l1.2 1.9c.2.32.63.4.95.2l1.42-.88c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.57.96c-.16.1-.36.06-.47-.1-1.3-2.14-1.63-4.14-1.63-4.14s.32-2 1.63-4.13c1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.14c-.1-.17-.03-.38.13-.48l1.57-.96c.16-.1.36-.06.47.1l.6.9a5.2 5.2 0 01-1.5 5.5c-1.3 2.14-1.63 4.14-1.63-4.14s.32 2 1.63 4.14c1.3 2.13 1.63 4.13 1.63-4.13s-.32 2-1.63 4.14a.27.27 0 01.13-.48l1.57-.96c.16-.1.36-.06.47.1l.82 1.25z" fill="#f89820"/><path d="M21.1 9.02c.33 0 .6-.27.6-.6V7.3c0-1.22-1.1-2.2-2.45-2.2H16.5v1.2h2.75c.68 0 1.25.5 1.25 1.1v1.12c0 .33.27.6.6.6z" fill="#5382a1"/></svg>
+);
+
+const PythonIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 5.5c-1.28 0-1.99.35-2.6.83a2.3 2.3 0 00-.9.9c-.48.61-.83 1.32-.83 2.6V12h4.66v-2.1c0-1.04.53-1.67 1.34-1.95.7-.24 1.5-.24 2.2 0 .8.28 1.33.91 1.33 1.95V12h4.67v-2.17c0-1.28-.35-1.99-.83-2.6a2.3 2.3 0 00-.9-.9c-.61-.48-1.32-.83-2.6-.83h-4.34z" fill="#3776ab"/>
+        <path d="M12 18.5c1.28 0 1.99-.35 2.6-.83a2.3 2.3 0 00.9-.9c.48-.61.83-1.32.83-2.6V12H11.66v2.1c0 1.04-.53 1.67-1.34 1.95-.7.24-1.5-.24-2.2 0-.8-.28-1.33-.91-1.33-1.95V12H2.12v2.17c0 1.28.35 1.99.83 2.6a2.3 2.3 0 00.9.9c.61.48 1.32.83 2.6.83h5.55z" fill="#ffc331"/>
+    </svg>
+);
+
+const CSharpIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.5 5.5l-4 13m8-11l-4 13m-2-10h-6a1 1 0 00-1 1v4a1 1 0 001 1h6m4-5h-6a1 1 0 00-1 1v4a1 1 0 001 1h6" stroke="#9b4f96" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+);
+
+const CodeIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="16 18 22 12 16 6"></polyline>
+        <polyline points="8 6 2 12 8 18"></polyline>
+    </svg>
+);
+
 
 const skills = {
-  Backend: [
-    { name: '.NET 8', icon: DotNetIcon },
-    { name: 'ASP.NET Core', icon: DotNetIcon },
-    { name: 'PostgreSQL', icon: PostgresqlIcon },
-    { name: 'JWT/Auth', icon: KeyRound },
+  "AI & Testing": [
+    { name: 'LLM Evaluation', icon: BrainCircuit },
+    { name: 'QA Design', icon: TestTube2 },
+    { name: 'NLP Annotation', icon: CodeIcon },
+    { name: 'JSON/YAML Modeling', icon: FileJson },
   ],
-  Frontend: [
+  "Languages": [
+    { name: 'Python', icon: PythonIcon },
+    { name: 'Java', icon: JavaIcon },
+    { name: 'C#', icon: CSharpIcon },
+    { name: 'TypeScript', icon: TypeScriptIcon },
+  ],
+  "Backend": [
+    { name: '.NET 8', icon: DotNetIcon },
+    { name: 'Node.js', icon: (props: any) => <FontAwesomeIcon icon={faNodeJs} {...props} /> },
+    { name: 'PostgreSQL', icon: PostgresqlIcon },
+    { name: 'Clean Architecture', icon: GitBranch },
+  ],
+  "Frontend": [
     { name: 'React', icon: ReactIcon },
     { name: 'Next.js', icon: NextjsIcon },
-    { name: 'TypeScript', icon: TypeScriptIcon },
-    { name: 'Tailwind CSS', icon: TailwindCssIcon },
+    { name: 'Tailwind CSS', icon: Wind },
   ],
-  'DevOps & Tools': [
-    { name: 'Docker', icon: Container },
+   "DevOps & Tools": [
+    { name: 'Docker', icon: DockerIcon },
     { name: 'SendGrid', icon: Mail },
-    { name: 'Git & GitHub', icon: Github },
-  ],
+    { name: 'Git & GitHub', icon: GitBranch },
+  ]
 };
 
-const SkillCard = ({ name, icon: Icon, index }: { name: string, icon: React.ElementType, index: number }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
-    return () => {
-      if (cardRef.current) {
-        observer.unobserve(cardRef.current);
-      }
-    };
-  }, []);
-  
+const SkillCard = ({ name, icon: Icon, style, onAnalyze }: { name: string; icon: React.ElementType; style: React.CSSProperties, onAnalyze: (skill: string) => void }) => {
   return (
-      <div 
-        ref={cardRef}
-        className={cn(
-          "flex items-center gap-4 rounded-xl border-transparent bg-card p-4 shadow-lg transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-1.5",
-          isVisible ? 'animate-fade-in-up' : 'opacity-0'
-        )}
-        style={{ animationDelay: `${index * 100}ms` }}
-      >
-        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted text-foreground">
-          <Icon className="h-7 w-7" />
+    <Card
+      className="group animate-fade-in-up rounded-2xl transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1"
+      style={style}
+    >
+      <div className="flex h-full flex-col items-center justify-center p-6 text-center">
+        <div className="flex flex-1 flex-col items-center justify-center gap-4">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
+              <Icon className="h-8 w-8" />
+            </div>
+            <span className="font-semibold text-foreground text-lg">{name}</span>
         </div>
-        <span className="font-semibold text-foreground text-md">{name}</span>
+
+        <div className="h-9 mt-4 transition-all duration-300 opacity-0 group-hover:opacity-100">
+           <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full bg-background/80 backdrop-blur-sm"
+              onClick={() => onAnalyze(name)}
+            >
+              <Sparkles className="mr-2 h-4 w-4 text-primary" /> Analyze
+            </Button>
+        </div>
       </div>
+    </Card>
   );
 };
 
 
 export function Skills() {
-  return (
-    <section id="skills" className="bg-background py-24 sm:py-32">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center space-y-3">
-          <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Skills &amp; Technologies
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
-            A look at the primary tools and technologies in my professional toolkit.
-          </p>
-        </div>
+  const [analyzingSkill, setAnalyzingSkill] = useState<string | null>(null);
 
-        <div className="mt-20">
-          {Object.entries(skills).map(([category, items]) => (
-            <div key={category} className="mb-12 last:mb-0">
-              <h3 className="text-center font-headline text-2xl font-semibold text-foreground mb-8">
-                {category.replace('&amp;', '&')}
-              </h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                {items.map((skill, index) => (
-                  <SkillCard key={skill.name} name={skill.name} icon={skill.icon} index={index} />
-                ))}
-              </div>
-            </div>
-          ))}
+  return (
+    <>
+      <section id="skills" className="bg-background py-24 sm:py-32">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center">
+            <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+              Skills &amp; Technologies
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-foreground/70">
+              A look at the primary tools and technologies in my professional toolkit. Hover over a skill and click "Analyze" for an AI-powered breakdown.
+            </p>
+          </div>
+
+          <Tabs defaultValue="AI & Testing" className="mt-16 w-full">
+              <TabsList className="mx-auto grid h-auto max-w-2xl grid-cols-2 items-center justify-center gap-2 rounded-xl bg-muted p-2 sm:grid-cols-3 md:flex">
+                  {Object.keys(skills).map((category) => (
+                      <TabsTrigger 
+                        key={category} 
+                        value={category} 
+                        className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-md rounded-lg"
+                      >
+                        {category}
+                      </TabsTrigger>
+                  ))}
+              </TabsList>
+
+              {Object.entries(skills).map(([category, items]) => (
+                  <TabsContent key={category} value={category} className="mt-10">
+                      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                          {items.map((skill, index) => (
+                            <SkillCard 
+                              key={skill.name} 
+                              name={skill.name} 
+                              icon={skill.icon}
+                              style={{ animationDelay: `${index * 100}ms`}}
+                              onAnalyze={setAnalyzingSkill}
+                            />
+                          ))}
+                      </div>
+                  </TabsContent>
+               ))}
+          </Tabs>
         </div>
-      </div>
-    </section>
+      </section>
+      {analyzingSkill && (
+        <SkillAnalysisDialog 
+          skillName={analyzingSkill}
+          open={!!analyzingSkill}
+          onOpenChange={(isOpen) => {
+            if (!isOpen) {
+              setAnalyzingSkill(null);
+            }
+          }}
+        />
+      )}
+    </>
   );
 }
