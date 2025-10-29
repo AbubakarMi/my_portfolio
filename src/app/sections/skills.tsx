@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { BrainCircuit, TestTube2, FileJson, Code, Server, GitBranch, Wind, Mail, Sparkles, Loader2 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -97,19 +97,28 @@ const skills = {
   ]
 };
 
+// A simple in-memory cache for the skill analysis results
+const analysisCache = new Map<string, AnalyzeSkillOutput>();
+
 const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.ElementType; style: React.CSSProperties }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [analysis, setAnalysis] = useState<AnalyzeSkillOutput | null>(null);
+  const [analysis, setAnalysis] = useState<AnalyzeSkillOutput | null>(analysisCache.get(name) || null);
 
-  const handleAnalyzeClick = async () => {
-    // This now only triggers the analysis. The Dialog's own trigger handles opening.
-    if (analysis) return; // Don't re-fetch if we already have it
-
+  const handleAnalyze = async () => {
+    // If analysis is already in state (from cache), just open the dialog
+    if (analysis) {
+      setIsDialogOpen(true);
+      return;
+    }
+    
+    // Open dialog and start loading
+    setIsDialogOpen(true);
     setIsLoading(true);
     try {
       const result = await analyzeSkill({ skill: name });
       setAnalysis(result);
+      analysisCache.set(name, result); // Cache the result
     } catch (error) {
       console.error("Skill analysis failed:", error);
       setAnalysis({
@@ -124,25 +133,23 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <Card
-        className="group relative animate-fade-in-up transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1"
+        className="group relative animate-fade-in-up overflow-hidden rounded-2xl transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1.5"
         style={style}
       >
-        <div className="flex h-full flex-col items-center justify-center gap-4 p-6 text-center rounded-2xl">
+        <div className="flex h-full flex-col items-center justify-center gap-4 p-6 text-center">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
             <Icon className="h-8 w-8" />
           </div>
           <span className="font-semibold text-foreground text-lg mt-2">{name}</span>
           <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <DialogTrigger asChild>
-              <Button
+             <Button
                 variant="outline"
                 size="sm"
                 className="rounded-full bg-background/80 backdrop-blur-sm"
-                onClick={handleAnalyzeClick}
+                onClick={handleAnalyze}
               >
                 <Sparkles className="mr-2 h-4 w-4 text-primary" /> Analyze
               </Button>
-            </DialogTrigger>
           </div>
         </div>
       </Card>
@@ -163,18 +170,14 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
             <>
               <div>
                 <h3 className="font-semibold text-foreground mb-2">What it is</h3>
-                <p className="text-sm text-foreground/80">{analysis.explanation}</p>
+                <p className="text-foreground/80">{analysis.explanation}</p>
               </div>
               <div>
                 <h3 className="font-semibold text-foreground mb-2">Why it's important</h3>
-                <p className="text-sm text-foreground/80">{analysis.importance}</p>
+                <p className="text-foreground/80">{analysis.importance}</p>
               </div>
             </>
-          ) : (
-             <div className="flex items-center justify-center py-8">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-          )}
+          ) : null}
         </div>
       </DialogContent>
     </Dialog>
