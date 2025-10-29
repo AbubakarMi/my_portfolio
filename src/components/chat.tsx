@@ -1,31 +1,91 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Bot, User, Send, X, CornerDownLeft } from 'lucide-react';
+import { Bot, User, Send, X, CornerDownLeft, Mic, Speaker, Volume2 } from 'lucide-react';
 import { chat } from '@/ai/flows/chat-flow';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ScrollArea } from './ui/scroll-area';
 import { sendChatTranscriptEmail } from '@/ai/flows/send-email-flow';
+import { textToSpeech } from '@/ai/flows/tts-flow';
 
 type Message = {
   role: 'user' | 'assistant';
   content: string;
 };
 
+// Check for SpeechRecognition API
+const SpeechRecognition =
+  (typeof window !== 'undefined' && (window.SpeechRecognition || window.webkitSpeechRecognition));
+
 export function Chat() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const viewportRef = useRef<HTMLDivElement>(null);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Initialize SpeechRecognition
+  useEffect(() => {
+    if (!SpeechRecognition) {
+      console.warn("SpeechRecognition API not supported in this browser.");
+      return;
+    }
+    const recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+
+    recognition.onresult = (event) => {
+      let finalTranscript = '';
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          finalTranscript += event.results[i][0].transcript;
+        }
+      }
+      if (finalTranscript) {
+        setInput(prev => prev + finalTranscript);
+      }
+    };
+    
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognitionRef.current = recognition;
+
+    return () => {
+      recognition.stop();
+    };
+  }, []);
+
+  const handleMicClick = () => {
+    if (!recognitionRef.current) return;
+    if (isListening) {
+      recognitionRef.current.stop();
+    } else {
+      setInput('');
+      recognitionRef.current.start();
+    }
+    setIsListening(!isListening);
+  };
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
+
+    if (recognitionRef.current && isListening) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    }
 
     const userMessage: Message = { role: 'user', content: input };
     setMessages(prev => [...prev, userMessage]);
@@ -36,10 +96,24 @@ export function Chat() {
       const result = await chat({ message: input });
       const assistantMessage: Message = { role: 'assistant', content: result.response };
       setMessages(prev => [...prev, assistantMessage]);
+      
+      // Convert response to speech
+      setIsSpeaking(true);
+      const audioResult = await textToSpeech({ text: result.response });
+      
+      if (audioRef.current) {
+        audioRef.current.src = audioResult.audioDataUri;
+        audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+        audioRef.current.onended = () => setIsSpeaking(false);
+      } else {
+        setIsSpeaking(false);
+      }
+
     } catch (error) {
-      console.error("Error calling chat flow:", error);
+      console.error("Error in chat flow or TTS flow:", error);
       const errorMessage: Message = { role: 'assistant', content: "Sorry, I'm having trouble connecting. Please try again later." };
       setMessages(prev => [...prev, errorMessage]);
+      setIsSpeaking(false);
     } finally {
       setIsLoading(false);
     }
@@ -60,11 +134,13 @@ export function Chat() {
           console.error('Failed to send chat transcript:', error);
         });
       
-      // Reset messages for the next session
       setMessages([]);
     }
+     if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = "";
+     }
   };
-  
 
   useEffect(() => {
     if (viewportRef.current) {
@@ -74,6 +150,7 @@ export function Chat() {
   
   return (
     <>
+      <audio ref={audioRef} className="hidden" />
       <div className={cn(
         "fixed bottom-6 right-6 z-50 transition-transform duration-300 ease-in-out",
         isOpen ? 'translate-x-[100vw]' : 'translate-x-0'
@@ -101,9 +178,12 @@ export function Chat() {
               </Avatar>
               <CardTitle className="text-lg">AI Assistant</CardTitle>
             </div>
-            <Button variant="ghost" size="icon" onClick={handleCloseChat} aria-label="Close chat">
-              <X className="h-5 w-5" />
-            </Button>
+            <div className="flex items-center gap-2">
+              {isSpeaking && <Volume2 className="h-5 w-5 text-primary animate-pulse" />}
+              <Button variant="ghost" size="icon" onClick={handleCloseChat} aria-label="Close chat">
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
           </CardHeader>
           <CardContent className="flex-1 p-0 overflow-hidden">
              <ScrollArea className="h-full" viewportRef={viewportRef}>
@@ -114,7 +194,7 @@ export function Chat() {
                       <AvatarFallback><Bot size={18} /></AvatarFallback>
                     </Avatar>
                     <div className="bg-muted rounded-2xl px-4 py-2.5 text-sm rounded-bl-none">
-                      Hi there! I'm an assistant for Muhammad Idris Abubakar. Ask me anything about his skills, projects, or experience.
+                      Hi there! I'm an assistant for Muhammad Idris Abubakar. You can ask me anything about his skills, projects, or experience—or use the mic to speak your question.
                     </div>
                   </div>
                 )}
@@ -160,23 +240,38 @@ export function Chat() {
             </ScrollArea>
           </CardContent>
           <div className="border-t p-4">
-            <form onSubmit={handleSendMessage} className="relative">
+            <form onSubmit={handleSendMessage} className="relative flex items-center gap-2">
               <Input
                 value={input}
                 onChange={e => setInput(e.target.value)}
-                placeholder="Ask me anything..."
-                className="rounded-full pr-12 h-12"
+                placeholder={isListening ? "Listening..." : "Ask me anything..."}
+                className="rounded-full pr-24 h-12"
                 disabled={isLoading}
               />
-              <Button
-                type="submit"
-                size="icon"
-                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full h-9 w-9"
-                disabled={isLoading || !input.trim()}
-                aria-label="Send message"
-              >
-                <Send className="h-4 w-4" />
-              </Button>
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center">
+                {SpeechRecognition && (
+                  <Button
+                    type="button"
+                    size="icon"
+                    variant={isListening ? "destructive" : "ghost"}
+                    className="rounded-full h-9 w-9"
+                    onClick={handleMicClick}
+                    disabled={isLoading}
+                    aria-label={isListening ? "Stop listening" : "Start listening"}
+                  >
+                    <Mic className="h-4 w-4" />
+                  </Button>
+                )}
+                <Button
+                  type="submit"
+                  size="icon"
+                  className="rounded-full h-9 w-9"
+                  disabled={isLoading || !input.trim()}
+                  aria-label="Send message"
+                >
+                  <Send className="h-4 w-4" />
+                </Button>
+              </div>
             </form>
              <p className="text-xs text-center text-muted-foreground mt-2">
               Press <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
