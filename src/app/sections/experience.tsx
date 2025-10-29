@@ -87,7 +87,7 @@ const ExperienceItem = ({ exp, index }: { exp: typeof experiences[0], index: num
             <div className={cn(
                 "w-full md:w-[calc(50%-2.5rem)] p-6 space-y-4 rounded-lg",
                 "transition-all duration-1000 ease-out",
-                isLeft ? "md:mr-auto md:text-right" : "md:ml-auto text-left",
+                isLeft ? "md:mr-auto md:text-left" : "md:ml-auto text-left",
                 isVisible ? 'opacity-100' : 'opacity-0',
                 isVisible && isLeft && 'md:translate-x-0',
                 !isVisible && isLeft && 'md:-translate-x-12',
@@ -103,7 +103,7 @@ const ExperienceItem = ({ exp, index }: { exp: typeof experiences[0], index: num
                  <p className="font-medium text-foreground/60 text-sm">{exp.duration}</p>
                  <ul className={cn(
                      "space-y-2 text-foreground/80 list-disc",
-                     isLeft ? "list-inside ml-auto" : "pl-5 text-left"
+                     isLeft ? "pl-5" : "pl-5"
                  )}>
                      {exp.description.map((item, idx) => (
                          <li key={idx}>{item}</li>
@@ -113,7 +113,8 @@ const ExperienceItem = ({ exp, index }: { exp: typeof experiences[0], index: num
             
              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:block">
                 <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary ring-8 ring-background">
-                    <exp.icon className="h-6 w-6" />
+                    <div className="absolute inset-0 rounded-full bg-primary/20 animate-pulse"></div>
+                    <exp.icon className="h-6 w-6 relative" />
                 </div>
             </div>
         </div>
