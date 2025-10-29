@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { Building, Rocket, GraduationCap, Code } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Card } from '@/components/ui/card';
 
 const experiences = [
   {
@@ -84,37 +83,39 @@ const ExperienceItem = ({ exp, index }: { exp: typeof experiences[0], index: num
     }, []);
 
     return (
-        <div ref={itemRef} className="relative w-full">
-            <div className="md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
-                <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-                    <exp.icon className="h-6 w-6" />
-                </div>
-            </div>
-
-            <Card className={cn(
-                "w-full md:w-[calc(50%-2.5rem)] group transition-all duration-1000 ease-out",
-                isLeft ? "md:mr-auto" : "md:ml-auto",
+        <div ref={itemRef} className="relative flex items-center w-full">
+            <div className={cn(
+                "w-full md:w-[calc(50%-2.5rem)] p-6 space-y-4 rounded-lg",
+                "transition-all duration-1000 ease-out",
+                isLeft ? "md:mr-auto md:text-right" : "md:ml-auto text-left",
                 isVisible ? 'opacity-100' : 'opacity-0',
                 isVisible && isLeft && 'md:translate-x-0',
                 !isVisible && isLeft && 'md:-translate-x-12',
                 isVisible && !isLeft && 'md:translate-x-0',
                 !isVisible && !isLeft && 'md:translate-x-12',
             )}>
-                 <div className="space-y-3 p-6">
-                    <p className="font-semibold text-primary text-lg">{exp.role}</p>
-                    <h3 className="font-headline text-2xl font-bold text-foreground">
-                        <Link href={exp.link} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
-                            {exp.company}
-                        </Link>
-                    </h3>
-                    <p className="font-medium text-foreground/60 text-sm">{exp.duration}</p>
-                    <ul className="space-y-2 text-foreground/80 list-disc pl-5 text-left">
-                        {exp.description.map((item, idx) => (
-                            <li key={idx}>{item}</li>
-                        ))}
-                    </ul>
+                 <p className="font-semibold text-primary text-lg">{exp.role}</p>
+                 <h3 className="font-headline text-2xl font-bold text-foreground">
+                     <Link href={exp.link} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+                         {exp.company}
+                     </Link>
+                 </h3>
+                 <p className="font-medium text-foreground/60 text-sm">{exp.duration}</p>
+                 <ul className={cn(
+                     "space-y-2 text-foreground/80 list-disc",
+                     isLeft ? "list-inside ml-auto" : "pl-5 text-left"
+                 )}>
+                     {exp.description.map((item, idx) => (
+                         <li key={idx}>{item}</li>
+                     ))}
+                 </ul>
+            </div>
+            
+             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:block">
+                <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary ring-8 ring-background">
+                    <exp.icon className="h-6 w-6" />
                 </div>
-            </Card>
+            </div>
         </div>
     );
 };
@@ -133,8 +134,8 @@ export function Experience() {
           </p>
         </div>
 
-        <div className="relative mt-24 space-y-16">
-          <div className="absolute left-0 top-0 h-full w-0.5 -translate-x-1/2 bg-border md:left-1/2" aria-hidden="true" />
+        <div className="relative mt-24 flex flex-col items-center gap-16">
+          <div className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-border hidden md:block" aria-hidden="true" />
           {experiences.map((exp, index) => (
             <ExperienceItem key={exp.company} exp={exp} index={index} />
           ))}
