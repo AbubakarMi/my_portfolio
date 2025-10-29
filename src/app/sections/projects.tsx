@@ -6,10 +6,12 @@ import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Loader2, Play, Square } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { summarizeProject } from '@/ai/flows/summarize-project-flow';
+import { textToSpeech } from '@/ai/flows/tts-flow';
 
 const projects = [
    {
@@ -94,9 +96,19 @@ const projects = [
   }
 ];
 
-const ProjectItem = ({ project, index }: { project: typeof projects[0], index: number }) => {
+type Project = (typeof projects)[0];
+type AudioState = {
+  status: 'idle' | 'loading' | 'playing' | 'error';
+  audioDataUri?: string;
+};
+
+const audioCache = new Map<string, string>();
+
+const ProjectItem = ({ project, index }: { project: Project, index: number }) => {
     const [isVisible, setIsVisible] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
+    const [audioState, setAudioState] = useState<AudioState>({ status: 'idle' });
+    const audioRef = useRef<HTMLAudioElement | null>(null);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -109,21 +121,64 @@ const ProjectItem = ({ project, index }: { project: typeof projects[0], index: n
             { threshold: 0.2, triggerOnce: true }
         );
 
-        if (ref.current) {
-            observer.observe(ref.current);
+        const currentRef = ref.current;
+        if (currentRef) {
+            observer.observe(currentRef);
         }
 
         return () => {
-            if (ref.current) {
-                observer.unobserve(ref.current);
+            if (currentRef) {
+                observer.unobserve(currentRef);
             }
         };
     }, []);
+
+    const handleAudioPlayback = async () => {
+        if (audioState.status === 'playing') {
+            audioRef.current?.pause();
+            setAudioState({ ...audioState, status: 'idle' });
+            return;
+        }
+
+        if (audioCache.has(project.title)) {
+            setAudioState({ status: 'playing', audioDataUri: audioCache.get(project.title) });
+            return;
+        }
+
+        setAudioState({ status: 'loading' });
+        try {
+            const { summaryScript } = await summarizeProject({
+                title: project.title,
+                description: project.description,
+                tech: project.tech,
+            });
+            const { audioDataUri } = await textToSpeech({ text: summaryScript });
+            
+            audioCache.set(project.title, audioDataUri);
+            setAudioState({ status: 'playing', audioDataUri });
+        } catch (error) {
+            console.error("Failed to generate audio summary:", error);
+            setAudioState({ status: 'error' });
+        }
+    };
+    
+     useEffect(() => {
+        const audio = audioRef.current;
+        if (audioState.status === 'playing' && audioState.audioDataUri && audio) {
+            audio.src = audioState.audioDataUri;
+            audio.play().catch(e => console.error("Audio playback error:", e));
+        }
+    }, [audioState]);
+    
+    const onEnded = () => {
+        setAudioState({ status: 'idle', audioDataUri: audioState.audioDataUri });
+    };
 
     const isReversed = index % 2 !== 0;
 
     return (
         <div ref={ref} className={cn("grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16 transition-all duration-1000", isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
+            <audio ref={audioRef} onEnded={onEnded} className="hidden" />
             <div className={cn("group relative", isReversed && "lg:order-last")}>
                 <Card className="overflow-hidden rounded-2xl shadow-lg transition-shadow duration-300 group-hover:shadow-2xl">
                     {project.image && (
@@ -149,11 +204,25 @@ const ProjectItem = ({ project, index }: { project: typeof projects[0], index: n
                         <Badge key={t} variant="secondary" className="px-3 py-1 text-sm">{t}</Badge>
                     ))}
                 </div>
-                <Button asChild size="lg" className="rounded-full px-8">
-                    <Link href={project.link} target="_blank" rel="noopener noreferrer">
-                        View Project <ExternalLink className="ml-2 h-4 w-4" />
-                    </Link>
-                </Button>
+                <div className="flex flex-wrap gap-4">
+                     <Button asChild size="lg" className="rounded-full px-8">
+                        <Link href={project.link} target="_blank" rel="noopener noreferrer">
+                            View Project <ExternalLink className="ml-2 h-4 w-4" />
+                        </Link>
+                    </Button>
+                     <Button 
+                        size="lg" 
+                        variant="outline"
+                        className="rounded-full px-8"
+                        onClick={handleAudioPlayback}
+                        disabled={audioState.status === 'loading'}
+                    >
+                        {audioState.status === 'loading' && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+                        {audioState.status === 'playing' && <Square className="mr-2 h-5 w-5" />}
+                        {audioState.status !== 'playing' && audioState.status !== 'loading' && <Play className="mr-2 h-5 w-5" />}
+                        {audioState.status === 'playing' ? 'Stop' : 'Listen to Summary'}
+                     </Button>
+                </div>
             </div>
         </div>
     )
