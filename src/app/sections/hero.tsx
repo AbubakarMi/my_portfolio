@@ -29,20 +29,23 @@ export function Hero() {
         aria-hidden="true"
         className="absolute inset-0 -z-10 bg-[radial-gradient(40%_50%_at_50%_20%,hsl(var(--primary)/0.1),transparent)]"
       />
-      <div className="container mx-auto grid grid-cols-1 items-center gap-12 px-4 md:grid-cols-2 md:px-6">
-        <div className={cn("space-y-8")}>
+      <div className="container mx-auto grid grid-cols-1 items-center gap-12 px-4 md:grid-cols-2 md:px-6 lg:gap-24">
+        <div className={cn(
+          "relative space-y-8 rounded-3xl bg-card/60 p-8 backdrop-blur-sm border border-border/20 shadow-2xl shadow-primary/5",
+           animationClass("delay-300")
+        )}>
           <div className="space-y-4 text-center lg:text-left">
-            <p className={cn("font-semibold text-primary text-lg", animationClass("delay-0"))}>
+            <p className="font-semibold text-primary text-lg">
               Hello, I'm Muhammad Idris Abubakar
             </p>
-            <h1 className={cn("font-headline text-5xl font-bold tracking-tighter text-foreground sm:text-6xl lg:text-7xl", animationClass("delay-150"))}>
+            <h1 className="font-headline text-5xl font-bold tracking-tighter text-foreground sm:text-6xl lg:text-7xl">
               Software & AI Evaluation Engineer
             </h1>
-            <p className={cn("mx-auto max-w-2xl text-lg text-foreground/80 md:text-xl lg:mx-0", animationClass("delay-300"))}>
+            <p className="mx-auto max-w-2xl text-lg text-foreground/80 md:text-xl lg:mx-0">
               I build scalable systems and conduct AI evaluation workflows. As the founder of <strong className="font-semibold text-primary">Nyra</strong>, my mission is to build world-class productivity software that makes communication seamless, no matter what language people speak.
             </p>
           </div>
-          <div className={cn("flex flex-col gap-4 pt-4 sm:flex-row sm:justify-center lg:justify-start", animationClass("delay-500"))}>
+          <div className="flex flex-col gap-4 pt-4 sm:flex-row sm:justify-center lg:justify-start">
             <Button asChild size="lg" className="rounded-full px-8 py-6 text-base">
               <Link href="#projects">View My Work <ArrowRight className="ml-2 h-5 w-5" /></Link>
             </Button>
@@ -56,10 +59,14 @@ export function Hero() {
         </div>
 
         <div className={cn(
-            "relative hidden lg:flex items-center justify-center transition-opacity duration-1000",
+            "relative hidden lg:flex items-center justify-center",
+            "transition-opacity duration-1000",
             isMounted ? "opacity-100" : "opacity-0"
         )}>
-          <div className="absolute bg-primary/20 rounded-full h-[450px] w-[450px] animate-pulse-slow -z-10" />
+          {/* Animated rings */}
+          <div className="absolute h-[500px] w-[500px] rounded-full border-2 border-dashed border-primary/20 animate-spin-slow" />
+          <div className="absolute h-[500px] w-[500px] rounded-full border-2 border-dashed border-primary/20 animate-spin-slow-reverse" />
+          
            {heroImage && (
              <div className="relative h-[320px] w-[320px]" style={{transform: "translateZ(0)"}}>
                 <Image
