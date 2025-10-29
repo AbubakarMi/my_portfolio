@@ -81,7 +81,7 @@ const projects = [
   {
     title: "BulkPay",
     description: "A product developed at Hubuk Technology for facilitating bulk payment processing, streamlining financial operations for businesses.",
-    tech: [".NET", "PostgreSQL", "React"],
+    tech: [".NET", "PostgreSQL", "MVC"],
     image: PlaceHolderImages.find(p => p.id === "project-bulkpay"),
     link: "#",
     role: "Backend Developer"
@@ -123,7 +123,7 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0], index: n
                     isVisible ? 'animate-fade-in-up opacity-100' : 'opacity-0',
                     "hover:shadow-2xl hover:-translate-y-2"
                 )}
-                style={{ animationDelay: `${index * 150}ms` }}
+                style={{ animationDelay: `${index * 100}ms` }}
             >
                 <div className="relative overflow-hidden">
                     {project.image && (
