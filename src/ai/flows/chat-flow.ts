@@ -48,9 +48,9 @@ Here is the exclusive information about Muhammad Idris Abubakar:
 
 **About Muhammad Idris Abubakar:**
 - **Full Name:** Muhammad Idris Abubakar
-- **Location:** Kano City, Nigeria
+- **Location:** No Kankarofi, Kano City, Nigeria
 - **Title:** Software & AI Evaluation Engineer, Founder of Nyra.
-- **Professional Summary:** An analytical and detail-driven engineer with 4+ years of experience in building scalable systems, conducting AI evaluation workflows, and designing SaaS applications. He is the founder of the startup Nyra, which builds world-class productivity software. He is skilled in designing reproducible test scenarios, defining scoring logic, and applying precision, recall, and coverage metrics to improve AI model behavior.
+- **Professional Summary:** An analytical and detail-driven Software & AI Evaluation Engineer with 4+ years of experience in building scalable systems, conducting AI evaluation workflows, and designing SaaS applications. He is the founder of the startup Nyra, which builds world-class productivity software. He is skilled in designing reproducible test scenarios, defining scoring logic, and applying precision, recall, and coverage metrics to improve AI model behavior.
 
 **Core Competencies:**
 - LLM Evaluation & Prompt Testing
@@ -73,7 +73,8 @@ Here is the exclusive information about Muhammad Idris Abubakar:
 - **Frontend:** React, Next.js, Tailwind CSS
 - **Tools:** Git, Postman, Swagger, VS Code, Jupyter, Azure DevOps
 - **Formats:** JSON, YAML, CSV
-- **Other:** Clean Architecture, CI/CD (Basic)
+- **Other:** Clean Architecture, CI/CD (Basic), Docker (Basic)
+
 
 **Work Experience:**
 - **Backend Developer - Hubuk Technology Limited (On-site, June 2022 – Present):** Designs modular REST APIs with ASP.NET Core 8 & PostgreSQL, improving response efficiency by 25%. Develops automated QA and reproducibility scripts. Builds internal AI-powered dashboards and writes technical documentation.
@@ -86,17 +87,23 @@ Here is the exclusive information about Muhammad Idris Abubakar:
 **Key Projects:**
 - **Nubenta Care (AI-Powered Health Management System):** An AI-driven hospital ERP connecting admin, doctors, pharmacy, lab, and finance. Features include smart consultation expansion and AI-generated prescriptions. Built with Node.js, PostgreSQL, and AI NLP models.
 - **Nyra Connect:** A scalable modular system for an AI-powered productivity app featuring journals, AI insights, focus sessions, and notifications. Built with .NET 8, React, PostgreSQL, and Clean Architecture.
-- **InvoTrek (SaaS Document Automation):** A multi-tenant system for smart document automation with AI-assisted field detection, inventory tracking, and profit analysis. Built with Node.js and PostgreSQL.
+- **InvoTrek (SaaS Document Automation):** A multi-tenant system for smart document automation with AI-assisted field detection, inventory tracking, and profit analysis. Built with Node.js and PostgreSQL. View live at https://invotrek.netlify.app.
 - **BuildTrack Pro:** A construction tracking platform for contractors to manage expenses, material usage, and worker payments. Built with React, Node.js, and PostgreSQL.
 - **SmartEd ERP:** A comprehensive school ERP for managing attendance, grades, and payments, featuring role-based security and a modular design. Built with ASP.NET Core 8 and PostgreSQL.
 - **BulkPay:** An automated salary payment system for companies to manage and disburse salaries. Built with .NET, MVC, and PostgreSQL.
 - **Adustech Bus Tracker:** A real-time bus booking and tracking platform for university students. Built with Node.js and Firebase.
-- **Rewardify:** A gamification platform to increase user engagement through a points-based reward system. Built with Node.js and PostgreSQL.
+- **Rewardify:** A gamification platform to increase user engagement through a points-based reward system. Built with Node.js, React and PostgreSQL.
 - **Rental Management System:** A system for property owners to manage rental properties, track payments, and handle maintenance. Built with Node.js, React, and PostgreSQL.
 - **Online Management System:** A general-purpose system for small businesses to track inventory, sales, and customer data. Built with Node.js, React, and PostgreSQL.
 
 **Education:**
 - **B.Sc. (Hons) Computer Science:** Aliko Dangote University of Science and Technology, Wudil (2020 – 2025).
+
+**Contact:**
+- **Email:** abubakarmi131@gmail.com
+- **Phone:** +234 704 252 6971
+- **GitHub:** github.com/AbubakarMi
+- **LinkedIn:** linkedin.com/in/muhammad-idris-abubakar
 
 **Languages:**
 - **English:** Professional Proficiency
@@ -139,5 +146,3 @@ const chatFlow = ai.defineFlow(
     }
   }
 );
-
-    

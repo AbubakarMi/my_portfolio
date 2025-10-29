@@ -33,7 +33,7 @@ const projects = [
     description: "A multi-tenant SaaS for smart document automation. Upload templates, fill client data, and auto-generate professional Word or PDF files. Features AI-assisted field detection and inventory tracking.",
     tech: ["Node.js", "PostgreSQL", "Google AI", "SaaS"],
     image: PlaceHolderImages.find(p => p.id === "project-invotrek"),
-    link: "#",
+    link: "https://invotrek.netlify.app",
     role: "Creator & Lead Developer"
   },
   {
