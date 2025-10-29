@@ -3,9 +3,13 @@
 
 import React, { useRef, useState } from 'react';
 import { Card } from '@/components/ui/card';
-import { BrainCircuit, TestTube2, FileJson, Code, Server, GitBranch, Wind, Mail } from 'lucide-react';
+import { BrainCircuit, TestTube2, FileJson, Code, Server, GitBranch, Wind, Mail, Sparkles, Loader2 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { analyzeSkill, AnalyzeSkillOutput } from '@/ai/flows/analyze-skill-flow';
+
 
 const DockerIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -95,6 +99,9 @@ const skills = {
 
 const SkillCard = ({ name, icon: Icon, style }: { name: string, icon: React.ElementType, style: React.CSSProperties }) => {
   const cardRef = useRef<HTMLDivElement>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [analysis, setAnalysis] = useState<AnalyzeSkillOutput | null>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const card = cardRef.current;
@@ -118,8 +125,26 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string, icon: React.Elem
       card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
     }
   };
+  
+  const handleAnalyzeClick = async () => {
+    setIsDialogOpen(true);
+    if (!analysis) {
+        setIsLoading(true);
+        try {
+            const result = await analyzeSkill({ skill: name });
+            setAnalysis(result);
+        } catch (error) {
+            console.error("Skill analysis failed:", error);
+            setAnalysis({ explanation: "Sorry, I couldn't analyze this skill at the moment.", importance: "" });
+        } finally {
+            setIsLoading(false);
+        }
+    }
+  };
+
 
   return (
+    <>
     <div
       ref={cardRef}
       className="group relative animate-fade-in-up [transform-style:preserve-3d] transition-transform duration-300 ease-out"
@@ -147,8 +172,54 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string, icon: React.Elem
         >
           {name}
         </span>
+         <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ transform: 'translateZ(50px)' }}>
+            <Button size="sm" variant="outline" className="rounded-full bg-background/80 backdrop-blur-sm" onClick={handleAnalyzeClick}>
+                <Sparkles className="mr-2 h-4 w-4 text-primary" /> Analyze
+            </Button>
+        </div>
       </div>
     </div>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="max-w-xl">
+            <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-2xl font-headline">
+                <Sparkles className="h-6 w-6 text-primary" />
+                AI Analysis: {name}
+            </DialogTitle>
+            <DialogDescription>
+                An AI-generated breakdown of this skill and its relevance.
+            </DialogDescription>
+            </DialogHeader>
+            <div className="py-4 space-y-6">
+            {isLoading ? (
+                <div className="flex flex-col space-y-4">
+                    <div className="space-y-2">
+                        <div className="h-4 w-1/4 bg-muted rounded animate-pulse"></div>
+                        <div className="h-4 w-full bg-muted rounded animate-pulse"></div>
+                        <div className="h-4 w-5/6 bg-muted rounded animate-pulse"></div>
+                    </div>
+                     <div className="space-y-2">
+                        <div className="h-4 w-1/3 bg-muted rounded animate-pulse"></div>
+                        <div className="h-4 w-full bg-muted rounded animate-pulse"></div>
+                        <div className="h-4 w-4/5 bg-muted rounded animate-pulse"></div>
+                    </div>
+                </div>
+            ) : analysis ? (
+                <>
+                    <div>
+                        <h3 className="font-semibold text-foreground mb-2">What it is</h3>
+                        <p className="text-sm text-foreground/80">{analysis.explanation}</p>
+                    </div>
+                    <div>
+                        <h3 className="font-semibold text-foreground mb-2">Why it's important</h3>
+                        <p className="text-sm text-foreground/80">{analysis.importance}</p>
+                    </div>
+                </>
+            ) : null}
+            </div>
+        </DialogContent>
+    </Dialog>
+    </>
   );
 };
 
@@ -161,7 +232,7 @@ export function Skills() {
             Skills &amp; Technologies
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-foreground/70">
-            A look at the primary tools and technologies in my professional toolkit.
+            A look at the primary tools and technologies in my professional toolkit. Hover over a skill and click "Analyze" for an AI-powered breakdown.
           </p>
         </div>
 
@@ -197,7 +268,3 @@ export function Skills() {
     </section>
   );
 }
-
-    
-
-    
