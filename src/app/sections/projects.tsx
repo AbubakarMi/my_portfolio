@@ -124,17 +124,17 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0], index: n
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Card
+                <div
                     ref={cardRef}
                     className={cn(
-                        "group flex cursor-pointer flex-col overflow-hidden rounded-2xl shadow-lg transition-all duration-300",
+                        "group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border bg-background/50 p-4 transition-all duration-300",
                         isVisible ? 'animate-fade-in-up opacity-100' : 'opacity-0',
-                        "hover:shadow-2xl hover:-translate-y-2"
+                        "hover:border-primary/50 hover:bg-background hover:shadow-2xl"
                     )}
                     style={{ animationDelay: `${index * 100}ms` }}
                 >
                     {project.image && (
-                        <div className="overflow-hidden">
+                        <div className="overflow-hidden rounded-lg mb-4">
                             <Image
                                 src={project.image.imageUrl}
                                 alt={project.image.description}
@@ -145,23 +145,19 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0], index: n
                             />
                         </div>
                     )}
-                    <div className="flex flex-1 flex-col p-6">
-                        <CardHeader className="p-0">
-                            <CardTitle className="text-xl font-bold">{project.title}</CardTitle>
-                            <CardDescription className="font-medium text-primary pt-1">
-                                {project.role}
-                            </CardDescription>
-                        </CardHeader>
-                         <CardContent className="flex-1 p-0 pt-4">
-                            <p className="text-foreground/80 line-clamp-3">{project.description}</p>
-                        </CardContent>
-                        <CardFooter className="p-0 pt-6">
-                            <div className="font-semibold text-primary transition-colors group-hover:text-accent">
-                              Read More <ArrowRight className="ml-1 inline h-4 w-4 transition-transform group-hover:translate-x-1" />
-                            </div>
-                        </CardFooter>
+                    <div className="flex flex-1 flex-col px-2">
+                        <h3 className="text-xl font-bold font-headline text-foreground">{project.title}</h3>
+                        <p className="font-medium text-primary pt-1">
+                            {project.role}
+                        </p>
+                         <p className="text-foreground/80 mt-3 flex-1 line-clamp-3">{project.description}</p>
                     </div>
-                </Card>
+                    <div className="px-2 pt-6">
+                        <div className="font-semibold text-sm text-primary transition-colors group-hover:text-accent">
+                          Read More <ArrowRight className="ml-1 inline h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </div>
+                    </div>
+                </div>
             </DialogTrigger>
             <DialogContent className="max-w-4xl p-0">
                  <div className="relative">
@@ -221,7 +217,7 @@ export function Projects() {
           </p>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2">
+        <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2">
           {projects.map((project, index) => (
             <ProjectCard key={project.title} project={project} index={index} />
           ))}
