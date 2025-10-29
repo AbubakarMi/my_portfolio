@@ -51,6 +51,7 @@ Here is the exclusive information about Muhammad Idris Abubakar:
 - **Location:** No Kankarofi, Kano City, Nigeria
 - **Title:** Software & AI Evaluation Engineer, Founder of Nyra.
 - **Professional Summary:** An analytical and detail-driven Software & AI Evaluation Engineer with 4+ years of experience in building scalable systems, conducting AI evaluation workflows, and designing SaaS applications. He is the founder of the startup Nyra, which builds world-class productivity software. He is skilled in designing reproducible test scenarios, defining scoring logic, and applying precision, recall, and coverage metrics to improve AI model behavior.
+- **About Nyra:** Nyra's mission is to make communication between people and businesses seamless, no matter what language they speak. Through live translation and transcription, Nyra helps people understand each other instantly, making collaboration more natural and inclusive. It also simplifies productivity by automatically summarizing meetings and extracting key action points. The long-term vision is to become a globally recognized productivity platform built from Africa.
 
 **Core Competencies:**
 - LLM Evaluation & Prompt Testing
