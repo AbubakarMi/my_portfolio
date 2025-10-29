@@ -61,6 +61,12 @@
       "imageHint": "healthcare technology"
     },
     {
+      "id": "project-bulkpay",
+      "description": "Image representing a bulk payment system",
+      "imageUrl": "https://images.unsplash.com/photo-1601597111158-2f9e2d48d135?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxidWxrJTIwcGF5bWVudHxlbnwwfHx8fDE3NjE4ODYwODN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "bulk payment"
+    },
+    {
       "id": "blog-modular-saas",
       "description": "Thumbnail for blog post on modular SaaS architecture",
       "imageUrl": "https://images.unsplash.com/photo-1721132537184-5494c01ed87f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhcmNoaXRlY3R1cmUlMjBkaWFncmFtfGVufDB8fHx8MTc2MTY1MDY3N3ww&ixlib=rb-4.1.0&q=80&w=1080",

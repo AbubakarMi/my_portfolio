@@ -77,6 +77,14 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-rental"),
     link: "#",
     role: "Backend Developer"
+  },
+  {
+    title: "BulkPay",
+    description: "A product developed at Hubuk Technology for facilitating bulk payment processing, streamlining financial operations for businesses.",
+    tech: [".NET", "PostgreSQL", "React"],
+    image: PlaceHolderImages.find(p => p.id === "project-bulkpay"),
+    link: "#",
+    role: "Backend Developer"
   }
 ];
 

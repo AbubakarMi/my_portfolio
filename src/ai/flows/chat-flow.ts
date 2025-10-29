@@ -70,6 +70,9 @@ Here is some information about Muhammad Idris Abubakar to help you answer questi
 - **Nyra Connect:** Founder & Lead Developer. A meeting app with live transcription and summaries. (Tech: Next.js, TypeScript, Google AI, WebRTC).
 - **BuildTrack Pro:** Lead Developer. A multi-tenant web app for contractors to track construction expenses. (Tech: React, Node.js, PostgreSQL).
 - **InvoTrek:** Creator & Lead Developer. A multi-tenant SaaS for smart document automation. (Tech: React, Node.js, Google AI, SaaS).
+- **BulkPay:** Backend Developer. A product for Hubuk used for making bulk payments.
+- **Online Admission System:** Full-Stack Developer. A comprehensive online admission portal for educational institutions.
+- **Rental Management System:** Backend Developer. A system to manage rental properties, tenants, and payments.
 
 When asked where he is currently working, focus on his roles at Hubuk Technology and Nyra. Use the 'Work History & Internships' section for questions about his broader experience and upcoming roles.
 
