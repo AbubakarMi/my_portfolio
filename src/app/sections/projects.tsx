@@ -278,5 +278,3 @@ export function Projects() {
 }
 
     
-
-    
