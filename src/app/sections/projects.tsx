@@ -106,77 +106,56 @@ type ProjectCache = Map<string, Cache>;
 type AudioPlayerState = 'idle' | 'loading' | 'playing' | 'error';
 
 const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: ProjectCache }) => {
-    const [state, setState] = useState<AudioPlayerState>('idle');
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [isReady, setIsReady] = useState(false);
 
     useEffect(() => {
-        // Initialize audio element once
+        // Initialize the Audio object once.
         audioRef.current = new Audio();
         const audio = audioRef.current;
-
-        const onPlay = () => setState('playing');
-        const onPause = () => setState('idle');
-        const onEnded = () => setState('idle');
-
+        
+        // Define event listeners
+        const onPlay = () => setIsPlaying(true);
+        const onPause = () => setIsPlaying(false);
+        const onEnded = () => setIsPlaying(false);
+        
+        // Attach event listeners
         audio.addEventListener('play', onPlay);
         audio.addEventListener('pause', onPause);
         audio.addEventListener('ended', onEnded);
-
+        
+        // Cleanup function to remove listeners
         return () => {
-            // Cleanup on component unmount
-            if (audio) {
-                audio.pause();
-                audio.removeEventListener('play', onPlay);
-                audio.removeEventListener('pause', onPause);
-                audio.removeEventListener('ended', onEnded);
-            }
+            audio.pause();
+            audio.removeEventListener('play', onPlay);
+            audio.removeEventListener('pause', onPause);
+            audio.removeEventListener('ended', onEnded);
         };
     }, []);
 
-    const handleAudioPlayback = async () => {
+    useEffect(() => {
+        // This effect runs when the cached audio data URI becomes available.
+        const projectCacheData = cache.get(project.title);
+        if (projectCacheData?.audio && audioRef.current) {
+            audioRef.current.src = projectCacheData.audio;
+            setIsReady(true);
+        }
+    }, [cache, project.title, cache.get(project.title)?.audio]);
+
+
+    const handleAudioPlayback = () => {
         const audio = audioRef.current;
-        if (!audio) return;
+        if (!audio || !isReady) return;
 
-        // If audio is currently playing, stop it.
-        if (state === 'playing') {
+        if (isPlaying) {
             audio.pause();
-            audio.currentTime = 0;
-            return;
-        }
-
-        const projectCache = cache.get(project.title) || {};
-        
-        // If audio is already cached, play it immediately.
-        if (projectCache.audio) {
-            // Ensure the src is set and play
-            if (audio.src !== projectCache.audio) {
-                audio.src = projectCache.audio;
-            }
-            audio.play().catch(() => setState('error'));
-            return;
-        }
-        
-        // If not cached, generate it.
-        setState('loading');
-        try {
-            let summaryText = projectCache.text;
-            if (!summaryText) {
-                const summaryResult = await summarizeProject({ title: project.title, description: project.description, tech: project.tech });
-                summaryText = summaryResult.summaryScript;
-            }
-            
-            const ttsResult = await textToSpeech({ text: summaryText! });
-            const audioDataUri = ttsResult.audioDataUri;
-            
-            cache.set(project.title, { text: summaryText, audio: audioDataUri });
-            audio.src = audioDataUri;
-            audio.play().catch(() => setState('error'));
-
-        } catch (error) {
-            console.error("Failed to generate or play audio for", project.title, error);
-            setState('error');
+        } else {
+            audio.play().catch(() => setIsPlaying(false)); // Handle potential play errors
         }
     };
+
+    const isLoading = !isReady;
     
     return (
         <Button
@@ -184,16 +163,17 @@ const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: Proje
             variant="outline"
             className="rounded-full px-8"
             onClick={handleAudioPlayback}
-            disabled={state === 'loading'}
+            disabled={isLoading}
         >
-            {state === 'loading' && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
-            {state === 'playing' && <Square className="mr-2 h-5 w-5" />}
-            {(state === 'idle' || state === 'error') && <Play className="mr-2 h-5 w-5" />}
+            {isLoading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+            {isPlaying && <Square className="mr-2 h-5 w-5" />}
+            {!isLoading && !isPlaying && <Play className="mr-2 h-5 w-5" />}
 
-            {state === 'playing' ? 'Stop' : 'Listen to Summary'}
+            {isPlaying ? 'Stop' : 'Listen to Summary'}
         </Button>
     );
 };
+
 
 const ProjectItem = ({ project, index, projectCache }: { project: Project, index: number, projectCache: ProjectCache }) => {
     const [isVisible, setIsVisible] = useState(false);
@@ -258,12 +238,13 @@ const ProjectItem = ({ project, index, projectCache }: { project: Project, index
 
 export function Projects() {
     const projectCache = useRef(new Map<string, Cache>()).current;
+    const [_, setForceRender] = useState(0); // Helper to force re-render when cache updates
 
     useEffect(() => {
         // Silently pre-fetch text summaries and audio for all projects in the background.
         projects.forEach(project => {
             const cachedItem = projectCache.get(project.title);
-            if (!cachedItem || !cachedItem.audio) {
+            if (!cachedItem?.audio) { // Check if audio is missing
                 summarizeProject({ title: project.title, description: project.description, tech: project.tech })
                 .then(summaryResult => {
                     const summaryText = summaryResult.summaryScript;
@@ -271,8 +252,9 @@ export function Projects() {
                     return textToSpeech({ text: summaryText });
                 })
                 .then(ttsResult => {
-                    const existingCache = projectCache.get(project.title);
+                    const existingCache = projectCache.get(project.title) || {};
                     projectCache.set(project.title, { ...existingCache, audio: ttsResult.audioDataUri });
+                    setForceRender(r => r + 1); // Force a re-render to pass down the updated cache
                 })
                 .catch(error => {
                     // Fail silently. User can still generate on-demand by clicking.
