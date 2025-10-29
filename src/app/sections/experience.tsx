@@ -1,29 +1,36 @@
 
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Building, Rocket, GraduationCap } from 'lucide-react';
+import { Building, Rocket, GraduationCap, Code } from 'lucide-react';
 
 const experiences = [
   {
     company: "Hubuk Technology Limited",
     link: "https://hubuk.ng",
     role: "Software Engineer",
-    duration: "4+ Years",
+    duration: "June 2022 – Present",
     icon: Building
+  },
+  {
+    company: "Freelance Contributor",
+    link: "#",
+    role: "AI / QA Evaluation",
+    duration: "2024 – Present",
+    icon: Code
+  },
+  {
+    company: "FlexiSAF Solutions",
+    link: "https://flexisaf.com",
+    role: "Backend Intern (Upcoming)",
+    duration: "Sept 2025 – Dec 2025",
+    icon: GraduationCap
   },
   {
     company: "Torvix AI",
     link: "#",
-    role: "Frontend Developer",
-    duration: "Project-based",
+    role: "Frontend Intern (Upcoming)",
+    duration: "Nov 2025 – Dec 2025",
     icon: Rocket
-  },
-  {
-    company: "FlexiSAF Edusoft Limited",
-    link: "https://flexisaf.com",
-    role: "Backend Developer",
-    duration: "Internship",
-    icon: GraduationCap
   }
 ];
 
@@ -40,7 +47,7 @@ export function Experience() {
           </p>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2">
           {experiences.map((exp) => (
             <Card key={exp.company} className="group flex flex-col overflow-hidden rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
               <CardHeader>

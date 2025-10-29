@@ -13,7 +13,7 @@ const highlights = [
     },
     {
         icon: <Rocket className="h-8 w-8 text-primary" />,
-        value: "10+",
+        value: "6+",
         label: "Major Projects"
     },
     {
@@ -22,7 +22,7 @@ const highlights = [
     },
     {
         icon: <Code className="h-8 w-8 text-primary" />,
-        label: ".NET & React"
+        label: "AI Evaluation"
     }
 ];
 
@@ -54,10 +54,10 @@ export function About() {
                 </h2>
                 <div className="space-y-4 text-lg text-foreground/80">
                   <p>
-                    My journey into technology wasn't just a career choice; it was a calling. From a young age, I was captivated by the power of software to transform ideas into tangible solutions that could impact lives. This curiosity-fueled passion led me to pursue Computer Science at Aliko Dangote University of Science & Technology, where I honed my skills and solidified my mission: to build technology that empowers people and businesses to grow.
+                    My journey into technology was driven by a passion for building scalable systems and a fascination with artificial intelligence. As a detail-driven Software & AI Evaluation Engineer, I have over four years of experience designing SaaS applications, conducting AI evaluation workflows, and turning complex problems into high-impact technology.
                   </p>
                   <p>
-                    Today, I channel that mission into two key roles: as a full-time Software Engineer building robust systems, and as the founder of <strong className="font-semibold text-primary">Nyra</strong>, a startup dedicated to breaking down communication barriers. Whether I'm architecting a scalable backend or leading my own product vision, my goal is always the same: to create software that is not only powerful and efficient, but also human-centric and a joy to use.
+                    This journey led me to found <strong className="font-semibold text-primary">Nubenta Technology Limited</strong>, where we deliver AI-assisted and multi-tenant SaaS platforms. I am proficient in a range of technologies including Python, Java, C#, and React, with a deep knowledge of QA testing, NLP annotation, and LLM prompt evaluation. My goal is to design reproducible test scenarios and apply metrics like precision and recall to continuously improve AI model behavior.
                   </p>
                 </div>
             </div>

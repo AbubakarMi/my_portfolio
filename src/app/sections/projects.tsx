@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import Image from 'next/image';
@@ -16,75 +15,51 @@ import { Button } from '@/components/ui/button';
 const projects = [
    {
     title: "Nubenta Care",
-    description: "An AI-driven health management system designed to digitize hospital operations and improve patient care. It connects all departments—admin, doctors, pharmacy, lab, and finance—into one secure, intelligent platform, featuring AI-assisted documentation, prescription suggestions, and predictive analytics to make hospitals smarter, faster, and more efficient.",
-    tech: ["AI", ".NET 8", "React", "PostgreSQL", "CQRS"],
+    description: "An AI-driven health management system designed to digitize hospital operations. It connects admin, doctors, pharmacy, lab, and finance into one intelligent platform. Features AI-assisted documentation, prescription suggestions, and predictive analytics.",
+    tech: ["Node.js", "PostgreSQL", "AI/NLP", "SendGrid"],
     image: PlaceHolderImages.find(p => p.id === "project-nubenta"),
     link: "#",
-    role: "Lead Developer"
+    role: "Founder & Lead Developer"
   },
   {
-    title: "MultiLedger",
-    description: "A modular financial and staff management system built with .NET 8 and React. It supports multi-branch operations, staff attendance, transactions, and reporting with role-based security, clean architecture, CQRS, and EF Core for scalable enterprise solutions.",
-    tech: [".NET 8", "React", "CQRS", "EF Core", "Modular Architecture"],
-    image: PlaceHolderImages.find(p => p.id === "project-multiledger"),
-    link: "#",
-    role: "Lead Developer"
-  },
-  {
-    title: "Rewardify",
-    description: "Helps small companies boost employee motivation through instant micro-rewards, badges, and leaderboards. Recognize performance, issue gift cards, and track engagement all in one simple platform. Affordable, fun, and built to make every employee feel valued.",
-    tech: ["Node.js", "React", "Gamification", "SaaS"],
-    image: PlaceHolderImages.find(p => p.id === "project-rewardify"),
-    link: "#",
-    role: "Creator & Lead Developer"
-  },
-  {
-    title: "Nyra Connect",
-    description: "A meeting application that provides live transcription and accessible summaries after meetings. Also developing a chat application to complement the meeting functions.",
-    tech: ["Next.js", "TypeScript", "Google AI", "WebRTC"],
+    title: "Nyra",
+    description: "A scalable modular system for an AI-powered productivity app. Features include journals, AI insights, focus sessions, and notifications, all built on a foundation of Clean Architecture.",
+    tech: [".NET 8", "React", "PostgreSQL", "Clean Architecture"],
     image: PlaceHolderImages.find(p => p.id === "project-nyra"),
     link: "#",
     role: "Founder & Lead Developer"
   },
   {
+    title: "InvoTrek",
+    description: "A multi-tenant SaaS for smart document automation. Upload templates, fill client data, and auto-generate professional Word or PDF files. Features AI-assisted field detection and inventory tracking.",
+    tech: ["Node.js", "PostgreSQL", "Google AI", "SaaS"],
+    image: PlaceHolderImages.find(p => p.id === "project-invotrek"),
+    link: "#",
+    role: "Creator & Lead Developer"
+  },
+  {
     title: "BuildTrack Pro",
-    description: "A multi-tenant web app for contractors to track construction expenses, material usage, and worker payments. Monitor daily spending, manage budgets, and prevent losses.",
+    description: "A multi-tenant web app for contractors to track construction expenses, material usage, and worker payments. Monitor daily spending and manage budgets via live dashboards.",
     tech: ["React", "Node.js", "PostgreSQL"],
     image: PlaceHolderImages.find(p => p.id === "project-buildtrack"),
     link: "#",
     role: "Lead Developer"
   },
   {
-    title: "InvoTrek",
-    description: "A multi-tenant SaaS for smart document automation. Upload templates, fill client data, and auto-generate professional Word or PDF files. Features AI-assisted field detection.",
-    tech: ["React", "Node.js", "Google AI", "SaaS"],
-    image: PlaceHolderImages.find(p => p.id === "project-invotrek"),
-    link: "#",
-    role: "Creator & Lead Developer"
-  },
-   {
-    title: "Online Admission System",
-    description: "A comprehensive online admission portal for educational institutions. Simplifies the application process for students and streamlines application review for administrators.",
-    tech: [".NET", "React", "SQL Server"],
+    title: "Adustech Bus Tracker",
+    description: "A real-time bus booking and tracking platform designed for university students and administrators to manage transportation efficiently.",
+    tech: ["Node.js", "Firebase"],
     image: PlaceHolderImages.find(p => p.id === "project-admission"),
     link: "#",
     role: "Full-Stack Developer"
   },
   {
-    title: "Rental Management System",
-    description: "A system to manage rental properties, tenants, payments, and maintenance requests. Designed for property managers to efficiently handle their portfolio.",
-    tech: ["Node.js", "React", "MongoDB"],
-    image: PlaceHolderImages.find(p => p.id === "project-rental"),
+    title: "SmartEd ERP",
+    description: "A comprehensive school ERP for managing attendance, grades, and payments. Features role-based security and a modular design for scalability.",
+    tech: ["ASP.NET Core 8", "PostgreSQL", "MVC"],
+    image: PlaceHolderImages.find(p => p.id === "project-smarterp"),
     link: "#",
-    role: "Backend Developer"
-  },
-  {
-    title: "BulkPay",
-    description: "A product developed at Hubuk Technology for facilitating bulk payment processing, streamlining financial operations for businesses.",
-    tech: [".NET", "PostgreSQL", "MVC"],
-    image: PlaceHolderImages.find(p => p.id === "project-bulkpay"),
-    link: "#",
-    role: "Backend Developer"
+    role: "Lead Developer"
   }
 ];
 
@@ -213,7 +188,7 @@ export function Projects() {
             Featured Projects
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-foreground/70">
-            A selection of projects that showcase my skills and passion for building software.
+            A selection of projects that showcase my skills in AI, SaaS development, and system architecture.
           </p>
         </div>
 

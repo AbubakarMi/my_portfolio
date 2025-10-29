@@ -1,8 +1,9 @@
+
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Container, KeyRound, Mail, Github } from 'lucide-react';
+import { Container, KeyRound, Mail, Github, BrainCircuit, TestTube2, FileJson, Code } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const DotNetIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -21,12 +22,6 @@ const TypeScriptIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M1.5 1.5h21v21h-21z" fill="#3178c6"/>
     <path d="M12.3 10.6c.1-.1.3-.2.5-.2s.4.1.5.2l3.4 3.4c.1.1.2.3.2.5s-.1.4-.2.5l-.9.9c-.1.1-.3.2-.5.2s-.4-.1-.5-.2L12 12.3l-2.9 2.9c-.1.1-.3.2-.5.2s-.4-.1-.5-.2l-.9-.9c-.1-.1-.2-.3-.2-.5s.1-.4.2-.5zm-4-1.7V4.5h11.2v4.4h-4.4v8.9h-2.4V8.9z" fill="#fff"/>
-  </svg>
-);
-
-const TailwindCssIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.18 10.37c-1.09 1.09-2.52 1.63-4.23 1.63-1.63 0-3-.5-4.1-1.5-.53-.48-.7-1.25-.38-1.84.32-.59.98-.81 1.58-.51.4.2.73.52.96.75 1.05 1 2.58 1 3.6 0 .5-.5.78-1.18.78-1.88 0-1.2-.59-1.8-1.78-2.07-1.13-.25-2.28-.68-2.28-2.26 0-.91.56-1.68 1.48-2.1.4-.18.84-.23 1.28-.15.7.12 1.34.52 1.78 1 .32.36.31.92-.03 1.27-.34.36-.9.37-1.25.02-.2-.2-.46-.35-.76-.35-.5 0-.8.3-.8.75 0 .6.47.88 1.65 1.15 1.35.31 2.41 1.05 2.41 2.54 0 .97-.56 1.83-1.42 2.37z" fill="#38b2ac"/>
   </svg>
 );
 
@@ -49,29 +44,38 @@ const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
         <g stroke="#61DAFB" strokeWidth="1" fill="none">
             <ellipse rx="11" ry="4.2"/>
             <ellipse rx="11" ry="4.2" transform="rotate(60)"/>
-            <ellipse rx="11" ry="42" transform="rotate(120)"/>
+            <ellipse rx="11" ry="4.2" transform="rotate(120)"/>
         </g>
     </svg>
 );
 
+const JavaIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M18.87 19.48c-1.3-2.13-1.63-4.13-1.63-4.13s.32-2 1.63-4.14c.1-.17.03-.38-.13-.48l-1.57-.96c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l.9.56c.33.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-1.42-.88c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.42.88c.32.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-.9-.55c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.57.96c.16.1.36.06.47-.1 1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.13c-.1-.17-.03-.38.13-.48l1.57-.96c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38.13.48l-1.8 1.1-.68-1.07c-.2-.32-.64-.4-.96-.2l-1.42.88c-.16.1-.36.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.42.88c.32.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-1.42-.88c-.16-.1-.36-.06-.47.1l-.8.92c-3.1 3.2-2.1 4.4 0 5.4l2.16-1.32c1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.13c-1.3-2.14-1.63-4.14-1.63-4.14s.32-2 1.63-4.14c1.3-2.13 1.63-4.13 1.63-4.13s-.32-2-1.63-4.14a.27.27 0 01.14-.48L9.2 2.52c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.42.88c-.32.2-.4.63-.2.95l1.2 1.9c.2.32.63.4.95.2l1.42-.88c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.42.88c-.32.2-.4.63-.2.95l1.2 1.9c.2.32.63.4.95.2l1.42-.88c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.57.96c-.16.1-.36.06-.47-.1-1.3-2.14-1.63-4.14-1.63-4.14s.32-2 1.63-4.13c1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.14c-.1-.17-.03-.38.13-.48l1.57-.96c.16-.1.36-.06.47.1l.6.9a5.2 5.2 0 01-1.5 5.5c-1.3 2.14-1.63 4.14-1.63 4.14s.32 2 1.63 4.14c1.3 2.13 1.63 4.13 1.63 4.13s-.32 2-1.63 4.14a.27.27 0 01.13-.48l1.57-.96c.16-.1.36-.06.47.1l.82 1.25z" fill="#f89820"/><path d="M21.1 9.02c.33 0 .6-.27.6-.6V7.3c0-1.22-1.1-2.2-2.45-2.2H16.5v1.2h2.75c.68 0 1.25.5 1.25 1.1v1.12c0 .33.27.6.6.6z" fill="#5382a1"/></svg>
+);
+
 
 const skills = {
-  Backend: [
-    { name: '.NET 8', icon: DotNetIcon },
-    { name: 'ASP.NET Core', icon: DotNetIcon },
-    { name: 'PostgreSQL', icon: PostgresqlIcon },
-    { name: 'JWT/Auth', icon: KeyRound },
+  "AI & Testing": [
+    { name: 'LLM Evaluation', icon: BrainCircuit },
+    { name: 'QA Design', icon: TestTube2 },
+    { name: 'NLP Annotation', icon: Code },
+    { name: 'JSON/YAML Modeling', icon: FileJson },
   ],
-  Frontend: [
+  "Languages": [
+    { name: 'Python', icon: Code },
+    { name: 'Java', icon: JavaIcon },
+    { name: 'C#', icon: Code },
+    { name: 'TypeScript', icon: TypeScriptIcon },
+  ],
+  "Backend": [
+    { name: '.NET 8', icon: DotNetIcon },
+    { name: 'Node.js', icon: Code },
+    { name: 'PostgreSQL', icon: PostgresqlIcon },
+    { name: 'Clean Architecture', icon: Container },
+  ],
+  "Frontend": [
     { name: 'React', icon: ReactIcon },
     { name: 'Next.js', icon: NextjsIcon },
-    { name: 'TypeScript', icon: TypeScriptIcon },
-    { name: 'Tailwind CSS', icon: TailwindCssIcon },
-  ],
-  'DevOps & Tools': [
-    { name: 'Docker', icon: Container },
-    { name: 'SendGrid', icon: Mail },
-    { name: 'Git & GitHub', icon: Github },
   ],
 };
 

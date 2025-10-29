@@ -32,10 +32,10 @@ export function Hero() {
           <div className="space-y-4 text-center lg:text-left">
             <p className="font-semibold text-primary text-lg">Hello, I'm Muhammad Idris Abubakar</p>
             <h1 className="font-headline text-5xl font-bold tracking-tighter text-foreground sm:text-6xl lg:text-7xl">
-              Software Engineer & Founder
+              Software & AI Evaluation Engineer
             </h1>
             <p className="mx-auto max-w-2xl text-lg text-foreground/80 md:text-xl lg:mx-0">
-              I build scalable SaaS and custom software solutions that help people and businesses grow. From crafting elegant backend systems to leading my own startup, I am passionate about turning great ideas into high-impact technology.
+              I build scalable systems and conduct AI evaluation workflows. From founding Nubenta Technology to designing SaaS applications, I specialize in turning complex problems into high-impact technology.
             </p>
           </div>
           <div className="flex flex-col gap-4 pt-4 sm:flex-row sm:justify-center lg:justify-start">
