@@ -1,13 +1,13 @@
 
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { BrainCircuit, TestTube2, FileJson, Code, Server, GitBranch, Wind, Mail, Sparkles, Loader2 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { analyzeSkill, AnalyzeSkillOutput } from '@/ai/flows/analyze-skill-flow';
 
 
@@ -62,9 +62,21 @@ const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const JavaIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M18.87 19.48c-1.3-2.13-1.63-4.13-1.63-4.13s.32-2 1.63-4.14c.1-.17.03-.38-.13-.48l-1.57-.96c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l.9.56c.33.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-1.42-.88c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.42.88c.32.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-.9-.55c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.57.96c.16.1.36.06.47-.1 1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.13c-.1-.17-.03-.38.13-.48l1.57-.96c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38.13.48l-1.8 1.1-.68-1.07c-.2-.32-.64-.4-.96-.2l-1.42.88c-.16.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.42.88c.32.2.4.63.2.95l-1 1.9c-.2.32-.63.4-.95.2l-1.42-.88c-.16-.1-.36-.06-.47.1l-.8.92c-3.1 3.2-2.1 4.4 0 5.4l2.16-1.32c1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.13a.27.27 0 01.14-.48L9.2 2.52c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.42.88c-.32.2-.4.63-.2.95l1.2 1.9c.2.32.63.4.95.2l1.42-.88c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.42.88c-.32.2-.4.63-.2.95l1.2 1.9c.2.32.63.4.95.2l1.42-.88c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.57.96c-.16.1-.36.06-.47-.1-1.3-2.14-1.63-4.14-1.63-4.14s.32-2 1.63-4.13c1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.14c-.1-.17-.03-.38.13-.48l1.57-.96c.16-.1.36-.06.47.1l.6.9a5.2 5.2 0 01-1.5 5.5c-1.3 2.14-1.63 4.14-1.63-4.14s.32 2 1.63 4.14c1.3 2.13 1.63 4.13 1.63-4.13s-.32 2-1.63 4.14a.27.27 0 01.13-.48l1.57-.96c.16-.1.36-.06.47.1l.82 1.25z" fill="#f89820"/><path d="M21.1 9.02c.33 0 .6-.27.6-.6V7.3c0-1.22-1.1-2.2-2.45-2.2H16.5v1.2h2.75c.68 0 1.25.5 1.25 1.1v1.12c0 .33.27.6.6.6z" fill="#5382a1"/></svg>
+    <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M18.87 19.48c-1.3-2.13-1.63-4.13-1.63-4.13s.32-2 1.63-4.14c.1-.17.03-.38-.13-.48l-1.57-.96c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l.9.56c.33.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-1.42-.88c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.42.88c.32.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-.9-.55c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.57.96c.16.1.36.06.47-.1 1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.13c-.1-.17-.03-.38.13-.48l1.57-.96c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38.13.48l-1.8 1.1-.68-1.07c-.2-.32-.64-.4-.96-.2l-1.42.88c-.16.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.42.88c.32.2.4.63.2.95l-1 1.9c-.2.32-.63.4-.95.2l-1.42-.88c-.16-.1-.36-.06-.47.1l-.8.92c-3.1 3.2-2.1 4.4 0 5.4l2.16-1.32c1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.13a.27.27 0 01.14-.48L9.2 2.52c.16-.1.36-.06.47.1l1.4 2.1c.1.17-.03.38-.13.48l-1.42.88c-.32.2-.4.63-.2.95l1.2 1.9c.2.32.63.4.95.2l1.42-.88c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.42.88c-.32.2-.4.63-.2.95l1.2 1.9c.2.32.63.4.95.2l1.42-.88c.16-.1.36-.06.47.1l1.4 2.1c.1.17-.03.38-.13.48l-1.57.96c-.16.1-.36.06-.47-.1-1.3-2.14-1.63-4.14-1.63-4.14s.32-2 1.63-4.13c1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.14c-.1-.17-.03-.38.13-.48l1.57-.96c.16-.1.36-.06.47.1l.6.9a5.2 5.2 0 01-1.5 5.5c-1.3 2.14-1.63 4.14-1.63-4.14s.32 2 1.63 4.14c1.3 2.13 1.63 4.13 1.63-4.13s-.32 2-1.63 4.14a.27.27 0 01.13-.48l1.57-.96c.16-.1.36-.06.47.1l.82 1.25z" fill="#f89820"/><path d="M21.1 9.02c.33 0 .6-.27.6-.6V7.3c0-1.22-1.1-2.2-2.45-2.2H16.5v1.2h2.75c.68 0 1.25.5 1.25 1.1v1.12c0 .33.27.6.6.6z" fill="#5382a1"/></svg>
 );
 
+const PythonIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 5.5c-1.28 0-1.99.35-2.6.83a2.3 2.3 0 00-.9.9c-.48.61-.83 1.32-.83 2.6V12h4.66v-2.1c0-1.04.53-1.67 1.34-1.95.7-.24 1.5-.24 2.2 0 .8.28 1.33.91 1.33 1.95V12h4.67v-2.17c0-1.28-.35-1.99-.83-2.6a2.3 2.3 0 00-.9-.9c-.61-.48-1.32-.83-2.6-.83h-4.34z" fill="#3776ab"/>
+        <path d="M12 18.5c1.28 0 1.99-.35 2.6-.83a2.3 2.3 0 00.9-.9c.48-.61.83-1.32.83-2.6V12H11.66v2.1c0 1.04-.53 1.67-1.34 1.95-.7.24-1.5.24-2.2 0-.8-.28-1.33-.91-1.33-1.95V12H2.12v2.17c0 1.28.35 1.99.83 2.6a2.3 2.3 0 00.9.9c.61.48 1.32.83 2.6.83h5.55z" fill="#ffc331"/>
+    </svg>
+);
+
+const CSharpIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.5 5.5l-4 13m8-11l-4 13m-2-10h-6a1 1 0 00-1 1v4a1 1 0 001 1h6m4-5h-6a1 1 0 00-1 1v4a1 1 0 001 1h6" stroke="#9b4f96" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+);
 
 const skills = {
   "AI & Testing": [
@@ -74,9 +86,9 @@ const skills = {
     { name: 'JSON/YAML Modeling', icon: FileJson },
   ],
   "Languages": [
-    { name: 'Python', icon: Code },
+    { name: 'Python', icon: PythonIcon },
     { name: 'Java', icon: JavaIcon },
-    { name: 'C#', icon: Code },
+    { name: 'C#', icon: CSharpIcon },
     { name: 'TypeScript', icon: TypeScriptIcon },
   ],
   "Backend": [
@@ -106,19 +118,19 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
   const [analysis, setAnalysis] = useState<AnalyzeSkillOutput | null>(analysisCache.get(name) || null);
 
   const handleAnalyze = async () => {
-    // If analysis is already in state (from cache), just open the dialog
+    // If analysis is already in cache, just show it.
     if (analysis) {
       setIsDialogOpen(true);
       return;
     }
     
-    // Open dialog and start loading
     setIsDialogOpen(true);
     setIsLoading(true);
+
     try {
       const result = await analyzeSkill({ skill: name });
       setAnalysis(result);
-      analysisCache.set(name, result); // Cache the result
+      analysisCache.set(name, result); // Cache the result for next time
     } catch (error) {
       console.error("Skill analysis failed:", error);
       setAnalysis({
@@ -133,7 +145,7 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <Card
-        className="group relative animate-fade-in-up overflow-hidden rounded-2xl transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1.5"
+        className="group relative animate-fade-in-up overflow-hidden rounded-2xl transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1"
         style={style}
       >
         <div className="flex h-full flex-col items-center justify-center gap-4 p-6 text-center">
@@ -186,6 +198,22 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
 
 
 export function Skills() {
+  // Pre-fetch skill analysis on component mount
+  useEffect(() => {
+    Object.values(skills).flat().forEach(skill => {
+      // Only fetch if not already in cache
+      if (!analysisCache.has(skill.name)) {
+        analyzeSkill({ skill: skill.name })
+          .then(result => {
+            analysisCache.set(skill.name, result);
+          })
+          .catch(error => {
+            console.error(`Pre-fetching analysis for ${skill.name} failed:`, error);
+          });
+      }
+    });
+  }, []);
+
   return (
     <section id="skills" className="bg-background py-24 sm:py-32">
       <div className="container mx-auto px-4 md:px-6">
