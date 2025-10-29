@@ -7,7 +7,7 @@ export const blogPosts = [
     title: "Building Modular SaaS Architectures with .NET & PostgreSQL",
     excerpt: "Discover the principles behind creating flexible, scalable, and maintainable SaaS applications using a modular approach with the power of .NET and PostgreSQL.",
     image: PlaceHolderImages.find(p => p.id === "blog-modular-saas"),
-    date: "2024-07-20",
+    date: "2025-04-20",
     content: `
       <p>In the world of software development, building a Software as a Service (SaaS) application that can grow and adapt is a significant challenge. A monolithic architecture, where all components are tightly coupled, can quickly become a bottleneck. This is where a modular approach, especially with technologies like .NET and PostgreSQL, truly shines.</p>
       <h3 class="font-headline text-2xl font-bold mt-8 mb-4">The Power of Modularity</h3>
@@ -52,7 +52,7 @@ export const blogPosts = [
     title: "Designing Systems That Scale with People, Not Just Code",
     excerpt: "An exploration into human-centric system design, focusing on building software that adapts to user needs and organizational growth, ensuring long-term success.",
     image: PlaceHolderImages.find(p => p.id === "blog-scaling-systems"),
-    date: "2024-07-10",
+    date: "2025-07-10",
     content: `
       <p>When we talk about scalability in software, we often think in terms of code, servers, and infrastructure. Can the system handle a million users? Can the database manage terabytes of data? While these are critical questions, there's another dimension to scalability that is often overlooked: scaling with people.</p>
       <h3 class="font-headline text-2xl font-bold mt-8 mb-4">What is Human-Centric System Design?</h3>
