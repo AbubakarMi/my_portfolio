@@ -109,7 +109,8 @@ const sendChatTranscriptEmailFlow = ai.defineFlow(
       return { success: true };
     } catch (error) {
       console.error('Error sending chat transcript email:', error);
-      throw new Error('Failed to send email.');
+      // We don't throw an error to the client, but we should return failure.
+      return { success: false };
     }
   }
 );

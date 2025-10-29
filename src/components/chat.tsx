@@ -210,19 +210,27 @@ export function Chat() {
 
   const handleCloseChat = () => {
     setIsOpen(false);
-    if (messages.length > 0) {
+    // Don't send an email if there was no meaningful conversation.
+    if (messages.length > 1) {
       const transcript = messages
         .map(m => `${m.role === 'user' ? 'User' : 'AI Assistant'}: ${m.content}`)
-        .join('\n');
+        .join('\n\n');
       
+      console.log('Sending chat transcript to email...');
       sendChatTranscriptEmail({ transcript })
-        .then(() => {
-          console.log('Chat transcript sent.');
+        .then((response) => {
+          if (response.success) {
+            console.log('Chat transcript sent successfully.');
+          } else {
+            console.error('Failed to send chat transcript: Service returned failure.');
+          }
         })
         .catch(error => {
-          console.error('Failed to send chat transcript:', error);
+          // This error is already logged in the flow, but we can log here too.
+          console.error('An error occurred while trying to send the chat transcript:', error);
         });
       
+      // Reset messages for the next session
       setMessages([]);
     }
   };
@@ -357,7 +365,3 @@ export function Chat() {
     </>
   );
 }
-
-    
-
-    
