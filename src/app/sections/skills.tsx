@@ -49,7 +49,7 @@ const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
         <g stroke="#61DAFB" strokeWidth="1" fill="none">
             <ellipse rx="11" ry="4.2"/>
             <ellipse rx="11" ry="4.2" transform="rotate(60)"/>
-            <ellipse rx="11" ry="4.2" transform="rotate(120)"/>
+            <ellipse rx="11" ry="42" transform="rotate(120)"/>
         </g>
     </svg>
 );
