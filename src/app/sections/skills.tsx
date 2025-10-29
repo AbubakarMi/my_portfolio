@@ -51,7 +51,7 @@ const NextjsIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg {...props} viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://wwwba.w3.org/2000/svg">
+    <svg {...props} viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="0" cy="0" r="2.05" fill="#61DAFB"/>
         <g stroke="#61DAFB" strokeWidth="1" fill="none">
             <ellipse rx="11" ry="4.2"/>
@@ -98,35 +98,12 @@ const skills = {
 };
 
 const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.ElementType; style: React.CSSProperties }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [analysis, setAnalysis] = useState<AnalyzeSkillOutput | null>(null);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = cardRef.current;
-    if (!card) return;
-
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    const rotateX = (y / rect.height - 0.5) * -25;
-    const rotateY = (x / rect.width - 0.5) * 25;
-
-    card.style.setProperty('--x', `${x}px`);
-    card.style.setProperty('--y', `${y}px`);
-    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
-  };
-
-  const handleMouseLeave = () => {
-    const card = cardRef.current;
-    if (card) {
-      card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-    }
-  };
-
   const handleAnalyzeClick = async () => {
+    // This now only triggers the analysis. The Dialog's own trigger handles opening.
     if (analysis) return; // Don't re-fetch if we already have it
 
     setIsLoading(true);
@@ -146,23 +123,11 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <div
-        ref={cardRef}
-        className="group relative animate-fade-in-up transition-transform duration-300 ease-out"
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
+      <Card
+        className="group relative animate-fade-in-up transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1"
         style={style}
       >
-        <div
-          className={cn(
-            "relative flex h-full flex-col items-center justify-center gap-4 p-6 text-center rounded-2xl",
-            "bg-card/60 border border-border/20",
-            "transition-all duration-300 ease-out",
-            "group-hover:shadow-2xl group-hover:shadow-primary/20",
-            "before:absolute before:inset-0 before:w-full before:h-full before:rounded-2xl before:opacity-0 before:[background:radial-gradient(80%_60%_at_var(--x)_var(--y),hsl(var(--primary)/0.15),transparent)] group-hover:before:opacity-100",
-            "after:absolute after:inset-0 after:w-full after:h-full after:rounded-2xl after:opacity-0 after:border after:border-primary/50 group-hover:after:opacity-100"
-          )}
-        >
+        <div className="flex h-full flex-col items-center justify-center gap-4 p-6 text-center rounded-2xl">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
             <Icon className="h-8 w-8" />
           </div>
@@ -170,8 +135,8 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
           <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <DialogTrigger asChild>
               <Button
-                size="sm"
                 variant="outline"
+                size="sm"
                 className="rounded-full bg-background/80 backdrop-blur-sm"
                 onClick={handleAnalyzeClick}
               >
@@ -180,7 +145,7 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
             </DialogTrigger>
           </div>
         </div>
-      </div>
+      </Card>
       <DialogContent className="max-w-xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-2xl font-headline">
@@ -206,8 +171,7 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
               </div>
             </>
           ) : (
-            // This case handles when the dialog is open but loading hasn't started yet
-            <div className="flex items-center justify-center py-8">
+             <div className="flex items-center justify-center py-8">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
           )}
