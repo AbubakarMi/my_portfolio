@@ -3,13 +3,12 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { ArrowRight, ExternalLink } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 
 const projects = [
@@ -95,9 +94,10 @@ const projects = [
   }
 ];
 
-const ProjectCard = ({ project, index }: { project: typeof projects[0], index: number }) => {
+
+const ProjectItem = ({ project, reverse = false }: { project: typeof projects[0], reverse?: boolean }) => {
     const [isVisible, setIsVisible] = useState(false);
-    const cardRef = useRef<HTMLDivElement>(null);
+    const itemRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -110,103 +110,66 @@ const ProjectCard = ({ project, index }: { project: typeof projects[0], index: n
             { threshold: 0.1 }
         );
 
-        if (cardRef.current) {
-            observer.observe(cardRef.current);
+        if (itemRef.current) {
+            observer.observe(itemRef.current);
         }
 
         return () => {
-            if (cardRef.current) {
-                observer.unobserve(cardRef.current);
+            if (itemRef.current) {
+                observer.unobserve(itemRef.current);
             }
         };
     }, []);
 
     return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <div
-                    ref={cardRef}
-                    className={cn(
-                        "group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border bg-background/50 p-4 transition-all duration-300",
-                        isVisible ? 'animate-fade-in-up opacity-100' : 'opacity-0',
-                        "hover:border-primary/50 hover:bg-background hover:shadow-2xl"
-                    )}
-                    style={{ animationDelay: `${index * 100}ms` }}
-                >
+        <div
+            ref={itemRef}
+            className={cn(
+                "grid grid-cols-1 items-center gap-8 transition-all duration-1000 lg:grid-cols-2 lg:gap-16",
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            )}
+        >
+            <div className={cn("relative", reverse && "lg:order-last")}>
+                <Card className="overflow-hidden rounded-2xl shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
                     {project.image && (
-                        <div className="overflow-hidden rounded-lg mb-4">
-                            <Image
-                                src={project.image.imageUrl}
-                                alt={project.image.description}
-                                width={800}
-                                height={600}
-                                className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                data-ai-hint={project.image.imageHint}
-                            />
-                        </div>
+                        <Image
+                            src={project.image.imageUrl}
+                            alt={project.image.description}
+                            width={1200}
+                            height={900}
+                            className="aspect-[4/3] w-full object-cover"
+                            data-ai-hint={project.image.imageHint}
+                        />
                     )}
-                    <div className="flex flex-1 flex-col px-2">
-                        <h3 className="text-xl font-bold font-headline text-foreground">{project.title}</h3>
-                        <p className="font-medium text-primary pt-1">
-                            {project.role}
-                        </p>
-                         <p className="text-foreground/80 mt-3 flex-1 line-clamp-3">{project.description}</p>
-                    </div>
-                    <div className="px-2 pt-6">
-                        <div className="font-semibold text-sm text-primary transition-colors group-hover:text-accent">
-                          Read More <ArrowRight className="ml-1 inline h-4 w-4 transition-transform group-hover:translate-x-1" />
-                        </div>
-                    </div>
+                </Card>
+            </div>
+            <div className="space-y-6">
+                <div className="space-y-4">
+                    <h3 className="font-headline text-3xl font-bold text-foreground">{project.title}</h3>
+                    <p className="font-semibold text-primary text-lg">{project.role}</p>
+                    <p className="text-foreground/80 leading-relaxed text-base">{project.description}</p>
                 </div>
-            </DialogTrigger>
-            <DialogContent className="max-w-4xl p-0">
-                 <div className="relative">
-                    {project.image && (
-                        <div className="overflow-hidden rounded-t-lg max-h-[400px]">
-                            <Image
-                                src={project.image.imageUrl}
-                                alt={project.image.description}
-                                width={1200}
-                                height={675}
-                                className="w-full object-cover"
-                                data-ai-hint={project.image.imageHint}
-                            />
-                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                        </div>
-                    )}
-                    <DialogHeader className="absolute bottom-0 left-0 p-8 text-white">
-                        <DialogTitle className="text-4xl font-bold tracking-tight shadow-black [text-shadow:0_2px_4px_var(--tw-shadow-color)]">{project.title}</DialogTitle>
-                        <p className="text-xl font-medium text-white/90 shadow-black [text-shadow:0_1px_2px_var(--tw-shadow-color)]">{project.role}</p>
-                    </DialogHeader>
+                <div className="flex flex-wrap gap-2">
+                    {project.tech.map((t) => (
+                        <Badge key={t} variant="secondary" className="text-sm py-1 px-3">{t}</Badge>
+                    ))}
                 </div>
-                <div className="px-8 pb-8 pt-6 space-y-6">
-                    <p className="text-foreground/80 text-base leading-relaxed">{project.description}</p>
-                    <div>
-                        <h4 className="font-semibold mb-3 text-foreground">Technologies Used:</h4>
-                        <div className="flex flex-wrap gap-2">
-                            {project.tech.map((t) => (
-                                <Badge key={t} variant="secondary" className="text-sm py-1 px-3">{t}</Badge>
-                            ))}
-                        </div>
-                    </div>
-                     <div className="pt-4">
-                        <Button asChild size="lg" className="rounded-full">
-                            <Link href={project.link} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink className="mr-2 h-5 w-5" />
-                                Live Demo
-                            </Link>
-                        </Button>
-                    </div>
+                <div className="pt-2">
+                    <Button asChild>
+                        <Link href={project.link} target="_blank" rel="noopener noreferrer">
+                           <ExternalLink className="mr-2 h-4 w-4" /> View Project
+                        </Link>
+                    </Button>
                 </div>
-            </DialogContent>
-        </Dialog>
+            </div>
+        </div>
     );
 };
 
 
 export function Projects() {
   return (
-    <section id="projects" className="bg-background py-24 sm:py-32">
+    <section id="projects" className="bg-primary/5 py-24 sm:py-32">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
@@ -217,12 +180,10 @@ export function Projects() {
           </p>
         </div>
 
-        <div className="mx-auto mt-16 max-w-6xl">
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-              {projects.map((project, index) => (
-                <ProjectCard key={project.title} project={project} index={index} />
-              ))}
-            </div>
+        <div className="mt-24 space-y-24">
+          {projects.map((project, index) => (
+            <ProjectItem key={project.title} project={project} reverse={index % 2 !== 0} />
+          ))}
         </div>
       </div>
     </section>
