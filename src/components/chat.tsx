@@ -18,10 +18,6 @@ type Message = {
   content: string;
 };
 
-// Check for SpeechRecognition API
-const SpeechRecognition =
-  (typeof window !== 'undefined' && (window.SpeechRecognition || window.webkitSpeechRecognition));
-
 export function Chat() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -29,42 +25,45 @@ export function Chat() {
   const [isLoading, setIsLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [speechApi, setSpeechApi] = useState<any>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Initialize SpeechRecognition
   useEffect(() => {
-    if (!SpeechRecognition) {
-      console.warn("SpeechRecognition API not supported in this browser.");
-      return;
-    }
-    const recognition = new SpeechRecognition();
-    recognition.continuous = true;
-    recognition.interimResults = true;
-    recognition.lang = 'en-US';
-
-    recognition.onresult = (event) => {
-      let finalTranscript = '';
-      for (let i = event.resultIndex; i < event.results.length; ++i) {
-        if (event.results[i].isFinal) {
-          finalTranscript += event.results[i][0].transcript;
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      setSpeechApi(() => SpeechRecognition);
+      const recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+  
+      recognition.onresult = (event) => {
+        let finalTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            finalTranscript += event.results[i][0].transcript;
+          }
         }
-      }
-      if (finalTranscript) {
-        setInput(prev => prev + finalTranscript);
-      }
-    };
-    
-    recognition.onend = () => {
-      setIsListening(false);
-    };
-
-    recognitionRef.current = recognition;
-
-    return () => {
-      recognition.stop();
-    };
+        if (finalTranscript) {
+          setInput(prev => prev + finalTranscript);
+        }
+      };
+      
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+  
+      recognitionRef.current = recognition;
+  
+      return () => {
+        recognition.stop();
+      };
+    } else {
+      console.warn("SpeechRecognition API not supported in this browser.");
+    }
   }, []);
 
   const handleMicClick = () => {
@@ -249,7 +248,7 @@ export function Chat() {
                 disabled={isLoading}
               />
               <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center">
-                {SpeechRecognition && (
+                {speechApi && (
                   <Button
                     type="button"
                     size="icon"
