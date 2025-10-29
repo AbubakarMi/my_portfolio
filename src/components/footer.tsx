@@ -19,7 +19,7 @@ export function Footer() {
             </Link>
           </Button>
           <Button asChild variant="ghost" size="icon" className="text-secondary-foreground hover:bg-white/10 hover:text-accent">
-            <Link href="https://www.linkedin.com/in/muhammad-idris-abubakar-99574634a/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <Link href="https://linkedin.com/in/muhammad-idris-abubakar" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
               <Linkedin className="h-5 w-5" />
             </Link>
           </Button>
