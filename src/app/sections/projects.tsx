@@ -98,102 +98,120 @@ const projects = [
 ];
 
 type Project = (typeof projects)[0];
-type Cache = {
-    text?: string;
-    audio?: string;
+type AudioCache = {
+  [key: string]: { audioDataUri?: string; text?: string; };
 };
-const projectCache = new Map<string, Cache>();
 
-const ProjectAudioPlayer = ({ project }: { project: Project }) => {
-    const { toast } = useToast();
-    const audioRef = useRef<HTMLAudioElement | null>(null);
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+
+const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: AudioCache }) => {
+  const { toast } = useToast();
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  
+  const audioDataUri = cache[project.title]?.audioDataUri;
+  
+  useEffect(() => {
+    // Create and configure the audio element
+    audioRef.current = new Audio();
+    const audioElement = audioRef.current;
+
+    const onPlay = () => setIsPlaying(true);
+    const onPause = () => setIsPlaying(false);
+    const onEnded = () => setIsPlaying(false);
+
+    audioElement.addEventListener('play', onPlay);
+    audioElement.addEventListener('pause', onPause);
+    audioElement.addEventListener('ended', onEnded);
     
-    useEffect(() => {
-        const audio = new Audio();
-        audioRef.current = audio;
+    return () => {
+      audioElement.pause();
+      audioElement.removeEventListener('play', onPlay);
+      audioElement.removeEventListener('pause', onPause);
+      audioElement.removeEventListener('ended', onEnded);
+    };
+  }, []);
+  
+   useEffect(() => {
+    // When audio data becomes available from the pre-fetch, load it.
+    if (audioDataUri && audioRef.current && audioRef.current.src !== audioDataUri) {
+      audioRef.current.src = audioDataUri;
+    }
+  }, [audioDataUri]);
 
-        const onPlay = () => setIsPlaying(true);
-        const onPause = () => setIsPlaying(false);
-        const onEnded = () => setIsPlaying(false);
 
-        audio.addEventListener('play', onPlay);
-        audio.addEventListener('pause', onPause);
-        audio.addEventListener('ended', onEnded);
-        
-        return () => {
-            audio.pause();
-            audio.removeEventListener('play', onPlay);
-            audio.removeEventListener('pause', onPause);
-            audio.removeEventListener('ended', onEnded);
-        };
-    }, []);
+  const handlePlayback = async () => {
+    const audioElement = audioRef.current;
+    if (!audioElement) return;
+
+    if (isPlaying) {
+      audioElement.pause();
+      return;
+    }
     
-    const handlePlayback = async () => {
-        const audio = audioRef.current;
-        if (!audio) return;
-
-        if (isPlaying) {
-            audio.pause();
-            return;
-        }
-
-        const cached = projectCache.get(project.title);
-        if (cached?.audio) {
-            if (audio.src !== cached.audio) {
-                audio.src = cached.audio;
-            }
-            audio.play().catch(console.error);
-            return;
-        }
-
-        setIsLoading(true);
-        try {
-            let summaryText = cached?.text;
-            if (!summaryText) {
-                const summaryResult = await summarizeProject({ title: project.title, description: project.description, tech: project.tech });
-                summaryText = summaryResult.summaryScript;
-            }
-
-            const ttsResult = await textToSpeech({ text: summaryText });
-            const newAudioDataUri = ttsResult.audioDataUri;
-            
-            projectCache.set(project.title, { text: summaryText, audio: newAudioDataUri });
-            
-            audio.src = newAudioDataUri;
-            audio.play().catch(console.error);
-        } catch (error: any) {
-            console.error(`Failed to generate audio for ${project.title}:`, error);
+    // If audio is loaded, play it.
+    if (audioElement.src) {
+        audioElement.play().catch(e => {
+            console.error("Audio playback failed:", e);
             toast({
                 variant: 'destructive',
-                title: 'Audio Generation Failed',
-                description: error.message || 'Could not generate the audio summary right now. Please try again later.',
+                title: 'Playback Error',
+                description: 'Could not play the audio file.'
             });
-        } finally {
-            setIsLoading(false);
-        }
-    };
-    
-    return (
-        <Button
-            size="lg"
-            variant="outline"
-            className="rounded-full px-8"
-            onClick={handlePlayback}
-            disabled={isLoading}
-        >
-            {isLoading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
-            {!isLoading && isPlaying && <Square className="mr-2 h-5 w-5" />}
-            {!isLoading && !isPlaying && <Play className="mr-2 h-5 w-5" />}
+        });
+        return;
+    }
 
-            {isLoading ? 'Generating...' : isPlaying ? 'Stop' : 'Listen to Summary'}
-        </Button>
-    );
+    // If audio is not loaded (e.g., pre-fetch failed or hasn't completed), generate it on-demand.
+    setIsGenerating(true);
+    try {
+        let summaryText = cache[project.title]?.text;
+        if (!summaryText) {
+             const summaryResult = await summarizeProject({ title: project.title, description: project.description, tech: project.tech });
+             summaryText = summaryResult.summaryScript;
+             cache[project.title] = { ...cache[project.title], text: summaryText };
+        }
+       
+        const ttsResult = await textToSpeech({ text: summaryText });
+        const newAudioDataUri = ttsResult.audioDataUri;
+        cache[project.title] = { ...cache[project.title], audioDataUri: newAudioDataUri };
+
+        audioElement.src = newAudioDataUri;
+        audioElement.play();
+    } catch (error: any) {
+        console.error("On-demand audio generation failed:", error);
+        toast({
+            variant: "destructive",
+            title: "Audio Generation Failed",
+            description: error.message || "Could not generate audio at this time.",
+        });
+    } finally {
+        setIsGenerating(false);
+    }
+  };
+
+  return (
+    <Button
+      size="lg"
+      variant="outline"
+      className="rounded-full px-8"
+      onClick={handlePlayback}
+      disabled={isGenerating}
+    >
+      {isGenerating ? (
+        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+      ) : isPlaying ? (
+        <Square className="mr-2 h-5 w-5" />
+      ) : (
+        <Play className="mr-2 h-5 w-5" />
+      )}
+      {isGenerating ? 'Generating...' : isPlaying ? 'Stop' : 'Listen to Summary'}
+    </Button>
+  );
 };
 
 
-const ProjectItem = ({ project, index }: { project: Project, index: number }) => {
+const ProjectItem = ({ project, index, cache }: { project: Project, index: number, cache: AudioCache }) => {
     const [isVisible, setIsVisible] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
     const isReversed = index % 2 !== 0;
@@ -247,7 +265,7 @@ const ProjectItem = ({ project, index }: { project: Project, index: number }) =>
                             View Project <ExternalLink className="ml-2 h-4 w-4" />
                         </Link>
                     </Button>
-                    <ProjectAudioPlayer project={project} />
+                    <ProjectAudioPlayer project={project} cache={cache} />
                 </div>
             </div>
         </div>
@@ -255,6 +273,46 @@ const ProjectItem = ({ project, index }: { project: Project, index: number }) =>
 }
 
 export function Projects() {
+    const [cache, setCache] = useState<AudioCache>({});
+    const isGeneratingSummaries = useRef(false);
+
+    useEffect(() => {
+        // Prevent this effect from running multiple times
+        if (isGeneratingSummaries.current) return;
+        isGeneratingSummaries.current = true;
+        
+        const generateAllSummaries = async () => {
+            console.log("Starting silent pre-generation of all project audio...");
+            for (const project of projects) {
+                try {
+                    // Check if audio already exists from a previous run this session
+                    if (cache[project.title]?.audioDataUri) continue;
+                    
+                    const summaryResult = await summarizeProject({ title: project.title, description: project.description, tech: project.tech });
+                    const text = summaryResult.summaryScript;
+                    
+                    const ttsResult = await textToSpeech({ text });
+                    const audioDataUri = ttsResult.audioDataUri;
+                    
+                    setCache(prevCache => ({
+                        ...prevCache,
+                        [project.title]: { text, audioDataUri }
+                    }));
+
+                    console.log(`Successfully pre-generated audio for: ${project.title}`);
+
+                } catch (error) {
+                    // Fail silently in the console. The on-demand generation will act as a fallback.
+                    console.error(`Silent pre-generation failed for "${project.title}":`, error);
+                }
+            }
+            console.log("All silent pre-generation attempts are complete.");
+        };
+
+        generateAllSummaries();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <section id="projects" className="bg-primary/5 py-24 sm:py-32">
             <div className="container mx-auto px-4 md:px-6">
@@ -269,7 +327,7 @@ export function Projects() {
                 
                 <div className="mt-24 space-y-24">
                     {projects.map((project, index) => (
-                        <ProjectItem key={project.title} project={project} index={index} />
+                        <ProjectItem key={project.title} project={project} index={index} cache={cache} />
                     ))}
                 </div>
             </div>
