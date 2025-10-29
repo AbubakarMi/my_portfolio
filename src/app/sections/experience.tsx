@@ -62,24 +62,22 @@ const experiences = [
 const ExperienceItem = ({ 
   experience, 
   isLeft, 
-  isActive, 
-  onInView 
 }: { 
   experience: typeof experiences[0], 
   isLeft: boolean, 
-  isActive: boolean,
-  onInView: () => void
 }) => {
     const ref = useRef<HTMLDivElement>(null);
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    onInView();
+                    setIsVisible(true);
+                    observer.unobserve(ref.current!);
                 }
             },
-            { threshold: 0.5 } // Trigger when 50% of the item is visible
+            { threshold: 0.1 }
         );
 
         if (ref.current) {
@@ -91,17 +89,19 @@ const ExperienceItem = ({
                 observer.unobserve(ref.current);
             }
         };
-    }, [onInView]);
+    }, []);
     
     const directionClass = isLeft ? 'md:flex-row' : 'md:flex-row-reverse';
+    const slideInClass = isLeft ? 'md:translate-x-0' : 'md:translate-x-0';
+    const initialPositionClass = isLeft ? 'md:-translate-x-10' : 'md:translate-x-10';
 
     return (
         <div 
           ref={ref} 
           className={cn(
-            "flex justify-center md:justify-between items-center w-full transition-opacity duration-700",
+            "flex justify-center md:justify-between items-center w-full transition-all duration-1000 ease-out",
             directionClass,
-            isActive ? "opacity-100" : "opacity-20"
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           )}
         >
             {/* Content */}
@@ -133,12 +133,12 @@ const ExperienceItem = ({
                     <div className="w-1 h-full bg-border"></div>
                     <div className={cn(
                       "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center transition-all duration-500",
-                      isActive ? "scale-100" : "scale-75"
+                      isVisible ? "scale-100" : "scale-75"
                     )}>
                         <div className="h-6 w-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center">
                             <experience.icon className="h-4 w-4" />
                         </div>
-                         {isActive && <div className="absolute h-10 w-10 rounded-full bg-primary/20 animate-ping -z-10"></div>}
+                         {isVisible && <div className="absolute h-10 w-10 rounded-full bg-primary/20 animate-ping -z-10"></div>}
                     </div>
                 </div>
             </div>
@@ -150,8 +150,6 @@ const ExperienceItem = ({
 };
 
 export function Experience() {
-    const [activeExperience, setActiveExperience] = useState(experiences[0].value);
-    
     return (
         <section id="experience" className="bg-background py-24 sm:py-32">
             <div className="container mx-auto px-4 md:px-6">
@@ -170,8 +168,6 @@ export function Experience() {
                           key={exp.value} 
                           experience={exp} 
                           isLeft={index % 2 === 0}
-                          isActive={activeExperience === exp.value}
-                          onInView={() => setActiveExperience(exp.value)}
                         />
                     ))}
                 </div>
