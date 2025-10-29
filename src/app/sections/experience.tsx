@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -85,13 +86,17 @@ const ExperienceItem = ({ experience, isLeft }: { experience: typeof experiences
     }, []);
     
     const directionClass = isLeft ? 'md:flex-row' : 'md:flex-row-reverse';
-    const animationClass = isLeft ? 'md:translate-x-0' : 'md:translate-x-0';
-    const initialPosition = isLeft ? 'md:-translate-x-10' : 'md:translate-x-10';
+    const animationClass = isVisible ? 'opacity-100 translate-x-0' : 'opacity-0';
+    const initialPosition = isLeft ? '-translate-x-12' : 'translate-x-12';
 
     return (
         <div ref={ref} className={cn("flex justify-center md:justify-between items-center w-full", directionClass)}>
             {/* Content */}
-            <div className={cn("w-full md:w-5/12 p-4 transition-all duration-700 ease-out", isVisible ? 'opacity-100' : 'opacity-0', isVisible ? animationClass : initialPosition)}>
+            <div className={cn(
+                "w-full md:w-5/12 p-4 transform transition-all duration-1000 ease-in-out",
+                animationClass,
+                !isVisible && initialPosition
+            )}>
                 <div className="bg-card p-6 rounded-xl shadow-lg border border-border/50 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
                     <p className="text-primary font-semibold mb-1">{experience.duration}</p>
                     <h3 className="font-headline text-xl font-bold text-foreground mb-1">{experience.role}</h3>
