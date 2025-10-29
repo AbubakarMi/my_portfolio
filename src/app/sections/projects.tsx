@@ -107,30 +107,29 @@ const ProjectAudioPlayer = ({ project, projectCache, forceUpdate }: { project: P
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    
     const audioDataUri = projectCache.get(project.title)?.audio;
 
     useEffect(() => {
-        // Initialize the audio element once.
-        if (!audioRef.current) {
-            audioRef.current = new Audio();
-            const audio = audioRef.current;
-            audio.addEventListener('play', () => setIsPlaying(true));
-            audio.addEventListener('pause', () => setIsPlaying(false));
-            audio.addEventListener('ended', () => setIsPlaying(false));
-        }
+        const audio = new Audio();
+        audioRef.current = audio;
 
-        // Cleanup function to pause and remove listeners
+        const onPlay = () => setIsPlaying(true);
+        const onPause = () => setIsPlaying(false);
+        const onEnded = () => setIsPlaying(false);
+
+        audio.addEventListener('play', onPlay);
+        audio.addEventListener('pause', onPause);
+        audio.addEventListener('ended', onEnded);
+        
         return () => {
-            const audio = audioRef.current;
-            if (audio) {
-                audio.pause();
-                audio.removeEventListener('play', () => setIsPlaying(true));
-                audio.removeEventListener('pause', () => setIsPlaying(false));
-                audio.removeEventListener('ended', () => setIsPlaying(false));
-            }
+            audio.pause();
+            audio.removeEventListener('play', onPlay);
+            audio.removeEventListener('pause', onPause);
+            audio.removeEventListener('ended', onEnded);
         };
     }, []);
-
+    
     const handlePlayback = async () => {
         const audio = audioRef.current;
         if (!audio) return;
@@ -157,9 +156,10 @@ const ProjectAudioPlayer = ({ project, projectCache, forceUpdate }: { project: P
             const newAudioDataUri = ttsResult.audioDataUri;
             
             projectCache.set(project.title, { text: summaryText, audio: newAudioDataUri });
+            forceUpdate(); // Re-render parent to acknowledge cache update.
+            
             audio.src = newAudioDataUri;
             audio.play().catch(console.error);
-            forceUpdate();
         } catch (error) {
             console.error(`Failed to generate audio for ${project.title}:`, error);
         } finally {
@@ -250,29 +250,6 @@ export function Projects() {
     const projectCache = useRef(new Map<string, Cache>()).current;
     const [_, setForceRender] = useState(0);
     const forceUpdate = () => setForceRender(r => r + 1);
-
-    useEffect(() => {
-        projects.forEach(project => {
-            if (!projectCache.has(project.title)) {
-                // Silently pre-fetch both text and audio
-                summarizeProject({ title: project.title, description: project.description, tech: project.tech })
-                .then(summaryResult => {
-                    const summaryText = summaryResult.summaryScript;
-                    projectCache.set(project.title, { text: summaryText });
-                    return textToSpeech({ text: summaryText });
-                })
-                .then(ttsResult => {
-                    const existingCache = projectCache.get(project.title) || {};
-                    projectCache.set(project.title, { ...existingCache, audio: ttsResult.audioDataUri });
-                    forceUpdate();
-                })
-                .catch(error => {
-                    console.error(`Audio pre-fetch failed for ${project.title}:`, error);
-                });
-            }
-        });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     return (
         <section id="projects" className="bg-primary/5 py-24 sm:py-32">
