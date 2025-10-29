@@ -3,8 +3,15 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Container, KeyRound, Mail, Github, BrainCircuit, TestTube2, FileJson, Code } from 'lucide-react';
+import { Container, KeyRound, Mail, Github, BrainCircuit, TestTube2, FileJson, Code, Server, GitBranch, Wind } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
+const DockerIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.12 6.42c-1.57-2.6-3.77-3.23-3.77-3.23l-3.65.17s-2.48.59-3.9 1.83c-1.3.17-2.58.53-3.82 1.1-1.39-1.2-3.13-1.63-3.13-1.63L.25 8.32s2.07.28 3.53 1.5l.2 4.15c.32.14 2.65.98 3.05 1.13.5.2 1 .3 1.5.4l.2 4.07s1.78 1.13 3.63 1.13c3.95 0 4.28-4.13 4.28-4.13s-.5-2.7-3.93-3.32c.4-.33.78-.73 1.12-1.2.66.02 2.6-.03 2.6-.03s2.2-1.2 2.7-3.04a2.6 2.6 0 0 0-.2-1.9zm-9.15 7.15a.42.42 0 0 1-.41.42h-1.2a.42.42 0 0 1-.42-.42v-1.19c0-.23.19-.42.42-.42h1.19c.23 0 .42.19.42.42v1.19zm2.4 0a.42.42 0 0 1-.42.42h-1.2a.42.42 0 0 1-.41-.42v-1.19c0-.23.18-.42.41-.42h1.2a.42.42 0 0 1 .42.42v1.19zm2.39 0a.42.42 0 0 1-.42.42h-1.19a.42.42 0 0 1-.42-.42v-1.19c0-.23.19-.42.42-.42h1.19a.42.42 0 0 1 .42.42v1.19zm2.4 0a.42.42 0 0 1-.42.42h-1.2a.42.42 0 0 1-.41-.42v-1.19c0-.23.18-.42.41-.42h1.2a.42.42 0 0 1 .42.42v1.19z" fill="#2496ED" />
+    </svg>
+);
+
 
 const DotNetIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -76,7 +83,13 @@ const skills = {
   "Frontend": [
     { name: 'React', icon: ReactIcon },
     { name: 'Next.js', icon: NextjsIcon },
+    { name: 'Tailwind CSS', icon: Wind },
   ],
+   "DevOps & Tools": [
+    { name: 'Docker', icon: DockerIcon },
+    { name: 'SendGrid', icon: Mail },
+    { name: 'Git & GitHub', icon: GitBranch },
+  ]
 };
 
 const SkillCard = ({ name, icon: Icon, index }: { name: string, icon: React.ElementType, index: number }) => {

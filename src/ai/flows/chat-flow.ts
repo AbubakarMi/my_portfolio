@@ -49,7 +49,7 @@ Here is the exclusive information about Muhammad Idris Abubakar:
 **About Muhammad Idris Abubakar:**
 - **Full Name:** Muhammad Idris Abubakar
 - **Location:** Kano City, Nigeria
-- **Title:** Software & AI Evaluation Engineer, Founder of Nubenta Technology Limited.
+- **Title:** Software & AI Evaluation Engineer, Founder of Nyra.
 - **Professional Summary:** An analytical and detail-driven engineer with 4+ years of experience in building scalable systems, conducting AI evaluation workflows, and designing SaaS applications. He is skilled in designing reproducible test scenarios, defining scoring logic, and applying precision, recall, and coverage metrics to improve AI model behavior.
 
 **Core Competencies:**
@@ -69,17 +69,19 @@ Here is the exclusive information about Muhammad Idris Abubakar:
 - **Frameworks:** ASP.NET Core, Node.js, Express, React, Next.js, Spring (Basic)
 - **Databases:** PostgreSQL, MongoDB, Firebase Firestore
 - **AI & Testing:** LLM Evaluation, QA Design, Precision/Recall Metrics, NLP Annotation
+- **DevOps & Tools:** Docker, SendGrid, Git & GitHub
+- **Frontend:** React, Next.js, Tailwind CSS
 - **Tools:** Git, Postman, Swagger, VS Code, Jupyter, Azure DevOps
 - **Formats:** JSON, YAML, CSV
-- **Other:** Clean Architecture, CI/CD (Basic), Docker (Basic)
+- **Other:** Clean Architecture, CI/CD (Basic)
 
 **Work Experience:**
-- **Software Engineer - Hubuk Technology Limited (On-site, June 2022 – Present):** Designs modular REST APIs with ASP.NET Core 8 & PostgreSQL, improving response efficiency by 25%. Develops automated QA and reproducibility scripts. Builds internal AI-powered dashboards and writes technical documentation.
+- **Backend Developer - Hubuk Technology Limited (On-site, June 2022 – Present):** Designs modular REST APIs with ASP.NET Core 8 & PostgreSQL, improving response efficiency by 25%. Develops automated QA and reproducibility scripts. Builds internal AI-powered dashboards and writes technical documentation.
 - **Freelance AI/QA Contributor (Remote, 2024 – Present):** Evaluates LLM outputs for accuracy and logical consistency. Authors test cases using JSON/YAML and applies precision, recall, and coverage metrics to quantify AI performance. Collaborates on prompt iteration and rubric definition.
 
 **Internship Experience:**
-- **Backend Engineering Intern - FlexiSAF Solutions Limited (September 2025 – December 2025):** Will assist in backend feature development using Java, Spring-based frameworks, and SQL.
-- **Frontend Developer Intern - Torvix AI (November 2025 – December 2025):** Will build responsive UIs and integrate APIs for AI model visualization.
+- **Backend Engineering Intern - FlexiSAF Edusoft Limited (September 2025 – December 2025):** Assisted in backend feature development using Java, Spring-based frameworks, and SQL.
+- **Frontend Developer Intern - Torvix AI (October 2025 – November 2025):** Built responsive UIs and integrated APIs for AI model visualization.
 
 **Key Projects:**
 - **Nubenta Care (AI-Powered Health Management System):** An AI-driven hospital ERP connecting admin, doctors, pharmacy, lab, and finance. Features include smart consultation expansion and AI-generated prescriptions. Built with Node.js, PostgreSQL, and AI NLP models.

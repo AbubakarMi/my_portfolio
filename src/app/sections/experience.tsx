@@ -7,7 +7,7 @@ const experiences = [
   {
     company: "Hubuk Technology Limited",
     link: "https://hubuk.ng",
-    role: "Software Engineer",
+    role: "Backend Developer",
     duration: "June 2022 – Present",
     icon: Building
   },
@@ -19,17 +19,17 @@ const experiences = [
     icon: Code
   },
   {
-    company: "FlexiSAF Solutions",
+    company: "FlexiSAF Edusoft Limited",
     link: "https://flexisaf.com",
-    role: "Backend Intern (Upcoming)",
+    role: "Backend Engineering Intern",
     duration: "Sept 2025 – Dec 2025",
     icon: GraduationCap
   },
   {
     company: "Torvix AI",
     link: "#",
-    role: "Frontend Intern (Upcoming)",
-    duration: "Nov 2025 – Dec 2025",
+    role: "Frontend Developer Intern",
+    duration: "Oct 2025 – Nov 2025",
     icon: Rocket
   }
 ];

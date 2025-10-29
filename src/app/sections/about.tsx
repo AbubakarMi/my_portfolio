@@ -57,7 +57,7 @@ export function About() {
                     My journey into technology was driven by a passion for building scalable systems and a fascination with artificial intelligence. As a detail-driven Software & AI Evaluation Engineer, I have over four years of experience designing SaaS applications, conducting AI evaluation workflows, and turning complex problems into high-impact technology.
                   </p>
                   <p>
-                    This journey led me to found <strong className="font-semibold text-primary">Nubenta Technology Limited</strong>, where we deliver AI-assisted and multi-tenant SaaS platforms. I am proficient in a range of technologies including Python, Java, C#, and React, with a deep knowledge of QA testing, NLP annotation, and LLM prompt evaluation. My goal is to design reproducible test scenarios and apply metrics like precision and recall to continuously improve AI model behavior.
+                    This journey led me to found <strong className="font-semibold text-primary">Nyra</strong>, where we deliver AI-assisted and multi-tenant SaaS platforms. I am proficient in a range of technologies including Python, Java, C#, and React, with a deep knowledge of QA testing, NLP annotation, and LLM prompt evaluation. My goal is to design reproducible test scenarios and apply metrics like precision and recall to continuously improve AI model behavior.
                   </p>
                 </div>
             </div>

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     template: '%s | Muhammad Idris Abubakar',
   },
   description:
-    'Personal portfolio of Muhammad Idris Abubakar, a Software Engineer and Founder of Nyra Technology Limited, specializing in scalable SaaS and custom software solutions.',
+    'Personal portfolio of Muhammad Idris Abubakar, a Software Engineer and Founder of Nyra, specializing in scalable SaaS and custom software solutions.',
 };
 
 export default function RootLayout({
