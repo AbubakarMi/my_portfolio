@@ -56,7 +56,7 @@ const projects = [
    {
     title: "BulkPay",
     description: "An automated salary payment system designed for companies to manage and disburse salaries to employees and contractors efficiently. Features multi-bank integration and automated compliance.",
-    tech: ["Java", "Spring Boot", "PostgreSQL", "REST APIs"],
+    tech: [".NET", "MVC", "PostgreSQL"],
     image: PlaceHolderImages.find(p => p.id === "project-bulkpay"),
     link: "#",
     role: "Backend Developer"
@@ -80,7 +80,7 @@ const projects = [
   {
     title: "Rental Management System",
     description: "A system for property owners to manage rental properties, track payments, handle maintenance requests, and communicate with tenants.",
-    tech: ["C#", ".NET", "SQL Server"],
+    tech: ["Node.js", "React", "PostgreSQL"],
     image: PlaceHolderImages.find(p => p.id === "project-rental"),
     link: "#",
     role: "Software Engineer"
@@ -88,7 +88,7 @@ const projects = [
   {
     title: "Online Management System",
     description: "A general-purpose online management system for small businesses to track inventory, sales, and customer data.",
-    tech: ["PHP", "MySQL", "jQuery"],
+    tech: ["Node.js", "React", "PostgreSQL"],
     image: PlaceHolderImages.find(p => p.id === "blog-scaling-systems"),
     link: "#",
     role: "Web Developer"
