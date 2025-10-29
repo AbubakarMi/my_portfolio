@@ -192,17 +192,8 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string, icon: React.Elem
             </DialogHeader>
             <div className="py-4 space-y-6">
             {isLoading ? (
-                <div className="flex flex-col space-y-4">
-                    <div className="space-y-2">
-                        <div className="h-4 w-1/4 bg-muted rounded animate-pulse"></div>
-                        <div className="h-4 w-full bg-muted rounded animate-pulse"></div>
-                        <div className="h-4 w-5/6 bg-muted rounded animate-pulse"></div>
-                    </div>
-                     <div className="space-y-2">
-                        <div className="h-4 w-1/3 bg-muted rounded animate-pulse"></div>
-                        <div className="h-4 w-full bg-muted rounded animate-pulse"></div>
-                        <div className="h-4 w-4/5 bg-muted rounded animate-pulse"></div>
-                    </div>
+                <div className="flex items-center justify-center py-8">
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
                 </div>
             ) : analysis ? (
                 <>
