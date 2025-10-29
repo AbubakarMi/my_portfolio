@@ -1,18 +1,14 @@
 
 "use client";
 
-import React, { useState } from 'react';
+import React from 'react';
+import Link from 'next/link';
 import { Card } from '@/components/ui/card';
-import { BrainCircuit, TestTube2, FileJson, Sparkles, Loader2, Server, Code, Wind, GitBranch, Mail } from 'lucide-react';
+import { BrainCircuit, TestTube2, FileJson, Sparkles, Server, Code, Wind, GitBranch, Mail } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { summarizeSkill } from '@/ai/flows/summarize-project-flow';
-import type { SummarizeSkillOutput } from '@/ai/flows/summarize-project-flow';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faNodeJs } from '@fortawesome/free-brands-svg-icons';
-
 
 const DockerIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -120,94 +116,34 @@ const skills = {
   ]
 };
 
-const analysisCache = new Map<string, SummarizeSkillOutput>();
-
 const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.ElementType; style: React.CSSProperties }) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [analysis, setAnalysis] = useState<SummarizeSkillOutput | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleAnalyze = async () => {
-    setIsDialogOpen(true);
-    if (analysisCache.has(name)) {
-      setAnalysis(analysisCache.get(name)!);
-      return;
-    }
-
-    setIsLoading(true);
-    setError(null);
-    try {
-      const result = await summarizeSkill({ skill: name });
-      setAnalysis(result);
-      analysisCache.set(name, result);
-    } catch (e: any) {
-      console.error("Skill analysis failed:", e);
-      setError(e.message || "Sorry, I couldn't analyze this skill at the moment.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <Card
-        className="group animate-fade-in-up rounded-2xl transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1"
-        style={style}
-      >
-        <div className="flex h-full flex-col items-center justify-center p-6 text-center">
-          <div className="flex flex-1 flex-col items-center justify-center gap-4">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
-                <Icon className="h-8 w-8" />
-              </div>
-              <span className="font-semibold text-foreground text-lg">{name}</span>
-          </div>
-
-          <div className="h-9 mt-4 transition-all duration-300 opacity-0 group-hover:opacity-100">
-             <Button
-                variant="outline"
-                size="sm"
-                className="rounded-full bg-background/80 backdrop-blur-sm"
-                onClick={handleAnalyze}
-              >
-                <Sparkles className="mr-2 h-4 w-4 text-primary" /> Analyze
-              </Button>
-          </div>
-        </div>
-      </Card>
-      <DialogContent className="max-w-xl">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-2xl font-headline">
-            <Sparkles className="h-6 w-6 text-primary" />
-            AI Analysis: {name}
-          </DialogTitle>
-          <DialogDescription>An AI-generated breakdown of this skill and its relevance.</DialogDescription>
-        </DialogHeader>
-        <div className="py-4 space-y-6">
-          {isLoading ? (
-            <div className="flex items-center justify-center py-8">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+    <Card
+      className="group animate-fade-in-up rounded-2xl transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1"
+      style={style}
+    >
+      <div className="flex h-full flex-col items-center justify-center p-6 text-center">
+        <div className="flex flex-1 flex-col items-center justify-center gap-4">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
+              <Icon className="h-8 w-8" />
             </div>
-          ) : error ? (
-             <div>
-                <h3 className="font-semibold text-destructive mb-2">Analysis Failed</h3>
-                <p className="text-destructive/80">{error}</p>
-              </div>
-          ) : analysis ? (
-            <>
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">What it is</h3>
-                <p className="text-foreground/80">{analysis.explanation}</p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-2">Why it's important</h3>
-                <p className="text-foreground/80">{analysis.importance}</p>
-              </div>
-            </>
-          ) : null}
+            <span className="font-semibold text-foreground text-lg">{name}</span>
         </div>
-      </DialogContent>
-    </Dialog>
+
+        <div className="h-9 mt-4 transition-all duration-300 opacity-0 group-hover:opacity-100">
+           <Button
+              asChild
+              variant="outline"
+              size="sm"
+              className="rounded-full bg-background/80 backdrop-blur-sm"
+            >
+              <Link href={`/analyze/${encodeURIComponent(name)}`}>
+                <Sparkles className="mr-2 h-4 w-4 text-primary" /> Analyze
+              </Link>
+            </Button>
+        </div>
+      </div>
+    </Card>
   );
 };
 
