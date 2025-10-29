@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Building, Rocket, GraduationCap, Code } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
+import { Card } from '@/components/ui/card';
 
 const experiences = [
   {
@@ -92,23 +93,22 @@ const ExperienceItem = ({
     }, []);
     
     const directionClass = isLeft ? 'md:flex-row' : 'md:flex-row-reverse';
-    const slideInClass = isLeft ? 'md:translate-x-0' : 'md:translate-x-0';
-    const initialPositionClass = isLeft ? 'md:-translate-x-10' : 'md:translate-x-10';
+    const initialPositionClass = isLeft ? 'md:-translate-x-8' : 'md:translate-x-8';
 
     return (
         <div 
           ref={ref} 
           className={cn(
-            "flex justify-center md:justify-between items-center w-full transition-all duration-1000 ease-out",
-            directionClass,
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            "flex justify-between items-center w-full",
+            directionClass
           )}
         >
             {/* Content */}
             <div className={cn(
-                "w-full md:w-5/12 p-4"
+                "w-full md:w-5/12 transition-all duration-700 ease-out",
+                 isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 ' + initialPositionClass
             )}>
-                <div className="bg-card p-6 rounded-xl shadow-lg border border-border/50 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+                <Card className="p-6 rounded-xl shadow-lg border border-border/50 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
                     <p className="text-primary font-semibold mb-1">{experience.duration}</p>
                     <h3 className="font-headline text-xl font-bold text-foreground mb-1">{experience.role}</h3>
                     <Link href={experience.link} target="_blank" rel="noopener noreferrer" className="font-semibold text-foreground/80 hover:text-primary transition-colors">
@@ -124,13 +124,12 @@ const ExperienceItem = ({
                             </li>
                         ))}
                     </ul>
-                </div>
+                </Card>
             </div>
 
             {/* Timeline Node */}
             <div className="hidden md:flex w-2/12 justify-center">
                 <div className="relative h-full">
-                    <div className="w-1 h-full bg-border"></div>
                     <div className={cn(
                       "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center transition-all duration-500",
                       isVisible ? "scale-100" : "scale-75"
@@ -162,7 +161,8 @@ export function Experience() {
                     </p>
                 </div>
 
-                <div className="mt-24 flex flex-col items-center gap-16">
+                <div className="relative mt-24 flex flex-col items-center gap-16">
+                    <div className="absolute left-1/2 top-0 hidden h-full w-1 -translate-x-1/2 bg-border md:block" />
                     {experiences.map((exp, index) => (
                        <ExperienceItem 
                           key={exp.value} 
