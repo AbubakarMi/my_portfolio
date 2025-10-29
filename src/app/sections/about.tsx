@@ -13,7 +13,7 @@ const highlights = [
     },
     {
         icon: <Rocket className="h-8 w-8 text-primary" />,
-        value: "5+",
+        value: "10+",
         label: "Major Projects"
     },
     {
