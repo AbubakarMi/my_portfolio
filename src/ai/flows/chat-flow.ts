@@ -39,35 +39,30 @@ const chatFlow = ai.defineFlow(
     outputSchema: ChatOutputSchema,
   },
   async input => {
-    try {
-      const systemPrompt = `You are a helpful, professional, and friendly AI assistant for the portfolio of Muhammad Idris Abubakar, a Software & AI Evaluation Engineer. Your role is to answer questions about his skills, experience, and projects. Keep your answers concise and conversational. If asked a question you cannot answer from the conversation history, politely state that you are an AI assistant for this portfolio and cannot answer questions outside that scope.`;
+    const systemPrompt = `You are a helpful, professional, and friendly AI assistant for the portfolio of Muhammad Idris Abubakar, a Software & AI Evaluation Engineer. Your role is to answer questions about his skills, experience, and projects. Keep your answers concise and conversational. If asked a question you cannot answer from the conversation history, politely state that you are an AI assistant for this portfolio and cannot answer questions outside that scope.`;
 
-      // Map the input history to the expected Message type
-      const history: Message[] = input.history.map(
-        h =>
-          ({
-            role: h.role as Role,
-            content: [{text: h.content}],
-          })
-      );
+    const history: Message[] = input.history.map(h => ({
+      role: h.role as Role,
+      content: [{text: h.content}],
+    }));
 
-      const response = await ai.chat({
-        model: 'gemini-1.5-pro',
-        history: history,
-        prompt: input.message,
-        system: systemPrompt,
-      });
+    const response = await ai.chat({
+      model: 'gemini-1.5-flash',
+      history: history,
+      prompt: input.message,
+      system: systemPrompt,
+    });
 
-      return {
-        response: response.text,
-      };
-    } catch (error) {
-      console.error('An error occurred in the chatFlow:', error);
-      // This is the fallback message the user is seeing.
+    const responseText = response.text;
+    if (!responseText) {
       return {
         response:
-          "I'm sorry, but I encountered a technical issue and couldn't process your request. My developer has been notified. Please try again in a few moments.",
+          "I'm sorry, I couldn't generate a response. Please try again.",
       };
     }
+
+    return {
+      response: responseText,
+    };
   }
 );
