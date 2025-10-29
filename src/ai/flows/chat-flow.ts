@@ -1,17 +1,13 @@
-
 'use server';
-/**
- * @fileOverview A simple chat flow that responds to user messages.
- *
- * - chat - A function that takes user input and returns a response from an AI model.
- * - ChatInput - The input type for the chat function.
- * - ChatOutput - The return type for the chat function.
- */
-
-import {ai} from '@/ai/genkit';
-import {type Message, type Role} from 'genkit';
-import {z} from 'zod';
+import { ai } from '@/ai/genkit';
+import { type Message, type Role } from 'genkit';
+import { z } from 'zod';
 import { googleAI } from '@genkit-ai/google-genai';
+
+// Force correct API version (optional but safe)
+googleAI.configure({
+  baseUrl: "https://generativelanguage.googleapis.com/v1",
+});
 
 const MessageSchema = z.object({
   role: z.enum(['user', 'assistant']),
@@ -44,26 +40,19 @@ const chatFlow = ai.defineFlow(
 
     const history: Message[] = input.history.map(h => ({
       role: h.role as Role,
-      content: [{text: h.content}],
+      content: [{ text: h.content }],
     }));
 
     const response = await ai.generate({
       model: googleAI.model('gemini-1.5-flash'),
-      history: history,
+      history,
       prompt: input.message,
       system: systemPrompt,
     });
 
     const responseText = response.text;
-    if (!responseText) {
-       return {
-        response:
-          "I'm sorry, I couldn't generate a response. Please try again.",
-      };
-    }
-
     return {
-      response: responseText,
+      response: responseText ?? "I'm sorry, I couldn't generate a response. Please try again.",
     };
   }
 );
