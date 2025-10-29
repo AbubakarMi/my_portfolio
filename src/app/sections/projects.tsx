@@ -65,7 +65,7 @@ const projects = [
     description: "A real-time bus booking and tracking platform designed for university students and administrators to manage transportation efficiently.",
     tech: ["Node.js", "Firebase"],
     image: PlaceHolderImages.find(p => p.id === "project-admission"),
-    link: "#",
+    link: "https://bus-tracker-i4dn.vercel.app/",
     role: "Full-Stack Developer"
   },
   {

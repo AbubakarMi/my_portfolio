@@ -91,7 +91,7 @@ Here is the exclusive information about Muhammad Idris Abubakar:
 - **BuildTrack Pro:** A construction tracking platform for contractors to manage expenses, material usage, and worker payments. Built with React, Node.js, and PostgreSQL.
 - **SmartEd ERP:** A comprehensive school ERP for managing attendance, grades, and payments, featuring role-based security and a modular design. Built with ASP.NET Core 8 and PostgreSQL.
 - **BulkPay:** An automated salary payment system for companies to manage and disburse salaries. Built with .NET, MVC, and PostgreSQL.
-- **Adustech Bus Tracker:** A real-time bus booking and tracking platform for university students. Built with Node.js and Firebase.
+- **Adustech Bus Tracker:** A real-time bus booking and tracking platform for university students. Built with Node.js and Firebase. View live at https://bus-tracker-i4dn.vercel.app/.
 - **Rewardify:** A gamification platform to increase user engagement through a points-based reward system. Built with Node.js, React and PostgreSQL.
 - **Rental Management System:** A system for property owners to manage rental properties, track payments, and handle maintenance. Built with Node.js, React, and PostgreSQL.
 - **Online Management System:** A general-purpose system for small businesses to track inventory, sales, and customer data. Built with Node.js, React, and PostgreSQL.
