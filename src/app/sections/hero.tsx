@@ -8,6 +8,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { ArrowRight, Download } from 'lucide-react';
+import { Card } from '@/components/ui/card';
 
 export function Hero() {
   const heroImage = PlaceHolderImages.find(p => p.id === "hero-portrait");
@@ -51,25 +52,19 @@ export function Hero() {
               </div>
             </div>
              <div className={cn(
-                "relative mx-auto h-[300px] w-[300px] transition-all duration-1000 delay-200 sm:h-[400px] sm:w-[400px] lg:mx-0",
+                "relative mx-auto transition-all duration-1000 delay-200 lg:mx-0",
                 isMounted ? "opacity-100 scale-100" : "opacity-0 scale-90"
             )}>
                 {heroImage && (
-                   <div className="group relative flex h-full w-full items-center justify-center">
-                    <div className="absolute h-full w-full animate-spin-slow rounded-full border-8 border-dashed border-primary/20"></div>
-                    <div className="absolute h-[85%] w-[85%] animate-spin-slow-reverse rounded-full border-8 border-dashed border-secondary/20"></div>
-                    <div className="relative h-[80%] w-[80%] overflow-hidden rounded-full shadow-2xl">
-                       <Image
-                            src={heroImage.imageUrl}
-                            alt={heroImage.description}
-                            width={400}
-                            height={400}
-                            className="h-full w-full object-cover"
-                            data-ai-hint={heroImage.imageHint}
-                            priority
-                        />
-                    </div>
-                </div>
+                  <Image
+                      src={heroImage.imageUrl}
+                      alt={heroImage.description}
+                      width={600}
+                      height={400}
+                      className="w-full"
+                      data-ai-hint={heroImage.imageHint}
+                      priority
+                  />
                 )}
             </div>
         </div>
