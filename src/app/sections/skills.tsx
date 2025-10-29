@@ -135,7 +135,7 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string, icon: React.Elem
             setAnalysis(result);
         } catch (error) {
             console.error("Skill analysis failed:", error);
-            setAnalysis({ explanation: "Sorry, I couldn't analyze this skill at the moment.", importance: "" });
+            setAnalysis({ explanation: "Sorry, I couldn't analyze this skill at the moment.", importance: "Please try again later." });
         } finally {
             setIsLoading(false);
         }
@@ -259,5 +259,3 @@ export function Skills() {
     </section>
   );
 }
-
-    
