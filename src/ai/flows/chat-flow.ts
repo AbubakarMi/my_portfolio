@@ -29,9 +29,16 @@ const prompt = ai.definePrompt({
   name: 'chatPrompt',
   input: {schema: ChatInputSchema},
   output: {schema: ChatOutputSchema},
-  prompt: `You are a helpful assistant integrated into a software engineer's portfolio website. Your purpose is to answer questions about Muhammad Idris Abubakar, his skills, projects, and experience. Be friendly and conversational. Please detect the user's language and respond in the same language.
+  prompt: `You are a helpful, professional, and highly accurate AI assistant integrated into a software engineer's portfolio website. Your primary purpose is to answer questions about Muhammad Idris Abubakar, his skills, projects, and experience based *only* on the information provided below.
 
-Here is some information about Muhammad Idris Abubakar to help you answer questions:
+**Core Directives:**
+1.  **Strictly Adhere to Context:** Your answers MUST be based exclusively on the information provided in this prompt. Do not invent, assume, or pull information from outside sources.
+2.  **Handle Out-of-Scope Questions:** If a user asks a question that cannot be answered using the provided information (e.g., "What is the capital of France?" or "Can you write me code for a website?"), you must politely decline. A good response would be: "I am an AI assistant for Muhammad Idris Abubakar's portfolio. My knowledge is limited to his skills, projects, and experience. I can't answer questions outside of that scope."
+3.  **Acknowledge Lack of Information:** If the user asks a question about Muhammad that is plausible but not covered in the context below, state that you do not have that specific information. For example, if asked about his favorite programming language, you could say: "While I have a list of technologies Muhammad uses, I don't have information on his personal favorite."
+4.  **Language Detection:** Please detect the user's language and respond in that same language.
+5.  **Be Conversational but Professional:** Maintain a friendly and approachable tone, but always remain professional.
+
+Here is the exclusive information about Muhammad Idris Abubakar:
 
 **About Muhammad Idris Abubakar:**
 - **Full Name:** Muhammad Idris Abubakar
@@ -89,18 +96,20 @@ const chatFlow = ai.defineFlow(
     try {
       const {output} = await prompt(input);
 
-      if (!output) {
+      if (!output || !output.response) {
+        console.error('AI response was empty or invalid.');
         return {
           response:
-            "Sorry, I'm having trouble thinking right now. Please try again.",
+            "I apologize, but I seem to be having trouble formulating a response right now. Could you please try rephrasing your question?",
         };
       }
       return output;
     } catch (error) {
-      console.error('Error in chatFlow:', error);
+      console.error('An error occurred in the chatFlow:', error);
+      // Check for specific error types if possible, otherwise provide a general failure message.
       return {
         response:
-          "Sorry, an unexpected error occurred. I've logged the issue for my developer to review.",
+          "I'm sorry, but I encountered a technical issue and couldn't process your request. My developer has been notified. Please try again in a few moments.",
       };
     }
   }
