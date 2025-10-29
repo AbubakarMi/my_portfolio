@@ -10,7 +10,7 @@
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import {z} from 'zod';
 
 const AnalyzeSkillInputSchema = z.object({
   skill: z.string().describe('The technical skill or technology to be analyzed.'),
@@ -67,7 +67,7 @@ const analyzeSkillFlow = ai.defineFlow(
         attempt++;
         if (attempt >= maxRetries) {
           console.error(`Failed to analyze skill "${input.skill}" after ${maxRetries} attempts.`, error);
-          // Re-throw the error on the final attempt to let the caller handle it.
+          // Re-throw a user-friendly error on the final attempt.
           throw new Error(
             `I'm currently experiencing high demand. Please try again in a moment.`
           );
