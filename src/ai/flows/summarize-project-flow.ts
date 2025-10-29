@@ -69,7 +69,7 @@ const projectPrompt = ai.definePrompt({
   name: 'summarizeProjectPrompt',
   input: {schema: SummarizeProjectInputSchema},
   output: {schema: SummarizeProjectOutputSchema},
-  model: googleAI.model('gemini-1.5-flash'),
+  model: googleAI.model('gemini-2.5-flash'),
   prompt: `You are an expert technical project manager and communicator. Your task is to generate a short, engaging, and professional audio script (around 45-60 seconds) summarizing a software project for a portfolio.
 
 The audience is a potential recruiter, hiring manager, or senior engineer. The tone should be confident and clear.
@@ -94,7 +94,7 @@ const skillPrompt = ai.definePrompt({
   name: 'summarizeSkillPrompt',
   input: {schema: SummarizeSkillInputSchema},
   output: {schema: SummarizeSkillOutputSchema},
-  model: googleAI.model('gemini-1.5-flash'),
+  model: googleAI.model('gemini-2.5-flash'),
   prompt: `You are an expert tech analyst providing insights for a software engineer's portfolio.
   A user has requested an analysis of the skill: {{{skill}}}.
 

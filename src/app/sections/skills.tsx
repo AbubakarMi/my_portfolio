@@ -1,14 +1,14 @@
 
 "use client";
 
-import React from 'react';
-import Link from 'next/link';
+import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { BrainCircuit, TestTube2, FileJson, Sparkles, Server, Code, Wind, GitBranch, Mail } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faNodeJs } from '@fortawesome/free-brands-svg-icons';
+import { SkillAnalysisDialog } from '@/components/skill-analysis-dialog';
 
 const DockerIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -116,7 +116,7 @@ const skills = {
   ]
 };
 
-const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.ElementType; style: React.CSSProperties }) => {
+const SkillCard = ({ name, icon: Icon, style, onAnalyze }: { name: string; icon: React.ElementType; style: React.CSSProperties, onAnalyze: (skill: string) => void }) => {
   return (
     <Card
       className="group animate-fade-in-up rounded-2xl transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1"
@@ -132,14 +132,12 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
 
         <div className="h-9 mt-4 transition-all duration-300 opacity-0 group-hover:opacity-100">
            <Button
-              asChild
               variant="outline"
               size="sm"
               className="rounded-full bg-background/80 backdrop-blur-sm"
+              onClick={() => onAnalyze(name)}
             >
-              <Link href={`/analyze/${encodeURIComponent(name)}`}>
-                <Sparkles className="mr-2 h-4 w-4 text-primary" /> Analyze
-              </Link>
+              <Sparkles className="mr-2 h-4 w-4 text-primary" /> Analyze
             </Button>
         </div>
       </div>
@@ -149,47 +147,63 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
 
 
 export function Skills() {
+  const [analyzingSkill, setAnalyzingSkill] = useState<string | null>(null);
+
   return (
-    <section id="skills" className="bg-background py-24 sm:py-32">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center">
-          <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Skills &amp; Technologies
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-foreground/70">
-            A look at the primary tools and technologies in my professional toolkit. Hover over a skill and click "Analyze" for an AI-powered breakdown.
-          </p>
+    <>
+      <section id="skills" className="bg-background py-24 sm:py-32">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center">
+            <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+              Skills &amp; Technologies
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-foreground/70">
+              A look at the primary tools and technologies in my professional toolkit. Hover over a skill and click "Analyze" for an AI-powered breakdown.
+            </p>
+          </div>
+
+          <Tabs defaultValue="AI & Testing" className="mt-16 w-full">
+              <TabsList className="mx-auto grid h-auto max-w-2xl grid-cols-2 items-center justify-center gap-2 rounded-xl bg-muted p-2 sm:grid-cols-3 md:flex">
+                  {Object.keys(skills).map((category) => (
+                      <TabsTrigger 
+                        key={category} 
+                        value={category} 
+                        className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-md rounded-lg"
+                      >
+                        {category}
+                      </TabsTrigger>
+                  ))}
+              </TabsList>
+
+              {Object.entries(skills).map(([category, items]) => (
+                  <TabsContent key={category} value={category} className="mt-10">
+                      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                          {items.map((skill, index) => (
+                            <SkillCard 
+                              key={skill.name} 
+                              name={skill.name} 
+                              icon={skill.icon}
+                              style={{ animationDelay: `${index * 100}ms`}}
+                              onAnalyze={setAnalyzingSkill}
+                            />
+                          ))}
+                      </div>
+                  </TabsContent>
+               ))}
+          </Tabs>
         </div>
-
-        <Tabs defaultValue="AI & Testing" className="mt-16 w-full">
-            <TabsList className="mx-auto grid h-auto max-w-2xl grid-cols-2 items-center justify-center gap-2 rounded-xl bg-muted p-2 sm:grid-cols-3 md:flex">
-                {Object.keys(skills).map((category) => (
-                    <TabsTrigger 
-                      key={category} 
-                      value={category} 
-                      className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-md rounded-lg"
-                    >
-                      {category}
-                    </TabsTrigger>
-                ))}
-            </TabsList>
-
-            {Object.entries(skills).map(([category, items]) => (
-                <TabsContent key={category} value={category} className="mt-10">
-                    <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        {items.map((skill, index) => (
-                          <SkillCard 
-                            key={skill.name} 
-                            name={skill.name} 
-                            icon={skill.icon}
-                            style={{ animationDelay: `${index * 100}ms`}}
-                          />
-                        ))}
-                    </div>
-                </TabsContent>
-             ))}
-        </Tabs>
-      </div>
-    </section>
+      </section>
+      {analyzingSkill && (
+        <SkillAnalysisDialog 
+          skillName={analyzingSkill}
+          open={!!analyzingSkill}
+          onOpenChange={(isOpen) => {
+            if (!isOpen) {
+              setAnalyzingSkill(null);
+            }
+          }}
+        />
+      )}
+    </>
   );
 }
