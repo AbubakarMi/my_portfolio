@@ -29,7 +29,7 @@ export const blogPosts = [
     title: "Why I Started Nyra",
     excerpt: "A personal reflection on the journey, motivation, and vision behind founding a tech startup aimed at simplifying business operations and driving growth through software.",
     image: PlaceHolderImages.find(p => p.id === "blog-nyra-tech"),
-    date: "2025-10-15",
+    date: "2024-07-15",
     content: `
       <p>Starting Nyra wasn’t just about building another tech product—it was about solving a real problem that I deeply cared about. As someone passionate about communication and technology, I’ve always believed that the ability to connect and understand one another should never be limited by language or distance.</p>
       <p>The idea came to me when I realized how many people and companies struggle to collaborate effectively across different languages. Imagine two people—one who speaks only Hausa and another who speaks only English—trying to hold an important meeting. In today’s globalized world, this kind of barrier still exists everywhere. I wanted to change that.</p>
