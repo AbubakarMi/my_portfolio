@@ -33,7 +33,7 @@ export default function RootLayout({
         />
       </head>
       <body className={cn('font-body bg-background text-foreground antialiased')}>
-        <AnalyticsProvider />
+        {/* <AnalyticsProvider /> */}
         {children}
         <Toaster />
       </body>
