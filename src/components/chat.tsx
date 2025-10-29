@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Bot, User, Send, X, CornerDownLeft, Mic, Volume2 } from 'lucide-react';
+import { Bot, User, Send, X, CornerDownLeft, Mic, Volume2, Loader2, Play } from 'lucide-react';
 import { chat } from '@/ai/flows/chat-flow';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -14,9 +14,102 @@ import { sendChatTranscriptEmail } from '@/ai/flows/send-email-flow';
 import { textToSpeech } from '@/ai/flows/tts-flow';
 
 type Message = {
+  id: string;
   role: 'user' | 'assistant';
   content: string;
+  audioDataUri?: string;
+  isGeneratingAudio?: boolean;
 };
+
+const AssistantMessage = ({ message }: { message: Message }) => {
+  const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
+  const [audioDataUri, setAudioDataUri] = useState<string | undefined>(undefined);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const handlePlayAudio = async () => {
+    if (isPlaying && audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setIsPlaying(false);
+      return;
+    }
+
+    if (audioDataUri && audioRef.current) {
+      audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+      return;
+    }
+
+    setIsGeneratingAudio(true);
+    try {
+      const audioResult = await textToSpeech({ text: message.content });
+      setAudioDataUri(audioResult.audioDataUri);
+    } catch (error) {
+      console.error("TTS generation failed:", error);
+    } finally {
+      setIsGeneratingAudio(false);
+    }
+  };
+  
+  useEffect(() => {
+    if (audioDataUri && audioRef.current) {
+        audioRef.current.src = audioDataUri;
+        audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+    }
+  }, [audioDataUri]);
+
+  useEffect(() => {
+    const audioElement = audioRef.current;
+    if (audioElement) {
+      const onPlay = () => setIsPlaying(true);
+      const onPause = () => setIsPlaying(false);
+      const onEnded = () => setIsPlaying(false);
+      
+      audioElement.addEventListener('play', onPlay);
+      audioElement.addEventListener('pause', onPause);
+      audioElement.addEventListener('ended', onEnded);
+      
+      return () => {
+        audioElement.removeEventListener('play', onPlay);
+        audioElement.removeEventListener('pause', onPause);
+        audioElement.removeEventListener('ended', onEnded);
+      }
+    }
+  }, [audioRef.current]);
+
+  return (
+    <div className="flex items-start gap-3">
+       <audio ref={audioRef} className="hidden" />
+      <Avatar className="h-8 w-8">
+        <AvatarFallback><Bot size={18} /></AvatarFallback>
+      </Avatar>
+      <div className="flex-1 space-y-2">
+        <div className="bg-muted rounded-2xl px-4 py-2.5 text-sm rounded-bl-none">
+          {message.content}
+        </div>
+        <div className="flex items-center">
+          <Button
+            size="icon"
+            variant="ghost"
+            className="h-8 w-8 text-muted-foreground"
+            onClick={handlePlayAudio}
+            disabled={isGeneratingAudio}
+            aria-label={isPlaying ? "Stop audio" : "Play audio"}
+          >
+            {isGeneratingAudio ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : isPlaying ? (
+              <Volume2 className="h-4 w-4 text-primary" />
+            ) : (
+              <Play className="h-4 w-4" />
+            )}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 
 export function Chat() {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,10 +117,8 @@ export function Chat() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [isSpeaking, setIsSpeaking]       = useState(false);
   const viewportRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
   const [speechApi, setSpeechApi] = useState<any>(null);
 
   // Initialize SpeechRecognition
@@ -85,44 +176,34 @@ export function Chat() {
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
-  
+
     if (recognitionRef.current && isListening) {
       recognitionRef.current.stop();
       setIsListening(false);
     }
-  
-    const userMessage: Message = { role: 'user', content: input };
+
+    const userMessage: Message = { id: Date.now().toString(), role: 'user', content: input };
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
-  
+
     try {
       const result = await chat({
-        history: messages,
+        history: messages.map(m => ({role: m.role, content: m.content})),
         message: input,
       });
-  
-      const assistantMessage: Message = { role: 'assistant', content: result.response };
+
+      const assistantMessage: Message = { 
+          id: (Date.now() + 1).toString(),
+          role: 'assistant', 
+          content: result.response 
+      };
       setMessages(prev => [...prev, assistantMessage]);
-      setIsLoading(false);
-      
-      // Convert response to speech
-      setIsSpeaking(true);
-      const audioResult = await textToSpeech({ text: result.response });
-      
-      if (audioRef.current) {
-        audioRef.current.src = audioResult.audioDataUri;
-        audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
-        audioRef.current.onended = () => setIsSpeaking(false);
-      } else {
-        setIsSpeaking(false);
-      }
-  
     } catch (error) {
-      console.error("Error in chat flow or TTS flow:", error);
-      const errorMessage: Message = { role: 'assistant', content: "Sorry, I'm having trouble connecting. Please try again later." };
+      console.error("Error in chat flow:", error);
+      const errorMessage: Message = { id: (Date.now() + 1).toString(), role: 'assistant', content: "Sorry, I'm having trouble connecting. Please try again later." };
       setMessages(prev => [...prev, errorMessage]);
-      setIsSpeaking(false);
+    } finally {
       setIsLoading(false);
     }
   };
@@ -144,10 +225,6 @@ export function Chat() {
       
       setMessages([]);
     }
-     if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.src = "";
-     }
   };
 
   useEffect(() => {
@@ -158,7 +235,6 @@ export function Chat() {
   
   return (
     <>
-      <audio ref={audioRef} className="hidden" />
       <div className={cn(
         "fixed bottom-6 right-6 z-50 transition-transform duration-300 ease-in-out",
         isOpen ? 'translate-x-[100vw]' : 'translate-x-0'
@@ -187,7 +263,6 @@ export function Chat() {
               <CardTitle className="text-lg">AI Assistant</CardTitle>
             </div>
             <div className="flex items-center gap-2">
-              {isSpeaking && <Volume2 className="h-5 w-5 text-primary animate-pulse" />}
               <Button variant="ghost" size="icon" onClick={handleCloseChat} aria-label="Close chat">
                 <X className="h-5 w-5" />
               </Button>
@@ -206,30 +281,19 @@ export function Chat() {
                     </div>
                   </div>
                 )}
-                {messages.map((message, index) => (
-                  <div key={index} className={cn("flex items-start gap-3", message.role === 'user' ? 'justify-end' : '')}>
-                    {message.role === 'assistant' && (
-                      <Avatar className="h-8 w-8">
-                        <AvatarFallback><Bot size={18} /></AvatarFallback>
-                      </Avatar>
-                    )}
-                    <div
-                      className={cn(
-                        "max-w-[80%] rounded-2xl px-4 py-2.5 text-sm",
-                        message.role === 'user'
-                          ? 'bg-primary text-primary-foreground rounded-br-none'
-                          : 'bg-muted rounded-bl-none'
-                      )}
-                    >
-                      {message.content}
-                       {isLoading && index === messages.length - 1 && (
-                         <span className="inline-block w-2 h-4 bg-foreground ml-1 animate-pulse" />
-                       )}
-                    </div>
-                     {message.role === 'user' && (
-                      <Avatar className="h-8 w-8">
-                        <AvatarFallback><User size={18}/></AvatarFallback>
-                      </Avatar>
+                {messages.map((message) => (
+                  <div key={message.id}>
+                    {message.role === 'assistant' ? (
+                       <AssistantMessage message={message} />
+                    ) : (
+                      <div className="flex items-start gap-3 justify-end">
+                        <div className="max-w-[80%] rounded-2xl px-4 py-2.5 text-sm bg-primary text-primary-foreground rounded-br-none">
+                          {message.content}
+                        </div>
+                        <Avatar className="h-8 w-8">
+                          <AvatarFallback><User size={18}/></AvatarFallback>
+                        </Avatar>
+                      </div>
                     )}
                   </div>
                 ))}
@@ -293,3 +357,5 @@ export function Chat() {
     </>
   );
 }
+
+    
