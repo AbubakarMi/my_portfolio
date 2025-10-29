@@ -78,7 +78,7 @@ Here is the exclusive information about Muhammad Idris Abubakar:
 
 
 **Work Experience:**
-- **Backend Developer - Hubuk Technology Limited (On-site, June 2022 – Present):** Designs modular REST APIs with ASP.NET Core 8 & PostgreSQL, improving response efficiency by 25%. Develops automated QA and reproducibility scripts. Builds internal AI-powered dashboards and writes technical documentation.
+- **Full Stack - Hubuk Technology Limited (On-site, June 2022 – Present):** Designs modular REST APIs with ASP.NET Core 8 & PostgreSQL, improving response efficiency by 25%. Develops automated QA and reproducibility scripts. Builds internal AI-powered dashboards and writes technical documentation.
 - **Freelance AI/QA Contributor (Remote, 2024 – Present):** Evaluates LLM outputs for accuracy and logical consistency. Authors test cases using JSON/YAML and applies precision, recall, and coverage metrics to quantify AI performance. Collaborates on prompt iteration and rubric definition.
 - **Backend Engineering Intern - FlexiSAF Edusoft Limited (Sept 2025 – Dec 2025):** Assisted in backend feature development using Java, Spring-based frameworks, and SQL. Gained hands-on experience in a professional software development environment.
 - **Frontend Developer Intern - Torvix AI (Oct 2025 – Nov 2025):** Built responsive UIs for AI model visualization using modern frontend frameworks. Integrated backend APIs to display real-time data from AI systems.

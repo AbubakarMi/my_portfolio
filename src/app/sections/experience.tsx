@@ -10,7 +10,7 @@ const experiences = [
   {
     company: "Hubuk Technology Limited",
     link: "https://hubuk.ng",
-    role: "Backend Developer",
+    role: "Full Stack",
     duration: "June 2022 – Present",
     icon: Building,
     description: [
@@ -83,32 +83,33 @@ const ExperienceItem = ({ exp, index }: { exp: typeof experiences[0], index: num
     }, []);
 
     return (
-        <div ref={itemRef} className="relative flex items-center w-full">
+        <div ref={itemRef} className="relative flex w-full items-center justify-between md:justify-normal">
+            {/* Desktop: Alternating content */}
+            <div className={cn("hidden md:block w-[calc(50%-2.5rem)]", isLeft ? "order-1" : "order-3")}></div>
             <div className={cn(
-                "w-full md:w-[calc(50%-2.5rem)] p-6 space-y-4 rounded-lg",
+                "w-full md:w-[calc(50%-2.5rem)]",
                 "transition-all duration-1000 ease-out",
-                isLeft ? "md:mr-auto md:text-left" : "md:ml-auto text-left",
+                isLeft ? 'order-2 md:text-left' : "order-2 md:text-left",
                 isVisible ? 'opacity-100' : 'opacity-0',
                 isVisible && isLeft && 'md:translate-x-0',
                 !isVisible && isLeft && 'md:-translate-x-12',
                 isVisible && !isLeft && 'md:translate-x-0',
                 !isVisible && !isLeft && 'md:translate-x-12',
             )}>
-                 <p className="font-semibold text-primary text-lg">{exp.role}</p>
-                 <h3 className="font-headline text-2xl font-bold text-foreground">
-                     <Link href={exp.link} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
-                         {exp.company}
-                     </Link>
-                 </h3>
-                 <p className="font-medium text-foreground/60 text-sm">{exp.duration}</p>
-                 <ul className={cn(
-                     "space-y-2 text-foreground/80 list-disc",
-                     isLeft ? "pl-5" : "pl-5"
-                 )}>
-                     {exp.description.map((item, idx) => (
-                         <li key={idx}>{item}</li>
-                     ))}
-                 </ul>
+                 <div className="rounded-lg bg-card p-6 shadow-md border border-border/50 hover:border-primary/50 hover:shadow-xl transition-all">
+                    <p className="font-semibold text-primary text-lg">{exp.role}</p>
+                    <h3 className="font-headline text-2xl font-bold text-foreground mt-2">
+                        <Link href={exp.link} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+                            {exp.company}
+                        </Link>
+                    </h3>
+                    <p className="font-medium text-foreground/60 text-sm mt-1">{exp.duration}</p>
+                    <ul className="mt-4 space-y-2 text-foreground/80 list-disc pl-5">
+                        {exp.description.map((item, idx) => (
+                            <li key={idx}>{item}</li>
+                        ))}
+                    </ul>
+                </div>
             </div>
             
              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:block">
