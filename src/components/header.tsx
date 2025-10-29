@@ -80,7 +80,7 @@ export function Header() {
               <div className="flex flex-col space-y-8 p-6">
                 <SheetClose asChild>
                   <Link href="/" className="text-xl font-bold text-foreground">
-                    Idris.
+                     Muhammad Idris Abubakar.
                   </Link>
                 </SheetClose>
                 <nav className="flex flex-col space-y-6">
