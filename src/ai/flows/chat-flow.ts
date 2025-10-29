@@ -39,16 +39,34 @@ const chatFlow = ai.defineFlow(
       content: [{ text: h.content }],
     }));
 
-    const response = await ai.generate({
-      model: googleAI.model('gemini-2.5-flash'),
-      history,
-      prompt: input.message,
-      system: systemPrompt,
-    });
+    const maxRetries = 3;
+    let attempt = 0;
 
-    const responseText = response.text;
-    return {
-      response: responseText ?? "I'm sorry, I couldn't generate a response. Please try again.",
-    };
+    while (attempt < maxRetries) {
+      try {
+        const response = await ai.generate({
+          model: googleAI.model('gemini-2.5-flash'),
+          history,
+          prompt: input.message,
+          system: systemPrompt,
+        });
+
+        const responseText = response.text;
+        return {
+          response: responseText ?? "I'm sorry, I couldn't generate a response. Please try again.",
+        };
+      } catch (error: any) {
+        attempt++;
+        if (attempt >= maxRetries) {
+          console.error(`Chat flow failed after ${maxRetries} attempts:`, error);
+          throw new Error("I'm currently experiencing high demand and can't respond. Please try again in a moment.");
+        }
+        // Exponential backoff: 1s, 2s, 4s
+        await new Promise(resolve => setTimeout(resolve, 1000 * (2 ** (attempt -1))));
+      }
+    }
+    
+    // This should not be reached, but as a fallback:
+    throw new Error("I'm currently experiencing high demand and can't respond. Please try again in a moment.");
   }
 );
