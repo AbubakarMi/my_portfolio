@@ -115,22 +115,25 @@ const analysisCache = new Map<string, AnalyzeSkillOutput>();
 const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.ElementType; style: React.CSSProperties }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [analysis, setAnalysis] = useState<AnalyzeSkillOutput | null>(analysisCache.get(name) || null);
+  const [analysis, setAnalysis] = useState<AnalyzeSkillOutput | null>(null);
 
   const handleAnalyze = async () => {
-    // If analysis is already in cache, just show it.
-    if (analysis) {
-      setIsDialogOpen(true);
+    setIsDialogOpen(true);
+    
+    // Check cache first
+    const cachedAnalysis = analysisCache.get(name);
+    if (cachedAnalysis) {
+      setAnalysis(cachedAnalysis);
+      setIsLoading(false);
       return;
     }
-    
-    setIsDialogOpen(true);
-    setIsLoading(true);
 
+    // If not in cache, show loader and fetch
+    setIsLoading(true);
     try {
       const result = await analyzeSkill({ skill: name });
       setAnalysis(result);
-      analysisCache.set(name, result); // Cache the result for next time
+      analysisCache.set(name, result); // Cache the result
     } catch (error) {
       console.error("Skill analysis failed:", error);
       setAnalysis({
@@ -198,18 +201,21 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
 
 
 export function Skills() {
-  // Pre-fetch skill analysis on component mount
   useEffect(() => {
-    Object.values(skills).flat().forEach(skill => {
-      // Only fetch if not already in cache
+    // Aggressively pre-fetch all skill analyses as soon as this component mounts.
+    const allSkills = Object.values(skills).flat();
+    allSkills.forEach(skill => {
+      // Fire-and-forget; we don't need to wait for the result here.
+      // The result will be populated in the cache when it's ready.
       if (!analysisCache.has(skill.name)) {
-        analyzeSkill({ skill: skill.name })
-          .then(result => {
-            analysisCache.set(skill.name, result);
-          })
-          .catch(error => {
-            console.error(`Pre-fetching analysis for ${skill.name} failed:`, error);
-          });
+          analyzeSkill({ skill: skill.name })
+            .then(result => {
+              analysisCache.set(skill.name, result);
+            })
+            .catch(error => {
+              // Log error but don't block. The app can still function.
+              console.error(`Pre-fetching analysis for ${skill.name} failed:`, error);
+            });
       }
     });
   }, []);
