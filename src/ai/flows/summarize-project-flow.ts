@@ -2,16 +2,21 @@
 'use server';
 
 /**
- * @fileOverview A flow to generate a concise, professional summary of a portfolio project.
+ * @fileOverview A flow to generate a concise, professional summary of a portfolio project or a skill.
  *
  * - summarizeProject - Generates a summary script for a given project.
  * - SummarizeProjectInput - The input type for the summarizeProject function.
  * - SummarizeProjectOutput - The return type for the summarizeProject function.
+ * 
+ * - summarizeSkill - Generates a summary for a given skill.
+ * - SummarizeSkillInput - The input type for the summarizeSkill function.
+ * - SummarizeSkillOutput - The return type for the summarizeSkill function.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
 
+// For Project Summarization
 const SummarizeProjectInputSchema = z.object({
   title: z.string().describe('The title of the project.'),
   description: z.string().describe('A detailed description of the project.'),
@@ -30,13 +35,36 @@ export type SummarizeProjectOutput = z.infer<
   typeof SummarizeProjectOutputSchema
 >;
 
+// For Skill Analysis (New)
+const SummarizeSkillInputSchema = z.object({
+  skill: z.string().describe('The technical skill or technology to be analyzed.'),
+});
+export type SummarizeSkillInput = z.infer<typeof SummarizeSkillInputSchema>;
+
+const SummarizeSkillOutputSchema = z.object({
+  explanation: z
+    .string()
+    .describe('A concise explanation of what the skill or technology is.'),
+  importance: z
+    .string()
+    .describe('A brief on why this skill is important in modern software/AI development.'),
+});
+export type SummarizeSkillOutput = z.infer<typeof SummarizeSkillOutputSchema>;
+
+
 export async function summarizeProject(
   input: SummarizeProjectInput
 ): Promise<SummarizeProjectOutput> {
   return summarizeProjectFlow(input);
 }
 
-const prompt = ai.definePrompt({
+export async function summarizeSkill(
+  input: SummarizeSkillInput
+): Promise<SummarizeSkillOutput> {
+  return summarizeSkillFlow(input);
+}
+
+const projectPrompt = ai.definePrompt({
   name: 'summarizeProjectPrompt',
   input: {schema: SummarizeProjectInputSchema},
   output: {schema: SummarizeProjectOutputSchema},
@@ -60,38 +88,44 @@ Do not use conversational language like "Hello" or "Thanks for listening". Just 
 `,
 });
 
+const skillPrompt = ai.definePrompt({
+  name: 'summarizeSkillPrompt',
+  input: {schema: SummarizeSkillInputSchema},
+  output: {schema: SummarizeSkillOutputSchema},
+  prompt: `You are an expert tech analyst providing insights for a software engineer's portfolio.
+  A user has requested an analysis of the skill: {{{skill}}}.
+
+  Your task is to provide two things:
+  1. A clear, concise explanation of what this skill/technology is.
+  2. A brief summary of why this skill is important and relevant in the modern tech industry.
+
+  Keep your tone professional and informative. The audience might be a recruiter or a fellow engineer. Do not mention the user or the request. Just provide the analysis.
+  `,
+});
+
+
 const summarizeProjectFlow = ai.defineFlow(
   {
     name: 'summarizeProjectFlow',
     inputSchema: SummarizeProjectInputSchema,
     outputSchema: SummarizeProjectOutputSchema,
   },
-  async (input, streamingCallback) => {
-    const maxRetries = 2;
-    let attempt = 0;
-
-    while (attempt < maxRetries) {
-      try {
-        const {output} = await prompt(input);
-        if (!output) throw new Error('No output from AI');
-        return output;
-      } catch (error: any) {
-        attempt++;
-        if (attempt >= maxRetries) {
-          console.error(`Failed to summarize project "${input.title}" after ${maxRetries} attempts.`, error);
-          // Re-throw a user-friendly error on the final attempt.
-          throw new Error(
-            `I'm currently experiencing high demand and couldn't generate the summary. Please try again in a moment.`
-          );
-        }
-        // Wait for a short period before retrying
-        await new Promise(resolve => setTimeout(resolve, 500 * attempt));
-      }
-    }
-     throw new Error(
-      `I'm currently experiencing high demand and couldn't generate the summary. Please try again in a moment.`
-    );
+  async (input) => {
+    const {output} = await projectPrompt(input);
+    if (!output) throw new Error('No output from AI');
+    return output;
   }
 );
 
-    
+const summarizeSkillFlow = ai.defineFlow(
+  {
+    name: 'summarizeSkillFlow',
+    inputSchema: SummarizeSkillInputSchema,
+    outputSchema: SummarizeSkillOutputSchema,
+  },
+  async (input) => {
+     const {output} = await skillPrompt(input);
+     if (!output) throw new Error('No output from AI');
+     return output;
+  }
+);

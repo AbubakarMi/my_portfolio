@@ -1,14 +1,15 @@
 
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { BrainCircuit, TestTube2, FileJson, Sparkles, Loader2, Server, Code, Wind, GitBranch, Mail } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { analyzeSkill, AnalyzeSkillOutput } from '@/ai/flows/analyze-skill-flow';
+import { summarizeSkill } from '@/ai/flows/summarize-project-flow';
+import type { SummarizeSkillOutput } from '@/ai/flows/summarize-project-flow';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faNodeJs } from '@fortawesome/free-brands-svg-icons';
 
@@ -119,12 +120,12 @@ const skills = {
   ]
 };
 
-const analysisCache = new Map<string, AnalyzeSkillOutput>();
+const analysisCache = new Map<string, SummarizeSkillOutput>();
 
 const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.ElementType; style: React.CSSProperties }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [analysis, setAnalysis] = useState<AnalyzeSkillOutput | null>(null);
+  const [analysis, setAnalysis] = useState<SummarizeSkillOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleAnalyze = async () => {
@@ -137,7 +138,7 @@ const SkillCard = ({ name, icon: Icon, style }: { name: string; icon: React.Elem
     setIsLoading(true);
     setError(null);
     try {
-      const result = await analyzeSkill({ skill: name });
+      const result = await summarizeSkill({ skill: name });
       setAnalysis(result);
       analysisCache.set(name, result);
     } catch (e: any) {
@@ -256,5 +257,3 @@ export function Skills() {
     </section>
   );
 }
-
-    
