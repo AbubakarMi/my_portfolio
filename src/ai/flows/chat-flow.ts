@@ -31,11 +31,15 @@ export async function chat(input: ChatInput): Promise<ChatOutput> {
   return chatFlow(input);
 }
 
-const prompt = ai.definePrompt({
-  name: 'chatPrompt',
-  input: {schema: ChatInputSchema},
-  output: {schema: ChatOutputSchema},
-  prompt: `You are a helpful, professional, and highly accurate AI assistant integrated into a software engineer's portfolio website. Your primary purpose is to answer questions about Muhammad Idris Abubakar, his skills, projects, and experience based *only* on the information provided below.
+const chatFlow = ai.defineFlow(
+  {
+    name: 'chatFlow',
+    inputSchema: ChatInputSchema,
+    outputSchema: ChatOutputSchema,
+  },
+  async input => {
+    try {
+      const prompt = ai.prompt(`You are a helpful, professional, and highly accurate AI assistant integrated into a software engineer's portfolio website. Your primary purpose is to answer questions about Muhammad Idris Abubakar, his skills, projects, and experience based *only* on the information provided below.
 
 **Core Directives:**
 1.  **Strictly Adhere to Context:** Your answers MUST be based exclusively on the information provided in this prompt. Do not invent, assume, or pull information from outside sources.
@@ -113,19 +117,9 @@ Here is the exclusive information about Muhammad Idris Abubakar:
   **{{role}}**: {{content}}
 {{/each}}
 
-**User's latest message:** {{{message}}}
-`,
-});
+**User's latest message:** {{{message}}}`);
 
-const chatFlow = ai.defineFlow(
-  {
-    name: 'chatFlow',
-    inputSchema: ChatInputSchema,
-    outputSchema: ChatOutputSchema,
-  },
-  async input => {
-    try {
-      const {output} = await prompt(input);
+      const {output} = await prompt(input, { output: { schema: ChatOutputSchema } });
 
       if (!output || !output.response) {
         console.error('AI response was empty or invalid.');
