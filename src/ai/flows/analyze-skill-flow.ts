@@ -54,7 +54,7 @@ const analyzeSkillFlow = ai.defineFlow(
     inputSchema: AnalyzeSkillInputSchema,
     outputSchema: AnalyzeSkillOutputSchema,
   },
-  async (input, streamingCallback) => {
+  async (input) => {
     const maxRetries = 2;
     let attempt = 0;
 
