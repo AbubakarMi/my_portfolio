@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Bot, User, Send, X, CornerDownLeft, Mic, Speaker, Volume2 } from 'lucide-react';
+import { Bot, User, Send, X, CornerDownLeft, Mic, Volume2 } from 'lucide-react';
 import { chat } from '@/ai/flows/chat-flow';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -36,37 +36,40 @@ export function Chat() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (SpeechRecognition) {
         setSpeechApi(() => SpeechRecognition);
-        const recognition = new SpeechRecognition();
-        recognition.continuous = true;
-        recognition.interimResults = true;
-        recognition.lang = 'en-US';
-    
-        recognition.onresult = (event) => {
-          let finalTranscript = '';
-          for (let i = event.resultIndex; i < event.results.length; ++i) {
-            if (event.results[i].isFinal) {
-              finalTranscript += event.results[i][0].transcript;
-            }
-          }
-          if (finalTranscript) {
-            setInput(prev => prev + finalTranscript);
-          }
-        };
-        
-        recognition.onend = () => {
-          setIsListening(false);
-        };
-    
-        recognitionRef.current = recognition;
-    
-        return () => {
-          recognition.stop();
-        };
-      } else {
-        console.warn("SpeechRecognition API not supported in this browser.");
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (speechApi) {
+      const recognition = new speechApi();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+  
+      recognition.onresult = (event: any) => {
+        let finalTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            finalTranscript += event.results[i][0].transcript;
+          }
+        }
+        if (finalTranscript) {
+          setInput(prev => prev + finalTranscript);
+        }
+      };
+      
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+  
+      recognitionRef.current = recognition;
+  
+      return () => {
+        recognition.stop();
+      };
+    }
+  }, [speechApi]);
 
   const handleMicClick = () => {
     if (!recognitionRef.current) return;
@@ -89,16 +92,16 @@ export function Chat() {
     }
   
     const userMessage: Message = { role: 'user', content: input };
-    setMessages(prev => [...prev, userMessage]);
+    const currentMessages = [...messages, userMessage];
+    setMessages(currentMessages);
     setInput('');
     setIsLoading(true);
   
     try {
-      // @ts-ignore
-      const { stream, response } = await chat({
+      const stream = await chat({
         history: messages,
         message: input,
-      }, { stream: true });
+      }, {stream: true});
   
       let fullResponse = '';
       let assistantMessage: Message = { role: 'assistant', content: '' };
