@@ -58,13 +58,13 @@ const HighlightCard = ({ icon, value, label, delay }: { icon: React.ReactNode, v
       )}
       style={{ transitionDelay: `${delay}ms` }}
     >
-      <Card className="flex h-full flex-col items-center justify-center p-6 text-center">
+      <div className="flex h-full flex-col items-center justify-center p-6 text-center rounded-2xl bg-card border">
         <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 mb-4">
           {icon}
         </div>
         {value && <p className="text-3xl font-bold text-foreground">{value}</p>}
         <p className="text-md mt-1 text-foreground/70">{label}</p>
-      </Card>
+      </div>
     </div>
   );
 };
@@ -94,7 +94,7 @@ export function About() {
   return (
     <section id="about" ref={sectionRef} className="bg-sky-50/50 dark:bg-sky-900/10 py-24 sm:py-32">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid items-center gap-12 lg:grid-cols-5 lg:gap-20">
+        <div className="grid items-start gap-12 lg:grid-cols-5 lg:gap-20">
           <div className={cn(
             "lg:col-span-2 transition-all duration-700",
             isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
@@ -113,12 +113,12 @@ export function About() {
             )}
           </div>
           <div className={cn(
-              "space-y-8 md:col-span-3 transition-all duration-700",
+              "space-y-12 md:col-span-3 transition-all duration-700",
               isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
             )}
              style={{ transitionDelay: '200ms' }}
           >
-            <div className="space-y-4">
+            <div className="space-y-6">
                 <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
                   My Story: From Curiosity to Creator
                 </h2>
@@ -130,18 +130,15 @@ export function About() {
                     In addition to my engineering work, I founded the startup <strong className="font-semibold text-primary">Nyra</strong>, with a mission to build world-class productivity software. My goal is to design reproducible test scenarios, apply metrics like precision and recall to improve AI model behavior, and deliver exceptional user experiences through my products.
                   </p>
                 </div>
+                 <Button asChild size="lg" className="mt-4 rounded-full px-8">
+                  <a href="https://drive.google.com/file/d/1P51URCIY7UCDsIQuxrzlb5FvD4mZxNDp/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+                    <Download className="mr-2 h-5 w-5" />
+                    Download Resume
+                  </a>
+                </Button>
             </div>
-            <Button asChild size="lg" className="mt-4 rounded-full px-8">
-              <a href="https://drive.google.com/file/d/1P51URCIY7UCDsIQuxrzlb5FvD4mZxNDp/view?usp=sharing" target="_blank" rel="noopener noreferrer">
-                <Download className="mr-2 h-5 w-5" />
-                Download Resume
-              </a>
-            </Button>
-          </div>
-        </div>
-        
-        <div className="mt-24">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+           
+            <div className="grid grid-cols-2 gap-8">
                 {highlights.map((highlight, index) => (
                     <HighlightCard 
                       key={highlight.label} 
@@ -150,8 +147,10 @@ export function About() {
                     />
                 ))}
             </div>
-        </div>
+        
 
+          </div>
+        </div>
       </div>
     </section>
   );
