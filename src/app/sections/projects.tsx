@@ -45,6 +45,14 @@ const projects = [
     link: "#",
     role: "Lead Developer"
   },
+  {
+    title: "SmartEd ERP",
+    description: "A comprehensive school ERP for managing attendance, grades, and payments. Features role-based security and a modular design for scalability.",
+    tech: ["ASP.NET Core 8", "PostgreSQL", "MVC"],
+    image: PlaceHolderImages.find(p => p.id === "project-smarterp"),
+    link: "#",
+    role: "Lead Developer"
+  },
    {
     title: "BulkPay",
     description: "An automated salary payment system designed for companies to manage and disburse salaries to employees and contractors efficiently. Features multi-bank integration and automated compliance.",
@@ -52,14 +60,6 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-bulkpay"),
     link: "#",
     role: "Backend Developer"
-  },
-  {
-    title: "Rewardify",
-    description: "A gamification platform that helps businesses increase user engagement and retention by integrating a points-based reward system into their applications.",
-    tech: ["Node.js", "MongoDB", "React", "Gamification"],
-    image: PlaceHolderImages.find(p => p.id === "project-rewardify"),
-    link: "#",
-    role: "Full-Stack Developer"
   },
   {
     title: "Adustech Bus Tracker",
@@ -70,12 +70,12 @@ const projects = [
     role: "Full-Stack Developer"
   },
   {
-    title: "SmartEd ERP",
-    description: "A comprehensive school ERP for managing attendance, grades, and payments. Features role-based security and a modular design for scalability.",
-    tech: ["ASP.NET Core 8", "PostgreSQL", "MVC"],
-    image: PlaceHolderImages.find(p => p.id === "project-smarterp"),
+    title: "Rewardify",
+    description: "A gamification platform that helps businesses increase user engagement and retention by integrating a points-based reward system into their applications.",
+    tech: ["Node.js", "PostgreSQL", "React", "Gamification"],
+    image: PlaceHolderImages.find(p => p.id === "project-rewardify"),
     link: "#",
-    role: "Lead Developer"
+    role: "Full-Stack Developer"
   },
   {
     title: "Rental Management System",
@@ -233,3 +233,5 @@ export function Projects() {
     </section>
   );
 }
+
+    
