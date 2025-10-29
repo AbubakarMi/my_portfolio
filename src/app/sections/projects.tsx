@@ -6,11 +6,12 @@ import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { ExternalLink, Loader2, Play, Square, Headphones } from 'lucide-react';
+import { ExternalLink, Loader2, Play, Square } from 'lucide-react';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { generateAllProjectSummaries } from '@/ai/flows/generate-all-summaries';
+import { summarizeProject } from '@/ai/flows/summarize-project-flow';
+import { textToSpeech } from '@/ai/flows/tts-flow';
 
 const projects = [
    {
@@ -96,44 +97,62 @@ const projects = [
 ];
 
 type Project = (typeof projects)[0];
+type AudioCache = Map<string, string>;
 
-const audioCache = new Map<string, string>();
+type AudioPlayerState = 'idle' | 'loading' | 'playing' | 'error';
 
-const ProjectAudioPlayer = ({ projectTitle, audioDataUri }: { projectTitle: string, audioDataUri: string | undefined }) => {
-    const [isPlaying, setIsPlaying] = useState(false);
+const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: AudioCache }) => {
+    const [state, setState] = useState<AudioPlayerState>('idle');
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
     useEffect(() => {
-        if (!audioRef.current) {
-            audioRef.current = new Audio();
-        }
+        audioRef.current = new Audio();
         const audio = audioRef.current;
         
-        const handlePlay = () => setIsPlaying(true);
-        const handlePause = () => setIsPlaying(false);
+        const onPlay = () => setState('playing');
+        const onPause = () => setState('idle');
+        const onEnded = () => setState('idle');
 
-        audio.addEventListener('play', handlePlay);
-        audio.addEventListener('pause', handlePause);
-        audio.addEventListener('ended', handlePause);
-
+        audio.addEventListener('play', onPlay);
+        audio.addEventListener('pause', onPause);
+        audio.addEventListener('ended', onEnded);
+        
         return () => {
-            audio.removeEventListener('play', handlePlay);
-            audio.removeEventListener('pause', handlePause);
-            audio.removeEventListener('ended', handlePause);
             audio.pause();
+            audio.removeEventListener('play', onPlay);
+            audio.removeEventListener('pause', onPause);
+            audio.removeEventListener('ended', onEnded);
         };
     }, []);
 
-    const handlePlayback = () => {
+    const handleAudioPlayback = async () => {
         const audio = audioRef.current;
-        if (!audio || !audioDataUri) return;
+        if (!audio) return;
 
-        if (isPlaying) {
+        if (state === 'playing') {
             audio.pause();
             audio.currentTime = 0;
-        } else {
+            return;
+        }
+
+        if (cache.has(project.title)) {
+            audio.src = cache.get(project.title)!;
+            audio.play().catch(() => setState('error'));
+            return;
+        }
+
+        setState('loading');
+        try {
+            const summaryResult = await summarizeProject({ title: project.title, description: project.description, tech: project.tech });
+            const ttsResult = await textToSpeech({ text: summaryResult.summaryScript });
+            const audioDataUri = ttsResult.audioDataUri;
+            
+            cache.set(project.title, audioDataUri);
             audio.src = audioDataUri;
-            audio.play().catch(e => console.error("Audio playback error:", e));
+            audio.play().catch(() => setState('error'));
+        } catch (error) {
+            console.error("Failed to generate or play audio for", project.title, error);
+            setState('error');
         }
     };
     
@@ -142,21 +161,20 @@ const ProjectAudioPlayer = ({ projectTitle, audioDataUri }: { projectTitle: stri
             size="lg"
             variant="outline"
             className="rounded-full px-8"
-            onClick={handlePlayback}
-            disabled={!audioDataUri}
+            onClick={handleAudioPlayback}
+            disabled={state === 'loading'}
         >
-            {isPlaying ? (
-                <Square className="mr-2 h-5 w-5" />
-            ) : (
-                <Play className="mr-2 h-5 w-5" />
-            )}
-            {isPlaying ? 'Stop' : 'Listen to Summary'}
+            {state === 'loading' && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+            {state === 'playing' && <Square className="mr-2 h-5 w-5" />}
+            {(state === 'idle' || state === 'error') && <Play className="mr-2 h-5 w-5" />}
+
+            {state === 'playing' ? 'Stop' : 'Listen to Summary'}
         </Button>
     );
 };
 
 
-const ProjectItem = ({ project, index, audioDataUri }: { project: Project, index: number, audioDataUri: string | undefined }) => {
+const ProjectItem = ({ project, index, audioCache }: { project: Project, index: number, audioCache: AudioCache }) => {
     const [isVisible, setIsVisible] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
     const isReversed = index % 2 !== 0;
@@ -210,7 +228,7 @@ const ProjectItem = ({ project, index, audioDataUri }: { project: Project, index
                             View Project <ExternalLink className="ml-2 h-4 w-4" />
                         </Link>
                     </Button>
-                    <ProjectAudioPlayer projectTitle={project.title} audioDataUri={audioDataUri} />
+                    <ProjectAudioPlayer project={project} cache={audioCache} />
                 </div>
             </div>
         </div>
@@ -218,53 +236,27 @@ const ProjectItem = ({ project, index, audioDataUri }: { project: Project, index
 }
 
 export function Projects() {
-    const [audioCache, setAudioCache] = useState<Map<string, string>>(new Map());
-    const [isLoading, setIsLoading] = useState(true);
+    const audioCache = useRef(new Map<string, string>()).current;
 
-    useEffect(() => {
-        const prefetchAudio = async () => {
-            try {
-                const projectDetails = projects.map(p => ({ title: p.title, description: p.description, tech: p.tech }));
-                const results = await generateAllProjectSummaries({ projects: projectDetails });
+    return (
+        <section id="projects" className="bg-primary/5 py-24 sm:py-32">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="text-center">
+                    <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                        Featured Projects
+                    </h2>
+                    <p className="mx-auto mt-4 max-w-2xl text-lg text-foreground/70">
+                        A selection of projects that showcase my skills in AI, SaaS development, and system architecture.
+                    </p>
+                </div>
                 
-                const newCache = new Map<string, string>();
-                results.forEach(result => {
-                    newCache.set(result.title, result.audioDataUri);
-                });
-                setAudioCache(newCache);
-            } catch (error) {
-                console.error("Failed to pre-fetch project audio summaries:", error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        prefetchAudio();
-    }, []);
-
-  return (
-    <section id="projects" className="bg-primary/5 py-24 sm:py-32">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center">
-          <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Featured Projects
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-foreground/70">
-            A selection of projects that showcase my skills in AI, SaaS development, and system architecture.
-          </p>
-        </div>
-         {isLoading && (
-            <div className="flex items-center justify-center gap-3 text-lg text-foreground/70 mt-16">
-                <Loader2 className="animate-spin h-6 w-6" />
-                <span>Generating AI audio summaries...</span>
+                <div className="mt-24 space-y-24">
+                    {projects.map((project, index) => (
+                        <ProjectItem key={project.title} project={project} index={index} audioCache={audioCache} />
+                    ))}
+                </div>
             </div>
-        )}
-        <div className="mt-24 space-y-24">
-          {projects.map((project, index) => (
-            <ProjectItem key={project.title} project={project} index={index} audioDataUri={audioCache.get(project.title)} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+        </section>
+    );
 }
+
