@@ -22,7 +22,7 @@ const projects = [
     role: "Founder & Lead Developer"
   },
   {
-    title: "Nyra",
+    title: "Nyra Connect",
     description: "A scalable modular system for an AI-powered productivity app. Features include journals, AI insights, focus sessions, and notifications, all built on a foundation of Clean Architecture.",
     tech: [".NET 8", "React", "PostgreSQL", "Clean Architecture"],
     image: PlaceHolderImages.find(p => p.id === "project-nyra"),
@@ -45,6 +45,22 @@ const projects = [
     link: "#",
     role: "Lead Developer"
   },
+   {
+    title: "BulkPay",
+    description: "An automated salary payment system designed for companies to manage and disburse salaries to employees and contractors efficiently. Features multi-bank integration and automated compliance.",
+    tech: ["Java", "Spring Boot", "PostgreSQL", "REST APIs"],
+    image: PlaceHolderImages.find(p => p.id === "project-bulkpay"),
+    link: "#",
+    role: "Backend Developer"
+  },
+  {
+    title: "Rewardify",
+    description: "A gamification platform that helps businesses increase user engagement and retention by integrating a points-based reward system into their applications.",
+    tech: ["Node.js", "MongoDB", "React", "Gamification"],
+    image: PlaceHolderImages.find(p => p.id === "project-rewardify"),
+    link: "#",
+    role: "Full-Stack Developer"
+  },
   {
     title: "Adustech Bus Tracker",
     description: "A real-time bus booking and tracking platform designed for university students and administrators to manage transportation efficiently.",
@@ -60,6 +76,22 @@ const projects = [
     image: PlaceHolderImages.find(p => p.id === "project-smarterp"),
     link: "#",
     role: "Lead Developer"
+  },
+  {
+    title: "Rental Management System",
+    description: "A system for property owners to manage rental properties, track payments, handle maintenance requests, and communicate with tenants.",
+    tech: ["C#", ".NET", "SQL Server"],
+    image: PlaceHolderImages.find(p => p.id === "project-rental"),
+    link: "#",
+    role: "Software Engineer"
+  },
+  {
+    title: "Online Management System",
+    description: "A general-purpose online management system for small businesses to track inventory, sales, and customer data.",
+    tech: ["PHP", "MySQL", "jQuery"],
+    image: PlaceHolderImages.find(p => p.id === "blog-scaling-systems"),
+    link: "#",
+    role: "Web Developer"
   }
 ];
 

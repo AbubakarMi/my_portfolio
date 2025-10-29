@@ -35,7 +35,7 @@ export function Hero() {
               Software & AI Evaluation Engineer
             </h1>
             <p className="mx-auto max-w-2xl text-lg text-foreground/80 md:text-xl lg:mx-0">
-              I build scalable systems and conduct AI evaluation workflows. From founding Nubenta Technology to designing SaaS applications, I specialize in turning complex problems into high-impact technology.
+              I build scalable systems and conduct AI evaluation workflows. As the founder of <strong className="font-semibold text-primary">Nyra</strong>, I'm building world-class productivity software. I specialize in turning complex problems into high-impact technology.
             </p>
           </div>
           <div className="flex flex-col gap-4 pt-4 sm:flex-row sm:justify-center lg:justify-start">
