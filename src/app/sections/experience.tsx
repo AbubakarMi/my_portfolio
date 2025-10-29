@@ -55,94 +55,83 @@ const experiences = [
   }
 ];
 
-const ExperienceItem = ({ exp, index }: { exp: typeof experiences[0], index: number }) => {
-    const [isVisible, setIsVisible] = useState(false);
-    const itemRef = useRef<HTMLDivElement>(null);
-    const isLeft = index % 2 === 0;
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                    observer.disconnect();
-                }
-            },
-            { threshold: 0.2 }
-        );
-
-        if (itemRef.current) {
-            observer.observe(itemRef.current);
-        }
-
-        return () => {
-            if (itemRef.current) {
-                observer.unobserve(itemRef.current);
-            }
-        };
-    }, []);
-
+const ExperienceItem = ({ exp, isVisible }: { exp: typeof experiences[0], isVisible: boolean }) => {
     return (
-        <div ref={itemRef} className="relative flex w-full items-center justify-between md:justify-normal">
-            {/* Desktop: Alternating content */}
-            <div className={cn("hidden md:block w-[calc(50%-2.5rem)]", isLeft ? "order-1" : "order-3")}></div>
-            <div className={cn(
-                "w-full md:w-[calc(50%-2.5rem)]",
-                "transition-all duration-1000 ease-out",
-                isLeft ? 'order-2 md:text-left' : "order-2 md:text-left",
-                isVisible ? 'opacity-100' : 'opacity-0',
-                isVisible && isLeft && 'md:translate-x-0',
-                !isVisible && isLeft && 'md:-translate-x-12',
-                isVisible && !isLeft && 'md:translate-x-0',
-                !isVisible && !isLeft && 'md:translate-x-12',
-            )}>
-                 <div className="rounded-lg bg-card p-6 shadow-md border border-border/50 hover:border-primary/50 hover:shadow-xl transition-all">
-                    <p className="font-semibold text-primary text-lg">{exp.role}</p>
-                    <h3 className="font-headline text-2xl font-bold text-foreground mt-2">
-                        <Link href={exp.link} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
-                            {exp.company}
-                        </Link>
-                    </h3>
-                    <p className="font-medium text-foreground/60 text-sm mt-1">{exp.duration}</p>
-                    <ul className="mt-4 space-y-2 text-foreground/80 list-disc pl-5">
-                        {exp.description.map((item, idx) => (
-                            <li key={idx}>{item}</li>
-                        ))}
-                    </ul>
-                </div>
+        <div className={cn(
+            "relative flex items-start gap-6 pl-14 transition-all duration-700 ease-out",
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        )}>
+            <div className="absolute left-0 top-1.5 flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 text-primary ring-8 ring-background">
+                <div className="absolute inset-0 rounded-full bg-primary/20 animate-pulse" style={{animationDelay: `${Math.random() * 2}s`}}></div>
+                <exp.icon className="h-5 w-5 relative" />
             </div>
-            
-             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:block">
-                <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary ring-8 ring-background">
-                    <div className="absolute inset-0 rounded-full bg-primary/20 animate-pulse"></div>
-                    <exp.icon className="h-6 w-6 relative" />
-                </div>
+            <div className="flex-1">
+                <p className="text-sm font-semibold text-primary">{exp.duration}</p>
+                <h3 className="mt-1 font-headline text-xl font-bold text-foreground">
+                    {exp.role} at{' '}
+                    <Link href={exp.link} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+                        {exp.company}
+                    </Link>
+                </h3>
+                <ul className="mt-3 space-y-2 text-foreground/80 list-disc pl-5 text-base">
+                    {exp.description.map((item, idx) => (
+                        <li key={idx}>{item}</li>
+                    ))}
+                </ul>
             </div>
         </div>
     );
 };
 
-
 export function Experience() {
-  return (
-    <section id="experience" className="bg-background py-24 sm:py-32">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center">
-          <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Professional Journey
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-foreground/70">
-            A timeline of my key roles and accomplishments in the tech industry.
-          </p>
-        </div>
+    const [visibleItems, setVisibleItems] = useState<Record<number, boolean>>({});
+    const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
 
-        <div className="relative mt-24 flex flex-col items-center gap-16">
-          <div className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-border hidden md:block" aria-hidden="true" />
-          {experiences.map((exp, index) => (
-            <ExperienceItem key={exp.company} exp={exp} index={index} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+    useEffect(() => {
+        const observers: IntersectionObserver[] = [];
+
+        itemsRef.current.forEach((item, index) => {
+            if (item) {
+                const observer = new IntersectionObserver(
+                    ([entry]) => {
+                        if (entry.isIntersecting) {
+                            setVisibleItems(prev => ({...prev, [index]: true}));
+                            observer.unobserve(item);
+                        }
+                    },
+                    { threshold: 0.2, triggerOnce: true }
+                );
+                observer.observe(item);
+                observers.push(observer);
+            }
+        });
+        
+        return () => {
+            observers.forEach(observer => observer.disconnect());
+        };
+    }, []);
+
+    return (
+        <section id="experience" className="bg-background py-24 sm:py-32">
+            <div className="container mx-auto max-w-4xl px-4 md:px-6">
+                <div className="text-center">
+                    <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                        Professional Journey
+                    </h2>
+                    <p className="mx-auto mt-4 max-w-2xl text-lg text-foreground/70">
+                        A timeline of my key roles and accomplishments in the tech industry.
+                    </p>
+                </div>
+
+                <div className="relative mt-24 flex flex-col gap-12">
+                    <div className="absolute left-[21px] top-4 h-full w-0.5 -translate-x-1/2 bg-border" aria-hidden="true" />
+                    {experiences.map((exp, index) => (
+                        <div key={exp.company} ref={el => itemsRef.current[index] = el}>
+                            <ExperienceItem exp={exp} isVisible={!!visibleItems[index]}/>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
 }
