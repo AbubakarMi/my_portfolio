@@ -92,38 +92,23 @@ export function Chat() {
     }
   
     const userMessage: Message = { role: 'user', content: input };
-    const currentMessages = [...messages, userMessage];
-    setMessages(currentMessages);
+    setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
   
     try {
-      const stream = await chat({
+      const result = await chat({
         history: messages,
         message: input,
-      }, {stream: true});
+      });
   
-      let fullResponse = '';
-      let assistantMessage: Message = { role: 'assistant', content: '' };
-      
+      const assistantMessage: Message = { role: 'assistant', content: result.response };
       setMessages(prev => [...prev, assistantMessage]);
-  
-      for await (const chunk of stream) {
-        if (chunk.response) {
-            fullResponse += chunk.response;
-            setMessages(prev => {
-                const newMessages = [...prev];
-                newMessages[newMessages.length - 1].content = fullResponse;
-                return newMessages;
-            });
-        }
-      }
-  
       setIsLoading(false);
       
-      // Convert response to speech after streaming is complete
+      // Convert response to speech
       setIsSpeaking(true);
-      const audioResult = await textToSpeech({ text: fullResponse });
+      const audioResult = await textToSpeech({ text: result.response });
       
       if (audioRef.current) {
         audioRef.current.src = audioResult.audioDataUri;
@@ -248,6 +233,16 @@ export function Chat() {
                     )}
                   </div>
                 ))}
+                 {isLoading && messages[messages.length - 1]?.role === 'user' && (
+                    <div className="flex items-start gap-3">
+                        <Avatar className="h-8 w-8">
+                            <AvatarFallback><Bot size={18} /></AvatarFallback>
+                        </Avatar>
+                        <div className="bg-muted rounded-2xl px-4 py-2.5 text-sm rounded-bl-none">
+                            <span className="inline-block w-2 h-4 bg-foreground ml-1 animate-pulse" />
+                        </div>
+                    </div>
+                )}
               </div>
             </ScrollArea>
           </CardContent>
