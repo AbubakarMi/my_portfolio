@@ -59,19 +59,27 @@ const experiences = [
   }
 ];
 
-const ExperienceItem = ({ experience, isLeft }: { experience: typeof experiences[0], isLeft: boolean }) => {
-    const [isVisible, setIsVisible] = useState(false);
+const ExperienceItem = ({ 
+  experience, 
+  isLeft, 
+  isActive, 
+  onInView 
+}: { 
+  experience: typeof experiences[0], 
+  isLeft: boolean, 
+  isActive: boolean,
+  onInView: () => void
+}) => {
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    setIsVisible(true);
-                    observer.unobserve(entry.target);
+                    onInView();
                 }
             },
-            { threshold: 0.1 }
+            { threshold: 0.5 } // Trigger when 50% of the item is visible
         );
 
         if (ref.current) {
@@ -83,19 +91,22 @@ const ExperienceItem = ({ experience, isLeft }: { experience: typeof experiences
                 observer.unobserve(ref.current);
             }
         };
-    }, []);
+    }, [onInView]);
     
     const directionClass = isLeft ? 'md:flex-row' : 'md:flex-row-reverse';
-    const animationClass = isVisible ? 'opacity-100 translate-x-0' : 'opacity-0';
-    const initialPosition = isLeft ? '-translate-x-12' : 'translate-x-12';
 
     return (
-        <div ref={ref} className={cn("flex justify-center md:justify-between items-center w-full", directionClass)}>
+        <div 
+          ref={ref} 
+          className={cn(
+            "flex justify-center md:justify-between items-center w-full transition-opacity duration-700",
+            directionClass,
+            isActive ? "opacity-100" : "opacity-20"
+          )}
+        >
             {/* Content */}
             <div className={cn(
-                "w-full md:w-5/12 p-4 transform transition-all duration-1000 ease-in-out",
-                animationClass,
-                !isVisible && initialPosition
+                "w-full md:w-5/12 p-4"
             )}>
                 <div className="bg-card p-6 rounded-xl shadow-lg border border-border/50 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
                     <p className="text-primary font-semibold mb-1">{experience.duration}</p>
@@ -120,11 +131,14 @@ const ExperienceItem = ({ experience, isLeft }: { experience: typeof experiences
             <div className="hidden md:flex w-2/12 justify-center">
                 <div className="relative h-full">
                     <div className="w-1 h-full bg-border"></div>
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center">
+                    <div className={cn(
+                      "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center transition-all duration-500",
+                      isActive ? "scale-100" : "scale-75"
+                    )}>
                         <div className="h-6 w-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center">
                             <experience.icon className="h-4 w-4" />
                         </div>
-                         <div className="absolute h-10 w-10 rounded-full bg-primary/20 animate-ping -z-10"></div>
+                         {isActive && <div className="absolute h-10 w-10 rounded-full bg-primary/20 animate-ping -z-10"></div>}
                     </div>
                 </div>
             </div>
@@ -136,6 +150,8 @@ const ExperienceItem = ({ experience, isLeft }: { experience: typeof experiences
 };
 
 export function Experience() {
+    const [activeExperience, setActiveExperience] = useState(experiences[0].value);
+    
     return (
         <section id="experience" className="bg-background py-24 sm:py-32">
             <div className="container mx-auto px-4 md:px-6">
@@ -150,7 +166,13 @@ export function Experience() {
 
                 <div className="mt-24 flex flex-col items-center gap-16">
                     {experiences.map((exp, index) => (
-                       <ExperienceItem key={exp.value} experience={exp} isLeft={index % 2 === 0} />
+                       <ExperienceItem 
+                          key={exp.value} 
+                          experience={exp} 
+                          isLeft={index % 2 === 0}
+                          isActive={activeExperience === exp.value}
+                          onInView={() => setActiveExperience(exp.value)}
+                        />
                     ))}
                 </div>
             </div>
