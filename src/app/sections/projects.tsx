@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { ExternalLink, Loader2, Play, Square } from 'lucide-react';
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { summarizeProject } from '@/ai/flows/summarize-project-flow';
@@ -97,11 +97,15 @@ const projects = [
 ];
 
 type Project = (typeof projects)[0];
-type AudioCache = Map<string, string>;
+type Cache = {
+    text?: string;
+    audio?: string;
+};
+type ProjectCache = Map<string, Cache>;
 
 type AudioPlayerState = 'idle' | 'loading' | 'playing' | 'error';
 
-const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: AudioCache }) => {
+const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: ProjectCache }) => {
     const [state, setState] = useState<AudioPlayerState>('idle');
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -118,10 +122,12 @@ const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: Audio
         audio.addEventListener('ended', onEnded);
         
         return () => {
-            audio.pause();
-            audio.removeEventListener('play', onPlay);
-            audio.removeEventListener('pause', onPause);
-            audio.removeEventListener('ended', onEnded);
+            if (audio) {
+                audio.pause();
+                audio.removeEventListener('play', onPlay);
+                audio.removeEventListener('pause', onPause);
+                audio.removeEventListener('ended', onEnded);
+            }
         };
     }, []);
 
@@ -135,19 +141,26 @@ const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: Audio
             return;
         }
 
-        if (cache.has(project.title)) {
-            audio.src = cache.get(project.title)!;
+        const projectCache = cache.get(project.title) || {};
+        if (projectCache.audio) {
+            audio.src = projectCache.audio;
             audio.play().catch(() => setState('error'));
             return;
         }
 
         setState('loading');
         try {
-            const summaryResult = await summarizeProject({ title: project.title, description: project.description, tech: project.tech });
-            const ttsResult = await textToSpeech({ text: summaryResult.summaryScript });
+            let summaryText = projectCache.text;
+            if (!summaryText) {
+                const summaryResult = await summarizeProject({ title: project.title, description: project.description, tech: project.tech });
+                summaryText = summaryResult.summaryScript;
+                cache.set(project.title, { text: summaryText });
+            }
+            
+            const ttsResult = await textToSpeech({ text: summaryText });
             const audioDataUri = ttsResult.audioDataUri;
             
-            cache.set(project.title, audioDataUri);
+            cache.set(project.title, { ...projectCache, audio: audioDataUri });
             audio.src = audioDataUri;
             audio.play().catch(() => setState('error'));
         } catch (error) {
@@ -174,7 +187,7 @@ const ProjectAudioPlayer = ({ project, cache }: { project: Project; cache: Audio
 };
 
 
-const ProjectItem = ({ project, index, audioCache }: { project: Project, index: number, audioCache: AudioCache }) => {
+const ProjectItem = ({ project, index, projectCache }: { project: Project, index: number, projectCache: ProjectCache }) => {
     const [isVisible, setIsVisible] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
     const isReversed = index % 2 !== 0;
@@ -228,7 +241,7 @@ const ProjectItem = ({ project, index, audioCache }: { project: Project, index: 
                             View Project <ExternalLink className="ml-2 h-4 w-4" />
                         </Link>
                     </Button>
-                    <ProjectAudioPlayer project={project} cache={audioCache} />
+                    <ProjectAudioPlayer project={project} cache={projectCache} />
                 </div>
             </div>
         </div>
@@ -236,7 +249,23 @@ const ProjectItem = ({ project, index, audioCache }: { project: Project, index: 
 }
 
 export function Projects() {
-    const audioCache = useRef(new Map<string, string>()).current;
+    const projectCache = useRef(new Map<string, Cache>()).current;
+
+    useEffect(() => {
+        // Silently pre-fetch text summaries for all projects in the background.
+        projects.forEach(project => {
+            if (!projectCache.has(project.title) || !projectCache.get(project.title)?.text) {
+                summarizeProject({ title: project.title, description: project.description, tech: project.tech })
+                .then(summaryResult => {
+                    projectCache.set(project.title, { text: summaryResult.summaryScript });
+                })
+                .catch(error => {
+                    // Fail silently. The user can still generate it on-demand by clicking.
+                    console.error(`Silent pre-fetch failed for ${project.title}:`, error);
+                });
+            }
+        });
+    }, [projectCache]);
 
     return (
         <section id="projects" className="bg-primary/5 py-24 sm:py-32">
@@ -252,11 +281,10 @@ export function Projects() {
                 
                 <div className="mt-24 space-y-24">
                     {projects.map((project, index) => (
-                        <ProjectItem key={project.title} project={project} index={index} audioCache={audioCache} />
+                        <ProjectItem key={project.title} project={project} index={index} projectCache={projectCache} />
                     ))}
                 </div>
             </div>
         </section>
     );
 }
-
