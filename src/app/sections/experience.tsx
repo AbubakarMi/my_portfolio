@@ -73,7 +73,7 @@ const ExperienceItem = ({ experience, index }: { experience: typeof experiences[
                     observer.unobserve(entry.target);
                 }
             },
-            { threshold: 0.1, triggerOnce: true }
+            { threshold: 0.1 }
         );
 
         if (ref.current) {
@@ -91,36 +91,38 @@ const ExperienceItem = ({ experience, index }: { experience: typeof experiences[
 
     return (
         <div ref={ref} className={cn(
-            "grid grid-cols-1 items-start gap-8 md:grid-cols-5 transition-all duration-1000",
+            "grid grid-cols-1 items-start gap-8 md:grid-cols-5 transition-all duration-1000 ease-out",
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         )}>
             <div className={cn(
                 "md:col-span-2",
                 isReversed && "md:order-last"
             )}>
-                <Card className="p-6 sticky top-28 bg-primary/5 border-primary/20 shadow-lg">
-                    <div className="flex items-center gap-4">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                            <experience.icon className="h-6 w-6" />
+                <div className="sticky top-28">
+                    <Card className="p-6 bg-primary/5 border-primary/20 shadow-lg">
+                        <div className="flex items-center gap-4">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                                <experience.icon className="h-6 w-6" />
+                            </div>
+                            <div>
+                                 <h3 className="font-headline text-xl font-bold text-foreground">
+                                    <Link href={experience.link} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-primary">
+                                        {experience.company}
+                                    </Link>
+                                </h3>
+                                <p className="text-foreground/80">{experience.role}</p>
+                            </div>
                         </div>
-                        <div>
-                             <h3 className="font-headline text-xl font-bold text-foreground">
-                                <Link href={experience.link} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-primary">
-                                    {experience.company}
-                                </Link>
-                            </h3>
-                            <p className="text-foreground/80">{experience.role}</p>
-                        </div>
-                    </div>
-                    <p className="mt-4 text-sm font-semibold text-primary">{experience.duration}</p>
-                </Card>
+                        <p className="mt-4 text-sm font-semibold text-primary">{experience.duration}</p>
+                    </Card>
+                </div>
             </div>
             <div className="md:col-span-3">
-                 <ul className="space-y-4 text-lg text-foreground/80">
+                 <ul className="space-y-4 text-lg text-foreground/80 py-4">
                     {experience.description.map((item, idx) => (
                         <li key={idx} className="flex items-start gap-3">
                             <svg className="h-6 w-6 flex-shrink-0 mt-1 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             <span>{item}</span>
                         </li>
