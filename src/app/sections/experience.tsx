@@ -96,17 +96,17 @@ const TimelineItem = ({ experience, index }: { experience: typeof experiences[0]
                     observer.unobserve(entry.target);
                 }
             },
-            { threshold: 0.2, triggerOnce: true }
+            { threshold: 0.2 }
         );
 
-        if (itemRef.current) {
-            observer.observe(itemRef.current);
+        const currentRef = itemRef.current;
+        if (currentRef) {
+            observer.observe(currentRef);
         }
 
         return () => {
-            if (itemRef.current) {
-                // eslint-disable-next-line react-hooks/exhaustive-deps
-                observer.unobserve(itemRef.current);
+            if (currentRef) {
+                observer.unobserve(currentRef);
             }
         };
     }, []);
@@ -115,10 +115,8 @@ const TimelineItem = ({ experience, index }: { experience: typeof experiences[0]
         <div ref={itemRef} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
             <div className={cn(
                 "w-full md:w-[calc(50%-2.5rem)] transition-all duration-700 ease-out",
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10",
-                isLeft ? "md:translate-x-0" : "md:translate-x-0",
-                isVisible && isLeft ? "md:opacity-100 md:translate-x-0" : "md:opacity-0 md:-translate-x-10",
-                isVisible && !isLeft ? "md:opacity-100 md:translate-x-0" : "md:opacity-0 md:translate-x-10"
+                isVisible ? "opacity-100" : "opacity-0",
+                isLeft ? (isVisible ? 'md:translate-x-0' : 'md:-translate-x-10') : (isVisible ? 'md:translate-x-0' : 'md:translate-x-10')
             )}>
                 <ExperienceCard experience={experience} />
             </div>
