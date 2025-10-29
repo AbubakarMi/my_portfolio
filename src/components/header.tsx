@@ -49,7 +49,7 @@ export function Header() {
     )}>
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         <Link href="/" className="text-lg font-bold text-foreground transition-colors hover:text-primary md:text-xl">
-          Muhammad Idris Abubakar
+          Idris.
         </Link>
         
         <nav className="hidden items-center space-x-8 md:flex">
@@ -63,6 +63,7 @@ export function Header() {
               )}
             >
               {link.name}
+              {activeSection === link.id && <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-4 bg-primary rounded-full"></span>}
             </Link>
           ))}
         </nav>
@@ -75,11 +76,11 @@ export function Header() {
                 <span className="sr-only">Open navigation menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[80%]">
+            <SheetContent side="right" className="w-[80%] bg-background">
               <div className="flex flex-col space-y-8 p-6">
                 <SheetClose asChild>
                   <Link href="/" className="text-xl font-bold text-foreground">
-                    M. I. Abubakar
+                    Idris.
                   </Link>
                 </SheetClose>
                 <nav className="flex flex-col space-y-6">

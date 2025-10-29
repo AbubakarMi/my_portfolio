@@ -77,7 +77,7 @@ export function Contact() {
   return (
     <section id="contact" className="bg-background py-24 sm:py-32">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center">
+        <div className="text-center space-y-3">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             Let’s Build Something Great
           </h2>

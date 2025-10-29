@@ -9,13 +9,13 @@ import { format } from 'date-fns';
 
 export function Blog() {
   return (
-    <section id="blog" className="bg-primary/5 py-24 sm:py-32">
+    <section id="blog" className="bg-background py-24 sm:py-32">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center">
+        <div className="space-y-3 text-center">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             Insights &amp; Reflections
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-foreground/70">
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
             Sharing my thoughts on technology, software development, and entrepreneurship.
           </p>
         </div>

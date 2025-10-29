@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Bot, User, Send, X, CornerDownLeft, Mic, Volume2, Loader2, Play } from 'lucide-react';
 import { chat } from '@/ai/flows/chat-flow';
 import { cn } from '@/lib/utils';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ScrollArea } from './ui/scroll-area';
 import { sendChatTranscriptEmail } from '@/ai/flows/send-email-flow';
 import { textToSpeech } from '@/ai/flows/tts-flow';
@@ -113,7 +113,7 @@ const AssistantMessage = ({ message }: { message: Message }) => {
 
 export function Chat() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([initialMessage]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
@@ -245,7 +245,7 @@ export function Chat() {
     <>
       <div className={cn(
         "fixed bottom-6 right-6 z-50 transition-transform duration-300 ease-in-out",
-        isOpen ? 'translate-x-[100vw]' : 'translate-x-0'
+        isOpen ? 'translate-x-[calc(100%_+_2rem)]' : 'translate-x-0'
       )}>
         <Button
           onClick={() => setIsOpen(true)}
@@ -353,7 +353,7 @@ export function Chat() {
               </div>
             </form>
              <p className="text-xs text-center text-muted-foreground mt-2">
-              Press <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+              Press <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-card px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
                 <span className="text-xs">
                     <CornerDownLeft size={10}/>
                 </span>Enter
