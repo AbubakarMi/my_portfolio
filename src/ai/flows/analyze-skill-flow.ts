@@ -62,7 +62,7 @@ const analyzeSkillFlow = ai.defineFlow(
       try {
         const {output} = await prompt(input);
         if (!output) throw new Error('No output from AI');
-        return output;
+        return output; // On success, return the output and exit the function.
       } catch (error: any) {
         attempt++;
         if (attempt >= maxRetries) {
@@ -76,7 +76,7 @@ const analyzeSkillFlow = ai.defineFlow(
         await new Promise(resolve => setTimeout(resolve, 500 * attempt));
       }
     }
-     // This should not be reached, but as a fallback:
+     // This should not be reached if the loop logic is correct, but it's a safe fallback.
      throw new Error(
       `I'm currently experiencing high demand and couldn't generate the analysis. Please try again in a moment.`
     );
