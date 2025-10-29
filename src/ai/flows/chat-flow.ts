@@ -9,6 +9,7 @@
  */
 
 import {ai} from '@/ai/genkit';
+import {type Message, type Role} from 'genkit';
 import {z} from 'zod';
 
 const MessageSchema = z.object({
@@ -31,24 +32,6 @@ export async function chat(input: ChatInput): Promise<ChatOutput> {
   return chatFlow(input);
 }
 
-const chatPrompt = ai.definePrompt({
-    name: 'chatPrompt',
-    input: { schema: ChatInputSchema },
-    output: { schema: ChatOutputSchema },
-    prompt: `You are a helpful, professional, and friendly AI assistant for the portfolio of Muhammad Idris Abubakar, a Software & AI Evaluation Engineer.
-
-Your role is to answer questions about his skills, experience, and projects. Keep your answers concise and conversational.
-
-If asked a question you cannot answer from the conversation history, politely state that you are an AI assistant for this portfolio and cannot answer questions outside that scope.
-
-**Conversation History:**
-{{#each history}}
-  **{{role}}**: {{content}}
-{{/each}}
-
-**User's latest message:** {{{message}}}`,
-});
-
 const chatFlow = ai.defineFlow(
   {
     name: 'chatFlow',
@@ -57,19 +40,30 @@ const chatFlow = ai.defineFlow(
   },
   async input => {
     try {
-      const {output} = await chatPrompt(input);
+      const systemPrompt = `You are a helpful, professional, and friendly AI assistant for the portfolio of Muhammad Idris Abubakar, a Software & AI Evaluation Engineer. Your role is to answer questions about his skills, experience, and projects. Keep your answers concise and conversational. If asked a question you cannot answer from the conversation history, politely state that you are an AI assistant for this portfolio and cannot answer questions outside that scope.`;
 
-      if (!output || !output.response) {
-        console.error('AI response was empty or invalid.');
-        return {
-          response:
-            "I apologize, but I seem to be having trouble formulating a response right now. Could you please try rephrasing your question?",
-        };
-      }
-      return output;
+      // Map the input history to the expected Message type
+      const history: Message[] = input.history.map(
+        h =>
+          ({
+            role: h.role as Role,
+            content: [{text: h.content}],
+          })
+      );
+
+      const response = await ai.chat({
+        model: 'gemini-pro',
+        history: history,
+        prompt: input.message,
+        system: systemPrompt,
+      });
+
+      return {
+        response: response.text,
+      };
     } catch (error) {
       console.error('An error occurred in the chatFlow:', error);
-      // Check for specific error types if possible, otherwise provide a general failure message.
+      // This is the fallback message the user is seeing.
       return {
         response:
           "I'm sorry, but I encountered a technical issue and couldn't process your request. My developer has been notified. Please try again in a few moments.",
