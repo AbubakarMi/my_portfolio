@@ -31,11 +31,17 @@ const highlights = [
 
 const StatItem = ({ icon, value, label, index }: { icon: React.ReactNode, value: string, label: string, index: number }) => (
   <div
-    className="group relative overflow-hidden rounded-2xl bg-background p-6 shadow-sm ring-1 ring-border/50 transition-all duration-300 hover:shadow-lg hover:ring-primary/20"
-    style={{ animationDelay: `${index * 100}ms` }}
+    className="group relative overflow-hidden rounded-2xl bg-background p-6 shadow-sm ring-1 ring-border/50 transition-all duration-500 hover:shadow-xl hover:ring-primary/30 hover:-translate-y-1 hover:scale-[1.02]"
+    style={{
+      animationDelay: `${index * 100}ms`,
+      transformStyle: 'preserve-3d',
+    }}
   >
-    <div className="flex items-center gap-4">
-      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
+    {/* Subtle shine effect on hover */}
+    <div className="absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent)] transition-transform duration-700 group-hover:translate-x-full" />
+
+    <div className="relative flex items-center gap-4">
+      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary transition-all duration-500 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 group-hover:rotate-3">
         {icon}
       </div>
       <div>

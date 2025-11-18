@@ -3,7 +3,8 @@ import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import './globals.css';
 import { AnalyticsProvider } from '@/components/analytics-provider';
-import { GeistSans, GeistMono } from 'geist/font'; // ✅ Add this line
+import { GeistSans, GeistMono } from 'geist/font';
+import { ScrollProgress } from '@/components/scroll-progress';
 
 export const metadata: Metadata = {
   title: {
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang="en" className={cn(GeistSans.variable, GeistMono.variable, 'scroll-smooth')}>
       <body className={cn('font-body bg-background text-foreground antialiased')}>
         {/* <AnalyticsProvider /> */}
+        <ScrollProgress />
         {children}
         <Toaster />
       </body>
