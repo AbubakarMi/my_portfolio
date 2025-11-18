@@ -53,13 +53,20 @@ export const profile = {
     features: ['Live translation', 'Transcription', 'Meeting summaries', 'Action points'],
     future: 'Nyra Chat - integrated hub for messaging, groups, and meetings with real-time translation',
   },
+  dream: {
+    vision: 'To build one of the biggest startups in Africa and the entire world',
+    goal: 'Create products that the entire world will use',
+    aspiration: 'Become the youngest and most successful startup owner that Africa has ever seen',
+    origin: 'Started from a local area with big global ambitions',
+    mission: 'Prove that world-changing innovation can come from Africa',
+  },
 };
 
 export const projects: Project[] = [
   {
     id: 'nyra-connect',
     name: 'Nyra Connect',
-    description: 'AI productivity app with journals and insights. Muhammad\'s flagship startup project focused on breaking language barriers. Developed under his startup Nyra where he serves as Founder & CEO.',
+    description: 'AI productivity app with journals and insights, currently under active development. Muhammad\'s flagship startup project focused on breaking language barriers. Developed under his startup Nyra where he serves as Founder & CEO.',
     techStack: ['.NET 8', 'React', 'PostgreSQL'],
     features: ['Live translation', 'Transcription', 'Meeting summaries', 'Journal insights'],
     type: 'AI Productivity App',
@@ -68,7 +75,7 @@ export const projects: Project[] = [
   {
     id: 'shoplynk',
     name: 'ShopLynk',
-    description: 'Multi-platform WhatsApp store builder that lets small businesses create mini e-commerce stores from WhatsApp chats. Auto-lists products, manages orders, and collects payments - no coding required.',
+    description: 'Multi-platform WhatsApp store builder currently under development. Lets small businesses create mini e-commerce stores from WhatsApp chats. Auto-lists products, manages orders, and collects payments - no coding required.',
     techStack: ['React', 'Node.js', 'React Native', 'PostgreSQL'],
     features: ['WhatsApp integration', 'Auto product listing', 'Order management', 'Payment collection', 'Mobile app'],
     type: 'E-commerce Platform',
