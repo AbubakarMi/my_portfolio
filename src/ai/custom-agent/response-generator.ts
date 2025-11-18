@@ -44,18 +44,52 @@ const thanksResponses = [
   `My pleasure! Feel free to ask more - I love talking about Muhammad's work. Did you know he improved system efficiency by 25% at his current job?`,
 ];
 
-// Fun facts to sprinkle in responses
+// Fun facts to sprinkle in responses - these rotate randomly
 const funFacts = [
   `Fun fact: Muhammad's startup Nyra can translate conversations in real-time!`,
   `Did you know? Muhammad has built ${projects.length} production-ready applications across different industries.`,
   `Here's something cool: Muhammad evaluates AI models for quality - he literally tests other AIs!`,
   `Interesting tidbit: Muhammad improved his company's system efficiency by 25% with his API designs.`,
   `Quick fact: Muhammad founded two startups - Nyra (AI communication) and ShopLynk (WhatsApp e-commerce)!`,
+  `Pro tip: Muhammad responds to inquiries within ${profile.availability.responseTime} - he's pretty quick!`,
+  `Behind the scenes: Muhammad built this AI assistant from scratch - no external APIs needed!`,
+  `Cool stat: Muhammad has expertise in ${skills.filter(s => s.proficiency === 'expert').length} technologies at expert level!`,
+  `Global vision: Muhammad's dream is to ${profile.dream.vision.toLowerCase()}!`,
+  `Career highlight: Muhammad has been coding professionally since 2022 and hasn't stopped building!`,
+  `Hometown pride: Muhammad is from ${profile.location} and is building world-class tech from Africa!`,
+  `Young achiever: Born on ${profile.birthdate}, Muhammad is already a founder of two startups!`,
 ];
 
 // Helper to pick random response
 function pickRandom<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
+}
+
+// Helper to maybe add a fun fact (30% chance)
+function maybeAddFunFact(response: string): string {
+  if (Math.random() < 0.3) {
+    return `${response}\n\n${pickRandom(funFacts)}`;
+  }
+  return response;
+}
+
+// Synonyms for natural language understanding
+const synonymMap: Record<string, string[]> = {
+  'skills': ['abilities', 'expertise', 'knowledge', 'proficiency', 'capabilities', 'competencies'],
+  'projects': ['work', 'portfolio', 'applications', 'apps', 'systems', 'products'],
+  'experience': ['background', 'history', 'career', 'journey', 'track record'],
+  'contact': ['reach', 'message', 'email', 'connect', 'get in touch', 'talk'],
+  'available': ['free', 'open', 'ready', 'accepting', 'looking for'],
+  'founder': ['owner', 'creator', 'started', 'built', 'established'],
+  'developer': ['programmer', 'coder', 'engineer', 'builder'],
+};
+
+// Check if message contains any synonym
+function containsSynonym(message: string, key: string): boolean {
+  const lowerMessage = message.toLowerCase();
+  if (lowerMessage.includes(key)) return true;
+  const synonyms = synonymMap[key] || [];
+  return synonyms.some(syn => lowerMessage.includes(syn));
 }
 
 // Helper to check if something exists in the data
@@ -109,6 +143,78 @@ function extractEntityFromQuestion(message: string): { type: string; value: stri
 // Helper for handling specific direct questions
 function handleDirectQuestion(message: string): GeneratedResponse | null {
   const lowerMessage = message.toLowerCase();
+
+  // SMART QUESTION PARSING - Extract key information from questions
+
+  // Handle "Tell me about X" patterns
+  const tellMeAboutMatch = lowerMessage.match(/tell\s+(?:me\s+)?(?:about|more\s+about)\s+(.+?)(?:\?|$|\.)/i);
+  if (tellMeAboutMatch) {
+    const topic = tellMeAboutMatch[1].trim().toLowerCase();
+
+    // Check if it's about a specific project
+    for (const project of projects) {
+      if (topic.includes(project.name.toLowerCase()) || topic.includes(project.id.replace(/-/g, ' '))) {
+        return {
+          text: `${project.name} is ${project.description} Tech stack: ${project.techStack.join(', ')}. Key features include ${project.features.slice(0, 3).join(', ')}. Muhammad's role: ${project.role}.`,
+          actions: [{ type: 'show_project', payload: { projectId: project.id }, label: `View ${project.name}` }],
+          suggestions: ['Show me all projects', 'What technologies does he use?'],
+        };
+      }
+    }
+
+    // Check for topics
+    if (topic.includes('nyra') || topic.includes('startup')) {
+      return {
+        text: `Nyra is Muhammad's flagship startup! 🌍 He founded it as CEO to break language barriers globally. Nyra Connect (currently under development) will feature real-time translation, transcription, and meeting summaries. Built with .NET 8, React, and PostgreSQL. His dream is to ${profile.dream.vision.toLowerCase()}!`,
+        suggestions: ['What is ShopLynk?', 'What is his biggest dream?'],
+      };
+    }
+
+    if (topic.includes('shoplynk') || topic.includes('whatsapp')) {
+      return {
+        text: `ShopLynk is Muhammad's e-commerce startup (currently under development)! 📱 He's the Founder & Lead Developer. It lets small businesses create mini stores from WhatsApp chats - auto-listing products, managing orders, and collecting payments. Built with React, Node.js, React Native, and PostgreSQL.`,
+        suggestions: ['What is Nyra?', 'What is his biggest dream?'],
+      };
+    }
+
+    if (topic.includes('hubuk') || topic.includes('work') || topic.includes('job')) {
+      return {
+        text: `Muhammad works as a Software Engineer at Hubuk Technology Limited since June 2022. He designs modular REST APIs with ASP.NET Core 8 & PostgreSQL, and develops automated QA scripts for AI models. He improved system efficiency by 25%! He also does freelance AI evaluation work.`,
+        suggestions: ['Tell me about his startups', 'What are his skills?'],
+      };
+    }
+
+    if (topic.includes('skill') || topic.includes('technolog') || topic.includes('stack')) {
+      const expertSkills = skills.filter(s => s.proficiency === 'expert').map(s => s.name);
+      return {
+        text: `Muhammad's expert-level skills include: ${expertSkills.join(', ')}. He's a true full-stack developer comfortable with React frontends, .NET/Node.js backends, and PostgreSQL databases. He also evaluates AI models professionally!`,
+        actions: [{ type: 'scroll_to_section', payload: { section: 'skills' }, label: 'View All Skills' }],
+        suggestions: ['Show me his projects', 'Is he available?'],
+      };
+    }
+
+    if (topic.includes('dream') || topic.includes('goal') || topic.includes('vision') || topic.includes('ambition')) {
+      return {
+        text: `🌟 Muhammad's biggest dream? ${profile.dream.vision}! Starting from a local area in Africa, he's determined to ${profile.dream.goal.toLowerCase()}. His ultimate aspiration is to ${profile.dream.aspiration.toLowerCase()}. That's what drives him to build Nyra and ShopLynk!`,
+        suggestions: ['Tell me about Nyra', 'What is ShopLynk?'],
+      };
+    }
+
+    if (topic.includes('education') || topic.includes('study') || topic.includes('degree') || topic.includes('university')) {
+      return {
+        text: `🎓 Muhammad holds a ${profile.education.degree} from ${profile.education.institution} (${profile.education.period}). He combines academic knowledge with ${profile.yearsOfExperience}+ years of hands-on professional experience.`,
+        suggestions: ['What about work experience?', 'What technologies does he use?'],
+      };
+    }
+
+    if (topic.includes('himself') || topic.includes('muhammad') || topic.includes('background')) {
+      return {
+        text: `Muhammad is a ${profile.title} with ${profile.yearsOfExperience}+ years of experience. He's a Software Engineer at Hubuk, Founder & CEO of Nyra, and Founder & Lead Developer of ShopLynk. His dream is to ${profile.dream.vision.toLowerCase()}. He's built ${projects.length} production projects across AI, e-commerce, healthcare, and more!`,
+        actions: [{ type: 'scroll_to_section', payload: { section: 'about' }, label: 'View About Section' }],
+        suggestions: ['What are his skills?', 'Show me his projects', 'What is his dream?'],
+      };
+    }
+  }
 
   // Check for "Is he a [role] at [company/project]" questions
   const roleAtMatch = lowerMessage.match(/is\s+(?:he|muhammad)\s+(?:a\s+)?(.+?)\s+(?:at|for|of|in)\s+(.+?)(?:\?|$|\.)/i);
@@ -467,12 +573,121 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
     };
   }
 
-  // "Why Africa" / Origin questions
-  if (/\b(africa|african|nigeria|nigerian|local|where.*from|origin|background)\b/i.test(lowerMessage)) {
+  // "Why Africa" / Origin / Location questions
+  if (/\b(africa|african|nigeria|nigerian|local|where.*from|origin|background|where.*live|where.*based|location|kano)\b/i.test(lowerMessage)) {
     return {
-      text: `Muhammad is proudly building from Africa! 🌍 He ${profile.dream.origin.toLowerCase()}, and his mission is to ${profile.dream.mission.toLowerCase()}. He's proving that world-class tech can come from anywhere - and he's on track to become ${profile.dream.aspiration.toLowerCase()}.`,
-      suggestions: ['What is his biggest dream?', 'Tell me about Nyra', 'Show me his projects'],
+      text: `Muhammad is from ${profile.location}! 🌍 He's proudly building from Africa, with a dream to ${profile.dream.vision.toLowerCase()}. His mission is to ${profile.dream.mission.toLowerCase()}. He's proving that world-class tech can come from anywhere - and he's on track to become ${profile.dream.aspiration.toLowerCase()}.`,
+      suggestions: ['What is his biggest dream?', 'Tell me about Nyra', 'How old is he?'],
     };
+  }
+
+  // Age / Birthday / Born questions
+  if (/\b(how\s*old|age|born|birthday|birth\s*date|when\s*was\s*he\s*born|date\s*of\s*birth)\b/i.test(lowerMessage)) {
+    // Calculate age from birthdate
+    const birthParts = profile.birthdate.split('/');
+    const birthDate = new Date(parseInt(birthParts[2]), parseInt(birthParts[1]) - 1, parseInt(birthParts[0]));
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    return {
+      text: `Muhammad was born on ${profile.birthdate} in ${profile.location}, making him ${age} years old! 🎂 Despite his young age, he's already built ${projects.length} production projects, founded 2 startups (Nyra and ShopLynk), and has ${profile.yearsOfExperience}+ years of professional experience. His dream is to ${profile.dream.aspiration.toLowerCase()}!`,
+      suggestions: ['What is his biggest dream?', 'Tell me about his startups', 'Where did he study?'],
+    };
+  }
+
+  // "How did he learn/start" questions
+  if (/how\s+did\s+(?:he|muhammad)\s+(?:learn|start|begin|get\s+into)/i.test(lowerMessage)) {
+    return {
+      text: `Muhammad started his journey with a ${profile.education.degree} from ${profile.education.institution}. He began professional work in June 2022 at Hubuk Technology Limited. Since then, he's continuously learning and building - ${projects.length} projects and 2 startups so far! His passion for breaking language barriers led him to found Nyra.`,
+      suggestions: ['What is his education?', 'Tell me about his work experience'],
+    };
+  }
+
+  // "Why did he create/build X" questions
+  if (/why\s+did\s+(?:he|muhammad)\s+(?:create|build|make|start|found)/i.test(lowerMessage)) {
+    if (lowerMessage.includes('nyra')) {
+      return {
+        text: `Muhammad created Nyra to break language barriers globally! His vision is to ${profile.dream.vision.toLowerCase()}. He saw how language differences limit global collaboration and wanted to solve it with AI-powered real-time translation.`,
+        suggestions: ['Tell me more about Nyra', 'What is his dream?'],
+      };
+    }
+    if (lowerMessage.includes('shoplynk')) {
+      return {
+        text: `Muhammad created ShopLynk to empower small businesses! He noticed many small business owners in Africa use WhatsApp for selling but lack proper e-commerce tools. ShopLynk lets them create stores directly from WhatsApp - no coding needed!`,
+        suggestions: ['Tell me more about ShopLynk', 'What is Nyra?'],
+      };
+    }
+    return {
+      text: `Muhammad builds solutions to real problems! He founded Nyra to break language barriers and ShopLynk to empower small businesses. Each of his ${projects.length} projects solves a specific problem - from healthcare (Nubenta Care) to education (SmartEd ERP) to construction (BuildTrack Pro).`,
+      suggestions: ['Tell me about Nyra', 'What is ShopLynk?', 'Show me all projects'],
+    };
+  }
+
+  // "Can I hire him" / "Can he work on" questions
+  if (/can\s+(?:i|we)\s+(?:hire|work\s+with|employ|engage)/i.test(lowerMessage)) {
+    return {
+      text: `Yes! Muhammad is currently available for ${profile.availability.types.join(', ')} work. He's open to remote opportunities and typically responds within ${profile.availability.responseTime}. He can build web apps, mobile backends, SaaS platforms, and AI-integrated systems. Want to discuss your project?`,
+      actions: [{ type: 'open_contact', label: 'Start a Conversation' }],
+      suggestions: ['What are his rates?', 'What can he build?', 'Show me his work'],
+    };
+  }
+
+  // "Does he work remotely" / "Is he remote"
+  if (/\b(remote|remotely|work\s+from\s+home|wfh|distributed)\b/i.test(lowerMessage)) {
+    return {
+      text: `Yes! Muhammad works remotely and is comfortable collaborating with teams worldwide. He's based in Nigeria (WAT timezone) but is flexible with scheduling. He's currently available for ${profile.availability.types.join(', ')} opportunities.`,
+      actions: [{ type: 'open_contact', label: 'Get in Touch' }],
+      suggestions: ['Is he available?', 'What are his rates?'],
+    };
+  }
+
+  // "Which project" / "What project" (comparisons)
+  if (/which\s+(?:project|one)\s+(?:is|should|would)/i.test(lowerMessage) ||
+      /what\s+(?:is\s+)?(?:his\s+)?(?:best|most|favorite|main)/i.test(lowerMessage)) {
+    return {
+      text: `Muhammad's flagship project is Nyra Connect - his AI startup for breaking language barriers. He's the Founder & CEO. For e-commerce, ShopLynk (also founder) helps small businesses sell via WhatsApp. Among client projects, Nubenta Care (AI healthcare) and InvoTrek (document automation) showcase his AI integration skills.`,
+      suggestions: ['Tell me about Nyra', 'What is InvoTrek?', 'Show all projects'],
+    };
+  }
+
+  // Handle simple one-word or short queries
+  if (lowerMessage.length < 15) {
+    // Skills
+    if (/^(skills?|tech|technologies|stack)$/i.test(lowerMessage.trim())) {
+      const expertSkills = skills.filter(s => s.proficiency === 'expert').map(s => s.name);
+      return {
+        text: `Muhammad's expert-level skills: ${expertSkills.join(', ')}. He's a full-stack developer with ${profile.yearsOfExperience}+ years of experience. His specialties are React/Next.js frontends, .NET/Node.js backends, and PostgreSQL databases.`,
+        actions: [{ type: 'scroll_to_section', payload: { section: 'skills' }, label: 'View All Skills' }],
+        suggestions: ['Show me projects', 'Is he available?'],
+      };
+    }
+    // Projects
+    if (/^(projects?|portfolio|work)$/i.test(lowerMessage.trim())) {
+      return {
+        text: `Muhammad has built ${projects.length} production projects! Highlights: Nyra Connect (AI translation - Founder & CEO), ShopLynk (WhatsApp e-commerce - Founder), InvoTrek (document automation), Nubenta Care (AI healthcare), and more.`,
+        actions: [{ type: 'scroll_to_section', payload: { section: 'projects' }, label: 'View All Projects' }],
+        suggestions: ['Tell me about Nyra', 'What is ShopLynk?'],
+      };
+    }
+    // Contact
+    if (/^(contact|email|reach|hire)$/i.test(lowerMessage.trim())) {
+      return {
+        text: `Ready to connect? Use the contact form below - Muhammad responds within ${profile.availability.responseTime}. He's available for ${profile.availability.types.join(', ')} work!`,
+        actions: [{ type: 'open_contact', label: 'Contact Muhammad' }],
+        suggestions: ['Is he available?', 'What are his rates?'],
+      };
+    }
+    // Experience
+    if (/^(experience|career|history)$/i.test(lowerMessage.trim())) {
+      return {
+        text: `Muhammad has ${profile.yearsOfExperience}+ years of experience. Currently: Software Engineer at Hubuk Technology (since 2022), Founder & CEO of Nyra, Founder & Lead Developer of ShopLynk, and freelance AI/QA Contributor.`,
+        suggestions: ['Tell me about Hubuk', 'What are his startups?'],
+      };
+    }
   }
 
   return null;
@@ -485,7 +700,11 @@ export function generateResponse(intent: IntentResult, message: string): Generat
   // Check for direct question patterns first - these take priority
   const directResponse = handleDirectQuestion(message);
   if (directResponse) {
-    return directResponse;
+    // Maybe add a fun fact to direct responses
+    return {
+      ...directResponse,
+      text: maybeAddFunFact(directResponse.text),
+    };
   }
 
   switch (intent.intent) {
@@ -865,8 +1084,8 @@ function generateUnknownResponse(message: string): GeneratedResponse {
   // Location questions
   if (/\b(where is|location|address|city|country|live|based)\b/.test(lowerMessage)) {
     return {
-      text: `Muhammad is based in Nigeria and is open to remote work worldwide. He's currently available for freelance projects and full-time opportunities. Would you like to discuss working with him?`,
-      suggestions: ['Is he available?', 'How can I contact him?'],
+      text: `Muhammad is based in ${profile.location} and is open to remote work worldwide. He was born on ${profile.birthdate} and is currently available for freelance projects and full-time opportunities. Would you like to discuss working with him?`,
+      suggestions: ['Is he available?', 'How can I contact him?', 'How old is he?'],
     };
   }
 
@@ -878,11 +1097,19 @@ function generateUnknownResponse(message: string): GeneratedResponse {
     };
   }
 
-  // Questions about age/how old
+  // Questions about age/how old - handled earlier in handleDirectQuestion, but add fallback
   if (/\b(how old|age|born|birthday)\b/.test(lowerMessage)) {
+    const birthParts = profile.birthdate.split('/');
+    const birthDate = new Date(parseInt(birthParts[2]), parseInt(birthParts[1]) - 1, parseInt(birthParts[0]));
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
     return {
-      text: `I don't have Muhammad's exact age, but I know he's got ${profile.yearsOfExperience}+ years of professional experience and has built ${projects.length}+ production projects. Experience speaks louder than age! Want to see his work?`,
-      suggestions: ['Show me his projects', 'What is his experience?'],
+      text: `Muhammad is ${age} years old, born on ${profile.birthdate} in ${profile.location}. Despite his young age, he has ${profile.yearsOfExperience}+ years of professional experience and has built ${projects.length} production projects!`,
+      suggestions: ['Show me his projects', 'What is his experience?', 'Where is he from?'],
     };
   }
 

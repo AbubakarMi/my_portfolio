@@ -33,10 +33,12 @@ export const profile = {
   name: 'Muhammad Idris Abubakar',
   title: 'Software & AI Evaluation Engineer',
   yearsOfExperience: 4,
+  birthdate: '13/11/2003',
+  location: 'Kano State, Nigeria',
   summary: 'Analytical and detail-driven Software & AI Evaluation Engineer with 4+ years of experience building scalable systems, conducting AI evaluation workflows, and designing SaaS applications.',
   education: {
     degree: 'B.Sc. (Hons) Computer Science',
-    institution: 'Aliko Dangote University of Science and Technology',
+    institution: 'Aliko Dangote University of Science and Technology, Wudil',
     period: '2020 – 2025',
   },
   availability: {
