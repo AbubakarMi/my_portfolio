@@ -7,7 +7,7 @@ import { Experience } from '@/app/sections/experience';
 import { Projects } from '@/app/sections/projects';
 import { Blog } from '@/app/sections/blog';
 import { Contact } from '@/app/sections/contact';
-import { Chat } from '@/components/chat';
+import { AIAgentWrapper } from '@/components/ai-agent/ai-agent-wrapper';
 
 export default function Home() {
   return (
@@ -23,7 +23,7 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
-      <Chat />
+      <AIAgentWrapper />
     </div>
   );
 }
