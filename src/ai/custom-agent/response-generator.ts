@@ -23,21 +23,34 @@ export interface GeneratedResponse {
   suggestions?: string[];
 }
 
-// Response templates for variety
+// Response templates for variety and personality
 const greetingResponses = [
-  `Hello! I'm Muhammad's AI assistant. I can tell you about his skills, projects, and experience. What would you like to know?`,
-  `Hey there! I'm here to help you learn about Muhammad's work. Feel free to ask about his projects, technical skills, or availability.`,
-  `Hi! Great to meet you. I can help you explore Muhammad's portfolio - his projects, skills, or work experience. What interests you?`,
+  `Hello! 👋 I'm Muhammad's AI assistant. I know everything about his work - from the React apps he's built to his AI startup Nyra. What catches your interest?`,
+  `Hey there! Welcome to Muhammad's portfolio. I'm here to give you the inside scoop on his projects, skills, and what he's working on. Fire away with any questions!`,
+  `Hi! Great to have you here. Whether you're curious about Muhammad's tech stack, want to see his projects, or thinking about working with him - I've got you covered. What would you like to explore?`,
+  `Welcome! I'm Muhammad's digital assistant. Fun fact: he built me from scratch! I can tell you about his 6 major projects, his 4+ years of experience, or his startup Nyra. What sounds interesting?`,
 ];
 
 const farewellResponses = [
-  `Goodbye! Feel free to come back if you have more questions. You can also use the contact form to reach Muhammad directly.`,
-  `Take care! If you'd like to discuss a project with Muhammad, the contact form is always available.`,
+  `Goodbye! It was great chatting with you. If you want to work with Muhammad, he's just a contact form away - and he responds fast! 🚀`,
+  `Take care! Remember, Muhammad is available for freelance and full-time work. Don't be a stranger - reach out anytime!`,
+  `See you around! If any project ideas come to mind later, Muhammad would love to hear about them. The contact form is always open!`,
 ];
 
 const thanksResponses = [
-  `You're welcome! Is there anything else you'd like to know about Muhammad's work?`,
-  `Happy to help! Let me know if you have more questions about his projects or skills.`,
+  `You're welcome! 😊 Anything else you'd like to know? I could tell you about his coolest project or his tech stack...`,
+  `Happy to help! If you're impressed so far, wait until you see his projects in action. Want me to tell you about any specific one?`,
+  `Glad I could help! By the way, if you're thinking of working with Muhammad, he's currently available and always excited about new challenges.`,
+  `My pleasure! Feel free to ask more - I love talking about Muhammad's work. Did you know he improved system efficiency by 25% at his current job?`,
+];
+
+// Fun facts to sprinkle in responses
+const funFacts = [
+  `Fun fact: Muhammad's startup Nyra can translate conversations in real-time!`,
+  `Did you know? Muhammad has built 6 production-ready applications across different industries.`,
+  `Here's something cool: Muhammad evaluates AI models for quality - he literally tests other AIs!`,
+  `Interesting tidbit: Muhammad improved his company's system efficiency by 25% with his API designs.`,
+  `Quick fact: Muhammad is building Nyra to break language barriers globally - from Africa to the world!`,
 ];
 
 // Helper to pick random response
@@ -100,15 +113,15 @@ export function generateResponse(intent: IntentResult, message: string): Generat
 
     case 'capabilities':
       return {
-        text: `I can help you learn about Muhammad's technical skills (React, Node.js, .NET, Python, and more), his projects (like Nyra Connect, InvoTrek, BuildTrack Pro), work experience, and availability for new projects. What would you like to explore?`,
-        suggestions: ['Show me projects', 'What are his skills?', 'Is he available?'],
+        text: `I'm pretty knowledgeable! 🧠 I can tell you about Muhammad's tech stack (he's an expert in React, Node.js, .NET, and Python), walk you through his 6 major projects, share his work history, or help you get in touch. I even know fun facts about his startup Nyra! What sounds interesting?`,
+        suggestions: ['Show me his best projects', 'What makes him unique?', 'Is he available to hire?'],
       };
 
     case 'about':
       return {
-        text: `Muhammad is a ${profile.title} with ${profile.yearsOfExperience}+ years of experience. ${profile.summary} He's also the founder of Nyra, an AI-powered communication platform. He currently works at Hubuk Technology Limited while also taking on freelance AI/QA projects.`,
+        text: `Muhammad is a ${profile.title} with ${profile.yearsOfExperience}+ years of hands-on experience. But here's what makes him stand out: he's not just a coder - he's a founder! He built Nyra, an AI platform that breaks language barriers. By day, he's at Hubuk Technology Limited designing REST APIs that improved efficiency by 25%. By night, he's evaluating AI models and building his startup. Pretty impressive, right?`,
         actions: [{ type: 'scroll_to_section', payload: { section: 'about' }, label: 'View About Section' }],
-        suggestions: ['What are his main skills?', 'Tell me about Nyra'],
+        suggestions: ['Tell me about Nyra', 'What projects has he built?', 'What are his top skills?'],
       };
 
     case 'skills':
@@ -128,35 +141,36 @@ export function generateResponse(intent: IntentResult, message: string): Generat
 
     case 'education':
       return {
-        text: `Muhammad holds a ${profile.education.degree} from ${profile.education.institution} (${profile.education.period}). His education combined with ${profile.yearsOfExperience}+ years of hands-on experience gives him a strong foundation in software engineering and AI evaluation.`,
-        suggestions: ['What about work experience?', 'What technologies does he use?'],
+        text: `🎓 Muhammad holds a ${profile.education.degree} from ${profile.education.institution} (${profile.education.period}). But here's the thing - he didn't wait to graduate to start building! He's been coding professionally since 2022, so his ${profile.yearsOfExperience}+ years of hands-on experience complement his academic foundation perfectly. Theory meets practice!`,
+        suggestions: ['What about work experience?', 'What technologies does he use?', 'Show me his projects'],
       };
 
     case 'startup':
       return {
-        text: `Muhammad founded ${profile.startup.name}, an ${profile.startup.description}. The vision is to ${profile.startup.vision}. Key features include ${profile.startup.features.join(', ')}. The future roadmap includes ${profile.startup.future}.`,
+        text: `Ah, Nyra - this is Muhammad's passion project! 🌍 He founded it to break language barriers globally. Imagine: real-time translation during meetings, instant transcription, and AI-generated summaries. It's built with .NET 8, React, and PostgreSQL. The vision? Making Nyra the go-to platform for global collaboration - built from Africa for the world. The future roadmap includes Nyra Chat for messaging with real-time translation!`,
         actions: [{ type: 'show_project', payload: { projectId: 'nyra-connect' }, label: 'View Nyra Connect' }],
-        suggestions: ['What tech stack is Nyra built with?', 'What other projects has he built?'],
+        suggestions: ['What other projects has he built?', 'How can I contact him about Nyra?'],
       };
 
     case 'availability':
       return {
-        text: `Muhammad is currently ${profile.availability.status} for ${profile.availability.types.join(', ')} opportunities. He's open to ${profile.availability.remote ? 'remote work' : 'on-site work'} and typically responds within ${profile.availability.responseTime}. Would you like to discuss a potential project?`,
-        actions: [{ type: 'open_contact', label: 'Contact Muhammad' }],
-        suggestions: ['What are his rates?', 'What technologies does he work with?'],
+        text: `Great news - Muhammad is actively looking for new opportunities! 🎯 He's open to freelance projects, full-time roles, and contract work. He works remotely and is pretty responsive - typically within ${profile.availability.responseTime}. Whether you need a React frontend, a .NET backend, or a full AI-integrated system, he's ready to dive in. Want to discuss your project?`,
+        actions: [{ type: 'open_contact', label: 'Start a Conversation' }],
+        suggestions: ['What are his rates?', 'What can he build?', 'Show me his work'],
       };
 
     case 'contact':
       return {
-        text: `You can reach Muhammad through the contact form on this website. He typically responds within ${profile.availability.responseTime}. He's currently available for ${profile.availability.types.join(' and ')} work.`,
+        text: `Ready to connect? 📬 Just use the contact form below - Muhammad checks it regularly and typically responds within ${profile.availability.responseTime}. Pro tip: include details about your project and he'll come back with thoughtful ideas. He's currently available for ${profile.availability.types.join(', ')} work and loves interesting challenges!`,
         actions: [{ type: 'open_contact', label: 'Open Contact Form' }],
+        suggestions: ['Is he available?', 'What can he build?'],
       };
 
     case 'pricing':
       return {
-        text: `Muhammad's rates depend on the project scope, complexity, and timeline. For a personalized quote, I'd recommend reaching out with your project details through the contact form. He'll get back to you within ${profile.availability.responseTime}.`,
-        actions: [{ type: 'open_contact', label: 'Request Quote' }],
-        suggestions: ['Is he available for freelance?', 'What technologies does he use?'],
+        text: `Muhammad's rates are flexible and depend on what you need - project scope, complexity, timeline, and tech stack all factor in. He's worked on everything from simple web apps to complex AI systems, so he can tailor a quote to your budget. Best way to get a number? Drop your project details in the contact form and he'll get back to you within ${profile.availability.responseTime} with ideas and pricing!`,
+        actions: [{ type: 'open_contact', label: 'Get a Quote' }],
+        suggestions: ['What can he build?', 'Show me his projects', 'Is he available now?'],
       };
 
     case 'off_topic':
@@ -171,8 +185,9 @@ function generateSkillsResponse(intent: IntentResult, hints: string[]): Generate
     const categorySkills = findSkillsByCategory(intent.entities.category);
     if (categorySkills.length > 0) {
       const skillNames = categorySkills.map(s => s.name).join(', ');
+      const expertCount = categorySkills.filter(s => s.proficiency === 'expert').length;
       return {
-        text: `For ${intent.entities.category}, Muhammad works with: ${skillNames}. ${categorySkills[0].proficiency === 'expert' ? 'He has expert-level proficiency in these technologies.' : ''}`,
+        text: `For ${intent.entities.category}, Muhammad works with: ${skillNames}. ${expertCount > 0 ? `He has expert-level mastery in ${expertCount} of these! 💪` : ''} Want to see these skills in action? Check out his projects!`,
         actions: [{ type: 'scroll_to_section', payload: { section: 'skills' }, label: 'View All Skills' }],
         suggestions: ['Show me projects using these', 'What other technologies does he know?'],
       };
@@ -183,10 +198,16 @@ function generateSkillsResponse(intent: IntentResult, hints: string[]): Generate
   const expertSkills = skills.filter(s => s.proficiency === 'expert').map(s => s.name);
   const topSkills = expertSkills.slice(0, 6).join(', ');
 
+  const skillResponses = [
+    `Muhammad's tech arsenal is pretty impressive! 🛠️ His core technologies include ${topSkills}. He's a true full-stack developer - equally comfortable building sleek React frontends or robust .NET backends. Plus, he tests AI models for a living, so he knows what makes good AI tick!`,
+    `Here's what Muhammad brings to the table: ${topSkills}. 🎯 He's not just a coder - he architected APIs that improved system efficiency by 25%! His sweet spot is full-stack development with PostgreSQL as his go-to database.`,
+    `Tech-wise, Muhammad is stacked! His expertise includes ${topSkills}. 💻 What sets him apart? He doesn't just use these technologies - he evaluates AI models and understands the bigger picture of building intelligent systems.`,
+  ];
+
   return {
-    text: `Muhammad's core technologies include ${topSkills}. He specializes in full-stack development with React and Node.js or ASP.NET Core, PostgreSQL for databases, and has strong experience in AI/ML evaluation and LLM testing.`,
+    text: pickRandom(skillResponses),
     actions: [{ type: 'scroll_to_section', payload: { section: 'skills' }, label: 'View All Skills' }],
-    suggestions: ['Do you know React?', 'What databases do you use?', 'Show me your projects'],
+    suggestions: ['Tell me about React', 'What databases do you use?', 'Show me projects'],
   };
 }
 
@@ -198,10 +219,14 @@ function generateSpecificSkillResponse(intent: IntentResult): GeneratedResponse 
 
   const skill = findSkill(skillName);
   if (skill) {
-    let response = `Yes, Muhammad works with ${skill.name}. ${skill.description}.`;
+    const proficiencyEmoji = skill.proficiency === 'expert' ? '🏆' : skill.proficiency === 'advanced' ? '⭐' : '✅';
+
+    let response = `${proficiencyEmoji} ${skill.name}? Absolutely! ${skill.description}.`;
 
     if (skill.proficiency === 'expert') {
-      response += ` He has expert-level proficiency in this technology.`;
+      response += ` This is one of Muhammad's strongest skills - expert-level mastery right here!`;
+    } else if (skill.proficiency === 'advanced') {
+      response += ` He's got advanced proficiency in this and uses it regularly.`;
     }
 
     const actions: GeneratedResponse['actions'] = [];
@@ -211,7 +236,7 @@ function generateSpecificSkillResponse(intent: IntentResult): GeneratedResponse 
       const projectId = skill.relatedProjects[0];
       const project = findProject(projectId);
       if (project) {
-        response += ` He used it in projects like ${project.name}.`;
+        response += ` Want proof? Check out ${project.name} - it's built with ${skill.name}!`;
         actions.push({ type: 'show_project', payload: { projectId }, label: `View ${project.name}` });
       }
     }
@@ -223,7 +248,7 @@ function generateSpecificSkillResponse(intent: IntentResult): GeneratedResponse 
 
   // Skill not found
   return {
-    text: `I don't have specific information about that technology. Muhammad's main skills include React, Node.js, ASP.NET Core, PostgreSQL, Python, and Java. Would you like to know about any of these?`,
+    text: `Hmm, I don't have specific info about that technology. But Muhammad's toolkit is pretty versatile - he works with React, Node.js, ASP.NET Core, PostgreSQL, Python, and Java. Any of these interest you? 🤔`,
     suggestions: ['What technologies does he use?', 'Show me his projects'],
   };
 }
@@ -233,15 +258,22 @@ function generateProjectsResponse(hints: string[]): GeneratedResponse {
     const topProjects = projects.slice(0, 3);
     const projectList = topProjects.map(p => `${p.name} (${p.type})`).join(', ');
     return {
-      text: `Muhammad's top projects are ${projectList}. Nyra Connect is his flagship startup project for breaking language barriers. Would you like to know more about any specific project?`,
+      text: `🌟 Muhammad's crown jewels: ${projectList}. Nyra Connect is his baby - it's an AI platform that translates conversations in real-time! Imagine talking to anyone in the world without language barriers. Want the details on any of these?`,
       actions: [{ type: 'scroll_to_section', payload: { section: 'projects' }, label: 'View All Projects' }],
       suggestions: ['Tell me about Nyra Connect', 'What is InvoTrek?'],
     };
   }
 
-  const projectSummary = projects.map(p => p.name).join(', ');
+  const projectNames = projects.map(p => p.name).join(', ');
+
+  const projectResponses = [
+    `Muhammad has built ${projects.length} production-ready projects! 🚀 Here's the lineup: ${projectNames}. From AI translation to healthcare systems to construction management - he's tackled diverse industries. Which one catches your eye?`,
+    `Check this out - ${projects.length} complete projects: ${projectNames}. 💼 Each one solves a real problem for real users. My personal favorite? Nyra Connect - it's breaking language barriers! What would you like to explore?`,
+    `Muhammad's portfolio spans ${projects.length} major projects: ${projectNames}. 🎨 What's cool is the variety - AI apps, SaaS platforms, healthcare systems, even a bus tracking app! Want me to deep-dive into any of these?`,
+  ];
+
   return {
-    text: `Muhammad has built ${projects.length} key projects: ${projectSummary}. These range from AI productivity apps to healthcare systems and SaaS platforms. Which one would you like to learn more about?`,
+    text: pickRandom(projectResponses),
     actions: [{ type: 'scroll_to_section', payload: { section: 'projects' }, label: 'View Projects' }],
     suggestions: ['Tell me about Nyra Connect', 'What is BuildTrack Pro?', 'Show me InvoTrek'],
   };
@@ -258,11 +290,31 @@ function generateSpecificProjectResponse(intent: IntentResult): GeneratedRespons
     const techStack = project.techStack.join(', ');
     const features = project.features.slice(0, 3).join(', ');
 
-    let response = `${project.name} is a ${project.type.toLowerCase()}. ${project.description} It's built with ${techStack} and features ${features}.`;
+    // Different intros based on project type
+    const projectIntros: Record<string, string> = {
+      'nyra-connect': `🌍 Nyra Connect is Muhammad's passion project and flagship startup!`,
+      'shoplynk': `📱 ShopLynk is Muhammad's latest venture as Founder & Lead Developer - turning WhatsApp into a full e-commerce platform!`,
+      'invotrek': `📄 InvoTrek is a clever SaaS solution Muhammad built for businesses drowning in paperwork!`,
+      'rental-management': `🏠 The Rental Management System showcases Muhammad's full-stack skills with a complete property booking platform!`,
+      'buildtrack-pro': `🏗️ BuildTrack Pro tackles a real pain point for construction companies!`,
+      'nubenta-care': `🏥 Nubenta Care is Muhammad's dive into AI-powered healthcare!`,
+      'bulkpay': `💰 BulkPay automates payroll - because paying employees shouldn't be complicated!`,
+      'rewardify': `🎮 Rewardify brings gamification to businesses - points, rewards, and engagement!`,
+      'adustech-bus-tracker': `🚌 Adustech Bus Tracker - because waiting for buses shouldn't be a guessing game!`,
+      'smarted-erp': `🎓 SmartEd ERP brings modern tech to education management!`,
+      'online-management': `📊 Online Management System helps small businesses stay organized!`,
+    };
+
+    const intro = projectIntros[project.id] || `✨ ${project.name} is an impressive ${project.type.toLowerCase()}!`;
+
+    let response = `${intro} ${project.description} Muhammad's role: ${project.role}. Tech stack: ${techStack}. Key features include ${features}.`;
 
     if (project.targetUsers) {
-      response += ` Target users: ${project.targetUsers}.`;
+      response += ` Built for ${project.targetUsers.toLowerCase()}.`;
     }
+
+    // Add a hook to encourage further exploration
+    response += ` Pretty cool, right? Want to see the other projects or learn about the tech behind it?`;
 
     return {
       text: response,
@@ -278,22 +330,29 @@ function generateExperienceResponse(): GeneratedResponse {
   const currentJobs = getCurrentExperience();
   const mainJob = currentJobs.find(e => e.company === 'Hubuk Technology Limited');
 
-  let response = '';
+  const experienceResponses = [];
+
   if (mainJob) {
-    response = `Muhammad is currently a ${mainJob.role} at ${mainJob.company} (${mainJob.period}). ${mainJob.description} Key achievements include: ${mainJob.achievements.slice(0, 2).join('; ')}.`;
+    experienceResponses.push(
+      `💼 Muhammad's main gig: ${mainJob.role} at ${mainJob.company} since June 2022. The highlight? He improved system efficiency by 25% with his API designs - that's the kind of impact he brings! He's designing REST APIs and developing automated QA scripts for AI models.`,
+      `🏢 Currently, Muhammad works as a ${mainJob.role} at ${mainJob.company}. Here's the impressive part: he designed APIs that boosted efficiency by 25%! He's also into clean architecture patterns and automated QA for AI - basically making systems smarter and faster.`,
+      `📊 At ${mainJob.company}, Muhammad is the guy behind efficient REST APIs and AI quality testing. Since 2022, he's been improving systems - and that 25% efficiency boost he achieved? That's real, measurable impact from his work.`
+    );
   }
+
+  let response = pickRandom(experienceResponses);
 
   const freelance = currentJobs.find(e => e.company === 'Freelance');
   if (freelance) {
-    response += ` He also does ${freelance.role.toLowerCase()} work, ${freelance.achievements[0].toLowerCase()}.`;
+    response += ` On the side, he evaluates LLM outputs for AI companies - yes, he literally tests other AIs! 🤖`;
   }
 
-  response += ` He's also the founder of ${profile.startup.name}.`;
+  response += ` Oh, and he's building a startup (${profile.startup.name}) that's tackling global language barriers. The man stays busy!`;
 
   return {
     text: response,
-    actions: [{ type: 'scroll_to_section', payload: { section: 'experience' }, label: 'View Experience' }],
-    suggestions: ['Tell me about Nyra', 'What projects has he built?'],
+    actions: [{ type: 'scroll_to_section', payload: { section: 'experience' }, label: 'View Full Experience' }],
+    suggestions: ['Tell me about Nyra', 'What projects has he built?', 'What are his skills?'],
   };
 }
 
@@ -336,8 +395,13 @@ function generateUnknownResponse(message: string): GeneratedResponse {
 
   // Jokes/fun
   if (/\b(joke|funny|laugh|humor|tell me a)\b/.test(lowerMessage)) {
+    const funnyResponses = [
+      `I'm better at tech talk than comedy, but here's something fun: Muhammad evaluates AI models for a living - so technically, I'm being graded by someone who tests AIs! 😅 Want to hear about his work instead?`,
+      `Why did the developer quit? Because he didn't get arrays! 😄 Okay, that's my best shot. What I'm actually good at is telling you about Muhammad's impressive projects. Want to hear about Nyra?`,
+      `My humor algorithms need work, but here's a cool fact: Muhammad is building Nyra to let people chat across languages in real-time. That's kind of like a universal translator from Star Trek! Want details?`,
+    ];
     return {
-      text: `I'm not great at jokes, but I can tell you something cool - Muhammad built an AI translation platform called Nyra that breaks language barriers! That's pretty amazing, right? Want to know more about it?`,
+      text: pickRandom(funnyResponses),
       suggestions: ['Tell me about Nyra', 'What else has he built?'],
     };
   }
@@ -374,17 +438,96 @@ function generateUnknownResponse(message: string): GeneratedResponse {
     };
   }
 
+  // Greetings in different languages
+  if (/\b(bonjour|hola|ciao|guten tag|konnichiwa|salaam|namaste|olá)\b/i.test(lowerMessage)) {
+    return {
+      text: `Hello! 👋 Great to meet you! I speak tech fluently, but Muhammad's Nyra project is actually built to break language barriers with real-time translation! I can tell you about his ${projects.length}+ projects, skills, or availability. What interests you?`,
+      suggestions: ['Tell me about Nyra', 'What are his skills?', 'Is he available?'],
+    };
+  }
+
+  // Questions about age/how old
+  if (/\b(how old|age|born|birthday)\b/.test(lowerMessage)) {
+    return {
+      text: `I don't have Muhammad's exact age, but I know he's got ${profile.yearsOfExperience}+ years of professional experience and has built ${projects.length}+ production projects. Experience speaks louder than age! Want to see his work?`,
+      suggestions: ['Show me his projects', 'What is his experience?'],
+    };
+  }
+
+  // Questions about salary/money expectations
+  if (/\b(salary|pay|compensation|earn|income|money)\b/.test(lowerMessage)) {
+    return {
+      text: `Compensation depends on the role, scope, and requirements. Muhammad is open to discussing rates for freelance work or salary for full-time positions. Best to reach out directly through the contact form to discuss specifics!`,
+      actions: [{ type: 'open_contact', label: 'Discuss Compensation' }],
+      suggestions: ['Is he available?', 'What can he build?'],
+    };
+  }
+
+  // Questions about hobbies/interests
+  if (/\b(hobby|hobbies|free time|fun|interests|like to do)\b/.test(lowerMessage)) {
+    return {
+      text: `Muhammad is passionate about building things that solve real problems! His startup Nyra is his main passion project - breaking language barriers globally. He also evaluates AI models and stays on top of the latest tech trends. Want to know more about his projects?`,
+      suggestions: ['Tell me about Nyra', 'What projects has he built?'],
+    };
+  }
+
+  // Questions about languages spoken
+  if (/\b(speak|language|languages|english|french|arabic)\b/.test(lowerMessage) && !/\b(programming|coding)\b/.test(lowerMessage)) {
+    return {
+      text: `Muhammad speaks English fluently. And fun fact - his startup Nyra is designed to help people communicate across ANY language with real-time translation! 🌍 Want to know more about it?`,
+      suggestions: ['Tell me about Nyra', 'How can I contact him?'],
+    };
+  }
+
+  // Questions about working hours/timezone
+  if (/\b(timezone|time zone|hours|schedule|when.*work|working hours)\b/.test(lowerMessage)) {
+    return {
+      text: `Muhammad is based in Nigeria (WAT timezone) but works with clients globally. He's flexible with scheduling and typically responds within ${profile.availability.responseTime}. Remote collaboration is his standard!`,
+      suggestions: ['Is he available?', 'How can I contact him?'],
+    };
+  }
+
+  // Comparison questions
+  if (/\b(better than|compared to|vs|versus|difference between)\b/.test(lowerMessage)) {
+    return {
+      text: `I can best answer questions specifically about Muhammad's skills and projects! He's proficient in multiple technologies - React, Node.js, .NET, Python. What technology or project would you like to know about?`,
+      suggestions: ['What technologies does he use?', 'Show me his projects'],
+    };
+  }
+
+  // Thank you / appreciation
+  if (/\b(awesome|great|nice|cool|amazing|impressive|wow)\b/.test(lowerMessage)) {
+    return {
+      text: `Thanks! 😊 Muhammad's work is pretty impressive - ${projects.length}+ projects, a 25% efficiency improvement at his job, and a startup tackling global language barriers. Want to dive deeper into any of these?`,
+      suggestions: ['Tell me more about his achievements', 'Show me his projects', 'Is he available?'],
+    };
+  }
+
+  // Yes/No/Maybe responses
+  if (/^(yes|yeah|yep|sure|okay|ok|no|nope|nah|maybe)[\s!?.]*$/i.test(lowerMessage)) {
+    return {
+      text: `I'd love to tell you more! What aspect of Muhammad's work interests you? His ${projects.length}+ projects, technical skills, work experience, or availability for new opportunities?`,
+      suggestions: ['Show me his projects', 'What are his skills?', 'Is he available?'],
+    };
+  }
+
   // If user asks for help
   if (lowerMessage.includes('help')) {
     return {
-      text: `I can help you learn about Muhammad's technical skills, projects he's built, work experience, and availability for new opportunities. What would you like to know?`,
+      text: `I can help you learn about Muhammad's technical skills, ${projects.length}+ projects he's built, work experience, and availability for new opportunities. What would you like to know?`,
       suggestions: ['What are his skills?', 'Show me projects', 'Is he available?'],
     };
   }
 
   // Generic fallback - still helpful
+  const fallbackResponses = [
+    `Interesting question! 🤔 I'm wired to talk about Muhammad's portfolio - his skills, projects, and experience. He's a Software Engineer who's built ${projects.length}+ major projects and improved system efficiency by 25% at his job. What would you like to know?`,
+    `That's a bit outside my wheelhouse! I'm Muhammad's portfolio assistant, and I've got the inside scoop on his tech skills, ${projects.length}+ projects like Nyra Connect, and his work experience. What sounds interesting?`,
+    `I appreciate the curiosity! 😊 I'm best at discussing Muhammad's work - he's a full-stack developer with expertise in React, Node.js, and .NET, plus he evaluates AI models. Want to explore any of that?`,
+  ];
+
   return {
-    text: `That's an interesting question! While I'm specialized in answering questions about Muhammad's portfolio, I'm happy to help you learn about his work. He's a Software Engineer with expertise in React, Node.js, .NET, and AI/ML. What aspect interests you?`,
+    text: pickRandom(fallbackResponses),
     suggestions: ['What technologies does he use?', 'Show me his projects', 'Is he available for hire?'],
   };
 }

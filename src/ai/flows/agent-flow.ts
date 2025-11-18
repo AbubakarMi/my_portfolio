@@ -24,9 +24,18 @@ interface AgentOutput {
   suggestions?: string[];
 }
 
+// Simulate realistic thinking time (2-4 seconds)
+function getThinkingDelay(): number {
+  // Base delay of 2 seconds + random 0-2 seconds
+  return 2000 + Math.random() * 2000;
+}
+
 // Main export function for the agent
 export async function agentChat(input: AgentInput): Promise<AgentOutput> {
   try {
+    // Add realistic thinking delay
+    await new Promise(resolve => setTimeout(resolve, getThinkingDelay()));
+
     // Use custom AI engine - no external API needed
     const result = processMessage({
       message: input.message,

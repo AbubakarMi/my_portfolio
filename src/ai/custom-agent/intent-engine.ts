@@ -105,11 +105,11 @@ const intentPatterns: IntentPattern[] = [
   {
     intent: 'specific_project',
     patterns: [
-      /\b(nyra\s*connect|invotrek|buildtrack|nubenta|adustech|smarted)\b/i,
+      /\b(nyra\s*connect|shoplynk|shop\s*lynk|invotrek|buildtrack|nubenta|adustech|smarted|bulkpay|rewardify|rental\s*management)\b/i,
       /tell\s*me\s*(about|more)\s*(the\s*)?\w+\s*project/i,
-      /what\s*is\s*(nyra|invotrek|buildtrack|nubenta)/i,
+      /what\s*is\s*(nyra|invotrek|buildtrack|nubenta|shoplynk|bulkpay|rewardify|rental)/i,
     ],
-    keywords: ['nyra connect', 'invotrek', 'buildtrack', 'nubenta', 'smarted', 'adustech'],
+    keywords: ['nyra connect', 'shoplynk', 'invotrek', 'buildtrack', 'nubenta', 'smarted', 'adustech', 'bulkpay', 'rewardify', 'rental', 'whatsapp store'],
     priority: 7,
   },
   {
@@ -225,15 +225,26 @@ function extractEntities(message: string): IntentResult['entities'] {
   const projectPatterns: Record<string, string> = {
     'nyra connect': 'nyra-connect',
     'nyra-connect': 'nyra-connect',
+    'shoplynk': 'shoplynk',
+    'shop lynk': 'shoplynk',
+    'whatsapp store': 'shoplynk',
     'invotrek': 'invotrek',
+    'rental': 'rental-management',
+    'rental management': 'rental-management',
     'buildtrack': 'buildtrack-pro',
     'buildtrack pro': 'buildtrack-pro',
     'nubenta': 'nubenta-care',
     'nubenta care': 'nubenta-care',
+    'bulkpay': 'bulkpay',
+    'bulk pay': 'bulkpay',
+    'payroll': 'bulkpay',
+    'rewardify': 'rewardify',
+    'gamification': 'rewardify',
     'adustech': 'adustech-bus-tracker',
     'bus tracker': 'adustech-bus-tracker',
     'smarted': 'smarted-erp',
     'smarted erp': 'smarted-erp',
+    'online management': 'online-management',
   };
 
   for (const [pattern, id] of Object.entries(projectPatterns)) {
