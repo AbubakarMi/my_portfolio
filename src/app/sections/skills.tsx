@@ -1,144 +1,155 @@
-
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
-import { BrainCircuit, TestTube2, FileJson, Sparkles, Server, Code, Wind, GitBranch, Mail } from 'lucide-react';
+import { BrainCircuit, TestTube2, FileJson, Sparkles, GitBranch, Mail, Wind } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faNodeJs } from '@fortawesome/free-brands-svg-icons';
 import { SkillAnalysisDialog } from '@/components/skill-analysis-dialog';
+import { cn } from '@/lib/utils';
 
 const DockerIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M22.12 6.42c-1.57-2.6-3.77-3.23-3.77-3.23l-3.65.17s-2.48.59-3.9 1.83c-1.3.17-2.58.53-3.82 1.1-1.39-1.2-3.13-1.63-3.13-1.63L.25 8.32s2.07.28 3.53 1.5l.2 4.15c.32.14 2.65.98 3.05 1.13.5.2 1 .3 1.5.4l.2 4.07s1.78 1.13 3.63 1.13c3.95 0 4.28-4.13 4.28-4.13s-.5-2.7-3.93-3.32c.4-.33.78-.73 1.12-1.2.66.02 2.6-.03 2.6-.03s2.2-1.2 2.7-3.04a2.6 2.6 0 0 0-.2-1.9zm-9.15 7.15a.42.42 0 0 1-.41.42h-1.2a.42.42 0 0 1-.42-.42v-1.19c0-.23.19-.42.42-.42h1.19c.23 0 .42.19.42.42v1.19zm2.4 0a.42.42 0 0 1-.42.42h-1.2a.42.42 0 0 1-.41-.42v-1.19c0-.23.18-.42.41-.42h1.2a.42.42 0 0 1 .42.42v1.19zm2.39 0a.42.42 0 0 1-.42.42h-1.19a.42.42 0 0 1-.42-.42v-1.19c0-.23.19-.42.42-.42h1.19a.42.42 0 0 1 .42.42v1.19zm2.4 0a.42.42 0 0 1-.42.42h-1.2a.42.42 0 0 1-.41-.42v-1.19c0-.23.18-.42.41-.42h1.2a.42.42 0 0 1 .42.42v1.19z" fill="#2496ED" />
-    </svg>
+  <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M22.12 6.42c-1.57-2.6-3.77-3.23-3.77-3.23l-3.65.17s-2.48.59-3.9 1.83c-1.3.17-2.58.53-3.82 1.1-1.39-1.2-3.13-1.63-3.13-1.63L.25 8.32s2.07.28 3.53 1.5l.2 4.15c.32.14 2.65.98 3.05 1.13.5.2 1 .3 1.5.4l.2 4.07s1.78 1.13 3.63 1.13c3.95 0 4.28-4.13 4.28-4.13s-.5-2.7-3.93-3.32c.4-.33.78-.73 1.12-1.2.66.02 2.6-.03 2.6-.03s2.2-1.2 2.7-3.04a2.6 2.6 0 0 0-.2-1.9zm-9.15 7.15a.42.42 0 0 1-.41.42h-1.2a.42.42 0 0 1-.42-.42v-1.19c0-.23.19-.42.42-.42h1.19c.23 0 .42.19.42.42v1.19zm2.4 0a.42.42 0 0 1-.42.42h-1.2a.42.42 0 0 1-.41-.42v-1.19c0-.23.18-.42.41-.42h1.2a.42.42 0 0 1 .42.42v1.19zm2.39 0a.42.42 0 0 1-.42.42h-1.19a.42.42 0 0 1-.42-.42v-1.19c0-.23.19-.42.42-.42h1.19a.42.42 0 0 1 .42.42v1.19zm2.4 0a.42.42 0 0 1-.42.42h-1.2a.42.42 0 0 1-.41-.42v-1.19c0-.23.18-.42.41-.42h1.2a.42.42 0 0 1 .42.42v1.19z" fill="#2496ED" />
+  </svg>
 );
-
 
 const DotNetIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M11.53,2.09l-7.2,2.15C3.52,4.48,3,5.2,3,6.05v9.91c0,0.85,0.52,1.57,1.33,1.81l7.2,2.15c0.47,0.14,0.97,0.14,1.44,0l7.2-2.15c0.81-0.24,1.33-0.96,1.33-1.81V6.05c0-0.85-0.52-1.57-1.33-1.81l-7.2-2.15C12.5,1.95,12,1.95,11.53,2.09z M12,13.88c-2.3,0-4.17-1.87-4.17-4.17S9.7,5.54,12,5.54c2.3,0,4.17,1.87,4.17,4.17S14.3,13.88,12,13.88z" fill="#512bd4"/>
+    <path d="M11.53,2.09l-7.2,2.15C3.52,4.48,3,5.2,3,6.05v9.91c0,0.85,0.52,1.57,1.33,1.81l7.2,2.15c0.47,0.14,0.97,0.14,1.44,0l7.2-2.15c0.81-0.24,1.33-0.96,1.33-1.81V6.05c0-0.85-0.52-1.57-1.33-1.81l-7.2-2.15C12.5,1.95,12,1.95,11.53,2.09z M12,13.88c-2.3,0-4.17-1.87-4.17-4.17S9.7,5.54,12,5.54c2.3,0,4.17,1.87,4.17,4.17S14.3,13.88,12,13.88z" fill="#512bd4" />
   </svg>
 );
 
 const PostgresqlIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5c-2 0-3.5-1.5-3.5-3.5S9 9.5 11 9.5V5h2v4.5c2 0 3.5 1.5 3.5 3.5S15 16.5 13 16.5h-2zm0-5c-1.1 0-2 .9-2 2s.9 2 2 2h2c1.1 0 2-.9 2-2s-.9-2-2-2h-2z" fill="#336791"/>
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5c-2 0-3.5-1.5-3.5-3.5S9 9.5 11 9.5V5h2v4.5c2 0 3.5 1.5 3.5 3.5S15 16.5 13 16.5h-2zm0-5c-1.1 0-2 .9-2 2s.9 2 2 2h2c1.1 0 2-.9 2-2s-.9-2-2-2h-2z" fill="#336791" />
   </svg>
 );
 
 const TypeScriptIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M1.5 1.5h21v21h-21z" fill="#3178c6"/>
-    <path d="M12.3 10.6c.1-.1.3-.2.5-.2s.4.1.5.2l3.4 3.4c.1.1.2.3.2.5s-.1.4-.2.5l-.9.9c-.1.1-.3.2-.5.2s-.4-.1-.5-.2L12 12.3l-2.9 2.9c-.1.1-.3.2-.5.2s-.4-.1-.5-.2l-.9-.9c-.1-.1-.2-.3-.2-.5s.1-.4.2-.5zm-4-1.7V4.5h11.2v4.4h-4.4v8.9h-2.4V8.9z" fill="#fff"/>
+    <path d="M1.5 1.5h21v21h-21z" fill="#3178c6" />
+    <path d="M12.3 10.6c.1-.1.3-.2.5-.2s.4.1.5.2l3.4 3.4c.1.1.2.3.2.5s-.1.4-.2.5l-.9.9c-.1.1-.3.2-.5.2s-.4-.1-.5-.2L12 12.3l-2.9 2.9c-.1.1-.3.2-.5.2s-.4-.1-.5-.2l-.9-.9c-.1-.1-.2-.3-.2-.5s.1-.4.2-.5zm-4-1.7V4.5h11.2v4.4h-4.4v8.9h-2.4V8.9z" fill="#fff" />
   </svg>
 );
 
 const NextjsIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg {...props} viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="64" cy="64" r="64" fill="black"/>
-    <path d="M84.316 43.199V102h11.041V43.199H84.316zM46.732 43.199L83.167 86.41V43.199h-11.12v35.337L46.732 52.345v-9.146z" fill="url(#paint0_linear_1_2)"/>
+    <circle cx="64" cy="64" r="64" fill="black" />
+    <path d="M84.316 43.199V102h11.041V43.199H84.316zM46.732 43.199L83.167 86.41V43.199h-11.12v35.337L46.732 52.345v-9.146z" fill="url(#paint0_linear_1_2)" />
     <defs>
       <linearGradient id="paint0_linear_1_2" x1="68.868" y1="43.199" x2="68.868" y2="102" gradientUnits="userSpaceOnUse">
-        <stop stopColor="white"/>
-        <stop offset="1" stopColor="white" stopOpacity="0"/>
+        <stop stopColor="white" />
+        <stop offset="1" stopColor="white" stopOpacity="0" />
       </linearGradient>
     </defs>
   </svg>
 );
 
 const ReactIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg {...props} viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="0" cy="0" r="2.05" fill="#61DAFB"/>
-        <g stroke="#61DAFB" strokeWidth="1" fill="none">
-            <ellipse rx="11" ry="4.2"/>
-            <ellipse rx="11" ry="4.2" transform="rotate(60)"/>
-            <ellipse rx="11" ry="4.2" transform="rotate(120)"/>
-        </g>
-    </svg>
+  <svg {...props} viewBox="-11.5 -10.23174 23 20.46348" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="0" cy="0" r="2.05" fill="#61DAFB" />
+    <g stroke="#61DAFB" strokeWidth="1" fill="none">
+      <ellipse rx="11" ry="4.2" />
+      <ellipse rx="11" ry="4.2" transform="rotate(60)" />
+      <ellipse rx="11" ry="4.2" transform="rotate(120)" />
+    </g>
+  </svg>
 );
 
 const JavaIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M18.87 19.48c-1.3-2.13-1.63-4.13-1.63-4.13s.32-2 1.63-4.14c.1-.17.03-.38-.13-.48l-1.57-.96c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l.9.56c.33.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-1.42-.88c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.42.88c.32.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-.9-.55c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.57.96c.16.1.36.06.47-.1 1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.13c-.1-.17-.03-.38.13-.48l1.57-.96c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38.13.48l-1.8 1.1-.68-1.07c-.2-.32-.64-.4-.96-.2l-1.42.88c-.16.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.42.88c.32.2.4.63.2.95l-1 1.9c-.2.32-.63.4-.95.2l-1.42-.88c-.16-.1-.36-.06-.47.1l-.8.92c-3.1 3.2-2.1 4.4 0 5.4l2.16-1.32c1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.13a.27.27 0 01.14-.48L9.2 2.52c.16-.1.36-.06.47.1l1.4 2.1c.1.17-.03.38-.13.48l-1.42.88c-.32.2-.4.63-.2.95l1.2 1.9c.2.32.63.4.95.2l1.42-.88c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.42.88c-.32.2-.4.63-.2.95l1.2 1.9c.2.32.63.4.95.2l1.42-.88c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.57.96c-.16.1-.36.06-.47-.1-1.3-2.14-1.63-4.14-1.63-4.14s.32-2 1.63-4.13c1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.14c-.1-.17-.03-.38.13-.48l1.57-.96c.16-.1.36-.06.47.1l.6.9a5.2 5.2 0 01-1.5 5.5c-1.3 2.14-1.63 4.14-1.63-4.14s.32 2 1.63 4.14c1.3 2.13 1.63 4.13 1.63-4.13s-.32 2-1.63 4.14a.27.27 0 01.13-.48l1.57-.96c.16-.1.36-.06.47.1l.82 1.25z" fill="#f89820"/><path d="M21.1 9.02c.33 0 .6-.27.6-.6V7.3c0-1.22-1.1-2.2-2.45-2.2H16.5v1.2h2.75c.68 0 1.25.5 1.25 1.1v1.12c0 .33.27.6.6.6z" fill="#5382a1"/></svg>
+  <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M18.87 19.48c-1.3-2.13-1.63-4.13-1.63-4.13s.32-2 1.63-4.14c.1-.17.03-.38-.13-.48l-1.57-.96c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l.9.56c.33.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-1.42-.88c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.42.88c.32.2.4.63.2.95l-1.2 1.9c-.2.32-.63.4-.95.2l-.9-.55c-.16-.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.57.96c.16.1.36.06.47-.1 1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.13c-.1-.17-.03-.38.13-.48l1.57-.96c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38.13.48l-1.8 1.1-.68-1.07c-.2-.32-.64-.4-.96-.2l-1.42.88c-.16.1-.36-.06-.47.1l-1.4 2.1c-.1.17-.03.38.13.48l1.42.88c.32.2.4.63.2.95l-1 1.9c-.2.32-.63.4-.95.2l-1.42-.88c-.16-.1-.36-.06-.47.1l-.8.92c-3.1 3.2-2.1 4.4 0 5.4l2.16-1.32c1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.13a.27.27 0 01.14-.48L9.2 2.52c.16-.1.36-.06.47.1l1.4 2.1c.1.17-.03.38-.13.48l-1.42.88c-.32.2-.4.63-.2.95l1.2 1.9c.2.32.63.4.95.2l1.42-.88c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.42.88c-.32.2-.4.63-.2.95l1.2 1.9c.2.32.63.4.95.2l1.42-.88c.16-.1.36-.06.47.1l1.4 2.1c.1.17.03.38-.13.48l-1.57.96c-.16.1-.36.06-.47-.1-1.3-2.14-1.63-4.14-1.63-4.14s.32-2 1.63-4.13c1.3-2.14 1.63-4.14 1.63-4.14s-.32-2-1.63-4.14c-.1-.17-.03-.38.13-.48l1.57-.96c.16-.1.36-.06.47.1l.6.9a5.2 5.2 0 01-1.5 5.5c-1.3 2.14-1.63 4.14-1.63-4.14s.32 2 1.63 4.14c1.3 2.13 1.63 4.13 1.63-4.13s-.32 2-1.63 4.14a.27.27 0 01.13-.48l1.57-.96c.16-.1.36-.06.47.1l.82 1.25z" fill="#f89820" /><path d="M21.1 9.02c.33 0 .6-.27.6-.6V7.3c0-1.22-1.1-2.2-2.45-2.2H16.5v1.2h2.75c.68 0 1.25.5 1.25 1.1v1.12c0 .33.27.6.6.6z" fill="#5382a1" /></svg>
 );
 
 const PythonIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 5.5c-1.28 0-1.99.35-2.6.83a2.3 2.3 0 00-.9.9c-.48.61-.83 1.32-.83 2.6V12h4.66v-2.1c0-1.04.53-1.67 1.34-1.95.7-.24 1.5-.24 2.2 0 .8.28 1.33.91 1.33 1.95V12h4.67v-2.17c0-1.28-.35-1.99-.83-2.6a2.3 2.3 0 00-.9-.9c-.61-.48-1.32-.83-2.6-.83h-4.34z" fill="#3776ab"/>
-        <path d="M12 18.5c1.28 0 1.99-.35 2.6-.83a2.3 2.3 0 00.9-.9c.48-.61.83-1.32.83-2.6V12H11.66v2.1c0 1.04-.53 1.67-1.34 1.95-.7.24-1.5-.24-2.2 0-.8-.28-1.33-.91-1.33-1.95V12H2.12v2.17c0 1.28.35 1.99.83 2.6a2.3 2.3 0 00.9.9c.61.48 1.32.83 2.6.83h5.55z" fill="#ffc331"/>
-    </svg>
+  <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 5.5c-1.28 0-1.99.35-2.6.83a2.3 2.3 0 00-.9.9c-.48.61-.83 1.32-.83 2.6V12h4.66v-2.1c0-1.04.53-1.67 1.34-1.95.7-.24 1.5-.24 2.2 0 .8.28 1.33.91 1.33 1.95V12h4.67v-2.17c0-1.28-.35-1.99-.83-2.6a2.3 2.3 0 00-.9-.9c-.61-.48-1.32-.83-2.6-.83h-4.34z" fill="#3776ab" />
+    <path d="M12 18.5c1.28 0 1.99-.35 2.6-.83a2.3 2.3 0 00.9-.9c.48-.61.83-1.32.83-2.6V12H11.66v2.1c0 1.04-.53 1.67-1.34 1.95-.7.24-1.5-.24-2.2 0-.8-.28-1.33-.91-1.33-1.95V12H2.12v2.17c0 1.28.35 1.99.83 2.6a2.3 2.3 0 00.9.9c.61.48 1.32.83 2.6.83h5.55z" fill="#ffc331" />
+  </svg>
 );
 
 const CSharpIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M13.5 5.5l-4 13m8-11l-4 13m-2-10h-6a1 1 0 00-1 1v4a1 1 0 001 1h6m4-5h-6a1 1 0 00-1 1v4a1 1 0 001 1h6" stroke="#9b4f96" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
+  <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M13.5 5.5l-4 13m8-11l-4 13m-2-10h-6a1 1 0 00-1 1v4a1 1 0 001 1h6m4-5h-6a1 1 0 00-1 1v4a1 1 0 001 1h6" stroke="#9b4f96" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
 );
 
 const CodeIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="16 18 22 12 16 6"></polyline>
-        <polyline points="8 6 2 12 8 18"></polyline>
-    </svg>
+  <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="16 18 22 12 16 6"></polyline>
+    <polyline points="8 6 2 12 8 18"></polyline>
+  </svg>
 );
 
 
 const skills = {
   "AI & Testing": [
-    { name: 'LLM Evaluation', icon: BrainCircuit },
-    { name: 'QA Design', icon: TestTube2 },
-    { name: 'NLP Annotation', icon: CodeIcon },
-    { name: 'JSON/YAML Modeling', icon: FileJson },
+    { name: 'LLM Evaluation', icon: BrainCircuit, description: 'Quality assessment of language models' },
+    { name: 'QA Design', icon: TestTube2, description: 'Test scenario design & automation' },
+    { name: 'NLP Annotation', icon: CodeIcon, description: 'Data labeling & model training' },
+    { name: 'JSON/YAML Modeling', icon: FileJson, description: 'Schema design & validation' },
   ],
   "Languages": [
-    { name: 'Python', icon: PythonIcon },
-    { name: 'Java', icon: JavaIcon },
-    { name: 'C#', icon: CSharpIcon },
-    { name: 'TypeScript', icon: TypeScriptIcon },
+    { name: 'Python', icon: PythonIcon, description: 'AI/ML & automation scripts' },
+    { name: 'Java', icon: JavaIcon, description: 'Enterprise applications' },
+    { name: 'C#', icon: CSharpIcon, description: '.NET development' },
+    { name: 'TypeScript', icon: TypeScriptIcon, description: 'Type-safe JavaScript' },
   ],
   "Backend": [
-    { name: '.NET 8', icon: DotNetIcon },
-    { name: 'Node.js', icon: (props: any) => <FontAwesomeIcon icon={faNodeJs} {...props} /> },
-    { name: 'PostgreSQL', icon: PostgresqlIcon },
-    { name: 'Clean Architecture', icon: GitBranch },
+    { name: '.NET 8', icon: DotNetIcon, description: 'Modern API development' },
+    { name: 'Node.js', icon: (props: any) => <FontAwesomeIcon icon={faNodeJs} {...props} />, description: 'Fast server-side JS' },
+    { name: 'PostgreSQL', icon: PostgresqlIcon, description: 'Relational database' },
+    { name: 'Clean Architecture', icon: GitBranch, description: 'Scalable code patterns' },
   ],
   "Frontend": [
-    { name: 'React', icon: ReactIcon },
-    { name: 'Next.js', icon: NextjsIcon },
-    { name: 'Tailwind CSS', icon: Wind },
+    { name: 'React', icon: ReactIcon, description: 'Component-based UIs' },
+    { name: 'Next.js', icon: NextjsIcon, description: 'Full-stack React framework' },
+    { name: 'Tailwind CSS', icon: Wind, description: 'Utility-first styling' },
   ],
-   "DevOps & Tools": [
-    { name: 'Docker', icon: DockerIcon },
-    { name: 'SendGrid', icon: Mail },
-    { name: 'Git & GitHub', icon: GitBranch },
+  "DevOps & Tools": [
+    { name: 'Docker', icon: DockerIcon, description: 'Container orchestration' },
+    { name: 'SendGrid', icon: Mail, description: 'Email delivery service' },
+    { name: 'Git & GitHub', icon: GitBranch, description: 'Version control' },
   ]
 };
 
-const SkillCard = ({ name, icon: Icon, style, onAnalyze }: { name: string; icon: React.ElementType; style: React.CSSProperties, onAnalyze: (skill: string) => void }) => {
+const SkillCard = ({ name, icon: Icon, description, index, onAnalyze }: {
+  name: string;
+  icon: React.ElementType;
+  description: string;
+  index: number;
+  onAnalyze: (skill: string) => void
+}) => {
   return (
     <Card
-      className="group animate-fade-in-up rounded-2xl transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1"
-      style={style}
+      className="group relative overflow-hidden rounded-2xl border-0 bg-card shadow-sm ring-1 ring-border/50 transition-all duration-500 ease-out hover:shadow-xl hover:ring-primary/30 hover:-translate-y-2"
+      style={{ animationDelay: `${index * 75}ms` }}
     >
-      <div className="flex h-full flex-col items-center justify-center p-6 text-center">
-        <div className="flex flex-1 flex-col items-center justify-center gap-4">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
-              <Icon className="h-8 w-8" />
-            </div>
-            <span className="font-semibold text-foreground text-lg">{name}</span>
+      <div className="flex h-full flex-col p-6">
+        {/* Icon */}
+        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
+          <Icon className="h-7 w-7" />
         </div>
 
-        <div className="h-9 mt-4 transition-all duration-300 opacity-0 group-hover:opacity-100">
-           <Button
-              variant="outline"
-              size="sm"
-              className="rounded-full bg-background/80 backdrop-blur-sm"
-              onClick={() => onAnalyze(name)}
-            >
-              <Sparkles className="mr-2 h-4 w-4 text-primary" /> Analyze
-            </Button>
+        {/* Content */}
+        <div className="flex-1">
+          <h3 className="font-semibold text-foreground text-lg mb-1">{name}</h3>
+          <p className="text-sm text-foreground/60 leading-relaxed">{description}</p>
+        </div>
+
+        {/* Analyze button */}
+        <div className="mt-4 pt-4 border-t border-border/50">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="w-full rounded-xl text-primary hover:text-primary hover:bg-primary/10 transition-all duration-300"
+            onClick={() => onAnalyze(name)}
+          >
+            <Sparkles className="mr-2 h-4 w-4" />
+            AI Analysis
+          </Button>
         </div>
       </div>
     </Card>
@@ -148,53 +159,93 @@ const SkillCard = ({ name, icon: Icon, style, onAnalyze }: { name: string; icon:
 
 export function Skills() {
   const [analyzingSkill, setAnalyzingSkill] = useState<string | null>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
 
   return (
     <>
-      <section id="skills" className="bg-background py-24 sm:py-32">
+      <section id="skills" ref={sectionRef} className="relative bg-background py-24 sm:py-32">
+        {/* Background decoration */}
+        <div aria-hidden="true" className="absolute inset-0 -z-10">
+          <div className="absolute top-1/3 right-0 h-96 w-96 rounded-full bg-primary/5 blur-3xl" />
+        </div>
+
         <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center">
-            <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Skills &amp; Technologies
+          {/* Section Header */}
+          <div className={cn(
+            "mb-16 text-center transition-all duration-700 ease-out",
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          )}>
+            <p className="mb-3 text-sm font-medium uppercase tracking-widest text-primary">
+              Expertise
+            </p>
+            <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
+              Skills & Technologies
             </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-foreground/70">
-              A look at the primary tools and technologies in my professional toolkit. Hover over a skill and click "Analyze" for an AI-powered breakdown.
+            <p className="mx-auto mt-4 max-w-2xl text-foreground/60">
+              A look at the primary tools and technologies in my professional toolkit.
+              Click on any skill for an AI-powered breakdown.
             </p>
           </div>
 
-          <Tabs defaultValue="AI & Testing" className="mt-16 w-full">
-              <TabsList className="mx-auto grid h-auto max-w-2xl grid-cols-2 items-center justify-center gap-2 rounded-xl bg-muted p-2 sm:grid-cols-3 md:flex">
-                  {Object.keys(skills).map((category) => (
-                      <TabsTrigger 
-                        key={category} 
-                        value={category} 
-                        className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-md rounded-lg"
-                      >
-                        {category}
-                      </TabsTrigger>
-                  ))}
+          <div className={cn(
+            "transition-all duration-1000 ease-out delay-200",
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          )}>
+            <Tabs defaultValue="AI & Testing" className="w-full">
+              <TabsList className="mx-auto mb-12 flex h-auto max-w-3xl flex-wrap items-center justify-center gap-2 rounded-2xl bg-muted/50 p-2">
+                {Object.keys(skills).map((category) => (
+                  <TabsTrigger
+                    key={category}
+                    value={category}
+                    className="rounded-xl px-4 py-2.5 text-sm font-medium text-muted-foreground transition-all duration-300 hover:text-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-md"
+                  >
+                    {category}
+                  </TabsTrigger>
+                ))}
               </TabsList>
 
               {Object.entries(skills).map(([category, items]) => (
-                  <TabsContent key={category} value={category} className="mt-10">
-                      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                          {items.map((skill, index) => (
-                            <SkillCard 
-                              key={skill.name} 
-                              name={skill.name} 
-                              icon={skill.icon}
-                              style={{ animationDelay: `${index * 100}ms`}}
-                              onAnalyze={setAnalyzingSkill}
-                            />
-                          ))}
-                      </div>
-                  </TabsContent>
-               ))}
-          </Tabs>
+                <TabsContent key={category} value={category} className="mt-0">
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    {items.map((skill, index) => (
+                      <SkillCard
+                        key={skill.name}
+                        name={skill.name}
+                        icon={skill.icon}
+                        description={skill.description}
+                        index={index}
+                        onAnalyze={setAnalyzingSkill}
+                      />
+                    ))}
+                  </div>
+                </TabsContent>
+              ))}
+            </Tabs>
+          </div>
         </div>
       </section>
       {analyzingSkill && (
-        <SkillAnalysisDialog 
+        <SkillAnalysisDialog
           skillName={analyzingSkill}
           open={!!analyzingSkill}
           onOpenChange={(isOpen) => {

@@ -1,8 +1,7 @@
-
 "use client";
 
 import Link from 'next/link';
-import { Building, Rocket, GraduationCap, Code } from 'lucide-react';
+import { Building, Rocket, GraduationCap, Code, ArrowUpRight } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -11,15 +10,16 @@ const experiences = [
   {
     company: "Hubuk Technology Limited",
     link: "https://hubuk.ng",
-    role: "Full Stack",
+    role: "Full Stack Developer",
     duration: "June 2022 – Present",
     icon: Building,
     description: [
-        "Designed modular REST APIs with ASP.NET Core 8 & PostgreSQL, improving response efficiency by 25%.",
-        "Developed automated QA and reproducibility scripts for AI models.",
-        "Built internal AI-powered dashboards and wrote technical documentation."
+      "Designed modular REST APIs with ASP.NET Core 8 & PostgreSQL, improving response efficiency by 25%.",
+      "Developed automated QA and reproducibility scripts for AI models.",
+      "Built internal AI-powered dashboards and wrote technical documentation."
     ],
-    value: "hubuk"
+    value: "hubuk",
+    current: true
   },
   {
     company: "Freelance Contributor",
@@ -28,11 +28,12 @@ const experiences = [
     duration: "2024 – Present",
     icon: Code,
     description: [
-        "Evaluated LLM outputs for accuracy and logical consistency.",
-        "Authored test cases using JSON/YAML and applied precision, recall, and coverage metrics.",
-        "Collaborated on prompt iteration and rubric definition."
+      "Evaluated LLM outputs for accuracy and logical consistency.",
+      "Authored test cases using JSON/YAML and applied precision, recall, and coverage metrics.",
+      "Collaborated on prompt iteration and rubric definition."
     ],
-    value: "freelance"
+    value: "freelance",
+    current: true
   },
   {
     company: "FlexiSAF Edusoft Limited",
@@ -40,11 +41,12 @@ const experiences = [
     role: "Backend Engineering Intern",
     duration: "Sept 2025 – Dec 2025",
     icon: GraduationCap,
-     description: [
-        "Assisted in backend feature development using Java, Spring-based frameworks, and SQL.",
-        "Gained hands-on experience in a professional software development environment."
+    description: [
+      "Assisted in backend feature development using Java, Spring-based frameworks, and SQL.",
+      "Gained hands-on experience in a professional software development environment."
     ],
-    value: "flexisaf"
+    value: "flexisaf",
+    current: false
   },
   {
     company: "Torvix AI",
@@ -53,108 +55,175 @@ const experiences = [
     duration: "Oct 2025 – Nov 2025",
     icon: Rocket,
     description: [
-        "Built responsive UIs for AI model visualization using modern frontend frameworks.",
-        "Integrated backend APIs to display real-time data from AI systems."
+      "Built responsive UIs for AI model visualization using modern frontend frameworks.",
+      "Integrated backend APIs to display real-time data from AI systems."
     ],
-    value: "torvix"
+    value: "torvix",
+    current: false
   }
 ];
 
-const ExperienceCard = ({ experience }: { experience: typeof experiences[0] }) => (
-    <div className={cn(
-        "p-6 md:p-8 rounded-2xl border bg-card/50 transition-all duration-300 ease-out",
-        "border-transparent group-hover:border-primary/20 group-hover:shadow-2xl group-hover:-translate-y-1"
-    )}>
-        <h3 className="font-headline text-xl font-bold text-foreground">{experience.role}</h3>
-        <p className="text-sm text-primary font-medium mt-1">{experience.duration}</p>
-        <Link href={experience.link} target="_blank" rel="noopener noreferrer" className="font-semibold text-foreground/80 hover:text-primary transition-colors mt-2 inline-block">
-            {experience.company}
-        </Link>
-        <ul className="mt-4 space-y-3 text-foreground/80">
-            {experience.description.map((item, idx) => (
-                <li key={idx} className="flex items-start gap-2">
-                    <svg className="h-5 w-5 flex-shrink-0 mt-0.5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span>{item}</span>
-                </li>
-            ))}
-        </ul>
+const ExperienceCard = ({ experience, index }: { experience: typeof experiences[0], index: number }) => (
+  <div className={cn(
+    "group relative rounded-2xl bg-card p-6 md:p-8 shadow-sm ring-1 ring-border/50 transition-all duration-500 ease-out",
+    "hover:shadow-xl hover:ring-primary/20 hover:-translate-y-1"
+  )}
+    style={{ animationDelay: `${index * 100}ms` }}
+  >
+    {/* Current badge */}
+    {experience.current && (
+      <div className="absolute -top-3 right-6">
+        <span className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground shadow-md">
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary-foreground opacity-75" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary-foreground" />
+          </span>
+          Current
+        </span>
+      </div>
+    )}
+
+    {/* Header */}
+    <div className="mb-4">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h3 className="font-headline text-xl font-bold text-foreground">{experience.role}</h3>
+          <div className="mt-1 flex items-center gap-2">
+            {experience.link !== "#" ? (
+              <Link
+                href={experience.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group/link inline-flex items-center gap-1 font-medium text-foreground/70 hover:text-primary transition-colors"
+              >
+                {experience.company}
+                <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
+              </Link>
+            ) : (
+              <span className="font-medium text-foreground/70">{experience.company}</span>
+            )}
+          </div>
+        </div>
+        <span className="flex-shrink-0 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+          {experience.duration}
+        </span>
+      </div>
     </div>
+
+    {/* Description */}
+    <ul className="space-y-3 text-sm text-foreground/70 leading-relaxed">
+      {experience.description.map((item, idx) => (
+        <li key={idx} className="flex items-start gap-3">
+          <div className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary" />
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
 );
 
 const TimelineItem = ({ experience, index }: { experience: typeof experiences[0], index: number }) => {
-    const itemRef = useRef<HTMLDivElement>(null);
-    const [isVisible, setIsVisible] = useState(false);
-    const isLeft = index % 2 === 0;
+  const itemRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const isLeft = index % 2 === 0;
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                    observer.unobserve(entry.target);
-                }
-            },
-            { threshold: 0.2 }
-        );
-
-        const currentRef = itemRef.current;
-        if (currentRef) {
-            observer.observe(currentRef);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
         }
-
-        return () => {
-            if (currentRef) {
-                observer.unobserve(currentRef);
-            }
-        };
-    }, []);
-    
-    return (
-        <div ref={itemRef} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-            <div className={cn(
-                "w-full md:w-[calc(50%-2.5rem)] transition-all duration-700 ease-in-out",
-                isVisible ? "opacity-100" : "opacity-0",
-                isLeft ? (isVisible ? 'md:translate-x-0' : 'md:-translate-x-10') : (isVisible ? 'md:translate-x-0' : 'md:translate-x-10')
-            )}>
-                <ExperienceCard experience={experience} />
-            </div>
-
-            <div className={cn(
-                "absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex items-center justify-center"
-            )}>
-                 <div className={cn(
-                    "flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary border-4 border-background transition-all duration-300",
-                    "group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground group-hover:shadow-lg group-hover:shadow-primary/30",
-                    isVisible ? "scale-100 opacity-100" : "scale-50 opacity-0"
-                 )}>
-                     <experience.icon className="h-6 w-6" />
-                 </div>
-            </div>
-        </div>
+      },
+      { threshold: 0.2 }
     );
+
+    const currentRef = itemRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, []);
+
+  return (
+    <div ref={itemRef} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+      <div className={cn(
+        "w-full md:w-[calc(50%-3rem)] transition-all duration-700 ease-out",
+        isVisible ? "opacity-100" : "opacity-0",
+        isLeft ? (isVisible ? 'md:translate-x-0' : 'md:-translate-x-10') : (isVisible ? 'md:translate-x-0' : 'md:translate-x-10')
+      )}>
+        <ExperienceCard experience={experience} index={index} />
+      </div>
+
+      {/* Timeline node */}
+      <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex items-center justify-center">
+        <div className={cn(
+          "flex h-14 w-14 items-center justify-center rounded-2xl bg-background text-primary ring-4 ring-background shadow-lg transition-all duration-500",
+          "group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground",
+          isVisible ? "scale-100 opacity-100" : "scale-50 opacity-0"
+        )}>
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 group-hover:bg-transparent transition-colors duration-300">
+            <experience.icon className="h-5 w-5" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 const DesktopTimeline = () => {
-    return (
-        <div className="relative mt-16 hidden md:block">
-            <div className="absolute left-1/2 top-0 h-full w-0.5 bg-border -translate-x-1/2" aria-hidden="true" />
-            <div className="space-y-16">
-                 {experiences.map((exp, index) => (
-                    <TimelineItem key={exp.value} experience={exp} index={index} />
-                ))}
-            </div>
-        </div>
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
     );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <div ref={sectionRef} className="relative mt-16 hidden md:block">
+      {/* Timeline line */}
+      <div
+        className={cn(
+          "absolute left-1/2 top-0 w-0.5 bg-border -translate-x-1/2 transition-all duration-1000 ease-out",
+          isVisible ? "h-full" : "h-0"
+        )}
+        aria-hidden="true"
+      />
+      <div className="space-y-20">
+        {experiences.map((exp, index) => (
+          <TimelineItem key={exp.value} experience={exp} index={index} />
+        ))}
+      </div>
+    </div>
+  );
 };
 
 
 const MobileTimeline = () => {
   return (
-    <div className="mt-16 space-y-12 md:hidden">
-      {experiences.map((exp) => (
-        <ExperienceCard key={exp.value} experience={exp} />
+    <div className="mt-12 space-y-6 md:hidden">
+      {experiences.map((exp, index) => (
+        <ExperienceCard key={exp.value} experience={exp} index={index} />
       ))}
     </div>
   );
@@ -162,21 +231,55 @@ const MobileTimeline = () => {
 
 
 export function Experience() {
-    const isMobile = useIsMobile();
-    return (
-        <section id="experience" className="bg-background py-24 sm:py-32">
-            <div className="container mx-auto px-4 md:px-6">
-                <div className="text-center">
-                    <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-                        Professional Journey
-                    </h2>
-                    <p className="mx-auto mt-4 max-w-2xl text-lg text-foreground/70">
-                        A timeline of my key roles and accomplishments in the tech industry.
-                    </p>
-                </div>
-                
-                {isMobile ? <MobileTimeline /> : <DesktopTimeline />}
-            </div>
-        </section>
+  const isMobile = useIsMobile();
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
     );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <section id="experience" ref={sectionRef} className="relative bg-muted/30 py-24 sm:py-32">
+      {/* Background decoration */}
+      <div aria-hidden="true" className="absolute inset-0 -z-10">
+        <div className="absolute bottom-0 left-1/4 h-64 w-64 rounded-full bg-primary/5 blur-3xl" />
+      </div>
+
+      <div className="container mx-auto px-4 md:px-6">
+        {/* Section Header */}
+        <div className={cn(
+          "text-center transition-all duration-700 ease-out",
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        )}>
+          <p className="mb-3 text-sm font-medium uppercase tracking-widest text-primary">
+            Career
+          </p>
+          <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
+            Professional Journey
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-foreground/60">
+            A timeline of my key roles and accomplishments in the tech industry.
+          </p>
+        </div>
+
+        {isMobile ? <MobileTimeline /> : <DesktopTimeline />}
+      </div>
+    </section>
+  );
 }
