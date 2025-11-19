@@ -196,31 +196,37 @@ export function PortfolioChatbot() {
   }
 
   return (
-    <Card className="fixed bottom-6 right-6 z-50 w-[400px] h-[600px] shadow-2xl rounded-3xl overflow-hidden flex flex-col border-0 ring-1 ring-border/50">
-      {/* Header with gradient */}
-      <div className="relative flex items-center justify-between p-4 bg-gradient-to-r from-primary via-primary to-primary/90 text-primary-foreground">
-        {/* Decorative glow */}
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-white/10 to-primary/0" />
+    <Card className="fixed bottom-6 right-6 z-50 w-[400px] h-[600px] shadow-2xl rounded-3xl overflow-hidden flex flex-col border-0 ring-1 ring-white/10 animate-in slide-in-from-bottom-5 duration-300">
+      {/* Header with premium gradient */}
+      <div className="relative flex items-center justify-between p-5 bg-gradient-to-br from-primary via-primary to-primary/80 text-primary-foreground overflow-hidden">
+        {/* Animated background pattern */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-0 left-0 w-32 h-32 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute bottom-0 right-0 w-24 h-24 bg-white/10 rounded-full translate-x-1/2 translate-y-1/2" />
+        </div>
 
-        <div className="relative flex items-center gap-3">
+        <div className="relative flex items-center gap-4">
           <div className="relative">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm shadow-inner">
-              <Zap className="h-5 w-5" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg ring-1 ring-white/20">
+              <Zap className="h-6 w-6" />
             </div>
-            <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-green-400 border-2 border-primary shadow-lg shadow-green-400/50">
-              <span className="absolute inset-0 rounded-full bg-green-400 animate-pulse" />
+            <span className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-green-400 border-2 border-primary shadow-lg shadow-green-400/50">
+              <span className="absolute inset-0 rounded-full bg-green-400 animate-ping opacity-75" />
             </span>
           </div>
           <div>
-            <h3 className="font-bold text-sm tracking-tight">Muhammad's AI</h3>
-            <p className="text-xs text-primary-foreground/80">Online - Ask me anything</p>
+            <h3 className="font-bold text-base tracking-tight">Muhammad's AI</h3>
+            <div className="flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
+              <p className="text-xs text-primary-foreground/80">Online now</p>
+            </div>
           </div>
         </div>
         <div className="relative flex items-center gap-1">
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 text-primary-foreground hover:bg-white/20 rounded-lg transition-colors"
+            className="h-9 w-9 text-primary-foreground hover:bg-white/20 rounded-xl transition-all hover:scale-105"
             onClick={() => setIsMinimized(true)}
           >
             <Minimize2 className="h-4 w-4" />
@@ -228,7 +234,7 @@ export function PortfolioChatbot() {
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 text-primary-foreground hover:bg-white/20 rounded-lg transition-colors"
+            className="h-9 w-9 text-primary-foreground hover:bg-white/20 rounded-xl transition-all hover:scale-105"
             onClick={handleClose}
           >
             <X className="h-4 w-4" />
@@ -237,21 +243,22 @@ export function PortfolioChatbot() {
       </div>
 
       {/* Messages */}
-      <ScrollArea className="flex-1 p-4" ref={scrollRef}>
+      <ScrollArea className="flex-1 p-4 bg-gradient-to-b from-background to-muted/20" ref={scrollRef}>
         <div className="space-y-4">
-          {messages.map((message) => (
+          {messages.map((message, index) => (
             <div
               key={message.id}
               className={cn(
-                "flex gap-3",
+                "flex gap-3 animate-in fade-in-0 slide-in-from-bottom-2 duration-300",
                 message.role === 'user' ? "flex-row-reverse" : "flex-row"
               )}
+              style={{ animationDelay: `${index * 50}ms` }}
             >
               <div className={cn(
-                "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg",
+                "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl shadow-sm",
                 message.role === 'user'
                   ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground"
+                  : "bg-gradient-to-br from-primary/10 to-primary/5 text-primary ring-1 ring-primary/20"
               )}>
                 {message.role === 'user' ? (
                   <User className="h-4 w-4" />
@@ -260,20 +267,20 @@ export function PortfolioChatbot() {
                 )}
               </div>
               <div className={cn(
-                "rounded-2xl px-4 py-2.5 max-w-[75%] text-sm",
+                "rounded-2xl px-4 py-3 max-w-[80%] text-sm shadow-sm",
                 message.role === 'user'
-                  ? "bg-primary text-primary-foreground rounded-tr-sm"
-                  : "bg-muted text-foreground rounded-tl-sm"
+                  ? "bg-primary text-primary-foreground rounded-tr-md"
+                  : "bg-card text-foreground rounded-tl-md ring-1 ring-border/50"
               )}>
                 <div className="whitespace-pre-wrap leading-relaxed">
                   {message.content.split('\n').map((line, i) => {
                     // Handle bold text
                     const parts = line.split(/(\*\*[^*]+\*\*)/g);
                     return (
-                      <div key={i}>
+                      <div key={i} className={i > 0 ? "mt-1" : ""}>
                         {parts.map((part, j) => {
                           if (part.startsWith('**') && part.endsWith('**')) {
-                            return <strong key={j}>{part.slice(2, -2)}</strong>;
+                            return <strong key={j} className="font-semibold">{part.slice(2, -2)}</strong>;
                           }
                           return part;
                         })}
@@ -281,21 +288,27 @@ export function PortfolioChatbot() {
                     );
                   })}
                 </div>
+                <div className={cn(
+                  "mt-1 text-[10px]",
+                  message.role === 'user' ? "text-primary-foreground/60" : "text-muted-foreground"
+                )}>
+                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </div>
               </div>
             </div>
           ))}
 
           {/* Typing indicator */}
           {isTyping && (
-            <div className="flex gap-3">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
-                <Sparkles className="h-4 w-4" />
+            <div className="flex gap-3 animate-in fade-in-0 slide-in-from-bottom-2 duration-300">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 text-primary ring-1 ring-primary/20">
+                <Sparkles className="h-4 w-4 animate-pulse" />
               </div>
-              <div className="rounded-2xl rounded-tl-sm bg-muted px-4 py-3">
-                <div className="flex gap-1">
-                  <span className="h-2 w-2 rounded-full bg-foreground/40 animate-bounce [animation-delay:-0.3s]" />
-                  <span className="h-2 w-2 rounded-full bg-foreground/40 animate-bounce [animation-delay:-0.15s]" />
-                  <span className="h-2 w-2 rounded-full bg-foreground/40 animate-bounce" />
+              <div className="rounded-2xl rounded-tl-md bg-card px-4 py-3 ring-1 ring-border/50 shadow-sm">
+                <div className="flex gap-1.5 items-center">
+                  <span className="h-2 w-2 rounded-full bg-primary/60 animate-bounce [animation-delay:-0.3s]" />
+                  <span className="h-2 w-2 rounded-full bg-primary/60 animate-bounce [animation-delay:-0.15s]" />
+                  <span className="h-2 w-2 rounded-full bg-primary/60 animate-bounce" />
                 </div>
               </div>
             </div>
@@ -304,46 +317,53 @@ export function PortfolioChatbot() {
 
         {/* Quick actions - show only if few messages */}
         {messages.length <= 2 && !isTyping && (
-          <div className="mt-4 flex flex-wrap gap-2">
-            {quickActions.map((action) => (
-              <Button
-                key={action.label}
-                variant="outline"
-                size="sm"
-                className="rounded-full text-xs h-7 hover:bg-primary hover:text-primary-foreground transition-colors"
-                onClick={() => handleQuickAction(action.query)}
-              >
-                {action.label}
-              </Button>
-            ))}
+          <div className="mt-6 space-y-3">
+            <p className="text-xs text-muted-foreground text-center font-medium">Quick questions</p>
+            <div className="flex flex-wrap gap-2 justify-center">
+              {quickActions.map((action) => (
+                <Button
+                  key={action.label}
+                  variant="outline"
+                  size="sm"
+                  className="rounded-full text-xs h-8 px-4 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all hover:scale-105 shadow-sm"
+                  onClick={() => handleQuickAction(action.query)}
+                >
+                  {action.label}
+                </Button>
+              ))}
+            </div>
           </div>
         )}
       </ScrollArea>
 
       {/* Input */}
-      <div className="p-4 border-t bg-gradient-to-t from-muted/50 to-background">
-        <div className="flex gap-2">
-          <Input
-            ref={inputRef}
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Ask me anything..."
-            className="flex-1 h-11 rounded-xl border-border/50 bg-background shadow-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-            disabled={isTyping}
-          />
+      <div className="p-4 border-t border-border/50 bg-card">
+        <div className="flex gap-3">
+          <div className="relative flex-1">
+            <Input
+              ref={inputRef}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Type your message..."
+              className="flex-1 h-12 rounded-2xl border-border/50 bg-muted/30 pl-4 pr-4 shadow-inner focus:ring-2 focus:ring-primary/30 focus:border-primary focus:bg-background transition-all"
+              disabled={isTyping}
+            />
+          </div>
           <Button
             onClick={handleSendMessage}
             disabled={!inputValue.trim() || isTyping}
             size="icon"
-            className="h-11 w-11 rounded-xl shrink-0 shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-all"
+            className="h-12 w-12 rounded-2xl shrink-0 shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:scale-105 active:scale-95 transition-all duration-200"
           >
-            <Send className="h-4 w-4" />
+            <Send className="h-5 w-5" />
           </Button>
         </div>
-        <div className="mt-3 flex items-center justify-center gap-1.5 text-[10px] text-muted-foreground">
-          <Sparkles className="h-3 w-3 text-primary" />
-          <span>Powered by Muhammad's Custom AI</span>
+        <div className="mt-4 flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50">
+            <Sparkles className="h-3.5 w-3.5 text-primary" />
+            <span>Powered by Muhammad</span>
+          </div>
         </div>
       </div>
     </Card>

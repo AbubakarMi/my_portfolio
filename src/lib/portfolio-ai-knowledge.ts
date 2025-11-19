@@ -206,6 +206,20 @@ export const responsePatterns: Record<string, string[]> = {
     "Hey there! I'm here to help you learn about Muhammad's work. Feel free to ask about his projects, technical skills, or anything else!"
   ],
 
+  // Nigerian slang greetings
+  nigerianGreeting: [
+    "How far! Welcome to Muhammad's portfolio. I'm his AI assistant - ask me anything about his projects, skills, or how to work with him. Wetin you wan know?",
+    "My guy! Good to see you here. I can tell you about Muhammad's work - his projects, tech stack, experience, or help you connect with him. What's good?",
+    "E be like say you sabi the vibes! Welcome - I'm here to help you learn about Muhammad's work. Ask me anything!"
+  ],
+
+  // Rude/offensive message handling
+  rude: [
+    "I appreciate you stopping by, but I'm here to have helpful conversations about Muhammad's work. Is there something specific about his projects or skills I can help you with?",
+    "I understand you might be frustrated, but let's keep things positive! I'm happy to tell you about Muhammad's impressive projects and technical abilities. What would you like to know?",
+    "I'm designed to be helpful and respectful. If you have genuine questions about Muhammad's work, skills, or availability, I'd be glad to assist!"
+  ],
+
   // Feelings/How are you
   feelings: [
     "I'm doing great, thanks for asking! I'm always energized when I get to talk about Muhammad's work. What would you like to know about his projects or skills?",
@@ -251,14 +265,14 @@ export const responsePatterns: Record<string, string[]> = {
 
   // Pricing/Rates
   pricing: [
-    "For pricing and rates, it's best to discuss directly with Muhammad as it depends on the project scope, complexity, and timeline. You can reach him at abubakarmi131@gmail.com to discuss your specific needs and get a tailored quote.",
-    "Project costs vary based on requirements. Muhammad offers competitive rates and focuses on delivering value. Contact him at abubakarmi131@gmail.com to discuss your project and get a personalized estimate."
+    "For pricing and rates, it's best to discuss directly with Muhammad as it depends on the project scope, complexity, and timeline. Please use the **Contact Form** on this website to share your project details and get a tailored quote.",
+    "Project costs vary based on requirements. Muhammad offers competitive rates and focuses on delivering value. Fill out the **Contact Form** on this site to discuss your project and get a personalized estimate."
   ],
 
   // Timeline/Availability
   timeline: [
-    "Muhammad is currently available for new projects! Timeline depends on scope and complexity. He typically responds within 24-48 hours and can discuss deadlines during initial conversations. Reach out at abubakarmi131@gmail.com to discuss your timeline.",
-    "He can start new projects soon! For specific timelines, it's best to discuss your requirements directly. Contact him to get accurate estimates for your project."
+    "Muhammad is currently available for new projects! Timeline depends on scope and complexity. He typically responds within 24-48 hours. Please use the **Contact Form** on this website to discuss your timeline and requirements.",
+    "He can start new projects soon! For specific timelines, it's best to discuss your requirements directly. Use the **Contact Form** below to get accurate estimates for your project."
   ],
 
   // Languages spoken
@@ -279,6 +293,19 @@ export const responsePatterns: Record<string, string[]> = {
     "His core strengths are technical excellence, strong problem-solving abilities, clear communication, and a commitment to quality. He combines deep technical knowledge with practical business understanding."
   ],
 
+  // User introduction
+  introduction: [
+    "Nice to meet you! I'm happy to help you learn about Muhammad's work. What brings you here today - are you interested in his projects, looking to hire, or just exploring?",
+    "Great to meet you! Feel free to ask me anything about Muhammad's skills, projects, or experience. How can I help you today?",
+    "Hello! Welcome to Muhammad's portfolio. I'd be happy to tell you about his work. What would you like to know?"
+  ],
+
+  // Mentorship requests
+  mentorship: [
+    "That's wonderful that you're looking to learn! While Muhammad doesn't have a formal mentorship program, he's always happy to connect with fellow developers. Use the **Contact Form** on this website to reach out about mentorship opportunities. He's particularly knowledgeable in:\n\n- Full-stack development (.NET, Node.js, React)\n- AI/ML and LLM evaluation\n- Building scalable SaaS applications\n- Clean architecture patterns\n\nWould you like to know more about any of these areas?",
+    "Muhammad loves helping others grow in tech! While he doesn't have a structured mentorship program, he's open to connecting with aspiring developers. Use the **Contact Form** below to reach out and discuss how he might be able to help. In the meantime, would you like to explore his projects to see his approach to software development?"
+  ],
+
   // About Muhammad
   about: [
     `Muhammad Idris Abubakar is a Software & AI Evaluation Engineer with ${personalInfo.experience} of experience. He specializes in building scalable SaaS applications and conducting AI evaluation workflows. He's also the founder of ${personalInfo.startup}, focused on ${personalInfo.startupMission}. Based in ${personalInfo.location}, he's passionate about turning complex problems into high-impact technology.`,
@@ -289,9 +316,11 @@ export const responsePatterns: Record<string, string[]> = {
     "Muhammad has a diverse skill set spanning multiple domains:\n\n**AI & Testing**: LLM Evaluation, QA Design, NLP Annotation\n**Languages**: Python, Java, C#, TypeScript\n**Backend**: .NET 8, Node.js, PostgreSQL\n**Frontend**: React, Next.js, Tailwind CSS\n**DevOps**: Docker, Git, SendGrid\n\nWant me to dive deeper into any specific area?"
   ],
 
-  // Contact info
+  // Contact info - Protected, direct to form
   contact: [
-    `You can reach Muhammad through:\n\n**Email**: ${personalInfo.email}\n**Phone**: ${personalInfo.phone.join(" or ")}\n**GitHub**: ${personalInfo.github}\n**LinkedIn**: ${personalInfo.linkedin}\n\nHe typically responds within 24-48 hours. Would you like to know anything else?`
+    "I'd love to help you connect with Muhammad! For your privacy and his, I don't share contact details directly. Please use the **Contact Form** on this website - just scroll down to the Contact section. Muhammad typically responds within 24-48 hours. Is there anything else about his work I can tell you?",
+    "Great that you want to reach out! Please use the **Contact Form** available on this site - it's the best way to get in touch with Muhammad. You can also find links to his GitHub and LinkedIn profiles there. Would you like to know more about his projects while you're here?",
+    "To connect with Muhammad, please fill out the **Contact Form** on this website. He checks it regularly and will get back to you promptly. In the meantime, is there anything about his skills or projects I can help you with?"
   ],
 
   // Resume
@@ -311,8 +340,8 @@ export const responsePatterns: Record<string, string[]> = {
 
   // Availability/Hiring
   availability: [
-    "Muhammad is always open to interesting opportunities! Whether it's a full-time role, freelance project, or collaboration, he'd love to hear about it. You can reach him at abubakarmi131@gmail.com or through the contact form on this site. What kind of project do you have in mind?",
-    "Great question! Muhammad is available for:\n- Full-time positions\n- Contract/Freelance work\n- Technical consulting\n- AI evaluation projects\n\nWould you like to discuss a potential opportunity?"
+    "Muhammad is always open to interesting opportunities! Whether it's a full-time role, freelance project, or collaboration, he'd love to hear about it. Please use the **Contact Form** on this site to reach out. What kind of project do you have in mind?",
+    "Great question! Muhammad is available for:\n- Full-time positions\n- Contract/Freelance work\n- Technical consulting\n- AI evaluation projects\n\nUse the **Contact Form** below to discuss a potential opportunity!"
   ],
 
   // Technologies
@@ -351,9 +380,32 @@ export const responsePatterns: Record<string, string[]> = {
 export function detectIntent(message: string): string {
   const lowerMessage = message.toLowerCase().trim();
 
-  // Greetings
-  if (/^(hi|hello|hey|greetings|howdy|yo|sup|hola|good\s*(morning|afternoon|evening))/.test(lowerMessage)) {
+  // Nigerian slang greetings - check first for priority
+  if (/^(how\s*far|wetin\s*dey|e\s*dey|na\s*you|abeg|omo|bros?|my\s*guy|e\s*go\s*be|wahala|no\s*wahala|shey)/.test(lowerMessage) ||
+      /^(wetin|na\s*wa|make\s*i|oya|jare|o\s*boy|chairmo)/.test(lowerMessage)) {
+    return 'nigerianGreeting';
+  }
+
+  // Rude/offensive messages - handle gracefully
+  if (/stupid|idiot|dumb|fool|useless|trash|garbage|suck|hate\s*you|worst|bad\s*bot|terrible/.test(lowerMessage) ||
+      /shut\s*up|go\s*away|fuck|damn|ass|crap|bullshit|nonsense|rubbish/.test(lowerMessage)) {
+    return 'rude';
+  }
+
+  // Greetings - must be at start or standalone
+  if (/^(hi+|hello+|hey+|greetings|howdy|yo+|sup|hola|good\s*(morning|afternoon|evening)|hy+)$/i.test(lowerMessage) ||
+      /^(hi+|hello+|hey+|hy+)\s+(there|everyone|all)/.test(lowerMessage)) {
     return 'greeting';
+  }
+
+  // User introducing themselves
+  if (/^(my\s*name\s*(is|'s)|i\s*am|i'm|call\s*me)\s+\w+/.test(lowerMessage)) {
+    return 'introduction';
+  }
+
+  // Mentorship/Learning questions
+  if (/mentor|mentorship|teach|learn\s*from|guidance|coach|train\s*me/.test(lowerMessage)) {
+    return 'mentorship';
   }
 
   // Feelings/How are you
