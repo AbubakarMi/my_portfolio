@@ -242,10 +242,39 @@ const DesktopTimeline = () => {
 
 
 const MobileTimeline = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    if (ref.current) observer.observe(ref.current);
+
+    return () => {
+      if (ref.current) observer.unobserve(ref.current);
+    };
+  }, []);
+
   return (
-    <div className="mt-12 space-y-6 md:hidden">
+    <div ref={ref} className="mt-12 space-y-6 md:hidden">
       {experiences.map((exp, index) => (
-        <ExperienceCard key={exp.value} experience={exp} index={index} />
+        <div
+          key={exp.value}
+          className={cn(
+            "transition-all duration-700 ease-out",
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          )}
+          style={{ transitionDelay: `${index * 150}ms` }}
+        >
+          <ExperienceCard experience={exp} index={index} />
+        </div>
       ))}
     </div>
   );
