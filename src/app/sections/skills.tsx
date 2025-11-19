@@ -124,30 +124,39 @@ const SkillCard = ({ name, icon: Icon, description, index, onAnalyze }: {
 }) => {
   return (
     <Card
-      className="group relative overflow-hidden rounded-2xl border-0 bg-card shadow-sm ring-1 ring-border/50 transition-all duration-500 ease-out hover:shadow-xl hover:ring-primary/30 hover:-translate-y-2"
-      style={{ animationDelay: `${index * 75}ms` }}
+      className="group relative overflow-hidden rounded-2xl border-0 bg-card shadow-sm ring-1 ring-border/50 transition-all duration-500 ease-out hover:shadow-2xl hover:ring-primary/40 hover:-translate-y-3 hover:scale-[1.02]"
+      style={{
+        animationDelay: `${index * 75}ms`,
+        transformStyle: 'preserve-3d',
+      }}
     >
-      <div className="flex h-full flex-col p-6">
-        {/* Icon */}
-        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
-          <Icon className="h-7 w-7" />
+      {/* Shine effect */}
+      <div className="absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent)] transition-transform duration-700 group-hover:translate-x-full" />
+
+      {/* Glow effect on hover */}
+      <div className="absolute -inset-px rounded-2xl bg-primary/0 transition-all duration-500 group-hover:bg-primary/5 group-hover:blur-sm" />
+
+      <div className="relative flex h-full flex-col p-6">
+        {/* Icon with enhanced animation */}
+        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-all duration-500 ease-out group-hover:scale-110 group-hover:rotate-6 group-hover:bg-primary group-hover:text-primary-foreground group-hover:shadow-lg group-hover:shadow-primary/30">
+          <Icon className="h-7 w-7 transition-transform duration-300 group-hover:scale-110" />
         </div>
 
         {/* Content */}
         <div className="flex-1">
-          <h3 className="font-semibold text-foreground text-lg mb-1">{name}</h3>
+          <h3 className="font-semibold text-foreground text-lg mb-2 transition-colors duration-300 group-hover:text-primary">{name}</h3>
           <p className="text-sm text-foreground/60 leading-relaxed">{description}</p>
         </div>
 
-        {/* Analyze button */}
+        {/* Analyze button with enhanced styling */}
         <div className="mt-4 pt-4 border-t border-border/50">
           <Button
             variant="ghost"
             size="sm"
-            className="w-full rounded-xl text-primary hover:text-primary hover:bg-primary/10 transition-all duration-300"
+            className="w-full rounded-xl text-primary hover:text-primary-foreground hover:bg-primary transition-all duration-300 group/btn"
             onClick={() => onAnalyze(name)}
           >
-            <Sparkles className="mr-2 h-4 w-4" />
+            <Sparkles className="mr-2 h-4 w-4 transition-transform duration-300 group-hover/btn:rotate-12 group-hover/btn:scale-110" />
             AI Analysis
           </Button>
         </div>

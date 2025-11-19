@@ -119,13 +119,17 @@ export function Contact() {
         </div>
 
         <Card className={cn(
-          "overflow-hidden rounded-3xl shadow-2xl ring-1 ring-border/50 transition-all duration-1000 ease-out delay-200",
+          "relative overflow-hidden rounded-3xl shadow-2xl ring-1 ring-border/50 transition-all duration-1000 ease-out delay-200",
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         )}>
           <div className="grid lg:grid-cols-5">
             {/* Left Side - Contact Info */}
-            <div className="lg:col-span-2 bg-secondary p-8 md:p-10 lg:p-12 text-secondary-foreground">
-              <div className="h-full flex flex-col">
+            <div className="lg:col-span-2 relative bg-secondary p-8 md:p-10 lg:p-12 text-secondary-foreground overflow-hidden">
+              {/* Decorative circles */}
+              <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-primary/10 blur-2xl" />
+              <div className="absolute -bottom-10 -left-10 w-32 h-32 rounded-full bg-primary/5 blur-xl" />
+
+              <div className="relative h-full flex flex-col">
                 <div className="space-y-4 mb-8">
                   <h3 className="font-headline text-2xl font-bold sm:text-3xl">Contact Information</h3>
                   <p className="text-secondary-foreground/70 text-sm leading-relaxed">
@@ -133,33 +137,33 @@ export function Contact() {
                   </p>
                 </div>
 
-                <div className="space-y-5 mb-8">
-                  <a href="tel:+2347042526971" className="group flex items-center gap-4 text-sm transition-colors hover:text-primary">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+                <div className="space-y-4 mb-8">
+                  <a href="tel:+2347042526971" className="group flex items-center gap-4 p-3 -m-3 rounded-xl text-sm transition-all duration-300 hover:bg-white/5">
+                    <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg shadow-black/10">
                       <Phone className="h-4 w-4" />
                     </div>
-                    <span>+234 704 252 6971</span>
+                    <span className="group-hover:text-primary transition-colors duration-300">+234 704 252 6971</span>
                   </a>
-                  <a href="tel:+2347069163505" className="group flex items-center gap-4 text-sm transition-colors hover:text-primary">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+                  <a href="tel:+2347069163505" className="group flex items-center gap-4 p-3 -m-3 rounded-xl text-sm transition-all duration-300 hover:bg-white/5">
+                    <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg shadow-black/10">
                       <Phone className="h-4 w-4" />
                     </div>
-                    <span>+234 706 916 3505</span>
+                    <span className="group-hover:text-primary transition-colors duration-300">+234 706 916 3505</span>
                   </a>
-                  <a href="mailto:abubakarmi131@gmail.com" className="group flex items-center gap-4 text-sm transition-colors hover:text-primary">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+                  <a href="mailto:abubakarmi131@gmail.com" className="group flex items-center gap-4 p-3 -m-3 rounded-xl text-sm transition-all duration-300 hover:bg-white/5">
+                    <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg shadow-black/10">
                       <Mail className="h-4 w-4" />
                     </div>
-                    <span>abubakarmi131@gmail.com</span>
+                    <span className="group-hover:text-primary transition-colors duration-300">abubakarmi131@gmail.com</span>
                   </a>
-                  <div className="flex items-center gap-4 text-sm text-secondary-foreground/70">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-white/10">
+                  <div className="flex items-center gap-4 p-3 -m-3 rounded-xl text-sm text-secondary-foreground/70">
+                    <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 shadow-lg shadow-black/10">
                       <MapPin className="h-4 w-4" />
                     </div>
                     <span>Kano State, Nigeria</span>
                   </div>
-                  <div className="flex items-center gap-4 text-sm text-secondary-foreground/70">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-white/10">
+                  <div className="flex items-center gap-4 p-3 -m-3 rounded-xl text-sm text-secondary-foreground/70">
+                    <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 shadow-lg shadow-black/10">
                       <Clock className="h-4 w-4" />
                     </div>
                     <span>Response within 24-48 hours</span>
@@ -169,17 +173,17 @@ export function Contact() {
                 <div className="mt-auto pt-8 border-t border-white/10">
                   <p className="text-xs font-medium uppercase tracking-wider text-secondary-foreground/50 mb-4">Connect with me</p>
                   <div className="flex gap-3">
-                    <Button asChild variant="outline" size="icon" className="h-10 w-10 rounded-xl bg-white/10 border-none hover:bg-primary hover:text-primary-foreground transition-all duration-300">
+                    <Button asChild variant="outline" size="icon" className="h-11 w-11 rounded-xl bg-white/10 border-none hover:bg-primary hover:text-primary-foreground hover:scale-110 hover:rotate-6 transition-all duration-300 shadow-lg shadow-black/10">
                       <Link href="https://github.com/AbubakarMi" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
                         <Github className="h-4 w-4" />
                       </Link>
                     </Button>
-                    <Button asChild variant="outline" size="icon" className="h-10 w-10 rounded-xl bg-white/10 border-none hover:bg-primary hover:text-primary-foreground transition-all duration-300">
+                    <Button asChild variant="outline" size="icon" className="h-11 w-11 rounded-xl bg-white/10 border-none hover:bg-primary hover:text-primary-foreground hover:scale-110 hover:rotate-6 transition-all duration-300 shadow-lg shadow-black/10">
                       <Link href="https://www.linkedin.com/in/muhammad-idris-abubakar" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                         <Linkedin className="h-4 w-4" />
                       </Link>
                     </Button>
-                    <Button asChild variant="outline" size="icon" className="h-10 w-10 rounded-xl bg-white/10 border-none hover:bg-primary hover:text-primary-foreground transition-all duration-300">
+                    <Button asChild variant="outline" size="icon" className="h-11 w-11 rounded-xl bg-white/10 border-none hover:bg-primary hover:text-primary-foreground hover:scale-110 hover:rotate-6 transition-all duration-300 shadow-lg shadow-black/10">
                       <Link href="https://x.com/AbubakarM93064" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
                         <Twitter className="h-4 w-4" />
                       </Link>
@@ -190,7 +194,7 @@ export function Contact() {
             </div>
 
             {/* Right Side - Form */}
-            <div className="lg:col-span-3 p-8 md:p-10 lg:p-12">
+            <div className="lg:col-span-3 p-8 md:p-10 lg:p-12 bg-card">
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid gap-6 sm:grid-cols-2">
@@ -198,13 +202,13 @@ export function Contact() {
                       control={form.control}
                       name="name"
                       render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-sm font-medium">Full Name</FormLabel>
+                        <FormItem className="group">
+                          <FormLabel className="text-sm font-medium transition-colors group-focus-within:text-primary">Full Name</FormLabel>
                           <FormControl>
                             <Input
                               placeholder="Your Name"
                               {...field}
-                              className="h-12 rounded-xl border-border/50 bg-muted/50 focus:bg-background transition-colors"
+                              className="h-12 rounded-xl border-border/50 bg-muted/30 focus:bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300"
                             />
                           </FormControl>
                           <FormMessage />
@@ -215,13 +219,13 @@ export function Contact() {
                       control={form.control}
                       name="email"
                       render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-sm font-medium">Email Address</FormLabel>
+                        <FormItem className="group">
+                          <FormLabel className="text-sm font-medium transition-colors group-focus-within:text-primary">Email Address</FormLabel>
                           <FormControl>
                             <Input
                               placeholder="your.email@example.com"
                               {...field}
-                              className="h-12 rounded-xl border-border/50 bg-muted/50 focus:bg-background transition-colors"
+                              className="h-12 rounded-xl border-border/50 bg-muted/30 focus:bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300"
                             />
                           </FormControl>
                           <FormMessage />
@@ -233,13 +237,13 @@ export function Contact() {
                     control={form.control}
                     name="message"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm font-medium">Message</FormLabel>
+                      <FormItem className="group">
+                        <FormLabel className="text-sm font-medium transition-colors group-focus-within:text-primary">Message</FormLabel>
                         <FormControl>
                           <Textarea
                             placeholder="Tell me about your project, question, or just say hello..."
                             {...field}
-                            className="min-h-[160px] rounded-xl border-border/50 bg-muted/50 focus:bg-background transition-colors resize-none"
+                            className="min-h-[160px] rounded-xl border-border/50 bg-muted/30 focus:bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300 resize-none"
                           />
                         </FormControl>
                         <FormMessage />
@@ -249,7 +253,7 @@ export function Contact() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="group w-full rounded-xl py-6 text-base font-medium shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300"
+                    className="group w-full rounded-xl py-6 text-base font-medium shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
                     disabled={form.formState.isSubmitting}
                   >
                     {form.formState.isSubmitting ? (
@@ -260,7 +264,7 @@ export function Contact() {
                     ) : (
                       <>
                         Send Message
-                        <Send className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                        <Send className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" />
                       </>
                     )}
                   </Button>

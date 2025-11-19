@@ -65,18 +65,27 @@ const experiences = [
 
 const ExperienceCard = ({ experience, index }: { experience: typeof experiences[0], index: number }) => (
   <div className={cn(
-    "group relative rounded-2xl bg-card p-6 md:p-8 shadow-sm ring-1 ring-border/50 transition-all duration-500 ease-out",
-    "hover:shadow-xl hover:ring-primary/20 hover:-translate-y-1"
+    "group relative overflow-hidden rounded-2xl bg-card p-6 md:p-8 shadow-sm ring-1 ring-border/50 transition-all duration-500 ease-out",
+    "hover:shadow-2xl hover:ring-primary/30 hover:-translate-y-2 hover:scale-[1.01]"
   )}
-    style={{ animationDelay: `${index * 100}ms` }}
+    style={{
+      animationDelay: `${index * 100}ms`,
+      transformStyle: 'preserve-3d',
+    }}
   >
+    {/* Shine effect */}
+    <div className="absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent)] transition-transform duration-700 group-hover:translate-x-full" />
+
+    {/* Corner accent */}
+    <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-bl-full transition-all duration-500 group-hover:bg-primary/10" />
+
     {/* Current badge */}
     {experience.current && (
-      <div className="absolute -top-3 right-6">
-        <span className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground shadow-md">
-          <span className="relative flex h-1.5 w-1.5">
+      <div className="absolute -top-3 right-6 z-10">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground shadow-lg shadow-primary/30">
+          <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary-foreground opacity-75" />
-            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary-foreground" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-primary-foreground" />
           </span>
           Current
         </span>
@@ -84,38 +93,38 @@ const ExperienceCard = ({ experience, index }: { experience: typeof experiences[
     )}
 
     {/* Header */}
-    <div className="mb-4">
+    <div className="relative mb-5">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h3 className="font-headline text-xl font-bold text-foreground">{experience.role}</h3>
-          <div className="mt-1 flex items-center gap-2">
+          <h3 className="font-headline text-xl font-bold text-foreground transition-colors duration-300 group-hover:text-primary">{experience.role}</h3>
+          <div className="mt-2 flex items-center gap-2">
             {experience.link !== "#" ? (
               <Link
                 href={experience.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group/link inline-flex items-center gap-1 font-medium text-foreground/70 hover:text-primary transition-colors"
+                className="group/link inline-flex items-center gap-1 font-medium text-foreground/70 hover:text-primary transition-colors duration-300"
               >
                 {experience.company}
-                <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
+                <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
               </Link>
             ) : (
               <span className="font-medium text-foreground/70">{experience.company}</span>
             )}
           </div>
         </div>
-        <span className="flex-shrink-0 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+        <span className="flex-shrink-0 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary ring-1 ring-primary/20">
           {experience.duration}
         </span>
       </div>
     </div>
 
     {/* Description */}
-    <ul className="space-y-3 text-sm text-foreground/70 leading-relaxed">
+    <ul className="relative space-y-3 text-sm text-foreground/70 leading-relaxed">
       {experience.description.map((item, idx) => (
-        <li key={idx} className="flex items-start gap-3">
-          <div className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary" />
-          <span>{item}</span>
+        <li key={idx} className="flex items-start gap-3 group/item">
+          <div className="mt-1.5 h-2 w-2 flex-shrink-0 rounded-full bg-primary/60 transition-all duration-300 group-hover/item:bg-primary group-hover/item:scale-125" />
+          <span className="transition-colors duration-300 group-hover/item:text-foreground">{item}</span>
         </li>
       ))}
     </ul>
