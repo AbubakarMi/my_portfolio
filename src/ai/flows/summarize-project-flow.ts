@@ -7,8 +7,8 @@
  * - summarizeProject - Generates a summary script for a given project.
  * - SummarizeProjectInput - The input type for the summarizeProject function.
  * - SummarizeProjectOutput - The return type for the summarizeProject function.
- * 
- * - summarizeSkill - Generates a summary for a given skill.
+ *
+ * - summarizeSkill - Generates a summary for a given skill (uses custom knowledge base).
  * - SummarizeSkillInput - The input type for the summarizeSkill function.
  * - SummarizeSkillOutput - The return type for the summarizeSkill function.
  */
@@ -16,6 +16,7 @@
 import {ai} from '@/ai/genkit';
 import { googleAI } from '@genkit-ai/google-genai';
 import {z} from 'zod';
+import { getSkillAnalysis } from '@/lib/skill-knowledge-base';
 
 // For Project Summarization
 const SummarizeProjectInputSchema = z.object({
@@ -62,7 +63,13 @@ export async function summarizeProject(
 export async function summarizeSkill(
   input: SummarizeSkillInput
 ): Promise<SummarizeSkillOutput> {
-  return summarizeSkillFlow(input);
+  // Use custom knowledge base instead of external AI
+  const analysis = getSkillAnalysis(input.skill);
+
+  // Simulate a small delay for better UX
+  await new Promise(resolve => setTimeout(resolve, 500));
+
+  return analysis;
 }
 
 const projectPrompt = ai.definePrompt({
