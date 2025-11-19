@@ -100,7 +100,7 @@ const projects = [
     tech: ["Node.js", "React", "PostgreSQL"],
     image: PlaceHolderImages.find(p => p.id === "blog-scaling-systems"),
     link: "#",
-    role: "Web Developer",
+    role: "Lead Developer",
     summaryScript: "This Online Management System is a versatile tool for small businesses. It helps track inventory, monitor sales, and manage customer data through a clean and simple interface built with React and Node.js."
   }
 ];
