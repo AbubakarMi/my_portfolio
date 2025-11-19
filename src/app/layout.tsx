@@ -6,6 +6,7 @@ import { AnalyticsProvider } from '@/components/analytics-provider';
 import { GeistSans, GeistMono } from 'geist/font';
 import { ScrollProgress } from '@/components/scroll-progress';
 import { CursorFollower } from '@/components/cursor-follower';
+import { PortfolioChatbot } from '@/components/portfolio-chatbot';
 
 export const metadata: Metadata = {
   title: {
@@ -28,6 +29,7 @@ export default function RootLayout({
         <CursorFollower />
         <ScrollProgress />
         {children}
+        <PortfolioChatbot />
         <Toaster />
       </body>
     </html>
