@@ -66,14 +66,23 @@ const experiences = [
 const ExperienceCard = ({ experience, index }: { experience: typeof experiences[0], index: number }) => (
   <div className={cn(
     "group relative rounded-2xl bg-card p-6 md:p-8 shadow-sm ring-1 ring-border/50 transition-all duration-500 ease-out",
-    "hover:shadow-xl hover:ring-primary/20 hover:-translate-y-1"
+    "hover:shadow-xl hover:ring-primary/30 hover:-translate-y-2",
+    experience.current && "mt-4"
   )}
-    style={{ animationDelay: `${index * 100}ms` }}
+    style={{
+      animationDelay: `${index * 100}ms`,
+    }}
   >
-    {/* Current badge */}
+    {/* Shine effect */}
+    <div className="absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent)] transition-transform duration-700 group-hover:translate-x-full overflow-hidden rounded-2xl" />
+
+    {/* Subtle corner accent */}
+    <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-bl-full transition-all duration-500 group-hover:bg-primary/10" />
+
+    {/* Current badge - positioned outside the card overflow */}
     {experience.current && (
-      <div className="absolute -top-3 right-6">
-        <span className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground shadow-md">
+      <div className="absolute -top-4 right-6 z-30">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground shadow-lg shadow-primary/30">
           <span className="relative flex h-1.5 w-1.5">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary-foreground opacity-75" />
             <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary-foreground" />
@@ -83,42 +92,55 @@ const ExperienceCard = ({ experience, index }: { experience: typeof experiences[
       </div>
     )}
 
-    {/* Header */}
-    <div className="mb-4">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h3 className="font-headline text-xl font-bold text-foreground">{experience.role}</h3>
-          <div className="mt-1 flex items-center gap-2">
-            {experience.link !== "#" ? (
-              <Link
-                href={experience.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group/link inline-flex items-center gap-1 font-medium text-foreground/70 hover:text-primary transition-colors"
-              >
-                {experience.company}
-                <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
-              </Link>
-            ) : (
-              <span className="font-medium text-foreground/70">{experience.company}</span>
-            )}
+    {/* Content container */}
+    <div className="relative">
+      {/* Header with Icon */}
+      <div className="mb-5">
+        <div className="flex items-start gap-4">
+          {/* Icon */}
+          <div className="flex-shrink-0 flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-105">
+            <experience.icon className="h-5 w-5" />
+          </div>
+
+          {/* Title and Company */}
+          <div className="min-w-0 flex-1">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0 flex-1">
+                <h3 className="font-headline text-lg font-bold text-foreground transition-colors duration-300 group-hover:text-primary">{experience.role}</h3>
+                <div className="mt-1 flex items-center gap-2">
+                  {experience.link !== "#" ? (
+                    <Link
+                      href={experience.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group/link inline-flex items-center gap-1 text-sm font-medium text-foreground/70 hover:text-primary transition-colors duration-300"
+                    >
+                      {experience.company}
+                      <ArrowUpRight className="h-3 w-3 flex-shrink-0 transition-transform duration-300 group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
+                    </Link>
+                  ) : (
+                    <span className="text-sm font-medium text-foreground/70">{experience.company}</span>
+                  )}
+                </div>
+              </div>
+              <span className="flex-shrink-0 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary whitespace-nowrap">
+                {experience.duration}
+              </span>
+            </div>
           </div>
         </div>
-        <span className="flex-shrink-0 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-          {experience.duration}
-        </span>
       </div>
-    </div>
 
-    {/* Description */}
-    <ul className="space-y-3 text-sm text-foreground/70 leading-relaxed">
-      {experience.description.map((item, idx) => (
-        <li key={idx} className="flex items-start gap-3">
-          <div className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary" />
-          <span>{item}</span>
-        </li>
-      ))}
-    </ul>
+      {/* Description */}
+      <ul className="space-y-2.5 text-sm text-foreground/70 leading-relaxed pl-[60px]">
+        {experience.description.map((item, idx) => (
+          <li key={idx} className="flex items-start gap-3 group/item">
+            <div className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary/50 transition-colors duration-300 group-hover/item:bg-primary" />
+            <span className="transition-colors duration-300 group-hover/item:text-foreground">{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
   </div>
 );
 
@@ -163,12 +185,12 @@ const TimelineItem = ({ experience, index }: { experience: typeof experiences[0]
       {/* Timeline node */}
       <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex items-center justify-center">
         <div className={cn(
-          "flex h-14 w-14 items-center justify-center rounded-2xl bg-background text-primary ring-4 ring-background shadow-lg transition-all duration-500",
+          "flex h-12 w-12 items-center justify-center rounded-xl bg-background text-primary ring-4 ring-background shadow-lg transition-all duration-500",
           "group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground",
           isVisible ? "scale-100 opacity-100" : "scale-50 opacity-0"
         )}>
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 group-hover:bg-transparent transition-colors duration-300">
-            <experience.icon className="h-5 w-5" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 group-hover:bg-primary-foreground/10 transition-colors duration-300">
+            <experience.icon className="h-4 w-4" />
           </div>
         </div>
       </div>
@@ -204,12 +226,12 @@ const DesktopTimeline = () => {
       {/* Timeline line */}
       <div
         className={cn(
-          "absolute left-1/2 top-0 w-0.5 bg-border -translate-x-1/2 transition-all duration-1000 ease-out",
+          "absolute left-1/2 top-0 w-0.5 -translate-x-1/2 transition-all duration-1000 ease-out bg-border",
           isVisible ? "h-full" : "h-0"
         )}
         aria-hidden="true"
       />
-      <div className="space-y-20">
+      <div className="space-y-16">
         {experiences.map((exp, index) => (
           <TimelineItem key={exp.value} experience={exp} index={index} />
         ))}
@@ -220,10 +242,39 @@ const DesktopTimeline = () => {
 
 
 const MobileTimeline = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    if (ref.current) observer.observe(ref.current);
+
+    return () => {
+      if (ref.current) observer.unobserve(ref.current);
+    };
+  }, []);
+
   return (
-    <div className="mt-12 space-y-6 md:hidden">
+    <div ref={ref} className="mt-12 space-y-6 md:hidden">
       {experiences.map((exp, index) => (
-        <ExperienceCard key={exp.value} experience={exp} index={index} />
+        <div
+          key={exp.value}
+          className={cn(
+            "transition-all duration-700 ease-out",
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          )}
+          style={{ transitionDelay: `${index * 150}ms` }}
+        >
+          <ExperienceCard experience={exp} index={index} />
+        </div>
       ))}
     </div>
   );
@@ -259,6 +310,7 @@ export function Experience() {
       {/* Background decoration */}
       <div aria-hidden="true" className="absolute inset-0 -z-10">
         <div className="absolute bottom-0 left-1/4 h-64 w-64 rounded-full bg-primary/5 blur-3xl" />
+        <div className="absolute top-1/4 right-0 h-48 w-48 rounded-full bg-primary/5 blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 md:px-6">

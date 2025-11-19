@@ -115,39 +115,51 @@ const skills = {
   ]
 };
 
-const SkillCard = ({ name, icon: Icon, description, index, onAnalyze }: {
+const SkillCard = ({ name, icon: Icon, description, index, onAnalyze, isVisible }: {
   name: string;
   icon: React.ElementType;
   description: string;
   index: number;
-  onAnalyze: (skill: string) => void
+  onAnalyze: (skill: string) => void;
+  isVisible: boolean;
 }) => {
   return (
     <Card
-      className="group relative overflow-hidden rounded-2xl border-0 bg-card shadow-sm ring-1 ring-border/50 transition-all duration-500 ease-out hover:shadow-xl hover:ring-primary/30 hover:-translate-y-2"
-      style={{ animationDelay: `${index * 75}ms` }}
+      className={cn(
+        "group relative overflow-hidden rounded-2xl border-0 bg-card shadow-sm ring-1 ring-border/50 transition-all duration-500 ease-out hover:shadow-xl hover:ring-primary/30 hover:-translate-y-2",
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+      )}
+      style={{
+        transitionDelay: `${index * 75}ms`,
+      }}
     >
-      <div className="flex h-full flex-col p-6">
+      {/* Shine effect */}
+      <div className="absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent)] transition-transform duration-700 group-hover:translate-x-full" />
+
+      {/* Corner accent */}
+      <div className="absolute top-0 right-0 w-16 h-16 bg-primary/5 rounded-bl-full transition-all duration-500 group-hover:bg-primary/10" />
+
+      <div className="relative flex h-full flex-col p-5">
         {/* Icon */}
-        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
-          <Icon className="h-7 w-7" />
+        <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-105">
+          <Icon className="h-6 w-6" />
         </div>
 
         {/* Content */}
         <div className="flex-1">
-          <h3 className="font-semibold text-foreground text-lg mb-1">{name}</h3>
+          <h3 className="font-semibold text-foreground text-base mb-1.5 transition-colors duration-300 group-hover:text-primary">{name}</h3>
           <p className="text-sm text-foreground/60 leading-relaxed">{description}</p>
         </div>
 
         {/* Analyze button */}
-        <div className="mt-4 pt-4 border-t border-border/50">
+        <div className="mt-4 pt-3 border-t border-border/50">
           <Button
             variant="ghost"
             size="sm"
-            className="w-full rounded-xl text-primary hover:text-primary hover:bg-primary/10 transition-all duration-300"
+            className="w-full rounded-lg text-xs text-primary hover:text-primary-foreground hover:bg-primary transition-all duration-300 group/btn"
             onClick={() => onAnalyze(name)}
           >
-            <Sparkles className="mr-2 h-4 w-4" />
+            <Sparkles className="mr-1.5 h-3.5 w-3.5 transition-transform duration-300 group-hover/btn:rotate-12" />
             AI Analysis
           </Button>
         </div>
@@ -235,6 +247,7 @@ export function Skills() {
                         description={skill.description}
                         index={index}
                         onAnalyze={setAnalyzingSkill}
+                        isVisible={isVisible}
                       />
                     ))}
                   </div>

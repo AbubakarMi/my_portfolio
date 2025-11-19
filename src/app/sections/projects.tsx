@@ -100,7 +100,7 @@ const projects = [
     tech: ["Node.js", "React", "PostgreSQL"],
     image: PlaceHolderImages.find(p => p.id === "blog-scaling-systems"),
     link: "#",
-    role: "Web Developer",
+    role: "Lead Developer",
     summaryScript: "This Online Management System is a versatile tool for small businesses. It helps track inventory, monitor sales, and manage customer data through a clean and simple interface built with React and Node.js."
   }
 ];
@@ -224,42 +224,48 @@ const ProjectItem = ({ project, index }: { project: Project, index: number }) =>
     >
       {/* Image */}
       <div className={cn("group relative", isReversed && "lg:order-last")}>
-        <div className="relative overflow-hidden rounded-2xl shadow-lg ring-1 ring-border/50 transition-all duration-500 group-hover:shadow-2xl group-hover:ring-primary/20">
+        {/* Decorative background glow */}
+        <div className="absolute -inset-4 rounded-3xl bg-primary/5 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100" />
+
+        <div className="relative overflow-hidden rounded-2xl shadow-lg ring-1 ring-border/50 transition-all duration-500 group-hover:shadow-2xl group-hover:ring-primary/30 group-hover:scale-[1.02]" style={{ transformStyle: 'preserve-3d' }}>
           {project.image && (
             <Image
               src={project.image.imageUrl}
               alt={project.title}
               width={1200}
               height={900}
-              className="aspect-video w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              className="aspect-video w-full object-cover transition-transform duration-700 group-hover:scale-110"
               data-ai-hint={project.image.imageHint}
             />
           )}
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-primary/0 transition-colors duration-300 group-hover:bg-primary/5" />
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+          {/* Shine effect */}
+          <div className="absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent)] transition-transform duration-700 group-hover:translate-x-full" />
         </div>
       </div>
 
       {/* Content */}
       <div className="space-y-5">
         <div>
-          <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+          <span className="inline-block rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary ring-1 ring-primary/20">
             {project.role}
           </span>
-          <h3 className="mt-3 font-headline text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          <h3 className="mt-4 font-headline text-2xl font-bold tracking-tight text-foreground sm:text-3xl transition-colors duration-300 hover:text-primary">
             {project.title}
           </h3>
         </div>
 
         <p className="text-foreground/70 leading-relaxed">{project.description}</p>
 
-        {/* Tech Stack */}
+        {/* Tech Stack with hover effects */}
         <div className="flex flex-wrap gap-2">
           {project.tech.map((t) => (
             <Badge
               key={t}
               variant="secondary"
-              className="rounded-lg px-2.5 py-1 text-xs font-medium"
+              className="rounded-lg px-3 py-1.5 text-xs font-medium transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:scale-105 cursor-default"
             >
               {t}
             </Badge>
@@ -269,14 +275,14 @@ const ProjectItem = ({ project, index }: { project: Project, index: number }) =>
         {/* Actions */}
         <div className="flex items-center gap-3 pt-2">
           {project.link !== "#" ? (
-            <Button asChild size="sm" className="group/btn rounded-full px-6 shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/25 transition-all duration-300">
+            <Button asChild size="sm" className="group/btn rounded-full px-6 shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/25 hover:scale-105 active:scale-95 transition-all duration-300">
               <Link href={project.link} target="_blank" rel="noopener noreferrer">
                 View Project
                 <ArrowUpRight className="ml-2 h-3.5 w-3.5 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
               </Link>
             </Button>
           ) : (
-            <Button size="sm" variant="secondary" className="rounded-full px-6" disabled>
+            <Button size="sm" variant="secondary" className="rounded-full px-6 opacity-60" disabled>
               Coming Soon
             </Button>
           )}

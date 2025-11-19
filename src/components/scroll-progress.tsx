@@ -33,10 +33,10 @@ export function ScrollProgress() {
         />
       </div>
 
-      {/* Floating progress indicator */}
+      {/* Floating progress indicator - positioned on left side */}
       <div
         className={cn(
-          "fixed bottom-8 right-8 z-50 transition-all duration-500",
+          "fixed bottom-8 left-8 z-50 transition-all duration-500",
           isVisible
             ? "opacity-100 translate-y-0"
             : "opacity-0 translate-y-10 pointer-events-none"
