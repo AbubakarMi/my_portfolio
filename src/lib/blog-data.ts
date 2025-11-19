@@ -1,13 +1,57 @@
 
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
-export const blogPosts = [
+export interface BlogPost {
+  slug: string;
+  title: string;
+  excerpt: string;
+  image?: { imageUrl: string; imageHint: string; id: string };
+  date: string;
+  content: string;
+  category: string;
+  readingTime: number;
+  featured?: boolean;
+  tags: string[];
+}
+
+export const blogPosts: BlogPost[] = [
+  {
+    slug: "why-i-started-nyra-technology",
+    title: "Why I Started Nyra",
+    excerpt: "A personal reflection on the journey, motivation, and vision behind founding a tech startup aimed at simplifying business operations and driving growth through software.",
+    image: PlaceHolderImages.find(p => p.id === "blog-nyra-tech"),
+    date: "2025-10-01",
+    category: "Entrepreneurship",
+    readingTime: 7,
+    featured: true,
+    tags: ["Startup", "Vision", "Nigeria", "Innovation"],
+    content: `
+      <p>Starting Nyra wasn't just about building another tech product it was about solving a real problem that I deeply cared about. As someone passionate about communication and technology, I've always believed that the ability to connect and understand one another should never be limited by language or distance.</p>
+      <p>The idea came to me when I realized how many people and companies struggle to collaborate effectively across different languages. Imagine two people one who speaks only Hausa and another who speaks only English trying to hold an important meeting. In today's globalized world, this kind of barrier still exists everywhere. I wanted to change that.</p>
+      <p>Nyra was born from this mission: to make communication between people and businesses seamless, no matter what language they speak. Through live translation and transcription, Nyra helps people understand each other instantly, making collaboration more natural and inclusive.</p>
+      <p>But Nyra isn't only about conversation it's also about productivity. Many organizations waste valuable time taking notes, filling forms, and managing paperwork after every meeting. I wanted Nyra to simplify that by automatically summarizing meetings, extracting key action points, and keeping records of important discussions, all within one platform.</p>
+
+      <h3 class="font-headline text-2xl font-bold mt-8 mb-4">The Vision for Nyra</h3>
+      <p>My vision for Nyra goes far beyond meetings. I want Nyra to become a global productivity platform that redefines how people connect, collaborate, and communicate. The dream is to see Nyra used worldwide from startups in Africa to enterprises in Silicon Valley helping teams break barriers, save time, and work smarter.</p>
+      <p>In the near future, I plan to introduce Nyra Chat, an all-in-one communication hub that combines chats, groups, feeds, and meetings into a single powerful app. Nyra Chat will also include live transcription and language translation, allowing people from different regions to communicate effortlessly in real time.</p>
+      <p>My ultimate goal is to make Nyra a globally recognized brand built from Africa a product that reflects innovation, inclusion, and excellence. I want it to show that young Nigerians can build technology that competes at a world-class level.</p>
+
+      <h3 class="font-headline text-2xl font-bold mt-8 mb-4">From Passion to Profession</h3>
+      <p>My journey into technology started with a simple curiosity about how software could solve real problems. Over time, that curiosity grew into a passion and then into a purpose. I've seen how well-built software can change how people work and live, and I wanted to be part of that change.</p>
+      <p>Founding Nyra has been a deeply personal mission for me. It's not just about creating an app; it's about proving that with the right vision and discipline, you can start from anywhere and build something meaningful.</p>
+      <p>To be sincere, one of my biggest motivations is to become the youngest Nigerian founder to build a startup that reaches the global stage. I want Nyra to be a living example that innovation can come from anywhere even from a young dreamer in Nigeria who believed in the power of software to unite people.</p>
+    `
+  },
   {
     slug: "building-modular-saas-architectures",
     title: "Building Modular SaaS Architectures with .NET & PostgreSQL",
     excerpt: "Discover the principles behind creating flexible, scalable, and maintainable SaaS applications using a modular approach with the power of .NET and PostgreSQL.",
     image: PlaceHolderImages.find(p => p.id === "blog-modular-saas"),
     date: "2025-04-20",
+    category: "Architecture",
+    readingTime: 6,
+    featured: false,
+    tags: [".NET", "PostgreSQL", "SaaS", "Backend"],
     content: `
       <p>In the world of software development, building a Software as a Service (SaaS) application that can grow and adapt is a significant challenge. A monolithic architecture, where all components are tightly coupled, can quickly become a bottleneck. This is where a modular approach, especially with technologies like .NET and PostgreSQL, truly shines.</p>
       <h3 class="font-headline text-2xl font-bold mt-8 mb-4">The Power of Modularity</h3>
@@ -25,34 +69,15 @@ export const blogPosts = [
     `
   },
   {
-    slug: "why-i-started-nyra-technology",
-    title: "Why I Started Nyra",
-    excerpt: "A personal reflection on the journey, motivation, and vision behind founding a tech startup aimed at simplifying business operations and driving growth through software.",
-    image: PlaceHolderImages.find(p => p.id === "blog-nyra-tech"),
-    date: "2025-10-01",
-    content: `
-      <p>Starting Nyra wasn’t just about building another tech product it was about solving a real problem that I deeply cared about. As someone passionate about communication and technology, I’ve always believed that the ability to connect and understand one another should never be limited by language or distance.</p>
-      <p>The idea came to me when I realized how many people and companies struggle to collaborate effectively across different languages. Imagine two people one who speaks only Hausa and another who speaks only English trying to hold an important meeting. In today’s globalized world, this kind of barrier still exists everywhere. I wanted to change that.</p>
-      <p>Nyra was born from this mission: to make communication between people and businesses seamless, no matter what language they speak. Through live translation and transcription, Nyra helps people understand each other instantly, making collaboration more natural and inclusive.</p>
-      <p>But Nyra isn’t only about conversation it’s also about productivity. Many organizations waste valuable time taking notes, filling forms, and managing paperwork after every meeting. I wanted Nyra to simplify that by automatically summarizing meetings, extracting key action points, and keeping records of important discussions, all within one platform.</p>
-      
-      <h3 class="font-headline text-2xl font-bold mt-8 mb-4">The Vision for Nyra</h3>
-      <p>My vision for Nyra goes far beyond meetings. I want Nyra to become a global productivity platform that redefines how people connect, collaborate, and communicate. The dream is to see Nyra used worldwide from startups in Africa to enterprises in Silicon Valley helping teams break barriers, save time, and work smarter.</p>
-      <p>In the near future, I plan to introduce Nyra Chat, an all-in-one communication hub that combines chats, groups, feeds, and meetings into a single powerful app. Nyra Chat will also include live transcription and language translation, allowing people from different regions to communicate effortlessly in real time.</p>
-      <p>My ultimate goal is to make Nyra a globally recognized brand built from Africa a product that reflects innovation, inclusion, and excellence. I want it to show that young Nigerians can build technology that competes at a world-class level.</p>
-
-      <h3 class="font-headline text-2xl font-bold mt-8 mb-4">From Passion to Profession</h3>
-      <p>My journey into technology started with a simple curiosity about how software could solve real problems. Over time, that curiosity grew into a passion and then into a purpose. I’ve seen how well-built software can change how people work and live, and I wanted to be part of that change.</p>
-      <p>Founding Nyra has been a deeply personal mission for me. It’s not just about creating an app; it’s about proving that with the right vision and discipline, you can start from anywhere and build something meaningful.</p>
-      <p>To be sincere, one of my biggest motivations is to become the youngest Nigerian founder to build a startup that reaches the global stage. I want Nyra to be a living example that innovation can come from anywhere even from a young dreamer in Nigeria who believed in the power of software to unite people.</p>
-    `
-  },
-  {
     slug: "designing-systems-that-scale",
     title: "Designing Systems That Scale with People, Not Just Code",
     excerpt: "An exploration into human-centric system design, focusing on building software that adapts to user needs and organizational growth, ensuring long-term success.",
     image: PlaceHolderImages.find(p => p.id === "blog-scaling-systems"),
     date: "2025-07-10",
+    category: "System Design",
+    readingTime: 5,
+    featured: false,
+    tags: ["UX", "Scalability", "Design", "Best Practices"],
     content: `
       <p>When we talk about scalability in software, we often think in terms of code, servers, and infrastructure. Can the system handle a million users? Can the database manage terabytes of data? While these are critical questions, there's another dimension to scalability that is often overlooked: scaling with people.</p>
       <h3 class="font-headline text-2xl font-bold mt-8 mb-4">What is Human-Centric System Design?</h3>

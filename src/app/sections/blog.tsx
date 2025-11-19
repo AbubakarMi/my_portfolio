@@ -2,11 +2,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, Calendar, User, Clock } from 'lucide-react';
+import { ArrowRight, Calendar, User, Clock, Tag, Sparkles, BookOpen } from 'lucide-react';
 import { blogPosts } from '@/lib/blog-data';
 import { format } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 
 export function Blog() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -31,11 +32,16 @@ export function Blog() {
     };
   }, []);
 
+  // Separate featured post from regular posts
+  const featuredPost = blogPosts.find(post => post.featured);
+  const regularPosts = blogPosts.filter(post => !post.featured);
+
   return (
     <section id="blog" ref={sectionRef} className="relative bg-background py-24 sm:py-32">
       {/* Background decoration */}
       <div aria-hidden="true" className="absolute inset-0 -z-10">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-primary/5 blur-3xl" />
+        <div className="absolute top-1/4 right-1/4 h-64 w-64 rounded-full bg-primary/3 blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 md:px-6">
@@ -44,9 +50,10 @@ export function Blog() {
           "text-center mb-16 transition-all duration-700 ease-out",
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}>
-          <p className="mb-3 text-sm font-medium uppercase tracking-widest text-primary">
-            Blog
-          </p>
+          <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 mb-4">
+            <BookOpen className="h-4 w-4 text-primary" />
+            <span className="text-sm font-medium text-primary">Blog</span>
+          </div>
           <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
             Insights & Reflections
           </h2>
@@ -55,19 +62,109 @@ export function Blog() {
           </p>
         </div>
 
-        {/* Blog Grid */}
+        {/* Featured Post */}
+        {featuredPost && (
+          <div className={cn(
+            "mb-12 transition-all duration-1000 ease-out delay-100",
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          )}>
+            <Link href={`/blog/${featuredPost.slug}`} className="group block">
+              <Card className="overflow-hidden rounded-3xl bg-card shadow-lg ring-1 ring-border/50 transition-all duration-500 group-hover:shadow-2xl group-hover:ring-primary/30">
+                <div className="grid md:grid-cols-2 gap-0">
+                  {/* Image */}
+                  {featuredPost.image && (
+                    <div className="relative overflow-hidden">
+                      <Image
+                        src={featuredPost.image.imageUrl}
+                        alt={`Thumbnail for ${featuredPost.title}`}
+                        width={800}
+                        height={600}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 aspect-video md:aspect-auto md:min-h-[400px]"
+                        data-ai-hint={featuredPost.image.imageHint}
+                      />
+                      {/* Overlay gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                      {/* Featured badge */}
+                      <div className="absolute top-4 left-4">
+                        <Badge className="bg-primary text-primary-foreground shadow-lg">
+                          <Sparkles className="h-3 w-3 mr-1" />
+                          Featured
+                        </Badge>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Content */}
+                  <div className="flex flex-col justify-center p-8 md:p-10">
+                    {/* Category & Reading time */}
+                    <div className="flex items-center gap-3 mb-4">
+                      <Badge variant="secondary" className="rounded-full">
+                        <Tag className="h-3 w-3 mr-1" />
+                        {featuredPost.category}
+                      </Badge>
+                      <span className="flex items-center gap-1.5 text-xs text-foreground/50">
+                        <Clock className="h-3 w-3" />
+                        {featuredPost.readingTime} min read
+                      </span>
+                    </div>
+
+                    <CardTitle className="text-2xl md:text-3xl font-bold leading-tight text-foreground group-hover:text-primary transition-colors duration-300 mb-4">
+                      {featuredPost.title}
+                    </CardTitle>
+
+                    <p className="text-foreground/60 leading-relaxed mb-6 line-clamp-3">
+                      {featuredPost.excerpt}
+                    </p>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {featuredPost.tags.slice(0, 3).map(tag => (
+                        <span key={tag} className="text-xs px-2 py-1 rounded-md bg-muted text-muted-foreground">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Meta info */}
+                    <div className="flex items-center justify-between pt-6 border-t border-border/50">
+                      <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                          <User className="h-4 w-4 text-primary" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-foreground">M.I. Abubakar</p>
+                          <div className="flex items-center gap-1.5 text-xs text-foreground/50">
+                            <Calendar className="h-3 w-3" />
+                            <time dateTime={featuredPost.date}>{format(new Date(featuredPost.date), "MMM d, yyyy")}</time>
+                          </div>
+                        </div>
+                      </div>
+                      <span className="inline-flex items-center text-sm font-medium text-primary group-hover:translate-x-1 transition-transform duration-300">
+                        Read Article
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </Link>
+          </div>
+        )}
+
+        {/* Regular Posts Grid */}
         <div className={cn(
-          "grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 transition-all duration-1000 ease-out delay-200",
+          "grid grid-cols-1 gap-8 md:grid-cols-2 transition-all duration-1000 ease-out delay-300",
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         )}>
-          {blogPosts.map((post, index) => (
+          {regularPosts.map((post, index) => (
             <Link
               href={`/blog/${post.slug}`}
               key={post.slug}
               className="group block"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <Card className="flex h-full flex-col overflow-hidden rounded-2xl bg-card shadow-sm ring-1 ring-border/50 transition-all duration-500 group-hover:shadow-2xl group-hover:ring-primary/30 group-hover:-translate-y-3 group-hover:scale-[1.02]" style={{ transformStyle: 'preserve-3d' }}>
+              <Card className="flex h-full flex-col overflow-hidden rounded-2xl bg-card shadow-sm ring-1 ring-border/50 transition-all duration-500 group-hover:shadow-2xl group-hover:ring-primary/30 group-hover:-translate-y-2">
                 {/* Image */}
                 {post.image && (
                   <div className="relative overflow-hidden">
@@ -82,11 +179,14 @@ export function Blog() {
                     {/* Overlay */}
                     <div className="absolute inset-0 bg-primary/0 transition-colors duration-300 group-hover:bg-primary/5" />
 
-                    {/* Reading time badge */}
-                    <div className="absolute top-4 right-4">
+                    {/* Category & Reading time badges */}
+                    <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
+                      <Badge variant="secondary" className="rounded-full bg-background/90 backdrop-blur-sm shadow-sm">
+                        {post.category}
+                      </Badge>
                       <div className="flex items-center gap-1.5 rounded-full bg-background/90 backdrop-blur-sm px-3 py-1 text-xs font-medium text-foreground shadow-sm">
                         <Clock className="h-3 w-3" />
-                        <span>5 min read</span>
+                        <span>{post.readingTime} min</span>
                       </div>
                     </div>
                   </div>
@@ -104,6 +204,15 @@ export function Blog() {
                     <p className="text-sm text-foreground/60 leading-relaxed line-clamp-3">
                       {post.excerpt}
                     </p>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-1.5 mt-4">
+                      {post.tags.slice(0, 3).map(tag => (
+                        <span key={tag} className="text-[10px] px-2 py-0.5 rounded bg-muted text-muted-foreground">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </CardContent>
 
                   <CardFooter className="flex-col items-start p-0 pt-6 mt-auto">
