@@ -536,7 +536,8 @@ function getProjectResponse(projectName: string): string {
   const project = projectsData[projectName as keyof typeof projectsData];
   if (!project) return '';
 
-  return `**${projectName}**\n\n${project.description}\n\n**Role**: ${project.role}\n**Tech Stack**: ${project.tech.join(', ')}\n\n**Key Features**:\n${project.features.map(f => `- ${f}`).join('\n')}\n\n**Status**: ${project.status}${project.link ? `\n**Link**: ${project.link}` : ''}\n\n${project.impact}`;
+  const projectWithLink = project as typeof project & { link?: string };
+  return `**${projectName}**\n\n${project.description}\n\n**Role**: ${project.role}\n**Tech Stack**: ${project.tech.join(', ')}\n\n**Key Features**:\n${project.features.map(f => `- ${f}`).join('\n')}\n\n**Status**: ${project.status}${projectWithLink.link ? `\n**Link**: ${projectWithLink.link}` : ''}\n\n${project.impact}`;
 }
 
 // Main response generator
@@ -567,6 +568,3 @@ export function generateResponse(message: string, context?: ConversationContext)
 
   return randomResponse;
 }
-
-// Export types
-export type { ConversationContext };

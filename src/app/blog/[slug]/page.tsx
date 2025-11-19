@@ -70,8 +70,15 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
   return (
     <div className="flex min-h-dvh flex-col bg-background">
-      {/* Reading progress bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 h-1 bg-muted">
+      {/* Reading progress bar - vertical on left side */}
+      <div className="fixed left-0 top-0 bottom-0 z-50 w-1 bg-muted hidden md:block">
+        <div
+          className="w-full bg-gradient-to-b from-primary to-primary/80 transition-all duration-150 ease-out"
+          style={{ height: `${readingProgress}%` }}
+        />
+      </div>
+      {/* Mobile: horizontal progress bar at top */}
+      <div className="fixed top-0 left-0 right-0 z-50 h-1 bg-muted md:hidden">
         <div
           className="h-full bg-gradient-to-r from-primary to-primary/80 transition-all duration-150 ease-out"
           style={{ width: `${readingProgress}%` }}
