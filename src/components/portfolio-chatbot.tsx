@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { MessageCircle, X, Send, Bot, User, Minimize2, Sparkles } from 'lucide-react';
+import { MessageCircle, X, Send, Bot, User, Minimize2, Sparkles, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { generateResponse } from '@/lib/portfolio-ai-knowledge';
 import { sendTranscriptAction } from '@/actions/send-transcript';
@@ -24,8 +24,11 @@ export function PortfolioChatbot() {
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [isSendingTranscript, setIsSendingTranscript] = useState(false);
+  const [transcriptSent, setTranscriptSent] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const sessionIdRef = useRef<string>(`chat-${Date.now()}`);
 
   // Initial greeting message
   const initialMessage: ChatMessage = {
@@ -56,10 +59,12 @@ export function PortfolioChatbot() {
     }
   }, [isOpen, isMinimized]);
 
-  // Send transcript when closing
+  // Send transcript when closing - prevent duplicates
   const handleClose = async () => {
-    if (hasInteracted && messages.length > 1) {
-      // Send transcript in background
+    // Only send if there was interaction and transcript hasn't been sent yet
+    if (hasInteracted && messages.length > 1 && !transcriptSent && !isSendingTranscript) {
+      setIsSendingTranscript(true);
+
       try {
         await sendTranscriptAction({
           messages: messages.map(msg => ({
@@ -67,10 +72,13 @@ export function PortfolioChatbot() {
             content: msg.content,
             timestamp: msg.timestamp.toISOString()
           })),
-          sessionId: `chat-${Date.now()}`
+          sessionId: sessionIdRef.current
         });
+        setTranscriptSent(true);
       } catch (error) {
         console.error('Failed to send transcript:', error);
+      } finally {
+        setIsSendingTranscript(false);
       }
     }
 
@@ -79,6 +87,9 @@ export function PortfolioChatbot() {
     // Reset for next session
     setMessages([]);
     setHasInteracted(false);
+    setTranscriptSent(false);
+    // Generate new session ID for next conversation
+    sessionIdRef.current = `chat-${Date.now()}`;
   };
 
   const handleSendMessage = async () => {
@@ -136,16 +147,22 @@ export function PortfolioChatbot() {
 
   if (!isOpen) {
     return (
-      <Button
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:scale-110 transition-all duration-300"
-        size="icon"
-      >
-        <MessageCircle className="h-6 w-6" />
-        <span className="sr-only">Open chat</span>
-        {/* Notification dot */}
-        <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-green-500 border-2 border-background animate-pulse" />
-      </Button>
+      <div className="fixed bottom-6 right-6 z-50">
+        {/* Pulse ring animation */}
+        <div className="absolute inset-0 rounded-full bg-primary/30 animate-ping" />
+        <Button
+          onClick={() => setIsOpen(true)}
+          className="relative h-14 w-14 rounded-full shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:scale-110 transition-all duration-300 bg-gradient-to-br from-primary to-primary/80"
+          size="icon"
+        >
+          <MessageCircle className="h-6 w-6" />
+          <span className="sr-only">Open chat</span>
+          {/* Notification dot */}
+          <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-green-500 border-2 border-background">
+            <span className="absolute inset-0 rounded-full bg-green-500 animate-ping" />
+          </span>
+        </Button>
+      </div>
     );
   }
 
@@ -179,26 +196,31 @@ export function PortfolioChatbot() {
   }
 
   return (
-    <Card className="fixed bottom-6 right-6 z-50 w-[380px] h-[550px] shadow-2xl rounded-2xl overflow-hidden flex flex-col border-0">
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 bg-primary text-primary-foreground">
-        <div className="flex items-center gap-3">
+    <Card className="fixed bottom-6 right-6 z-50 w-[400px] h-[600px] shadow-2xl rounded-3xl overflow-hidden flex flex-col border-0 ring-1 ring-border/50">
+      {/* Header with gradient */}
+      <div className="relative flex items-center justify-between p-4 bg-gradient-to-r from-primary via-primary to-primary/90 text-primary-foreground">
+        {/* Decorative glow */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-white/10 to-primary/0" />
+
+        <div className="relative flex items-center gap-3">
           <div className="relative">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-foreground/20">
-              <Bot className="h-5 w-5" />
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm shadow-inner">
+              <Zap className="h-5 w-5" />
             </div>
-            <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-green-500 border-2 border-primary" />
+            <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-green-400 border-2 border-primary shadow-lg shadow-green-400/50">
+              <span className="absolute inset-0 rounded-full bg-green-400 animate-pulse" />
+            </span>
           </div>
           <div>
-            <h3 className="font-semibold text-sm">AI Assistant</h3>
-            <p className="text-xs text-primary-foreground/70">Always here to help</p>
+            <h3 className="font-bold text-sm tracking-tight">Muhammad's AI</h3>
+            <p className="text-xs text-primary-foreground/80">Online - Ask me anything</p>
           </div>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="relative flex items-center gap-1">
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 text-primary-foreground hover:bg-primary-foreground/20"
+            className="h-8 w-8 text-primary-foreground hover:bg-white/20 rounded-lg transition-colors"
             onClick={() => setIsMinimized(true)}
           >
             <Minimize2 className="h-4 w-4" />
@@ -206,7 +228,7 @@ export function PortfolioChatbot() {
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 text-primary-foreground hover:bg-primary-foreground/20"
+            className="h-8 w-8 text-primary-foreground hover:bg-white/20 rounded-lg transition-colors"
             onClick={handleClose}
           >
             <X className="h-4 w-4" />
@@ -299,29 +321,30 @@ export function PortfolioChatbot() {
       </ScrollArea>
 
       {/* Input */}
-      <div className="p-4 border-t bg-background">
+      <div className="p-4 border-t bg-gradient-to-t from-muted/50 to-background">
         <div className="flex gap-2">
           <Input
             ref={inputRef}
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Type your message..."
-            className="flex-1 rounded-xl border-border/50 bg-muted/30 focus:bg-background"
+            placeholder="Ask me anything..."
+            className="flex-1 h-11 rounded-xl border-border/50 bg-background shadow-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
             disabled={isTyping}
           />
           <Button
             onClick={handleSendMessage}
             disabled={!inputValue.trim() || isTyping}
             size="icon"
-            className="rounded-xl shrink-0"
+            className="h-11 w-11 rounded-xl shrink-0 shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-all"
           >
             <Send className="h-4 w-4" />
           </Button>
         </div>
-        <p className="mt-2 text-[10px] text-center text-muted-foreground">
-          Powered by Muhammad's AI Assistant
-        </p>
+        <div className="mt-3 flex items-center justify-center gap-1.5 text-[10px] text-muted-foreground">
+          <Sparkles className="h-3 w-3 text-primary" />
+          <span>Powered by Muhammad's Custom AI</span>
+        </div>
       </div>
     </Card>
   );

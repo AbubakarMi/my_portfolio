@@ -208,9 +208,75 @@ export const responsePatterns: Record<string, string[]> = {
 
   // Feelings/How are you
   feelings: [
-    "I'm doing great, thanks for asking! I'm always energized when I get to talk about Muhammad's amazing work. What would you like to know about his projects or skills?",
+    "I'm doing great, thanks for asking! I'm always energized when I get to talk about Muhammad's work. What would you like to know about his projects or skills?",
     "Fantastic! Ready to help you explore Muhammad's portfolio. What catches your interest - his AI work, full-stack projects, or maybe his startup Nyra?",
     "I'm excellent! Excited to share Muhammad's journey with you. Are you interested in his technical skills, projects, or perhaps looking to collaborate?"
+  ],
+
+  // Boss/Creator questions
+  creator: [
+    "Yes, Muhammad Idris Abubakar is my creator! He built me to help visitors learn about his work and connect with him. He's a talented Software & AI Evaluation Engineer with 4+ years of experience. Is there something specific you'd like to know about him?",
+    "Indeed! Muhammad created me to assist visitors like yourself. He's passionate about AI and building helpful tools. Would you like to know more about his background or projects?"
+  ],
+
+  // Who are you
+  identity: [
+    "I'm an AI assistant created by Muhammad Idris Abubakar to help visitors explore his portfolio. I can answer questions about his projects, skills, experience, and help you get in touch with him. How can I assist you today?",
+    "I'm Muhammad's portfolio AI assistant! I'm here to provide information about his work, skills, and projects. Feel free to ask me anything about his professional journey."
+  ],
+
+  // What can you do
+  capabilities: [
+    "I can help you with:\n\n- **Projects**: Details about Muhammad's 10+ major projects\n- **Skills**: His technical expertise and tools\n- **Experience**: Work history and achievements\n- **Contact**: How to reach him\n- **Availability**: Hiring and collaboration\n\nJust ask me anything!",
+    "I'm here to tell you about Muhammad's work! I can share details about his projects, technical skills, career experience, startup Nyra, or help you connect with him. What interests you?"
+  ],
+
+  // Why should I hire him
+  whyHire: [
+    "Great question! Here's why Muhammad stands out:\n\n**Technical Excellence**: 4+ years building scalable SaaS applications\n**Full-Stack Expertise**: From .NET and Node.js backends to React frontends\n**AI Specialist**: Experienced in LLM evaluation and NLP\n**Proven Track Record**: 10+ successful projects delivered\n**Entrepreneurial**: Founded Nyra, showing initiative and vision\n**Problem Solver**: Turns complex challenges into elegant solutions\n\nWould you like to discuss a specific project or skill?",
+    "Muhammad brings a unique combination of skills:\n\n- Deep technical knowledge across the full stack\n- Real-world AI/ML experience\n- Entrepreneurial mindset (founder of Nyra)\n- Strong communication and documentation skills\n- Passion for clean, maintainable code\n\nHe's delivered 10+ major projects and consistently improves system efficiency. Interested in specific examples?"
+  ],
+
+  // Education
+  education: [
+    "Muhammad has a strong educational foundation combined with extensive hands-on experience. He's continuously learning and staying updated with the latest technologies, especially in AI and full-stack development. His practical skills have been honed through 4+ years of professional work and building real-world applications.",
+    "While his formal education provided a solid base, Muhammad's true expertise comes from hands-on experience building 10+ major projects and working with companies like Hubuk Technology. He's also self-taught in many cutting-edge technologies."
+  ],
+
+  // Location/Remote
+  location: [
+    "Muhammad is based in Kano State, Nigeria. He's experienced in remote collaboration and has worked with teams across different time zones. He's open to both remote and on-site opportunities depending on the project.",
+    "He's located in Nigeria but is comfortable working remotely with international teams. Modern tools make collaboration seamless regardless of location!"
+  ],
+
+  // Pricing/Rates
+  pricing: [
+    "For pricing and rates, it's best to discuss directly with Muhammad as it depends on the project scope, complexity, and timeline. You can reach him at abubakarmi131@gmail.com to discuss your specific needs and get a tailored quote.",
+    "Project costs vary based on requirements. Muhammad offers competitive rates and focuses on delivering value. Contact him at abubakarmi131@gmail.com to discuss your project and get a personalized estimate."
+  ],
+
+  // Timeline/Availability
+  timeline: [
+    "Muhammad is currently available for new projects! Timeline depends on scope and complexity. He typically responds within 24-48 hours and can discuss deadlines during initial conversations. Reach out at abubakarmi131@gmail.com to discuss your timeline.",
+    "He can start new projects soon! For specific timelines, it's best to discuss your requirements directly. Contact him to get accurate estimates for your project."
+  ],
+
+  // Languages spoken
+  languages: [
+    "Muhammad is fluent in English and communicates effectively in both written and verbal forms. His documentation and code comments are clear and well-structured.",
+    "He communicates primarily in English and is excellent at technical writing and documentation."
+  ],
+
+  // Hobbies/Personal
+  personal: [
+    "Muhammad is passionate about technology and building products that solve real problems. When not coding, he's likely learning about new AI developments or working on his startup Nyra. His drive to create impactful software is evident in all his projects.",
+    "He's deeply passionate about technology, AI, and entrepreneurship. His personal projects and startup Nyra reflect his commitment to building meaningful software solutions."
+  ],
+
+  // Strengths
+  strengths: [
+    "Muhammad's key strengths include:\n\n**Technical**: Full-stack development, AI/ML, clean architecture\n**Soft Skills**: Problem-solving, communication, attention to detail\n**Professional**: Reliable, deadline-driven, quality-focused\n**Leadership**: Entrepreneurial, self-motivated, team player\n\nThese qualities help him deliver exceptional results consistently.",
+    "His core strengths are technical excellence, strong problem-solving abilities, clear communication, and a commitment to quality. He combines deep technical knowledge with practical business understanding."
   ],
 
   // About Muhammad
@@ -295,8 +361,63 @@ export function detectIntent(message: string): string {
     return 'feelings';
   }
 
+  // Boss/Creator questions
+  if (/boss|creator|made\s*you|built\s*you|created\s*you|your\s*(owner|master|developer)|who\s*made/.test(lowerMessage)) {
+    return 'creator';
+  }
+
+  // Who are you / Identity
+  if (/who\s*(are|r)\s*you|what\s*(are|r)\s*you|your\s*name|introduce\s*yourself/.test(lowerMessage)) {
+    return 'identity';
+  }
+
+  // What can you do / Capabilities
+  if (/what\s*can\s*you\s*do|your\s*capabilit|help\s*me\s*with|what\s*do\s*you\s*know/.test(lowerMessage)) {
+    return 'capabilities';
+  }
+
+  // Why hire / Convince me
+  if (/why\s*(should|would)\s*i\s*hire|convince\s*me|what\s*makes\s*him\s*special|why\s*him|stand\s*out/.test(lowerMessage)) {
+    return 'whyHire';
+  }
+
+  // Education
+  if (/education|degree|university|college|school|study|studied|qualification|certified/.test(lowerMessage)) {
+    return 'education';
+  }
+
+  // Location/Remote
+  if (/where\s*(is|does)\s*he\s*(live|located|based)|location|remote|on-?site|timezone|country/.test(lowerMessage)) {
+    return 'location';
+  }
+
+  // Pricing/Rates
+  if (/price|pricing|rate|cost|charge|fee|budget|how\s*much|expensive|affordable/.test(lowerMessage)) {
+    return 'pricing';
+  }
+
+  // Timeline
+  if (/timeline|deadline|when\s*can|how\s*long|turnaround|start\s*date|delivery/.test(lowerMessage)) {
+    return 'timeline';
+  }
+
+  // Languages spoken
+  if (/language\s*speak|speak\s*english|communication|fluent/.test(lowerMessage)) {
+    return 'languages';
+  }
+
+  // Personal/Hobbies
+  if (/hobby|hobbies|personal|free\s*time|outside\s*work|interest|passion/.test(lowerMessage)) {
+    return 'personal';
+  }
+
+  // Strengths
+  if (/strength|strong\s*point|good\s*at|excel|best\s*quality/.test(lowerMessage)) {
+    return 'strengths';
+  }
+
   // About Muhammad
-  if (/about\s*(him|muhammad|idris)|who\s*(is|are)\s*(he|you|muhammad)|tell\s*me\s*about\s*(him|yourself|muhammad)|introduce/.test(lowerMessage)) {
+  if (/about\s*(him|muhammad|idris)|who\s*is\s*(he|muhammad)|tell\s*me\s*about\s*(him|muhammad)|background/.test(lowerMessage)) {
     return 'about';
   }
 
@@ -306,7 +427,7 @@ export function detectIntent(message: string): string {
   }
 
   // Contact
-  if (/contact|reach|email|phone|call|connect|get\s*in\s*touch|hire|message\s*him/.test(lowerMessage)) {
+  if (/contact|reach|email|phone|call|connect|get\s*in\s*touch|message\s*him/.test(lowerMessage)) {
     return 'contact';
   }
 
@@ -321,7 +442,7 @@ export function detectIntent(message: string): string {
   }
 
   // Experience/Work history
-  if (/experience|work\s*history|career|job|employ|where\s*(has|did)\s*he\s*work|background|previous|role/.test(lowerMessage)) {
+  if (/experience|work\s*history|career|job|employ|where\s*(has|did)\s*he\s*work|previous|role/.test(lowerMessage)) {
     return 'experience';
   }
 
@@ -336,7 +457,7 @@ export function detectIntent(message: string): string {
   }
 
   // AI/ML work
-  if (/ai|ml|machine\s*learning|llm|nlp|evaluation|artificial\s*intelligence|deep\s*learning|model/.test(lowerMessage)) {
+  if (/\bai\b|ml|machine\s*learning|llm|nlp|evaluation|artificial\s*intelligence|deep\s*learning|model/.test(lowerMessage)) {
     return 'aiWork';
   }
 
