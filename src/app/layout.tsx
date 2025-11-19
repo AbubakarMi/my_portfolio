@@ -5,6 +5,7 @@ import './globals.css';
 import { AnalyticsProvider } from '@/components/analytics-provider';
 import { GeistSans, GeistMono } from 'geist/font';
 import { ScrollProgress } from '@/components/scroll-progress';
+import { CursorFollower } from '@/components/cursor-follower';
 
 export const metadata: Metadata = {
   title: {
@@ -22,8 +23,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn(GeistSans.variable, GeistMono.variable, 'scroll-smooth')}>
-      <body className={cn('font-body bg-background text-foreground antialiased')}>
+      <body className={cn('font-body bg-background text-foreground antialiased cursor-none md:cursor-none')}>
         {/* <AnalyticsProvider /> */}
+        <CursorFollower />
         <ScrollProgress />
         {children}
         <Toaster />

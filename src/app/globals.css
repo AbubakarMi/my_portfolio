@@ -143,4 +143,35 @@
     mask-composite: exclude;
     pointer-events: none;
   }
+
+  /* Custom cursor classes */
+  @media (min-width: 768px) {
+    .cursor-none,
+    .cursor-none * {
+      cursor: none !important;
+    }
+  }
+
+  /* Smooth section transitions */
+  section {
+    scroll-margin-top: 80px;
+  }
+
+  /* Enhanced link underlines */
+  .link-underline {
+    position: relative;
+  }
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: hsl(var(--primary));
+    transition: width 0.3s ease;
+  }
+  .link-underline:hover::after {
+    width: 100%;
+  }
 }
