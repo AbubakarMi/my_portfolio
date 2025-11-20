@@ -346,7 +346,7 @@ export const responsePatterns: Record<string, string[]> = {
 
   // Technologies
   techStack: [
-    "Muhammad's core tech stack includes:\n\n**Primary Languages**: TypeScript, C#, Python, Java\n**Backend**: .NET 8, Node.js, Express\n**Frontend**: React, Next.js, Tailwind CSS\n**Databases**: PostgreSQL, Firebase\n**AI/ML**: LLM evaluation, NLP, Google AI\n**DevOps**: Docker, Git, CI/CD\n\nHe's comfortable working across the full stack and specializes in building scalable, maintainable systems."
+    "Muhammad's core tech stack includes:\n\n**Primary Languages**: TypeScript, C#, Python, Java, Swift, Kotlin\n**Backend**: .NET 8, Node.js, Express\n**Frontend**: React, Next.js, Tailwind CSS\n**Mobile**: React Native, Swift (iOS), Kotlin (Android)\n**Databases**: PostgreSQL, Firebase\n**AI/ML**: LLM evaluation, NLP, Google AI\n**DevOps**: Docker, Git, CI/CD\n\nHe's comfortable working across the full stack and mobile platforms, specializing in building scalable, maintainable systems."
   ],
 
   // AI/ML work
@@ -383,8 +383,8 @@ export const responsePatterns: Record<string, string[]> = {
 
   // Mobile app development
   mobileApp: [
-    "Great question! While Muhammad specializes in full-stack web development with React and Next.js, he has experience building responsive applications that work seamlessly on mobile devices. For native mobile apps, he can work with React Native or recommend trusted partners. Use the **Contact Form** to discuss your mobile project!",
-    "Muhammad builds modern, mobile-responsive web applications. For cross-platform mobile apps, he has experience with React Native. Share your mobile app requirements through the **Contact Form** and he'll advise on the best approach!"
+    "Yes! Muhammad builds native mobile applications for both iOS and Android. His mobile development stack includes:\n\n**React Native**: Cross-platform apps (iOS & Android)\n**Native Development**: Swift/Kotlin when needed\n**Responsive Web**: Progressive Web Apps (PWAs)\n\nHe can handle your mobile project from design to deployment on the App Store and Google Play. Use the **Contact Form** to discuss your mobile app idea!",
+    "Absolutely! Muhammad has experience with native iOS and Android development. Whether you need a cross-platform app with React Native or native development with Swift/Kotlin, he's got you covered. Share your mobile app requirements through the **Contact Form**!"
   ],
 
   // Cloud & DevOps
@@ -463,6 +463,97 @@ export const responsePatterns: Record<string, string[]> = {
   favorites: [
     "Muhammad enjoys working with modern, scalable technologies. His favorites include:\n\n**Languages**: TypeScript (type safety & developer experience)\n**Backend**: .NET 8 (performance & enterprise-ready)\n**Frontend**: React/Next.js (great ecosystem)\n**Database**: PostgreSQL (powerful & reliable)\n\nHe loves learning new tech and solving complex problems!",
     "He's passionate about .NET, TypeScript, and React! Muhammad enjoys building scalable systems with clean architecture. He's always excited to learn new technologies that solve real problems."
+  ],
+
+  // Blog and writing
+  blog: [
+    "Yes! Muhammad writes about his journey and technical insights. His latest posts include:\n\n**'Why I Started Nyra'** - His entrepreneurship journey and vision for building global productivity software from Nigeria\n**'Building Modular SaaS Architectures'** - Technical deep-dive into .NET & PostgreSQL\n**'Designing Systems That Scale with People'** - Human-centric system design principles\n\nYou can read them in the Blog section on this site!",
+    "Muhammad shares his experiences through blog posts covering entrepreneurship, software architecture, and system design. Check out the Blog section to read his latest thoughts!"
+  ],
+
+  // Company size preferences
+  companySize: [
+    "Muhammad works with clients of all sizes:\n\n**Startups**: MVPs, early-stage products\n**SMBs**: Custom software, process automation\n**Enterprises**: Scalable systems, integrations\n**Individuals**: Freelance projects, consulting\n\nHe adapts his approach based on your company's needs and stage!",
+    "From solo entrepreneurs to established companies, Muhammad has experience across the board. He's flexible and tailors his services to fit your organization's size and needs."
+  ],
+
+  // Portfolio website questions
+  portfolioTech: [
+    "Great question! This portfolio was built with:\n\n**Framework**: Next.js 15 (React 18)\n**Styling**: Tailwind CSS + shadcn/ui\n**Animations**: Framer Motion\n**AI Chatbot**: Custom knowledge base (that's me!)\n**Email**: Resend API for transcripts\n**Hosting**: Vercel\n\nIt showcases Muhammad's modern frontend skills and attention to design!",
+    "This site is built with Next.js 15, TypeScript, and Tailwind CSS. The AI chatbot you're talking to right now was custom-built by Muhammad - no external AI APIs! Pretty cool, right?"
+  ],
+
+  // Future plans and career goals
+  futurePlans: [
+    "Muhammad has ambitious goals:\n\n**Short-term**: Launch Nyra globally and grow its user base\n**Medium-term**: Become a recognized name in AI and SaaS development\n**Long-term**: Build a globally recognized tech company from Nigeria, proving that world-class innovation can come from anywhere\n\nHe's driven by the mission to show what young Nigerian developers can achieve!",
+    "His big dream? To become the youngest Nigerian founder to build a globally recognized startup. Muhammad is focused on growing Nyra, mastering AI/ML, and creating technology that impacts millions worldwide."
+  ],
+
+  // Learning and resources
+  learning: [
+    "Muhammad is always learning! Currently exploring:\n\n**AI/ML**: Advanced LLM evaluation techniques\n**Cloud**: AWS and Azure architecture\n**System Design**: Distributed systems, microservices\n**Leadership**: Building and scaling tech teams\n\nHe believes continuous learning is essential for staying relevant in tech!",
+    "He's currently deep-diving into AI evaluation, cloud architecture, and system design patterns. Muhammad is passionate about staying current with emerging technologies while mastering fundamentals."
+  ],
+
+  // Open source and GitHub
+  openSource: [
+    "Muhammad contributes to open source and maintains personal projects on GitHub! You can explore his repositories at:\n\n**GitHub**: https://github.com/AbubakarMi\n\nHe believes in giving back to the developer community and learning through collaboration.",
+    "Check out his GitHub for open-source contributions and personal projects: https://github.com/AbubakarMi. Muhammad values the open-source community and contributes when he can!"
+  ],
+
+  // Comparisons with other developers
+  comparisons: [
+    "Every developer brings unique strengths! What makes Muhammad stand out:\n\n✅ Strong foundation in both .NET and modern JS ecosystem\n✅ Real-world startup experience (building Nyra)\n✅ AI evaluation expertise alongside development skills\n✅ Focus on clean architecture and long-term maintainability\n✅ Based in Nigeria, competitive rates, global mindset\n\nUltimately, the best fit depends on your specific needs. Want to discuss your project?",
+    "Muhammad combines technical depth with entrepreneurial experience. He's not just a developer - he's a founder who understands the business side. His unique blend of .NET, React, and AI skills makes him versatile for complex projects."
+  ],
+
+  // Time zone and availability
+  timeZone: [
+    "Muhammad is based in West Africa Time (WAT, UTC+1). He's flexible with meeting times and has experience working with:\n\n- **US teams**: Morning meetings WAT = evening US time\n- **European teams**: Overlap during business hours\n- **Asian teams**: Evening WAT = morning Asia time\n\nHe's professional and adapts to your team's schedule!",
+    "He's in Nigeria (WAT, UTC+1) but very flexible with scheduling. Muhammad has worked with international teams and can accommodate different time zones for meetings and collaboration."
+  ],
+
+  // Project size preferences
+  projectSize: [
+    "Muhammad handles projects of various sizes:\n\n**Small** (1-4 weeks): Landing pages, small tools, MVPs\n**Medium** (1-3 months): Full applications, SaaS platforms\n**Large** (3+ months): Enterprise systems, complex integrations\n\nFor very large projects, he can collaborate with a trusted network of developers. Use the **Contact Form** to discuss your project scope!",
+    "From quick 2-week MVPs to multi-month enterprise systems, Muhammad is flexible. He's most passionate about medium to large projects where he can architect scalable solutions. What's your timeline?"
+  ],
+
+  // Technical challenges and stories
+  challenges: [
+    "Muhammad has tackled interesting technical challenges:\n\n**Multi-tenancy**: Built isolated data systems for SaaS apps\n**AI Integration**: Implemented LLM-powered features in production\n**Performance**: Optimized slow queries, improved load times\n**Architecture**: Migrated monoliths to modular systems\n**Real-time**: Built live collaboration features\n\nHe loves solving complex problems! Have a specific challenge in mind?",
+    "From building multi-tenant architectures to integrating AI models, Muhammad thrives on technical challenges. He's solved performance bottlenecks, designed scalable databases, and architected complex systems. What problem are you trying to solve?"
+  ],
+
+  // Vague/unclear questions
+  clarification: [
+    "I'd love to help, but I need a bit more detail! Are you asking about:\n\n- Muhammad's **technical skills** or projects?\n- **Hiring** him for a project?\n- His **availability** or rates?\n- Something **specific** about his work?\n\nFeel free to be more specific, and I'll give you a great answer!",
+    "Could you clarify what you'd like to know? I can tell you about:\n\n✓ His projects and experience\n✓ Technical skills and expertise\n✓ How to work with him\n✓ His startup (Nyra)\n✓ Anything else specific!\n\nWhat interests you most?"
+  ],
+
+  // Jokes and fun interactions
+  joke: [
+    "Haha! Here's a dev joke for you:\n\nWhy do programmers prefer dark mode?\n\nBecause light attracts bugs! 🐛\n\nMuhammad definitely codes in dark mode. Want to know more about his actual work? 😄",
+    "You want tech humor? Alright:\n\nMuhammad's code is so clean, Marie Kondo would be proud! ✨\n\nSeriously though, he does write really maintainable code. Want to see his projects?",
+    "Fun fact: Muhammad once debugged a issue for 3 hours... the problem? A missing semicolon. Classic developer moment! 😅\n\nBut in all seriousness, his attention to detail is what makes his code reliable. What would you like to know about his work?"
+  ],
+
+  // Portfolio design compliments
+  portfolioCompliment: [
+    "Thank you! Muhammad put a lot of thought into this design. He wanted a portfolio that's:\n\n✨ **Modern** - Clean, professional aesthetic\n✨ **Interactive** - Smooth animations, great UX\n✨ **Functional** - AI assistant (that's me!), blog, contact form\n✨ **Fast** - Optimized performance with Next.js\n\nHe believes a portfolio should showcase skills, not just list them. Glad you like it!",
+    "Appreciate that! Muhammad designed this to demonstrate his frontend skills and attention to user experience. Every detail - from the animations to this AI chat - was built by him. Want to know how it was made?"
+  ],
+
+  // Weaknesses or areas improving
+  weaknesses: [
+    "Great question - Muhammad believes in honest self-awareness. Areas he's actively improving:\n\n📚 **Cloud/DevOps**: Expanding AWS and Azure expertise\n📚 **System Design**: Studying distributed systems at scale\n📚 **DevOps/Infrastructure**: Learning Kubernetes and advanced CI/CD\n\nHe's always learning and transparent about his current skill level. What matters most for your project?",
+    "Muhammad is honest about his growth areas. While strong in web development, mobile apps, and .NET/React, he's actively expanding his cloud infrastructure and distributed systems knowledge. He believes in continuous learning and being upfront about capabilities."
+  ],
+
+  // What NOT to hire for
+  notGoodFor: [
+    "To be transparent, Muhammad may not be the best fit for:\n\n❌ **Graphic design** - He works with designers for UI/UX\n❌ **Deep Data Science** - AI evaluation yes, ML research no\n❌ **Hardware/Embedded systems** - Pure software focus\n❌ **Game development** - Not his specialty\n\nHe's honest about his strengths and will recommend specialists when needed. What type of project do you have?",
+    "Muhammad believes in transparency. If your project requires deep data science/ML research, hardware engineering, or graphic design, he can collaborate with specialists. His core strengths are full-stack web development, native mobile apps, and AI integration."
   ]
 };
 
@@ -571,6 +662,83 @@ export function detectIntent(message: string): string {
   // Favorite technologies
   if (/favorite|prefer|like\s*to\s*use|enjoy\s*work|best\s*tech|love.*tech/.test(lowerMessage)) {
     return 'favorites';
+  }
+
+  // Blog and writing
+  if (/blog|article|write|writing|post|read.*post|latest.*post/.test(lowerMessage)) {
+    return 'blog';
+  }
+
+  // Company size questions
+  if (/company\s*size|startup\s*or\s*enterprise|small\s*business|work\s*with.*company|enterprise\s*client/.test(lowerMessage)) {
+    return 'companySize';
+  }
+
+  // Portfolio website questions
+  if (/this\s*(site|website|portfolio)|how.*built\s*this|built.*this\s*(site|portfolio)|tech\s*stack.*portfolio|portfolio.*tech/.test(lowerMessage)) {
+    return 'portfolioTech';
+  }
+
+  // Future plans and goals
+  if (/future\s*plan|career\s*goal|5\s*year|where.*see\s*yourself|long[-\s]term|vision|ambition/.test(lowerMessage)) {
+    return 'futurePlans';
+  }
+
+  // Learning and education
+  if (/learning|currently\s*learning|study|course|resource|recommend.*learn|what.*learning/.test(lowerMessage)) {
+    return 'learning';
+  }
+
+  // Open source and GitHub
+  if (/open\s*source|github|contribute|contribution|personal\s*project|side\s*project/.test(lowerMessage)) {
+    return 'openSource';
+  }
+
+  // Comparisons with others
+  if (/compare|better\s*than|vs\s*other|why\s*hire\s*you|what\s*makes.*different|stand\s*out/.test(lowerMessage)) {
+    return 'comparisons';
+  }
+
+  // Time zone questions
+  if (/time\s*zone|timezone|wat|utc|meeting\s*time|schedule\s*call|when\s*can\s*we\s*meet/.test(lowerMessage)) {
+    return 'timeZone';
+  }
+
+  // Project size
+  if (/project\s*size|minimum\s*project|small\s*project|large\s*project|how\s*big|scope/.test(lowerMessage)) {
+    return 'projectSize';
+  }
+
+  // Technical challenges
+  if (/challenge|difficult\s*problem|complex\s*problem|tough\s*bug|hardest\s*thing|struggle/.test(lowerMessage)) {
+    return 'challenges';
+  }
+
+  // Vague or unclear questions - catch-all for short/unclear input
+  if (lowerMessage.length < 15 && !/^(hi|hello|hey|thanks|ok|yes|no|sure)/.test(lowerMessage) &&
+      !lowerMessage.includes('?') && lowerMessage.split(' ').length <= 3) {
+    return 'clarification';
+  }
+
+  // Jokes and fun
+  if (/joke|funny|humor|laugh|entertain|fun\s*fact|tell\s*me\s*something\s*fun/.test(lowerMessage)) {
+    return 'joke';
+  }
+
+  // Portfolio compliments
+  if (/(nice|great|beautiful|amazing|awesome|cool|impressive|love).*\s*(site|website|portfolio|design)/.test(lowerMessage) ||
+      /(site|website|portfolio|design).*\s*(nice|great|beautiful|amazing|awesome|cool|impressive)/.test(lowerMessage)) {
+    return 'portfolioCompliment';
+  }
+
+  // Weaknesses or improvement areas
+  if (/weakness|weak\s*point|not\s*good\s*at|struggle\s*with|improving|working\s*on/.test(lowerMessage)) {
+    return 'weaknesses';
+  }
+
+  // What NOT to hire for
+  if (/not\s*good\s*for|shouldn't\s*hire|when\s*not\s*to|bad\s*at|can't\s*do|don't\s*do/.test(lowerMessage)) {
+    return 'notGoodFor';
   }
 
   // Feelings/How are you
