@@ -632,6 +632,60 @@ export const responsePatterns: Record<string, string[]> = {
   inspiration: [
     "What drives Muhammad?\n\n**Core motivation**: To bring solutions to the world and leave a lasting legacy\n**Mission**: Build products that outlive him and make real impact\n**Vision**: Prove that young Nigerian developers can create world-class technology\n**Daily dedication**: 8-10 hours of coding every day for 4 years straight\n\nHis passion isn't just about building software - it's about changing lives through technology and showing what's possible when you combine talent, dedication, and purpose!",
     "Muhammad codes 8-10 hours daily because he's driven by a mission: to create solutions the world will use and leave a legacy. At 22, he's already working toward building products that outlive him. That's the kind of passion he brings to every project!"
+  ],
+
+  // Current availability & focus
+  currentFocus: [
+    "Muhammad is currently focused on two major projects:\n\n**ShopLynk**: Priority project (details available upon request)\n**Nyra Connect**: His AI-powered productivity platform\n\n**Availability**: 30+ hours per week for new projects\n**Start time**: Can begin immediately once we reach an agreement\n**Current load**: Working on multiple projects but has capacity for the right opportunity\n\nHe's selective about new work to ensure quality delivery. Use the **Contact Form** to discuss your project!",
+    "Right now, Muhammad is working on ShopLynk and Nyra Connect as priorities. He has 30+ hours/week available for new projects and can start immediately after we agree on terms. Despite his current workload, he makes time for meaningful projects!"
+  ],
+
+  // Competitive advantages
+  competitiveAdvantage: [
+    "Why choose Muhammad over agencies or other freelancers?\n\n**vs Agencies**:\n- Direct communication (no middlemen)\n- Lower cost, same quality\n- Personal accountability\n- Faster decision-making\n\n**vs Other Freelancers**:\n- Startup founder mindset (business + tech)\n- 30+ projects of real experience\n- Available 30+ hours/week\n- Fast learner and executor\n\n**Unique value**: You get a developer who thinks like a founder, moves fast, and delivers quality work at competitive rates!",
+    "Muhammad's competitive edge: founder experience (building Nyra), 30+ projects under his belt, immediate availability, and the rare combination of technical depth + business thinking. You get agency-quality work with freelancer responsiveness and cost-efficiency!"
+  ],
+
+  // Onboarding process
+  onboarding: [
+    "Muhammad's project onboarding process:\n\n**1. Discovery Phase** (Week 1):\n- Understand your goals and requirements\n- Review existing systems/codebase (if any)\n- Ask clarifying questions\n\n**2. Planning** (Week 1-2):\n- Technical architecture proposal\n- Timeline and milestones\n- Tech stack recommendation\n\n**3. Kickoff**:\n- Access to tools (GitHub, Slack, etc.)\n- Regular check-ins scheduled\n- Development begins\n\n**What he needs from you**: Clear requirements, access credentials, stakeholder availability for questions\n\nUse the **Contact Form** to start the process!",
+    "Onboarding is smooth and structured: Discovery phase to understand your needs, planning phase for architecture and timeline, then kickoff with regular updates. Muhammad needs clear requirements, relevant access, and availability for questions. Timeline: 1-2 weeks from first contact to active development!"
+  ],
+
+  // Communication style details
+  communicationStyle: [
+    "Muhammad's communication approach:\n\n**Response Time**: 24-48 hours (often faster)\n**Meeting Frequency**: Weekly check-ins (adjustable based on project needs)\n**Urgent Issues**: Responds within hours for critical bugs or blockers\n**Updates**: Regular async updates via Slack/email + scheduled sync meetings\n**Reporting**: Weekly progress reports with screenshots, demos, or deployed links\n\nHe believes in over-communication rather than under-communication. You'll always know where the project stands!",
+    "Expect responses within 24-48 hours, weekly check-ins, and immediate attention to urgent issues. Muhammad provides regular updates (async + sync) and weekly progress reports. Communication is transparent, proactive, and adapts to your preferences!"
+  ],
+
+  // Failures & lessons
+  failuresLessons: [
+    "Muhammad believes in learning from setbacks. One example:\n\n**InvoTrek Challenge**: The product was built well technically, but struggled initially with visibility.\n\n**Key Lesson Learned**: \"In a world full of noise, obscurity is death. If no one sees you, no one knows you. And if no one knows you, no one will ever reward you. The marketplace doesn't reward the most talented — it rewards the most visible. The most visible product wins over the most talented.\"\n\n**How he improved**: Stopped hiding, started executing and shipping every idea to market, focused on visibility alongside quality\n\nThis taught him that execution + marketing matter as much as great code!",
+    "Muhammad's biggest lesson: Building great products isn't enough — you need visibility. After InvoTrek, he learned the marketplace rewards visibility over talent alone. Now he balances building quality software with strategic marketing and execution. He doesn't hide his work anymore!"
+  ],
+
+  // Self-reflection
+  selfReflection: [
+    "Muhammad's honest self-assessment:\n\n**Strengths**:\n✅ Highly intelligent and fast learner\n✅ Ambitious with a founder mindset\n✅ Thinks like developer + business owner\n✅ Curious, resilient, and independent\n✅ Quality-focused and future-oriented\n✅ Takes responsibility seriously\n\n**Weaknesses** (he's working on):\n⚠️ Sometimes takes on too many projects\n⚠️ Can rush instead of deep planning\n⚠️ Impatient when results don't come quickly\n⚠️ Occasionally doubts his own progress\n\nHe knows his weaknesses and actively works on them. The self-awareness makes him a better developer and partner!",
+    "Muhammad is self-aware: He's highly intelligent, ambitious, and a fast learner, but sometimes spreads himself thin across too many projects. He's working on focusing energy, planning deeply, and being patient. His strengths far outweigh his weaknesses, and he's committed to growth!"
+  ],
+
+  // Hobbies & interests
+  hobbies: [
+    "Outside of coding, Muhammad has diverse interests:\n\n**Politics**: Passionate about political discourse and governance\n**Technology News**: Stays updated on tech trends and innovations\n**Reading**: Enjoys books on business, technology, and leadership\n**Networking**: Connecting with other founders and developers\n**Strategy Games**: Occasionally plays games that challenge thinking\n\nThese interests make him well-rounded — he understands business, psychology, and systems thinking beyond just code!",
+    "Muhammad loves politics and follows tech trends closely. He reads about business and leadership, networks with other founders, and enjoys strategic thinking. These interests shape how he approaches software — not just as code, but as systems that impact people and society!"
+  ],
+
+  // Tech philosophy
+  techPhilosophy: [
+    "Muhammad's technology philosophy:\n\n**Choosing Tech**: Pick tools based on project needs, not hype. Boring tech that works > shiny tech that's trendy\n**Build vs Buy**: Buy when it saves time and the solution exists. Build when you need customization or want full control\n**Technical Debt**: Some debt is OK for speed, but pay it down before it compounds. Always leave code better than you found it\n**Innovation vs Stability**: Innovation for differentiation, stability for core systems. Balance both based on project stage\n\nHe's pragmatic, not dogmatic. The right tool for the right job!",
+    "Muhammad's philosophy: Choose proven tech over hype, buy when possible to save time, manage technical debt proactively, and balance innovation with stability. He's pragmatic — picks what works for the specific problem, not what's trendy!"
+  ],
+
+  // Nyra detailed vision
+  nyraVision: [
+    "Muhammad's vision for **Nyra** is ambitious:\n\n**Mission**: Build world-class productivity software from Nigeria that competes globally\n\n**Planned Features**:\n- AI-powered journals with smart insights\n- Focus sessions with productivity analytics\n- Meeting transcription and translation (live, multi-language)\n- Nyra Chat (unified communication hub)\n- Cross-platform sync (web, mobile, desktop)\n\n**Target Market**: Professionals, remote teams, and global businesses that need communication without language barriers\n\n**Competitive Edge**: Live translation + transcription + productivity in one platform. Built for Africa, designed for the world\n\n**Why it will succeed**: Solves real pain (language barriers, meeting inefficiency) with a founder who lives and breathes the product\n\nMuhammad wants Nyra to prove that Nigerian founders can build globally recognized tech!",
+    "Nyra is Muhammad's flagship startup: AI-powered productivity with live translation, meeting transcription, journaling, and a unified chat platform (Nyra Chat). Target market: global teams needing seamless cross-language communication. It's built for Africa to compete worldwide — addressing real pain points with world-class execution!"
   ]
 };
 
@@ -643,6 +697,51 @@ export function detectIntent(message: string): string {
   if (/^(how\s*far|wetin\s*dey|e\s*dey|na\s*you|abeg|omo|bros?|my\s*guy|e\s*go\s*be|wahala|no\s*wahala|shey)/.test(lowerMessage) ||
       /^(wetin|na\s*wa|make\s*i|oya|jare|o\s*boy|chairmo)/.test(lowerMessage)) {
     return 'nigerianGreeting';
+  }
+
+  // Current availability/focus
+  if (/currently\s*working|current\s*project|what.*working\s*on|availability|available\s*hour|when.*start|what.*focus/.test(lowerMessage)) {
+    return 'currentFocus';
+  }
+
+  // Competitive advantage
+  if (/why\s*hire|why\s*choose|vs\s*agenc|versus\s*agency|better\s*than\s*agency|freelancer\s*vs|unique\s*value|why\s*you/.test(lowerMessage)) {
+    return 'competitiveAdvantage';
+  }
+
+  // Onboarding process
+  if (/onboard|kickoff|kick\s*off|getting\s*started|how.*start\s*project|discovery\s*phase|first\s*step/.test(lowerMessage)) {
+    return 'onboarding';
+  }
+
+  // Communication style details
+  if (/response\s*time|meeting\s*frequen|urgent\s*issue|how.*communicate|reporting|update\s*frequen|stay\s*in\s*touch/.test(lowerMessage)) {
+    return 'communicationStyle';
+  }
+
+  // Failures & lessons
+  if (/failure|fail|mistake|setback|didn't\s*go\s*well|learn.*from|lesson\s*learn|went\s*wrong/.test(lowerMessage)) {
+    return 'failuresLessons';
+  }
+
+  // Self-reflection
+  if (/self[-\s]assessment|self[-\s]aware|strength.*weakness|honest.*about|assess.*yourself|weak\s*point/.test(lowerMessage)) {
+    return 'selfReflection';
+  }
+
+  // Hobbies & interests
+  if (/hobby|hobbies|outside\s*coding|interest|fun|free\s*time|do.*for\s*fun|beyond\s*tech|passion/.test(lowerMessage)) {
+    return 'hobbies';
+  }
+
+  // Tech philosophy
+  if (/philosoph|approach.*tech|build\s*vs\s*buy|technical\s*debt|innovation\s*vs|principle/.test(lowerMessage)) {
+    return 'techPhilosophy';
+  }
+
+  // Nyra detailed vision
+  if (/nyra.*vision|nyra.*plan|nyra.*feature|nyra.*target|nyra.*compete|tell.*about\s*nyra|more.*nyra/.test(lowerMessage)) {
+    return 'nyraVision';
   }
 
   // Rude/offensive messages - handle gracefully
