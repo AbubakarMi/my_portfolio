@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { MessageCircle, X, Send, Bot, User, Minimize2, Sparkles, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { generateResponse } from '@/lib/portfolio-ai-knowledge';
+import { generateResponse, ConversationContext, detectIntent } from '@/lib/portfolio-ai-knowledge';
 import { sendTranscriptAction } from '@/actions/send-transcript';
 
 interface ChatMessage {
@@ -15,6 +15,7 @@ interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
   timestamp: Date;
+  intent?: string; // Track the intent for context
 }
 
 export function PortfolioChatbot() {
@@ -29,6 +30,13 @@ export function PortfolioChatbot() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const sessionIdRef = useRef<string>(`chat-${Date.now()}`);
+
+  // AI CONVERSATION CONTEXT - tracks conversation memory
+  const conversationContextRef = useRef<ConversationContext>({
+    conversationHistory: [],
+    topicsDiscussed: [],
+    userCommunicationStyle: 'formal'
+  });
 
   // Initial greeting message
   const initialMessage: ChatMessage = {
@@ -90,16 +98,28 @@ export function PortfolioChatbot() {
     setTranscriptSent(false);
     // Generate new session ID for next conversation
     sessionIdRef.current = `chat-${Date.now()}`;
+    // Reset conversation context for fresh start
+    conversationContextRef.current = {
+      conversationHistory: [],
+      topicsDiscussed: [],
+      userCommunicationStyle: 'formal'
+    };
   };
 
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
 
+    const userMessageContent = inputValue.trim();
+
+    // Detect intent for this message
+    const userIntent = detectIntent(userMessageContent);
+
     const userMessage: ChatMessage = {
       id: `user-${Date.now()}`,
       role: 'user',
-      content: inputValue.trim(),
-      timestamp: new Date()
+      content: userMessageContent,
+      timestamp: new Date(),
+      intent: userIntent
     };
 
     setMessages(prev => [...prev, userMessage]);
@@ -107,20 +127,49 @@ export function PortfolioChatbot() {
     setHasInteracted(true);
     setIsTyping(true);
 
-    // Simulate typing delay for natural feel
+    // Update conversation context with user message
+    conversationContextRef.current.conversationHistory?.push({
+      role: 'user',
+      content: userMessageContent,
+      intent: userIntent
+    });
+
+    // Track topics discussed
+    if (!conversationContextRef.current.topicsDiscussed?.includes(userIntent)) {
+      conversationContextRef.current.topicsDiscussed?.push(userIntent);
+    }
+
+    // Simulate typing delay for natural feel (3 seconds)
     setTimeout(() => {
-      const response = generateResponse(userMessage.content);
+      // Generate response WITH CONTEXT for intelligent conversations
+      const response = generateResponse(
+        userMessageContent,
+        conversationContextRef.current
+      );
 
       const assistantMessage: ChatMessage = {
         id: `assistant-${Date.now()}`,
         role: 'assistant',
         content: response,
-        timestamp: new Date()
+        timestamp: new Date(),
+        intent: userIntent
       };
 
       setMessages(prev => [...prev, assistantMessage]);
+
+      // Update conversation context with assistant response
+      conversationContextRef.current.conversationHistory?.push({
+        role: 'assistant',
+        content: response,
+        intent: userIntent
+      });
+
+      // Update context for next message
+      conversationContextRef.current.lastIntent = userIntent;
+      conversationContextRef.current.lastTopic = userIntent;
+
       setIsTyping(false);
-    }, 500 + Math.random() * 500);
+    }, 3000);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
