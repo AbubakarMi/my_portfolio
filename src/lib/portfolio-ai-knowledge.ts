@@ -719,18 +719,24 @@ export function detectIntent(message: string): string {
     return 'communicationStyle';
   }
 
-  // Failures & lessons
-  if (/failure|fail|mistake|setback|didn't\s*go\s*well|learn.*from|lesson\s*learn|went\s*wrong/.test(lowerMessage)) {
+  // Failures & lessons - enhanced understanding
+  if (/failure|fail|mistake|setback|didn't\s*go\s*well|learn.*from|lesson\s*learn|went\s*wrong/.test(lowerMessage) ||
+      /ever.*fail|challenge.*face|difficult.*time|struggle|obstacle|problem.*encounter/.test(lowerMessage) ||
+      /what.*learn|experience.*teach|grow.*from|overcome/.test(lowerMessage)) {
     return 'failuresLessons';
   }
 
-  // Self-reflection
-  if (/self[-\s]assessment|self[-\s]aware|strength.*weakness|honest.*about|assess.*yourself|weak\s*point/.test(lowerMessage)) {
+  // Self-reflection - enhanced understanding
+  if (/self[-\s]assessment|self[-\s]aware|strength.*weakness|honest.*about|assess.*yourself|weak\s*point/.test(lowerMessage) ||
+      /your.*strength|your.*weakness|good.*bad|pros.*cons|advantage.*disadvantage/.test(lowerMessage) ||
+      /what.*good\s*at|what.*not\s*good|improve.*on|working.*on/.test(lowerMessage)) {
     return 'selfReflection';
   }
 
-  // Hobbies & interests
-  if (/hobby|hobbies|outside\s*coding|interest|fun|free\s*time|do.*for\s*fun|beyond\s*tech|passion/.test(lowerMessage)) {
+  // Hobbies & interests - enhanced understanding
+  if (/hobby|hobbies|outside\s*coding|interest|fun|free\s*time|do.*for\s*fun|beyond\s*tech|passion/.test(lowerMessage) ||
+      /when.*not.*coding|spare.*time|relax|enjoy|like.*do|personal.*interest/.test(lowerMessage) ||
+      /what.*like|favorite.*activity|do.*fun/.test(lowerMessage)) {
     return 'hobbies';
   }
 
@@ -918,13 +924,16 @@ export function detectIntent(message: string): string {
     return 'notGoodFor';
   }
 
-  // Age and background
-  if (/how\s*old|age|your\s*age|young|born\s*in|year\s*born/.test(lowerMessage)) {
+  // Age and background - enhanced understanding
+  if (/how\s*old|age|your\s*age|young|born\s*in|year\s*born|how\s*many\s*years|what.*age/.test(lowerMessage) ||
+      /when.*born|date.*birth|birthday|years\s*old/.test(lowerMessage)) {
     return 'ageBackground';
   }
 
-  // Education
-  if (/education|degree|university|college|school|studied|student|academic|certification|certificate/.test(lowerMessage)) {
+  // Education - enhanced understanding
+  if (/education|degree|university|college|school|studied|student|academic|certification|certificate/.test(lowerMessage) ||
+      /where.*study|what.*study|studying|graduate|diploma|qualification|trained/.test(lowerMessage) ||
+      /background.*education|educational.*background/.test(lowerMessage)) {
     return 'education';
   }
 
@@ -1033,38 +1042,52 @@ export function detectIntent(message: string): string {
     return 'strengths';
   }
 
-  // About Muhammad
-  if (/about\s*(him|muhammad|idris)|who\s*is\s*(he|muhammad)|tell\s*me\s*about\s*(him|muhammad)|background/.test(lowerMessage)) {
+  // About Muhammad - enhanced understanding
+  if (/about\s*(him|muhammad|idris)|who\s*is\s*(he|muhammad)|tell\s*me\s*about\s*(him|muhammad)|background/.test(lowerMessage) ||
+      /introduce.*muhammad|know.*about.*him|learn.*about|info.*about|details.*about/.test(lowerMessage) ||
+      /what.*does.*he.*do|what.*his.*work|what.*kind.*person/.test(lowerMessage)) {
     return 'about';
   }
 
-  // Skills
-  if (/skill|technolog|tech\s*stack|what\s*(can|does)\s*he\s*(do|know)|expertise|proficien|capabilit/.test(lowerMessage)) {
+  // Skills - enhanced understanding
+  if (/skill|technolog|tech\s*stack|what\s*(can|does)\s*he\s*(do|know)|expertise|proficien|capabilit/.test(lowerMessage) ||
+      /what.*language|what.*framework|what.*tool|programming.*language|know.*about/.test(lowerMessage) ||
+      /good.*at|specialize|expert.*in|work.*with|use.*tech|familiar.*with/.test(lowerMessage) ||
+      /frontend|backend|full.*stack|database|mobile/.test(lowerMessage)) {
     return 'skills';
   }
 
-  // Contact
-  if (/contact|reach|email|phone|call|connect|get\s*in\s*touch|message\s*him/.test(lowerMessage)) {
+  // Contact - enhanced understanding
+  if (/contact|reach|email|phone|call|connect|get\s*in\s*touch|message\s*him/.test(lowerMessage) ||
+      /how.*reach|how.*contact|talk.*to.*him|speak.*with|communication/.test(lowerMessage) ||
+      /send.*message|write.*to|contact.*info|contact.*detail/.test(lowerMessage)) {
     return 'contact';
   }
 
-  // Resume/CV
-  if (/resume|cv|curriculum|download|portfolio\s*document/.test(lowerMessage)) {
+  // Resume/CV - enhanced understanding
+  if (/resume|cv|curriculum|download|portfolio\s*document/.test(lowerMessage) ||
+      /see.*resume|view.*cv|download.*resume|get.*resume|resume.*link/.test(lowerMessage)) {
     return 'resume';
   }
 
-  // Startup/Nyra
-  if (/nyra|startup|found|company|business|entrepreneur/.test(lowerMessage)) {
+  // Startup/Nyra - enhanced understanding
+  if (/nyra|startup|found|company|business|entrepreneur/.test(lowerMessage) ||
+      /tell.*nyra|about.*nyra|what.*nyra|nyra.*do|own.*company/.test(lowerMessage) ||
+      /start.*company|founder|building.*product/.test(lowerMessage)) {
     return 'startup';
   }
 
-  // Experience/Work history
-  if (/experience|work\s*history|career|job|employ|where\s*(has|did)\s*he\s*work|previous|role/.test(lowerMessage)) {
+  // Experience/Work history - enhanced understanding
+  if (/experience|work\s*history|career|job|employ|where\s*(has|did)\s*he\s*work|previous|role/.test(lowerMessage) ||
+      /work.*before|past.*work|professional.*background|companies.*work|years.*experience/.test(lowerMessage) ||
+      /what.*done|what.*built|portfolio|track.*record|resume/.test(lowerMessage)) {
     return 'experience';
   }
 
-  // Availability/Hiring
-  if (/available|hire|hiring|open\s*to|looking\s*for|freelance|contract|opportunity|work\s*with/.test(lowerMessage)) {
+  // Availability/Hiring - enhanced understanding
+  if (/available|hire|hiring|open\s*to|looking\s*for|freelance|contract|opportunity|work\s*with/.test(lowerMessage) ||
+      /can.*hire|want.*hire|interested.*in.*hiring|looking.*developer|need.*developer/.test(lowerMessage) ||
+      /free.*work|taking.*project|accept.*work|start.*project|work.*together/.test(lowerMessage)) {
     return 'availability';
   }
 
