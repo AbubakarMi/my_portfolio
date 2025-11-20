@@ -373,6 +373,96 @@ export const responsePatterns: Record<string, string[]> = {
     "You're welcome! Is there anything else you'd like to know about Muhammad's work?",
     "Happy to help! Feel free to ask if you have more questions.",
     "Anytime! Let me know if there's anything else I can tell you about."
+  ],
+
+  // Hourly rate / payment questions
+  hourlyRate: [
+    "For hourly rates and payment details, it's best to discuss directly with Muhammad since rates vary based on project complexity, timeline, and scope. Please use the **Contact Form** on this website to discuss your specific requirements and get a detailed quote.",
+    "Muhammad's rates are competitive and depend on the project details. Use the **Contact Form** below to share your requirements - he'll provide a customized quote based on your needs."
+  ],
+
+  // Mobile app development
+  mobileApp: [
+    "Great question! While Muhammad specializes in full-stack web development with React and Next.js, he has experience building responsive applications that work seamlessly on mobile devices. For native mobile apps, he can work with React Native or recommend trusted partners. Use the **Contact Form** to discuss your mobile project!",
+    "Muhammad builds modern, mobile-responsive web applications. For cross-platform mobile apps, he has experience with React Native. Share your mobile app requirements through the **Contact Form** and he'll advise on the best approach!"
+  ],
+
+  // Cloud & DevOps
+  cloud: [
+    "Yes! Muhammad has experience with cloud platforms and DevOps practices. His stack includes Docker for containerization, and he's worked with cloud deployments. For specific cloud providers (AWS, Azure, Google Cloud) or advanced DevOps needs, use the **Contact Form** to discuss your infrastructure requirements.",
+    "Muhammad is comfortable with cloud deployment and has worked with Docker and modern DevOps practices. Share your cloud/DevOps requirements through the **Contact Form** to discuss the best solution for your project."
+  ],
+
+  // API development & integrations
+  apiIntegration: [
+    "Absolutely! Muhammad has extensive experience building REST APIs with .NET 8 and Node.js. He's worked on:\n\n- RESTful API design\n- Third-party API integrations\n- Authentication & authorization\n- Payment gateway integrations\n- Real-time APIs\n\nWant to know more about a specific integration?",
+    "API development is one of Muhammad's core strengths! He's built scalable APIs for multiple projects using .NET and Node.js. Use the **Contact Form** to discuss your API requirements."
+  ],
+
+  // Working with startups
+  startups: [
+    "Muhammad loves working with startups! As a founder of Nyra himself, he understands the startup journey - moving fast, building MVPs, and iterating based on feedback. He's helped startups build:\n\n- MVPs and prototypes\n- Scalable SaaS platforms\n- Multi-tenant systems\n\nUse the **Contact Form** to discuss your startup idea!",
+    "Great fit! Muhammad is a startup founder himself (Nyra) and understands the unique needs of early-stage companies. He can help you build fast, scale smart, and iterate quickly. Reach out via the **Contact Form**!"
+  ],
+
+  // NDA & contracts
+  nda: [
+    "Yes, Muhammad is open to signing NDAs and working under contracts. He takes confidentiality seriously and has worked with clients under various agreement types. Use the **Contact Form** to discuss your NDA requirements and project details.",
+    "Absolutely! Muhammad is professional and willing to work under NDAs or custom contracts. Reach out through the **Contact Form** to discuss your legal requirements."
+  ],
+
+  // Development process
+  process: [
+    "Muhammad follows modern software development best practices:\n\n**Planning**: Understanding requirements, defining scope\n**Design**: Architecture planning, tech stack selection\n**Development**: Agile sprints, regular updates\n**Testing**: Unit tests, integration tests, QA\n**Deployment**: CI/CD pipelines, staging environments\n**Maintenance**: Post-launch support, bug fixes\n\nWant to discuss a specific aspect of the process?",
+    "His development process is collaborative and transparent. Muhammad believes in regular communication, iterative development, and delivering quality code. Use the **Contact Form** to discuss how he can adapt his process to your needs!"
+  ],
+
+  // Testing & quality assurance
+  testing: [
+    "Muhammad takes quality seriously! His approach includes:\n\n- Writing unit tests for critical functionality\n- Integration testing for APIs\n- Manual QA before deployment\n- Code reviews and best practices\n- Performance testing for scalability\n\nQuality code is a priority in all his projects.",
+    "Yes, testing is built into Muhammad's workflow. He writes tests, conducts thorough QA, and follows best practices to ensure reliable, bug-free software. Want to know more about his quality standards?"
+  ],
+
+  // Maintenance & support
+  maintenance: [
+    "Muhammad offers post-launch maintenance and support! This can include:\n\n- Bug fixes and updates\n- Feature enhancements\n- Performance monitoring\n- Security patches\n- Technical support\n\nMaintenance terms are discussed during the project. Use the **Contact Form** to ask about support options!",
+    "Yes! Muhammad provides ongoing support and maintenance based on your needs. Whether it's bug fixes, updates, or new features, he can work out a support plan with you. Reach out via the **Contact Form**!"
+  ],
+
+  // Communication & tools
+  communication: [
+    "Muhammad is very communicative and uses modern collaboration tools:\n\n**Messaging**: Slack, Teams, Discord\n**Project Management**: Jira, Trello, Linear\n**Code**: GitHub, GitLab\n**Meetings**: Zoom, Google Meet\n**Docs**: Notion, Confluence\n\nHe adapts to your team's preferred tools!",
+    "Great question! Muhammad believes in clear, regular communication. He's comfortable with Slack, Teams, email, or video calls - whatever works best for your team. He provides regular updates and is responsive to questions."
+  ],
+
+  // Industries & domains
+  industries: [
+    "Muhammad has worked across multiple industries:\n\n- **Healthcare**: Nubenta Care (hospital management)\n- **Education**: SmartEd ERP (school system)\n- **Construction**: BuildTrack Pro (expense tracking)\n- **Logistics**: Bus Tracker (transportation)\n- **Finance**: BulkPay (payroll system)\n- **Productivity**: Nyra Connect (AI productivity)\n\nHe adapts quickly to new domains!",
+    "He's worked in healthcare, education, finance, logistics, and productivity software. Muhammad learns domain-specific requirements fast and builds solutions that fit industry needs. What's your industry?"
+  ],
+
+  // Code quality
+  codeQuality: [
+    "Muhammad writes clean, maintainable code following industry best practices:\n\n- **Clean Architecture** principles\n- **SOLID** design patterns\n- **DRY** (Don't Repeat Yourself)\n- Proper documentation and comments\n- Code reviews and refactoring\n- Consistent formatting and style\n\nQuality and maintainability are priorities!",
+    "Code quality is a core focus. Muhammad writes well-structured, documented, and tested code that other developers can understand and maintain. He believes in long-term value over quick hacks."
+  ],
+
+  // Team collaboration
+  teamWork: [
+    "Muhammad works great in teams! His experience includes:\n\n- Collaborating with designers, PMs, and other developers\n- Code reviews and pair programming\n- Using Git workflows (branching, PRs, etc.)\n- Agile/Scrum methodologies\n- Clear documentation for team members\n\nHe's both independent and collaborative as needed.",
+    "Yes! Muhammad has worked in team environments at Hubuk Technology and as an intern. He's comfortable with code reviews, Git workflows, and team communication. He's a strong team player!"
+  ],
+
+  // Deadlines
+  deadlines: [
+    "Muhammad takes deadlines seriously and plans projects realistically:\n\n- Sets clear milestones and deliverables\n- Provides regular progress updates\n- Communicates early if challenges arise\n- Delivers quality work on time\n\nHe's reliable and deadline-driven. Want to discuss your timeline? Use the **Contact Form**!",
+    "Meeting deadlines is important to Muhammad. He plans carefully, communicates proactively, and delivers on schedule. If you have a specific deadline, share it through the **Contact Form** to discuss feasibility!"
+  ],
+
+  // Favorite tech / preferences
+  favorites: [
+    "Muhammad enjoys working with modern, scalable technologies. His favorites include:\n\n**Languages**: TypeScript (type safety & developer experience)\n**Backend**: .NET 8 (performance & enterprise-ready)\n**Frontend**: React/Next.js (great ecosystem)\n**Database**: PostgreSQL (powerful & reliable)\n\nHe loves learning new tech and solving complex problems!",
+    "He's passionate about .NET, TypeScript, and React! Muhammad enjoys building scalable systems with clean architecture. He's always excited to learn new technologies that solve real problems."
   ]
 };
 
@@ -406,6 +496,81 @@ export function detectIntent(message: string): string {
   // Mentorship/Learning questions
   if (/mentor|mentorship|teach|learn\s*from|guidance|coach|train\s*me/.test(lowerMessage)) {
     return 'mentorship';
+  }
+
+  // Hourly rate / Payment questions
+  if (/hourly\s*rate|hour\s*rate|per\s*hour|payment|pay\s*method|invoice|billing/.test(lowerMessage)) {
+    return 'hourlyRate';
+  }
+
+  // Mobile app questions
+  if (/mobile\s*app|ios|android|react\s*native|flutter|native\s*app|smartphone\s*app/.test(lowerMessage)) {
+    return 'mobileApp';
+  }
+
+  // Cloud & DevOps
+  if (/aws|azure|google\s*cloud|cloud\s*platform|devops|ci\/cd|deployment|kubernetes|docker/.test(lowerMessage)) {
+    return 'cloud';
+  }
+
+  // API & Integrations
+  if (/\bapi\b|rest\s*api|integration|webhook|third[-\s]party|endpoint|microservice/.test(lowerMessage)) {
+    return 'apiIntegration';
+  }
+
+  // Startups
+  if (/mvp|minimum\s*viable|early[-\s]stage|seed\s*fund|startup\s*work|work.*startup/.test(lowerMessage)) {
+    return 'startups';
+  }
+
+  // NDA & Contracts
+  if (/\bnda\b|non[-\s]disclosure|confidential|contract|agreement|legal\s*doc/.test(lowerMessage)) {
+    return 'nda';
+  }
+
+  // Development process
+  if (/development\s*process|workflow|methodology|agile|scrum|how.*develop|work\s*process/.test(lowerMessage)) {
+    return 'process';
+  }
+
+  // Testing & QA
+  if (/test|testing|quality\s*assurance|\bqa\b|unit\s*test|bug|debug/.test(lowerMessage)) {
+    return 'testing';
+  }
+
+  // Maintenance & Support
+  if (/maintenance|support|post[-\s]launch|update|patch|bug\s*fix|ongoing/.test(lowerMessage)) {
+    return 'maintenance';
+  }
+
+  // Communication & Tools
+  if (/communication\s*tool|slack|jira|trello|collaborate|project\s*management|tool/.test(lowerMessage)) {
+    return 'communication';
+  }
+
+  // Industries
+  if (/industry|sector|domain|healthcare|finance|education|worked\s*in|experience\s*in/.test(lowerMessage)) {
+    return 'industries';
+  }
+
+  // Code quality
+  if (/code\s*quality|clean\s*code|best\s*practice|coding\s*standard|readable|maintainable/.test(lowerMessage)) {
+    return 'codeQuality';
+  }
+
+  // Team collaboration
+  if (/team|collaborate|work\s*with\s*team|git\s*workflow|code\s*review|pair\s*program/.test(lowerMessage)) {
+    return 'teamWork';
+  }
+
+  // Deadlines
+  if (/deadline|on\s*time|deliver.*time|meet.*deadline|schedule/.test(lowerMessage)) {
+    return 'deadlines';
+  }
+
+  // Favorite technologies
+  if (/favorite|prefer|like\s*to\s*use|enjoy\s*work|best\s*tech|love.*tech/.test(lowerMessage)) {
+    return 'favorites';
   }
 
   // Feelings/How are you
