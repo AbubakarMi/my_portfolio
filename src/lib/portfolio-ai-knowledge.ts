@@ -983,6 +983,92 @@ export function detectIntent(message: string): string {
   return 'unknown';
 }
 
+// UNIVERSAL REQUEST HANDLER - AI understands action requests (summarize, explain, simplify, etc.)
+function handleUniversalRequest(message: string, context?: ConversationContext): string | null {
+  const lowerMessage = message.toLowerCase();
+
+  // Get the last assistant message from context
+  const lastAssistantMessage = context?.conversationHistory
+    ?.slice()
+    .reverse()
+    .find(msg => msg.role === 'assistant');
+
+  if (!lastAssistantMessage) return null;
+
+  const content = lastAssistantMessage.content;
+
+  // REQUEST 1: Summarize / TLDR / Short version
+  if (/(summarize|summary|tldr|tl;dr|short|brief|quick|condensed|in short|main point)/i.test(message)) {
+    // Extract key points from last response
+    const lines = content.split('\n').filter(line => line.trim());
+
+    // Find bullet points or key statements
+    const keyPoints = lines.filter(line =>
+      line.includes('•') || line.includes('✓') || line.includes('→') ||
+      line.match(/^\d+\./) || line.includes('**') || line.startsWith('-')
+    );
+
+    if (keyPoints.length > 0) {
+      const summary = keyPoints
+        .slice(0, 4)
+        .map(point => point.replace(/[•✓→\-]/g, '').trim())
+        .map(point => point.replace(/\*\*/g, ''))
+        .filter(point => point.length > 10)
+        .join('\n\n');
+
+      return `**Quick Summary:**\n\n${summary}\n\nNeed more details on any part?`;
+    }
+
+    // Fallback: Extract first few sentences
+    const sentences = content.match(/[^.!?]+[.!?]+/g) || [];
+    const firstFew = sentences.slice(0, 3).join(' ');
+    return `**In Short:**\n\n${firstFew}\n\nWant the full explanation?`;
+  }
+
+  // REQUEST 2: Explain / Elaborate / More details
+  if (/(explain|elaborate|more detail|tell me more|expand|go deeper)/i.test(message)) {
+    // Check if the last response was already detailed
+    if (content.length > 500) {
+      return `I gave you a pretty detailed answer! Here's what I covered:\n\n${content.substring(0, 300)}...\n\nIs there a specific part you'd like me to expand on?`;
+    }
+
+    return `I'd love to elaborate! What specific aspect of my previous answer would you like me to dive deeper into?`;
+  }
+
+  // REQUEST 3: Simplify / ELI5 / Make it simpler
+  if (/(simplify|simpler|eli5|explain like|easy|basic|plain english)/i.test(message)) {
+    // Extract core message without formatting
+    const plainText = content
+      .replace(/\*\*/g, '')
+      .replace(/[•✓→\-]/g, '')
+      .split('\n')
+      .filter(line => line.trim() && !line.includes(':') && line.length > 20)
+      .slice(0, 3)
+      .join(' ');
+
+    return `**Simple Version:**\n\n${plainText}\n\nThat's the essence of it! Want me to clarify anything?`;
+  }
+
+  // REQUEST 4: Example / Show me
+  if (/(example|instance|show me|demonstrate|sample)/i.test(message)) {
+    // Provide an example based on the topic
+    const topic = lastAssistantMessage.intent || 'general';
+
+    if (topic.includes('skill') || topic.includes('tech')) {
+      return `**Concrete Example:**\n\nLet's say you need a **SaaS platform** like Nyra. Muhammad would:\n\n1. Design the modular architecture (separate auth, billing, analytics modules)\n2. Build the backend with .NET + PostgreSQL for scalability\n3. Create the React frontend with real-time updates\n4. Integrate AI features (like Nyra's live transcription)\n5. Deploy with proper CI/CD and monitoring\n\nThat's how he turns concepts into production-ready software.`;
+    }
+
+    return `What specific type of example would help? I can show you project examples, code approaches, or real-world applications.`;
+  }
+
+  // REQUEST 5: Compare / Difference
+  if (/(compare|difference|versus|vs|different from)/i.test(message)) {
+    return `To help you compare, could you specify what you'd like to compare? For example:\n\n• Muhammad's skills vs typical developers?\n• Different projects he's built?\n• Technologies he uses?\n\nLet me know and I'll break it down!`;
+  }
+
+  return null; // Not a universal request
+}
+
 // KNOWLEDGE SYNTHESIS ENGINE - AI generates NEW answers by combining facts
 function synthesizeAnswerFromKnowledge(question: string, concepts: string[]): string | null {
   const lowerQuestion = question.toLowerCase();
@@ -1162,7 +1248,7 @@ function analyzeConversationContext(message: string, context?: ConversationConte
   const pronounReferences = /\b(it|that|this|them|those|he|his|him)\b/i;
 
   const isFollowUp = followUpIndicators.test(message) ||
-                     (pronounReferences.test(message) && context?.lastIntent);
+                     (pronounReferences.test(message) && !!context?.lastIntent);
 
   // Detect implied questions based on context
   let impliedIntent: string | undefined;
@@ -1332,7 +1418,14 @@ export function generateResponse(message: string, context?: ConversationContext)
     intent = conversationAnalysis.impliedIntent;
   }
 
-  // 5. HANDLE PROJECT-SPECIFIC QUERIES
+  // 7. CHECK FOR UNIVERSAL REQUESTS FIRST (summarize, explain, simplify, etc.)
+  // This is HIGHEST PRIORITY - if user wants to process a previous response
+  const universalRequestResponse = handleUniversalRequest(message, context);
+  if (universalRequestResponse) {
+    return adaptResponseTone(universalRequestResponse, userStyle);
+  }
+
+  // 8. HANDLE PROJECT-SPECIFIC QUERIES
   if (intent === 'projects' || lowerMessage.includes('project')) {
     // Check for specific project names
     for (const projectName of Object.keys(projectsData)) {
@@ -1351,10 +1444,10 @@ export function generateResponse(message: string, context?: ConversationContext)
     return adaptResponseTone(projectsResponse, userStyle);
   }
 
-  // 7. TRY KNOWLEDGE SYNTHESIS FIRST (AI generates NEW answers!)
+  // 9. TRY KNOWLEDGE SYNTHESIS (AI generates NEW answers by combining facts!)
   let synthesizedAnswer = synthesizeAnswerFromKnowledge(message, concepts);
 
-  // 8. GET BASE RESPONSE FROM PATTERNS or USE INTELLIGENT FALLBACK
+  // 10. GET BASE RESPONSE FROM PATTERNS or USE INTELLIGENT FALLBACK
   let response: string;
 
   if (synthesizedAnswer) {
@@ -1369,7 +1462,7 @@ export function generateResponse(message: string, context?: ConversationContext)
     response = responses[Math.floor(Math.random() * responses.length)];
   }
 
-  // 9. ADD CONTEXTUAL BRIDGE if it's a follow-up conversation (skip for synthesized answers)
+  // 11. ADD CONTEXTUAL BRIDGE if it's a follow-up conversation (skip for synthesized answers)
   if (!synthesizedAnswer && conversationAnalysis.needsContextualAnswer && context?.lastIntent && intent !== 'unknown') {
     const bridge = generateContextualBridge(context);
     if (bridge && intent !== 'greeting' && intent !== 'goodbye') {
@@ -1377,10 +1470,10 @@ export function generateResponse(message: string, context?: ConversationContext)
     }
   }
 
-  // 10. ADAPT RESPONSE TONE to match user's communication style
+  // 12. ADAPT RESPONSE TONE to match user's communication style
   response = adaptResponseTone(response, userStyle);
 
-  // 11. HANDLE IMPLICIT COMPARISONS (if user asks "vs X" or "compared to Y")
+  // 13. HANDLE IMPLICIT COMPARISONS (if user asks "vs X" or "compared to Y")
   if (/\bvs\b|\bversus\b|compared to|better than/i.test(message)) {
     // Add comparative context
     if (intent === 'skills') {
@@ -1388,7 +1481,8 @@ export function generateResponse(message: string, context?: ConversationContext)
     }
   }
 
-  // 12. HANDLE ELABORATION REQUESTS ("tell me more", "elaborate", "more details")
+  // 14. HANDLE ELABORATION REQUESTS ("tell me more", "elaborate", "more details")
+  // Note: This is separate from universal request handler - handles general elaboration
   if (/(tell me more|elaborate|more detail|expand|explain further)/i.test(message) && context?.lastIntent) {
     // Provide deeper answer
     const elaborationNote = "\n\nLet me know if you'd like to dive deeper into any specific aspect!";
