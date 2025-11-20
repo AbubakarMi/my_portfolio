@@ -12,6 +12,7 @@ export const personalInfo = {
   title: "Software & AI Evaluation Engineer",
   location: "Kano State, Nigeria",
   experience: "4+ years",
+  age: 22,
   email: "abubakarmi131@gmail.com",
   phone: ["+234 704 252 6971", "+234 706 916 3505"],
   github: "https://github.com/AbubakarMi",
@@ -19,7 +20,18 @@ export const personalInfo = {
   twitter: "https://x.com/AbubakarM93064",
   startup: "Nyra",
   startupMission: "Building world-class productivity software",
-  resumeLink: "https://drive.google.com/file/d/1P51URCIY7UCDsIQuxrzlb5FvD4mZxNDp/view?usp=sharing"
+  resumeLink: "https://drive.google.com/file/d/1P51URCIY7UCDsIQuxrzlb5FvD4mZxNDp/view?usp=sharing",
+  education: {
+    degree: "BSc in Computer Science",
+    university: "Aliko Dangote University of Science and Technology, Wudil",
+    status: "In Progress"
+  },
+  firstLanguage: "C#",
+  codingYears: 4,
+  dailyCodingHours: "8-10 hours",
+  totalProjects: "30+",
+  majorProjects: "11+",
+  teamSizes: "30-50 people in companies"
 };
 
 // Detailed project information
@@ -554,6 +566,72 @@ export const responsePatterns: Record<string, string[]> = {
   notGoodFor: [
     "To be transparent, Muhammad may not be the best fit for:\n\n❌ **Graphic design** - He works with designers for UI/UX\n❌ **Deep Data Science** - AI evaluation yes, ML research no\n❌ **Hardware/Embedded systems** - Pure software focus\n❌ **Game development** - Not his specialty\n\nHe's honest about his strengths and will recommend specialists when needed. What type of project do you have?",
     "Muhammad believes in transparency. If your project requires deep data science/ML research, hardware engineering, or graphic design, he can collaborate with specialists. His core strengths are full-stack web development, native mobile apps, and AI integration."
+  ],
+
+  // Age and background
+  ageBackground: [
+    "Muhammad is 22 years old and has been coding for 4 years! Despite his young age, he's built an impressive portfolio:\n\n**Started with**: C# (his first programming language)\n**Daily commitment**: 8-10 hours of coding every day\n**Total projects**: 30+ (including company work)\n**Major personal projects**: 11+\n**Team experience**: Worked with teams of 30-50 people\n\nHis dedication and passion for technology started with a dream to build solutions that the world will use and leave a legacy!",
+    "At just 22 years old, Muhammad has accomplished a lot! He's been coding for 4 years, dedicating 8-10 hours daily to his craft. He started with C# and has since worked on 30+ projects. What drives him? The desire to create solutions that outlive him and leave a lasting impact on the world."
+  ],
+
+  // Education
+  education: [
+    `Muhammad is pursuing a **BSc in Computer Science** at **Aliko Dangote University of Science and Technology, Wudil**.\n\nBeyond formal education, he's a self-taught developer who learned the hard way - through countless hours of practice, projects, and real-world problem-solving. He's also earned numerous certifications from:\n\n- **Hubuk Technology Limited**\n- **Coursera**\n- **Microsoft**\n- **Distinction** and other platforms\n\nHe's completed many online courses and believes in continuous learning!`,
+    "Muhammad is currently studying Computer Science at Aliko Dangote University. But he's primarily self-taught - he learned development the hard way through dedication and practice. He's earned certifications from Hubuk Technology, Microsoft, Coursera, and more!"
+  ],
+
+  // Specific tech preferences
+  techPreferences: [
+    "Muhammad's technology preferences:\n\n**React**: Version 18 (stable) and 19 (exploring)\n**.NET**: .NET 8 (Core) - modern, cross-platform\n**Database**: SQL (PostgreSQL) for complex queries, NoSQL (Firebase) for real-time features\n**UI Libraries**: shadcn/ui (his favorite), Tailwind CSS, Material-UI when needed\n**State Management**: Context API for simple apps, Zustand for complex state\n\nHe chooses tools based on project requirements, not hype!",
+    "He works with React 18/19, .NET 8 Core, and prefers PostgreSQL for databases. For UI, he loves shadcn/ui and Tailwind CSS. He's pragmatic - picks the right tool for the job!"
+  ],
+
+  // Authentication & security
+  authSecurity: [
+    "Muhammad has extensive experience with authentication and security:\n\n**Authentication**: JWT tokens, OAuth 2.0, Session-based auth\n**State Management**: Context API, Zustand, Redux (when needed)\n**Database Design**: Normalization, indexing, multi-tenancy patterns\n**Security Practices**:\n- Input validation and sanitization\n- SQL injection prevention\n- XSS protection\n- CSRF tokens\n- Rate limiting\n- Secure password hashing (bcrypt)\n- HTTPS enforcement\n\nSecurity is built into his development process from day one!",
+    "Yes! Muhammad implements robust authentication (JWT, OAuth) and follows security best practices. He's experienced with database design, state management (Context, Zustand, Redux), and protects against common vulnerabilities (SQL injection, XSS, etc.)."
+  ],
+
+  // Work environment preferences
+  workEnvironment: [
+    "Muhammad is flexible with work environments:\n\n**Async Communication**: Prefers for deep work and documentation\n**Sync Meetings**: Happy to have when needed for collaboration\n**Best of both**: Regular async updates + scheduled sync check-ins\n\nHe values clear communication regardless of the format and adapts to team preferences!",
+    "He's comfortable with both async and sync work environments. Prefers async for focused work but values sync meetings for collaboration. Muhammad adapts to what works best for the team!"
+  ],
+
+  // Preferred project types
+  preferredProjects: [
+    "Muhammad's ideal projects are those that create lasting impact:\n\n**Dream projects**: Products that will outlive him and make a difference\n**Passionate about**: SaaS platforms, productivity tools, AI-powered applications\n**Ideal clients**: Visionaries building something meaningful, startups with big ambitions, companies focused on innovation\n**Red flags**: Projects with unrealistic timelines, clients who don't value quality, short-term thinking over long-term value\n\nHe wants to build products that matter, not just code that works!",
+    "Muhammad loves working on products that will outlive him - meaningful solutions that make real impact. He's passionate about SaaS, productivity tools, and AI applications. He avoids projects with unrealistic timelines or clients who prioritize speed over quality."
+  ],
+
+  // Pricing models
+  pricingModel: [
+    "Muhammad is flexible with pricing based on project needs:\n\n**Hourly Rate**: For ongoing work or undefined scope\n**Fixed Price**: For well-defined projects with clear deliverables\n**Retainer**: Available for long-term partnerships\n**Equity Consideration**: Open to equity for promising startups (discussed case-by-case)\n\nThe best model depends on your project. Use the **Contact Form** to discuss what works for both parties!",
+    "He accepts both hourly and fixed-price arrangements. Retainer options are available for ongoing partnerships, and he's open to equity discussions for the right startup opportunities. Reach out via the **Contact Form** to discuss pricing!"
+  ],
+
+  // Deployment & hosting
+  deploymentHosting: [
+    "Muhammad's deployment and infrastructure expertise:\n\n**Hosting**: Vercel (Next.js apps), Netlify (static sites), AWS (enterprise scale)\n**Database Hosting**: Railway, Supabase, AWS RDS, Azure SQL\n**CI/CD**: GitHub Actions, GitLab CI, automated testing pipelines\n**Monitoring**: Sentry for errors, analytics for performance\n\nHe chooses infrastructure based on project scope, budget, and scalability needs!",
+    "He deploys to Vercel, Netlify, or AWS depending on project requirements. Muhammad sets up CI/CD pipelines, database hosting (Railway, Supabase, AWS), and monitoring tools. Infrastructure is tailored to your project's needs!"
+  ],
+
+  // References & testimonials
+  references: [
+    "Muhammad has worked with multiple companies and clients:\n\n**How to get references**: Reach out through the **Contact Form** and he can connect you with past clients or colleagues\n**Past client types**: Tech companies, startups, enterprises (healthcare, education, finance sectors)\n**Feedback handling**: Muhammad values client feedback and uses it to continuously improve\n\nHe's built strong relationships with teams at Hubuk Technology, FlexiSAF, and Torvix AI. Happy to provide references upon request!",
+    "For references, use the **Contact Form** and Muhammad can connect you with past clients or colleagues from Hubuk Technology, FlexiSAF, or Torvix AI. He's worked with diverse clients across healthcare, education, and finance sectors!"
+  ],
+
+  // Success metrics
+  successMetrics: [
+    `Muhammad's journey has been filled with growth and achievements:\n\n**Professional Growth**: Started as a self-taught developer, now works with teams of 30-50 people\n**Project Portfolio**: Built 30+ projects (11+ major personal projects)\n**Learning**: Gained extensive experience in tech skills and leadership\n**Impact**: The experience and skills gained led him to start **Nyra** - his vision for building world-class productivity software\n\nHis success isn't just in code - it's in the leadership, teamwork, and vision he's developed along the way!`,
+    "In 4 years, Muhammad has worked on 30+ projects, collaborated with teams of 30-50 people, and learned invaluable tech and leadership skills. These experiences drove him to start Nyra - his mission to build products that make a global impact!"
+  ],
+
+  // Inspiration & motivation
+  inspiration: [
+    "What drives Muhammad?\n\n**Core motivation**: To bring solutions to the world and leave a lasting legacy\n**Mission**: Build products that outlive him and make real impact\n**Vision**: Prove that young Nigerian developers can create world-class technology\n**Daily dedication**: 8-10 hours of coding every day for 4 years straight\n\nHis passion isn't just about building software - it's about changing lives through technology and showing what's possible when you combine talent, dedication, and purpose!",
+    "Muhammad codes 8-10 hours daily because he's driven by a mission: to create solutions the world will use and leave a legacy. At 22, he's already working toward building products that outlive him. That's the kind of passion he brings to every project!"
   ]
 };
 
@@ -739,6 +817,61 @@ export function detectIntent(message: string): string {
   // What NOT to hire for
   if (/not\s*good\s*for|shouldn't\s*hire|when\s*not\s*to|bad\s*at|can't\s*do|don't\s*do/.test(lowerMessage)) {
     return 'notGoodFor';
+  }
+
+  // Age and background
+  if (/how\s*old|age|your\s*age|young|born\s*in|year\s*born/.test(lowerMessage)) {
+    return 'ageBackground';
+  }
+
+  // Education
+  if (/education|degree|university|college|school|studied|student|academic|certification|certificate/.test(lowerMessage)) {
+    return 'education';
+  }
+
+  // Tech preferences
+  if (/react\s*version|\.net\s*version|database\s*prefer|ui\s*library|state\s*management|redux|zustand/.test(lowerMessage)) {
+    return 'techPreferences';
+  }
+
+  // Authentication & security
+  if (/authentication|auth|jwt|oauth|security|protect|secure|hash|encrypt/.test(lowerMessage)) {
+    return 'authSecurity';
+  }
+
+  // Work environment
+  if (/async|sync|remote\s*work|work\s*environment|communication\s*style|prefer.*work/.test(lowerMessage)) {
+    return 'workEnvironment';
+  }
+
+  // Preferred projects
+  if (/ideal\s*project|dream\s*project|type.*project|kind.*project|prefer.*work\s*on|red\s*flag/.test(lowerMessage)) {
+    return 'preferredProjects';
+  }
+
+  // Pricing models
+  if (/fixed\s*price|hourly\s*or\s*fixed|retainer|equity|pricing\s*model|payment\s*option/.test(lowerMessage)) {
+    return 'pricingModel';
+  }
+
+  // Deployment & hosting
+  if (/hosting|deploy|vercel|netlify|ci\s*cd|pipeline|monitor|infrastructure/.test(lowerMessage)) {
+    return 'deploymentHosting';
+  }
+
+  // References
+  if (/reference|testimonial|feedback|past\s*client|previous\s*work|recommendation/.test(lowerMessage)) {
+    return 'references';
+  }
+
+  // Success metrics
+  if (/achievement|accomplish|success|metric|growth|journey|experience\s*gain/.test(lowerMessage)) {
+    return 'successMetrics';
+  }
+
+  // Inspiration
+  if (/why\s*code|what\s*motivate|inspiration|passion|drive|mission|purpose|legacy/.test(lowerMessage)) {
+    return 'inspiration';
   }
 
   // Feelings/How are you
