@@ -1195,6 +1195,128 @@ function synthesizeAnswerFromKnowledge(question: string, concepts: string[]): st
   return null; // No synthesis possible
 }
 
+// ENTITY RECOGNITION - Extract structured information from messages
+interface ExtractedEntity {
+  type: 'technology' | 'project_type' | 'requirement' | 'timeline' | 'budget';
+  value: string;
+  confidence: number;
+}
+
+function extractEntities(message: string): ExtractedEntity[] {
+  const entities: ExtractedEntity[] = [];
+  const lowerMessage = message.toLowerCase();
+
+  // Technology extraction with aliases
+  const techMap: Record<string, string[]> = {
+    react: ['react', 'reactjs', 'react.js'],
+    nodejs: ['node', 'nodejs', 'node.js', 'express'],
+    dotnet: ['.net', 'dotnet', 'asp.net', 'c#', 'csharp'],
+    postgresql: ['postgres', 'postgresql', 'pg'],
+    mongodb: ['mongo', 'mongodb'],
+    typescript: ['typescript', 'ts'],
+    python: ['python', 'py'],
+    java: ['java'],
+    swift: ['swift', 'ios'],
+    kotlin: ['kotlin', 'android'],
+  };
+
+  for (const [tech, aliases] of Object.entries(techMap)) {
+    for (const alias of aliases) {
+      if (lowerMessage.includes(alias)) {
+        entities.push({ type: 'technology', value: tech, confidence: 0.9 });
+        break;
+      }
+    }
+  }
+
+  // Project type extraction
+  const projectTypes: Record<string, RegExp> = {
+    'saas': /\b(saas|software as a service|subscription|multi[- ]tenant)\b/,
+    'ecommerce': /\b(e-?commerce|shop|store|payment|checkout|cart|online store)\b/,
+    'mobile_app': /\b(mobile|app|ios|android|smartphone|mobile application)\b/,
+    'api': /\b(api|rest|endpoint|integration|webhook|backend service)\b/,
+    'dashboard': /\b(dashboard|admin|analytics|reporting|data visualization)\b/,
+    'website': /\b(website|web|landing page|portfolio site)\b/,
+    'crm': /\b(crm|customer relationship|client management)\b/,
+  };
+
+  for (const [type, regex] of Object.entries(projectTypes)) {
+    if (regex.test(lowerMessage)) {
+      entities.push({ type: 'project_type', value: type, confidence: 0.85 });
+    }
+  }
+
+  // Requirements extraction
+  const requirements: Record<string, RegExp> = {
+    'authentication': /\b(auth|authentication|login|signup|user management)\b/,
+    'payment': /\b(payment|stripe|paypal|billing|checkout)\b/,
+    'real_time': /\b(real[- ]time|live|websocket|instant)\b/,
+    'responsive': /\b(responsive|mobile[- ]friendly|adaptive)\b/,
+    'seo': /\b(seo|search engine|google)\b/,
+  };
+
+  for (const [req, regex] of Object.entries(requirements)) {
+    if (regex.test(lowerMessage)) {
+      entities.push({ type: 'requirement', value: req, confidence: 0.8 });
+    }
+  }
+
+  // Timeline extraction
+  const timelinePatterns = [
+    { pattern: /(\d+)\s*(week|weeks|wk)/i, unit: 'weeks' },
+    { pattern: /(\d+)\s*(month|months|mo)/i, unit: 'months' },
+    { pattern: /(\d+)\s*(day|days)/i, unit: 'days' },
+    { pattern: /(urgent|asap|quickly|fast|rush)/i, value: 'urgent' },
+  ];
+
+  for (const { pattern, unit, value } of timelinePatterns) {
+    const match = lowerMessage.match(pattern);
+    if (match) {
+      entities.push({
+        type: 'timeline',
+        value: value || `${match[1]}_${unit}`,
+        confidence: 0.8
+      });
+    }
+  }
+
+  // Budget extraction
+  const budgetPattern = /\$\s*(\d+(?:,\d{3})*(?:\.\d{2})?)|(\d+(?:,\d{3})*)\s*(?:dollar|usd|\$)/i;
+  const budgetMatch = lowerMessage.match(budgetPattern);
+  if (budgetMatch) {
+    entities.push({
+      type: 'budget',
+      value: budgetMatch[1] || budgetMatch[2],
+      confidence: 0.9
+    });
+  }
+
+  return entities;
+}
+
+// QUESTION DECOMPOSITION - Handle compound questions
+function decomposeQuestion(message: string): string[] {
+  // Handle "and" conjunctions for compound questions
+  const andSplit = message.split(/\s+and\s+(?=can|does|is|has|what|how|why|when|where)/i);
+  if (andSplit.length > 1) {
+    return andSplit.map(q => q.trim());
+  }
+
+  // Handle multiple question marks
+  const multiQuestion = message.split(/\?\s*/).filter(q => q.trim());
+  if (multiQuestion.length > 1) {
+    return multiQuestion.map(q => q.trim() + '?');
+  }
+
+  // Handle comma-separated questions
+  const commaSplit = message.split(/,\s*(?=can|does|is|has|what|how|why|when|where)/i);
+  if (commaSplit.length > 1) {
+    return commaSplit.map(q => q.trim());
+  }
+
+  return [message];
+}
+
 // Extract key concepts/entities from user's question for semantic understanding
 function extractKeyConceptsFromMessage(message: string): string[] {
   const lowerMessage = message.toLowerCase();
