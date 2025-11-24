@@ -622,9 +622,101 @@ export const responsePatterns: Record<string, string[]> = {
   ]
 };
 
+// TYPO CORRECTION - Fuzzy matching for common misspellings
+function calculateLevenshteinDistance(str1: string, str2: string): number {
+  const matrix: number[][] = [];
+
+  for (let i = 0; i <= str2.length; i++) {
+    matrix[i] = [i];
+  }
+
+  for (let j = 0; j <= str1.length; j++) {
+    matrix[0][j] = j;
+  }
+
+  for (let i = 1; i <= str2.length; i++) {
+    for (let j = 1; j <= str1.length; j++) {
+      if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j - 1] + 1, // substitution
+          matrix[i][j - 1] + 1,      // insertion
+          matrix[i - 1][j] + 1       // deletion
+        );
+      }
+    }
+  }
+
+  return matrix[str2.length][str1.length];
+}
+
+function fuzzyMatch(input: string, target: string, threshold: number = 2): boolean {
+  const distance = calculateLevenshteinDistance(input.toLowerCase(), target.toLowerCase());
+  return distance <= threshold;
+}
+
+function correctTypos(message: string): string {
+  let corrected = message;
+
+  // Common typos in name
+  const nameVariants: Record<string, string> = {
+    'muhamad': 'muhammad',
+    'muhammed': 'muhammad',
+    'mohamed': 'muhammad',
+    'mohamad': 'muhammad',
+    'muhamed': 'muhammad',
+    'mohammed': 'muhammad',
+  };
+
+  // Common tech typos
+  const techTypos: Record<string, string> = {
+    'raect': 'react',
+    'recat': 'react',
+    'reactjs': 'react',
+    'nodejs': 'node',
+    'postrgres': 'postgresql',
+    'postgress': 'postgresql',
+    'postgres': 'postgresql',
+    'typscript': 'typescript',
+    'javascrpit': 'javascript',
+    'javascript': 'javascript',
+    'pytohn': 'python',
+    'phyton': 'python',
+  };
+
+  // Merge all corrections
+  const corrections = { ...nameVariants, ...techTypos };
+
+  for (const [typo, correct] of Object.entries(corrections)) {
+    const regex = new RegExp(`\\b${typo}\\b`, 'gi');
+    corrected = corrected.replace(regex, correct);
+  }
+
+  // Fuzzy match for project names
+  const projectNames = Object.keys(projectsData);
+  const words = corrected.split(/\s+/);
+
+  for (let i = 0; i < words.length; i++) {
+    const cleanWord = words[i].replace(/[^a-zA-Z]/g, '');
+    if (cleanWord.length >= 4) {
+      for (const projectName of projectNames) {
+        if (fuzzyMatch(cleanWord, projectName, 2)) {
+          words[i] = words[i].replace(new RegExp(cleanWord, 'i'), projectName);
+          break;
+        }
+      }
+    }
+  }
+
+  return words.join(' ');
+}
+
 // Pattern matching for intent detection
 export function detectIntent(message: string): string {
-  const lowerMessage = message.toLowerCase().trim();
+  // Correct typos first for better pattern matching
+  const correctedMessage = correctTypos(message);
+  const lowerMessage = correctedMessage.toLowerCase().trim();
 
   // Nigerian slang greetings - check first for priority
   if (/^(how\s*far|wetin\s*dey|e\s*dey|na\s*you|abeg|omo|bros?|my\s*guy|e\s*go\s*be|wahala|no\s*wahala|shey)/.test(lowerMessage) ||
@@ -1212,6 +1304,99 @@ function constructIntelligentFallback(message: string, concepts: string[]): stri
   return "I want to give you the best answer! Here's what I can help with:\n\n**Technical:** Skills, tech stack, projects, AI expertise\n**Business:** Availability, pricing, hiring\n**About:** Background, motivation, startup Nyra\n\nWhat interests you?";
 }
 
+// SENTIMENT ANALYSIS & EMOTIONAL INTELLIGENCE
+interface SentimentAnalysis {
+  sentiment: 'positive' | 'negative' | 'neutral' | 'excited' | 'frustrated' | 'uncertain';
+  confidence: number;
+  emotionalTone: string;
+}
+
+function analyzeSentiment(message: string): SentimentAnalysis {
+  const lowerMessage = message.toLowerCase();
+
+  // Positive indicators
+  const positiveWords = /\b(great|awesome|amazing|love|perfect|excellent|wonderful|fantastic|impressed|like|nice|good|best|cool)\b/g;
+  const positiveCount = (lowerMessage.match(positiveWords) || []).length;
+
+  // Negative/Frustrated indicators
+  const negativeWords = /\b(bad|terrible|worst|hate|disappointed|frustrated|confused|difficult|hard|struggle|problem|issue|wrong)\b/g;
+  const negativeCount = (lowerMessage.match(negativeWords) || []).length;
+
+  // Excited indicators
+  const excitedIndicators = /[!]{2,}|wow|omg|amazing|can't wait|excited|love it|so good/g;
+  const isExcited = excitedIndicators.test(lowerMessage);
+
+  // Uncertain indicators
+  const uncertainIndicators = /\b(maybe|perhaps|not sure|unsure|wondering|thinking|consider|might|possibly)\b/g;
+  const isUncertain = uncertainIndicators.test(lowerMessage);
+
+  // Frustrated indicators
+  const frustratedIndicators = /\b(why|how come|still|again|keep|repeatedly)\b.*\b(not|no|never)\b|can'?t\s*find|struggling\s*to/;
+  const isFrustrated = frustratedIndicators.test(lowerMessage);
+
+  // Determine sentiment
+  if (isExcited && positiveCount > 0) {
+    return { sentiment: 'excited', confidence: 0.9, emotionalTone: 'enthusiastic' };
+  }
+
+  if (isFrustrated || negativeCount > 1) {
+    return { sentiment: 'frustrated', confidence: 0.8, emotionalTone: 'empathetic' };
+  }
+
+  if (isUncertain) {
+    return { sentiment: 'uncertain', confidence: 0.7, emotionalTone: 'reassuring' };
+  }
+
+  if (positiveCount > negativeCount) {
+    return { sentiment: 'positive', confidence: 0.85, emotionalTone: 'warm' };
+  }
+
+  if (negativeCount > positiveCount) {
+    return { sentiment: 'negative', confidence: 0.8, emotionalTone: 'understanding' };
+  }
+
+  return { sentiment: 'neutral', confidence: 0.6, emotionalTone: 'professional' };
+}
+
+function addEmotionalContext(response: string, sentiment: SentimentAnalysis): string {
+  const { emotionalTone } = sentiment;
+
+  const emotionalPrefixes: Record<string, string[]> = {
+    enthusiastic: [
+      "I'm excited to share that ",
+      "Great energy! ",
+      "Love the enthusiasm! ",
+    ],
+    empathetic: [
+      "I understand that can be challenging. ",
+      "I hear you. Let me help clarify - ",
+      "That's a valid concern. ",
+    ],
+    reassuring: [
+      "No worries! ",
+      "Great question - let me break it down: ",
+      "I'm here to help clarify: ",
+    ],
+    warm: [
+      "I'm glad you asked! ",
+      "Absolutely! ",
+      "Great to hear! ",
+    ],
+    understanding: [
+      "I appreciate your honesty. ",
+      "Let me address that concern: ",
+    ],
+  };
+
+  const prefixes = emotionalPrefixes[emotionalTone];
+  if (prefixes && Math.random() > 0.5) {
+    const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+    return prefix + response;
+  }
+
+  return response;
+}
+
 // Detect user's communication style from their message
 function detectCommunicationStyle(message: string): 'formal' | 'casual' | 'technical' | 'brief' {
   const lowerMessage = message.toLowerCase();
@@ -1382,17 +1567,20 @@ function getProjectResponse(projectName: string): string {
   return `**${projectName}**\n\n${project.description}\n\n**Role**: ${project.role}\n**Tech Stack**: ${project.tech.join(', ')}\n\n**Key Features**:\n${project.features.map(f => `- ${f}`).join('\n')}\n\n**Status**: ${project.status}${projectWithLink.link ? `\n**Link**: ${projectWithLink.link}` : ''}\n\n${project.impact}`;
 }
 
-// Main response generator with contextual intelligence + SEMANTIC REASONING
+// Main response generator with contextual intelligence + SEMANTIC REASONING + EMOTIONAL INTELLIGENCE
 export function generateResponse(message: string, context?: ConversationContext): string {
   const lowerMessage = message.toLowerCase();
 
   // 1. DETECT USER'S COMMUNICATION STYLE
   const userStyle = detectCommunicationStyle(message);
 
-  // 2. EXTRACT KEY CONCEPTS from the message (semantic analysis)
+  // 2. ANALYZE USER SENTIMENT & EMOTIONAL STATE
+  const sentiment = analyzeSentiment(message);
+
+  // 3. EXTRACT KEY CONCEPTS from the message (semantic analysis)
   const concepts = extractKeyConceptsFromMessage(message);
 
-  // 3. ANALYZE CONVERSATION CONTEXT (for follow-ups and implicit questions)
+  // 4. ANALYZE CONVERSATION CONTEXT (for follow-ups and implicit questions)
   const conversationAnalysis = analyzeConversationContext(message, context);
 
   // 4. TRY TO DETECT INTENT (pattern matching first)
@@ -1470,10 +1658,13 @@ export function generateResponse(message: string, context?: ConversationContext)
     }
   }
 
-  // 12. ADAPT RESPONSE TONE to match user's communication style
+  // 12. ADD EMOTIONAL CONTEXT based on user sentiment
+  response = addEmotionalContext(response, sentiment);
+
+  // 13. ADAPT RESPONSE TONE to match user's communication style
   response = adaptResponseTone(response, userStyle);
 
-  // 13. HANDLE IMPLICIT COMPARISONS (if user asks "vs X" or "compared to Y")
+  // 14. HANDLE IMPLICIT COMPARISONS (if user asks "vs X" or "compared to Y")
   if (/\bvs\b|\bversus\b|compared to|better than/i.test(message)) {
     // Add comparative context
     if (intent === 'skills') {
@@ -1481,7 +1672,7 @@ export function generateResponse(message: string, context?: ConversationContext)
     }
   }
 
-  // 14. HANDLE ELABORATION REQUESTS ("tell me more", "elaborate", "more details")
+  // 15. HANDLE ELABORATION REQUESTS ("tell me more", "elaborate", "more details")
   // Note: This is separate from universal request handler - handles general elaboration
   if (/(tell me more|elaborate|more detail|expand|explain further)/i.test(message) && context?.lastIntent) {
     // Provide deeper answer
@@ -1492,4 +1683,242 @@ export function generateResponse(message: string, context?: ConversationContext)
   }
 
   return response;
+}
+
+// SMART PROACTIVE SUGGESTIONS - Guide users with relevant follow-up questions
+interface SmartSuggestion {
+  question: string;
+  reasoning: string;
+  priority: 'high' | 'medium' | 'low';
+}
+
+export function generateSmartSuggestions(
+  currentIntent: string,
+  context?: ConversationContext
+): SmartSuggestion[] {
+  const suggestions: SmartSuggestion[] = [];
+
+  // Suggestion flows based on intent
+  const suggestionFlows: Record<string, SmartSuggestion[]> = {
+    about: [
+      {
+        question: "What projects has he built?",
+        reasoning: "Natural next step after learning about Muhammad",
+        priority: 'high'
+      },
+      {
+        question: "What's his tech stack?",
+        reasoning: "Technical details often follow overview",
+        priority: 'high'
+      },
+      {
+        question: "Tell me about Nyra",
+        reasoning: "His startup shows entrepreneurial side",
+        priority: 'medium'
+      }
+    ],
+    skills: [
+      {
+        question: "Show me projects using these skills",
+        reasoning: "See skills in action",
+        priority: 'high'
+      },
+      {
+        question: "Is he available for hire?",
+        reasoning: "Skills discussion often leads to hiring",
+        priority: 'high'
+      },
+      {
+        question: "What makes him different?",
+        reasoning: "Understand unique value proposition",
+        priority: 'medium'
+      }
+    ],
+    projects: [
+      {
+        question: "What tech stack did he use?",
+        reasoning: "Technical details of implementations",
+        priority: 'high'
+      },
+      {
+        question: "Can he build something similar for me?",
+        reasoning: "Apply his experience to user's needs",
+        priority: 'high'
+      },
+      {
+        question: "How long did these take?",
+        reasoning: "Timeline expectations",
+        priority: 'medium'
+      }
+    ],
+    techStack: [
+      {
+        question: "Show me projects with these technologies",
+        reasoning: "See tech stack in real projects",
+        priority: 'high'
+      },
+      {
+        question: "What's his strongest technology?",
+        reasoning: "Identify core expertise",
+        priority: 'medium'
+      },
+      {
+        question: "Is he available for work?",
+        reasoning: "Move toward hiring discussion",
+        priority: 'high'
+      }
+    ],
+    pricing: [
+      {
+        question: "How do I get a quote?",
+        reasoning: "Next step after pricing discussion",
+        priority: 'high'
+      },
+      {
+        question: "What's included in the price?",
+        reasoning: "Understand value delivered",
+        priority: 'high'
+      },
+      {
+        question: "Is he available now?",
+        reasoning: "Timeline after pricing",
+        priority: 'medium'
+      }
+    ],
+    availability: [
+      {
+        question: "How do I contact him?",
+        reasoning: "Next step to initiate work",
+        priority: 'high'
+      },
+      {
+        question: "What's his typical project process?",
+        reasoning: "Understand working methodology",
+        priority: 'medium'
+      },
+      {
+        question: "Can I see more of his work?",
+        reasoning: "Validate before contacting",
+        priority: 'medium'
+      }
+    ],
+    nyraVision: [
+      {
+        question: "What problem does Nyra solve?",
+        reasoning: "Understand the product",
+        priority: 'high'
+      },
+      {
+        question: "What's his tech stack?",
+        reasoning: "Technical implementation details",
+        priority: 'medium'
+      },
+      {
+        question: "Can he build something similar for me?",
+        reasoning: "Apply Nyra experience to user's project",
+        priority: 'high'
+      }
+    ],
+    whyHire: [
+      {
+        question: "What projects has he built?",
+        reasoning: "See concrete evidence",
+        priority: 'high'
+      },
+      {
+        question: "What are his rates?",
+        reasoning: "Pricing after value discussion",
+        priority: 'high'
+      },
+      {
+        question: "How do I contact him?",
+        reasoning: "Ready to move forward",
+        priority: 'high'
+      }
+    ],
+    contact: [
+      {
+        question: "What information should I include?",
+        reasoning: "Prepare for effective outreach",
+        priority: 'high'
+      },
+      {
+        question: "What's his typical response time?",
+        reasoning: "Set expectations",
+        priority: 'medium'
+      },
+      {
+        question: "Tell me about his process",
+        reasoning: "Understand working methodology",
+        priority: 'medium'
+      }
+    ]
+  };
+
+  // Get suggestions for current intent
+  const flowSuggestions = suggestionFlows[currentIntent] || [];
+  suggestions.push(...flowSuggestions);
+
+  // Contextual suggestions based on conversation history
+  if (context?.topicsDiscussed) {
+    const discussed = context.topicsDiscussed;
+
+    // If discussed skills but not projects, suggest projects
+    if (discussed.includes('skills') && !discussed.includes('projects')) {
+      suggestions.push({
+        question: "What has he built with these skills?",
+        reasoning: "Connect skills to real projects",
+        priority: 'high'
+      });
+    }
+
+    // If discussed projects but not availability, suggest hiring
+    if (discussed.includes('projects') && !discussed.includes('availability')) {
+      suggestions.push({
+        question: "Is he available for new projects?",
+        reasoning: "Natural progression to hiring",
+        priority: 'high'
+      });
+    }
+
+    // If discussed availability but not pricing
+    if (discussed.includes('availability') && !discussed.includes('pricing')) {
+      suggestions.push({
+        question: "What are his rates?",
+        reasoning: "Pricing after availability check",
+        priority: 'high'
+      });
+    }
+
+    // If discussed pricing but not contact
+    if (discussed.includes('pricing') && !discussed.includes('contact')) {
+      suggestions.push({
+        question: "How do I contact him?",
+        reasoning: "Ready to initiate conversation",
+        priority: 'high'
+      });
+    }
+
+    // If discussed technical details, suggest business aspects
+    if ((discussed.includes('skills') || discussed.includes('techStack')) &&
+        !discussed.includes('whyHire')) {
+      suggestions.push({
+        question: "Why should I hire Muhammad?",
+        reasoning: "Value proposition after technical discussion",
+        priority: 'high'
+      });
+    }
+  }
+
+  // Remove duplicates and sort by priority
+  const uniqueSuggestions = suggestions.filter((s, index, self) =>
+    index === self.findIndex(t => t.question === s.question)
+  );
+
+  return uniqueSuggestions
+    .sort((a, b) => {
+      const priorityMap = { high: 3, medium: 2, low: 1 };
+      return priorityMap[b.priority] - priorityMap[a.priority];
+    })
+    .slice(0, 3); // Return top 3
 }
