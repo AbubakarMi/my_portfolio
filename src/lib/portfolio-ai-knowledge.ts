@@ -2407,3 +2407,235 @@ function selectResponseVariant(
   used.add(variantIndex);
   return variantIndex;
 }
+
+// ========================================
+// ADVANCED AI INTELLIGENCE SYSTEMS
+// ========================================
+
+// CONVERSATION MEMORY MANAGER - Tracks and learns from entire conversation
+export function updateConversationMemory(
+  memory: ConversationMemory,
+  userMessage: string,
+  botResponse: string,
+  intent: string,
+  entities: any[],
+  sentiment: string
+): void {
+  // Calculate importance (1-10)
+  const importance = calculateMessageImportance(userMessage, intent, sentiment);
+
+  // Add to short-term memory
+  memory.shortTerm.push({
+    timestamp: new Date(),
+    userMessage,
+    botResponse,
+    intent,
+    entities,
+    sentiment,
+    importance
+  });
+
+  // Keep only last 10 exchanges
+  if (memory.shortTerm.length > 10) {
+    memory.shortTerm.shift();
+  }
+
+  // Update user profile based on this exchange
+  updateUserProfile(memory.userProfile, intent, entities, sentiment, userMessage);
+
+  // Update conversation state
+  updateConversationState(memory.conversationState, intent, memory.userProfile);
+}
+
+function calculateMessageImportance(message: string, intent: string, sentiment: string): number {
+  let score = 5; // Base importance
+
+  // High-value intents
+  const highValueIntents = ['whyHire', 'availability', 'pricing', 'contact', 'concern'];
+  if (highValueIntents.includes(intent)) score += 3;
+
+  // Emotional statements
+  if (sentiment === 'excited' || sentiment === 'frustrated') score += 2;
+
+  // Project-specific questions
+  if (/project|build|need|looking for|hire/.test(message.toLowerCase())) score += 2;
+
+  // Buying signals
+  if (/budget|timeline|start|when can|available/.test(message.toLowerCase())) score += 3;
+
+  return Math.min(score, 10);
+}
+
+function updateUserProfile(
+  profile: ConversationMemory['userProfile'],
+  intent: string,
+  entities: any[],
+  sentiment: string,
+  message: string
+): void {
+  // Track interests (technologies mentioned)
+  entities.forEach(entity => {
+    if (entity.type === 'technology' && !profile.interests.includes(entity.value)) {
+      profile.interests.push(entity.value);
+    }
+    if (entity.type === 'project_type' && !profile.projectNeeds.includes(entity.value)) {
+      profile.projectNeeds.push(entity.value);
+    }
+  });
+
+  // Track concerns
+  if (intent === 'concern' || sentiment === 'frustrated') {
+    profile.concerns.push(message.substring(0, 100)); // Store first 100 chars
+  }
+
+  // Track positive signals
+  if (intent === 'positiveStatement' || sentiment === 'excited') {
+    profile.positiveSignals.push(message.substring(0, 100));
+  }
+
+  // Update buying signals score
+  const buyingKeywords = ['hire', 'work together', 'project', 'budget', 'timeline', 'available', 'start', 'contact'];
+  const hasBuyingSignal = buyingKeywords.some(keyword => message.toLowerCase().includes(keyword));
+  if (hasBuyingSignal) {
+    profile.buyingSignals = Math.min(profile.buyingSignals + 10, 100);
+  }
+
+  // Detect technical level
+  const techTermsUsed = entities.filter(e => e.type === 'technology').length;
+  if (techTermsUsed >= 3) {
+    profile.technicalLevel = 'expert';
+  } else if (techTermsUsed >= 1) {
+    profile.technicalLevel = 'intermediate';
+  }
+}
+
+function updateConversationState(
+  state: ConversationMemory['conversationState'],
+  intent: string,
+  profile: ConversationMemory['userProfile']
+): void {
+  // Determine conversation stage
+  if (intent === 'greeting' || intent === 'about') {
+    state.stage = 'discovery';
+  } else if (intent === 'skills' || intent === 'projects' || intent === 'techStack') {
+    state.stage = 'evaluation';
+  } else if (intent === 'pricing' || intent === 'availability' || intent === 'whyHire') {
+    state.stage = 'negotiation';
+  } else if (intent === 'contact' || profile.buyingSignals >= 70) {
+    state.stage = 'closing';
+  }
+
+  // Predict next intent based on current stage
+  const intentPredictions: Record<string, string> = {
+    discovery: 'skills', // After learning about him, ask about skills
+    evaluation: 'whyHire', // After seeing skills/projects, ask why hire
+    negotiation: 'contact', // After pricing/availability, want to contact
+    closing: 'contact', // Ready to reach out
+    general: 'about'
+  };
+
+  state.nextPredictedIntent = intentPredictions[state.stage];
+
+  // Recommend topics based on what hasn't been discussed
+  const allTopics = ['skills', 'projects', 'whyHire', 'pricing', 'availability', 'nyraVision'];
+  const discussed = profile.interests.length > 0 ? ['skills', 'techStack'] : [];
+  state.recommendedTopics = allTopics.filter(topic => !discussed.includes(topic)).slice(0, 3);
+}
+
+// PREDICTIVE INTENT SYSTEM - AI predicts what user wants to know next
+export function predictNextQuestion(memory: ConversationMemory): string {
+  const { stage, nextPredictedIntent } = memory.conversationState;
+  const { buyingSignals, interests, projectNeeds } = memory.userProfile;
+
+  // High buying signals - predict contact
+  if (buyingSignals >= 70) {
+    return "Based on your interest, would you like to discuss your project with Muhammad? Use the Contact Form below!";
+  }
+
+  // Has project needs but hasn't asked about pricing
+  if (projectNeeds.length > 0 && stage === 'evaluation') {
+    return `Since you're interested in ${projectNeeds.join(', ')} projects, you might want to know about Muhammad's rates and availability.`;
+  }
+
+  // Has technical interests but hasn't seen projects
+  if (interests.length > 0 && stage === 'discovery') {
+    return `Interested in ${interests.join(', ')}? Let me show you Muhammad's projects using these technologies!`;
+  }
+
+  // Default prediction
+  return '';
+}
+
+// PROACTIVE INFORMATION OFFERING - AI volunteers relevant info
+export function generateProactiveInfo(intent: string, entities: any[], memory?: ConversationMemory): string {
+  let proactiveInfo = '';
+
+  // If user asks about skills, proactively mention relevant projects
+  if (intent === 'skills' && memory) {
+    const { interests } = memory.userProfile;
+    if (interests.length > 0) {
+      proactiveInfo = `\n\n💡 **Did you know?** Muhammad has built production apps using ${interests.slice(0, 2).join(' and ')}. Want to see specific examples?`;
+    }
+  }
+
+  // If user asks about projects, mention availability
+  if (intent === 'projects' && memory && memory.userProfile.buyingSignals >= 30) {
+    proactiveInfo = `\n\n💡 **Good news:** Muhammad is currently available for new projects. Want to discuss yours?`;
+  }
+
+  // If user asks about pricing, mention value
+  if (intent === 'pricing') {
+    proactiveInfo = `\n\n💡 **Value Proposition:** You're not just hiring a developer - you're getting a founder who understands both tech AND business.`;
+  }
+
+  // If multiple technologies mentioned, suggest combination
+  const techs = entities.filter(e => e.type === 'technology').map(e => e.value);
+  if (techs.length >= 2) {
+    proactiveInfo = `\n\n💡 **Perfect Match:** Muhammad specializes in exactly this stack combination - ${techs.join(' + ')}. He's built multiple production apps with it.`;
+  }
+
+  return proactiveInfo;
+}
+
+// SMART CONTEXT SWITCHING - Seamless topic transitions
+export function generateContextSwitchBridge(oldIntent: string, newIntent: string): string {
+  const bridges: Record<string, Record<string, string>> = {
+    skills: {
+      projects: "Now that you know his technical capabilities, let's look at how he's applied them in real projects.",
+      pricing: "Given his skill set, you might be wondering about his rates.",
+      whyHire: "With these skills in mind, here's why Muhammad stands out from other developers."
+    },
+    projects: {
+      skills: "These projects showcase his technical skills. Let me break down his expertise:",
+      availability: "Impressed by his work? Good news - he's available for new projects.",
+      whyHire: "Seeing his portfolio, you can understand why clients choose Muhammad."
+    },
+    about: {
+      skills: "Let's dive into his technical capabilities:",
+      projects: "Want to see what he's built? Here's his portfolio:",
+      nyraVision: "Speaking of his journey, let me tell you about his startup Nyra:"
+    }
+  };
+
+  return bridges[oldIntent]?.[newIntent] ? `\n\n**${bridges[oldIntent][newIntent]}**\n\n` : '';
+}
+
+// Initialize memory for new conversation
+export function initializeConversationMemory(): ConversationMemory {
+  return {
+    shortTerm: [],
+    userProfile: {
+      interests: [],
+      projectNeeds: [],
+      concerns: [],
+      positiveSignals: [],
+      buyingSignals: 0,
+      technicalLevel: 'unknown'
+    },
+    conversationState: {
+      stage: 'general',
+      nextPredictedIntent: 'about',
+      recommendedTopics: ['skills', 'projects', 'whyHire']
+    }
+  };
+}
