@@ -1,5 +1,31 @@
 // Comprehensive AI Knowledge Base for Portfolio Chatbot
 
+// ADVANCED CONVERSATION MEMORY - Track everything about the conversation
+export interface ConversationMemory {
+  shortTerm: Array<{
+    timestamp: Date;
+    userMessage: string;
+    botResponse: string;
+    intent: string;
+    entities: any[];
+    sentiment: string;
+    importance: number; // 1-10
+  }>;
+  userProfile: {
+    interests: string[]; // Technologies/topics user asked about
+    projectNeeds: string[]; // Project types mentioned
+    concerns: string[]; // Worries or hesitations expressed
+    positiveSignals: string[]; // Excitement indicators
+    buyingSignals: number; // Score 0-100 of hiring likelihood
+    technicalLevel: 'beginner' | 'intermediate' | 'expert' | 'unknown';
+  };
+  conversationState: {
+    stage: 'discovery' | 'evaluation' | 'negotiation' | 'closing' | 'general';
+    nextPredictedIntent: string;
+    recommendedTopics: string[];
+  };
+}
+
 export interface ConversationContext {
   lastTopic?: string;
   mentionedProjects?: string[];
@@ -10,6 +36,7 @@ export interface ConversationContext {
   lastIntent?: string;
   topicsDiscussed?: string[];
   usedResponseVariants?: Map<string, Set<number>>; // Track which response variants were used
+  memory?: ConversationMemory; // Advanced memory system
 }
 
 // Personal information
@@ -620,6 +647,20 @@ export const responsePatterns: Record<string, string[]> = {
     "Yes, Muhammad has experienced failures that shaped who he is today. Here's a powerful story:\n\n**The InvoTrek Challenge**\n\nMuhammad built InvoTrek - a technically solid invoicing system. The code was clean, the architecture was sound, everything worked perfectly. But there was a problem: nobody knew about it. The product struggled with visibility and market adoption.\n\n**The Painful Truth He Learned:**\n\n\"In a world full of noise, obscurity is death. If no one sees you, no one knows you. And if no one knows you, no one will ever reward you. The marketplace doesn't reward the most talented — it rewards the most visible. The most visible product wins over the most talented.\"\n\n**How This Changed Him:**\n\n• Stopped hiding his work and started actively sharing\n• Began executing and shipping every idea to market\n• Realized marketing and visibility matter as much as great code\n• Started building in public and telling the story behind his products\n\nNow with Nyra, he's applying these lessons: building world-class software AND ensuring people know about it. That's why he's focused on both product excellence and strategic visibility.\n\nThis failure taught him that even the best code in the world is worthless if nobody uses it. It's a lesson that made him a better founder.",
     "Absolutely. Muhammad learned one of his most valuable lessons from failure:\n\n**InvoTrek** - He built it with excellent architecture and clean code, but struggled to get users. Why? Because being talented isn't enough.\n\n**The Hard Lesson:**\nThe marketplace doesn't care how good your code is if nobody sees your product. Visibility beats talent. Marketing matters as much as engineering.\n\n**What Changed:**\nHe stopped being just a developer who builds in silence. He became a founder who builds AND markets. He ships publicly, shares his journey, and focuses on both quality and reach.\n\nWith Nyra, he's applying this wisdom: world-class product + strategic visibility = success.\n\nThat failure was painful, but it transformed how he approaches building products. Sometimes the best lessons come from what doesn't work.",
     "Great question! Yes, Muhammad has faced setbacks that taught him critical lessons:\n\n**The InvoTrek Story:**\n\nImagine building something technically excellent - clean code, solid architecture, no bugs. But hardly anyone uses it. That was InvoTrek.\n\n**What He Discovered:**\n\n*\"Obscurity is death. The marketplace rewards the most visible, not the most talented.\"*\n\nYou can be the best developer in the world, but if people don't know you exist, it doesn't matter.\n\n**The Transformation:**\n\nBefore: Build great code → Hope people find it\nAfter: Build great code → Actively share and market it\n\nHe stopped hiding. Started executing publicly. Began sharing his journey. Focused on making noise alongside making progress.\n\n**Why This Matters for You:**\n\nIf you hire Muhammad, you're getting someone who understands BOTH sides:\n- Technical excellence (he can build it)\n- Business reality (he knows how to make it succeed)\n\nThat's the founder mindset. Failures taught him what most developers never learn."
+  ],
+
+  // Positive emotional statements (I love him, he's amazing, etc.)
+  positiveStatement: [
+    "That's wonderful to hear! Muhammad would be thrilled to know you appreciate his work and journey. 😊\n\nWhat resonates with you most?\n• His **technical skills** and expertise?\n• His **startup journey** with Nyra?\n• His **dedication** and work ethic?\n• His **mission** to prove excellence from Nigeria?\n\nI'd love to tell you more about what makes him special! Or if you're interested in working together, feel free to use the **Contact Form** below.",
+    "Thank you for the kind words! Muhammad puts his heart into everything he builds. 💙\n\nSince you're interested, let me ask:\n• Are you looking to **hire** him for a project?\n• Want to **collaborate** on something?\n• Just curious to **learn more** about his work?\n• Interested in his **startup Nyra**?\n\nLet me know how I can help!",
+    "I'm glad Muhammad's work resonates with you! He's passionate about building meaningful software and proving that world-class talent exists everywhere. 🌟\n\nWhat would you like to explore next?\n• See his **projects and portfolio**?\n• Learn about his **technical expertise**?\n• Discuss **working together**?\n• Hear more about his **journey and vision**?\n\nI'm here to help!"
+  ],
+
+  // User concerns or doubts
+  concern: [
+    "I appreciate you sharing your concern. Let me address that honestly.\n\nWhat specifically worries you?\n• **Experience level** - He has 4 years intensive experience + 11+ production apps\n• **Location** - He works remotely with global clients (time zones not an issue)\n• **Communication** - Proactive updates, responsive, English fluent\n• **Quality** - Clean architecture, tested code, professional delivery\n• **Reliability** - Track record of completing projects on time\n\nOr is it something else? I'm here to clarify!",
+    "That's a valid concern - let's address it head-on.\n\nMuhammad understands that trust is earned, not given. Here's what mitigates risk:\n\n✅ **Proven Track Record**: 11+ production applications deployed\n✅ **Startup Founder**: Skin in the game with Nyra\n✅ **Professional Approach**: Proper contracts, milestones, communication\n✅ **Technical Depth**: 4 years of 8-10 hour daily coding\n✅ **Business Understanding**: Knows both tech AND business needs\n\nWhat specific aspect concerns you most? Let's talk it through.",
+    "I hear you - it's smart to have concerns and ask questions before committing.\n\nLet me help clarify. Are you concerned about:\n• His **technical capabilities** for your project?\n• **Communication** and project management?\n• **Timeline** and delivery reliability?\n• **Pricing** and value for money?\n• Something **specific** to your situation?\n\nBeing transparent: Muhammad has built 11+ apps, runs a startup, and works with clients globally. But I understand trust takes time. What would help you feel confident?"
   ]
 };
 
@@ -1353,6 +1394,158 @@ function extractKeyConceptsFromMessage(message: string): string[] {
   return [...new Set(concepts)]; // Remove duplicates
 }
 
+// SUPER BRAIN - Advanced natural language understanding and reasoning
+function superBrain(message: string, concepts: string[], entities: ExtractedEntity[], sentiment: SentimentAnalysis): string | null {
+  const lowerMessage = message.toLowerCase().trim();
+  const wordCount = message.split(/\s+/).length;
+
+  // === SINGLE WORD OR VERY SHORT QUERIES ===
+  if (wordCount <= 2) {
+    // User says just "Muhammad" or "Muhammad Idris"
+    if (/^(muhammad|idris|abubakar|muhammad idris|idris abubakar)$/i.test(message)) {
+      return 'about'; // Tell them about Muhammad
+    }
+
+    // User says just a technology
+    const singleTech = ['react', 'node', 'nodejs', 'dotnet', '.net', 'python', 'java', 'typescript', 'swift', 'kotlin'];
+    if (singleTech.some(tech => lowerMessage === tech || lowerMessage === tech + '?')) {
+      return 'techStack'; // Discuss that technology
+    }
+
+    // User says "projects" or "work"
+    if (/^(projects?|works?|portfolio|apps?)$/i.test(message)) {
+      return 'projects';
+    }
+
+    // User says "skills" or "expertise"
+    if (/^(skills?|expertise|abilities|capabilities|experience)$/i.test(message)) {
+      return 'skills';
+    }
+
+    // User says "price" or "cost"
+    if (/^(price|pricing|cost|rates?|fee)$/i.test(message)) {
+      return 'pricing';
+    }
+
+    // User says "contact" or "email"
+    if (/^(contact|email|phone|reach)$/i.test(message)) {
+      return 'contact';
+    }
+  }
+
+  // === EMOTIONAL STATEMENTS (Not questions) ===
+  // User expresses positive feelings: "I love him", "He's amazing", "So impressive"
+  if (sentiment.sentiment === 'positive' || sentiment.sentiment === 'excited') {
+    if (/\b(love|like|amazing|awesome|impressive|great|fantastic|excellent|wonderful)\b/i.test(lowerMessage)) {
+      // Check if it's a statement (no question words)
+      if (!/\b(what|how|why|when|where|who|can|does|is|are|do)\b/i.test(lowerMessage)) {
+        // It's a positive statement, not a question
+        // Return special intent to handle emotional responses
+        return 'positiveStatement';
+      }
+    }
+  }
+
+  // === NEGATIVE/CONCERNED STATEMENTS ===
+  if (sentiment.sentiment === 'frustrated' || sentiment.sentiment === 'negative') {
+    if (/\b(not sure|doubt|worried|concern|problem|issue)\b/i.test(lowerMessage)) {
+      return 'concern'; // Address their concerns
+    }
+  }
+
+  return null; // Let other reasoning engines handle it
+}
+
+// DEEP REASONING ENGINE - AI thinks about user intent, not just pattern matching
+function deepReasoningEngine(message: string, concepts: string[], entities: ExtractedEntity[]): string | null {
+  const lowerMessage = message.toLowerCase();
+
+  // === HIRING INTENT DETECTION (HIGH PRIORITY) ===
+  // User wants to work with Muhammad, hire him, or collaborate
+  const hiringSignals = [
+    /\b(i want|i'd like|interested in|looking to)\s+(work|collaborate|hire|partner|team up)\b/i,
+    /\b(want to|wanna|need to|looking to)\s+(work|hire)\b/i,
+    /\b(hire|work with|collaborate with|team up with|work together)\b/i,
+    /\b(i have a project|i need (a )?developer|i need help|help me build)\b/i,
+    /\b(my project|our project|our team|join (our|my) team)\b/i,
+  ];
+
+  if (hiringSignals.some(pattern => pattern.test(lowerMessage))) {
+    // User is interested in hiring - this is a BUSINESS conversation
+    return 'whyHire'; // Show value proposition first, not just availability
+  }
+
+  // === CAPABILITY EXPLORATION (User evaluating) ===
+  // User asking "can he...", "is he able to...", "does he know..."
+  if (/\b(can (he|muhammad)|is (he|muhammad) able|does (he|muhammad) know)\b/.test(lowerMessage)) {
+    const hasTechMention = entities.some(e => e.type === 'technology');
+    const hasProjectType = entities.some(e => e.type === 'project_type');
+
+    if (hasTechMention || hasProjectType) {
+      // Specific technical capability question
+      return 'skills';
+    }
+
+    // General capability - show full picture
+    return 'whyHire';
+  }
+
+  // === QUESTION ABOUT ASKING (Meta conversation) ===
+  if (/(can i ask|may i ask|is it okay|allowed to ask)/i.test(message)) {
+    return 'capabilities';
+  }
+
+  // === PERSONAL QUESTIONS (Understanding Muhammad as a person) ===
+  const personalQuestions = [
+    /\b(who is|tell me about|describe) (muhammad|him|he)\b/i,
+    /\b(what('s| is) (he|his)) (like|background|story)\b/i,
+    /\bwhy (does he|did he) (code|program|become a developer)\b/i,
+  ];
+
+  if (personalQuestions.some(pattern => pattern.test(lowerMessage))) {
+    if (/\b(why|motivation|reason|purpose)\b/.test(lowerMessage)) {
+      return 'inspiration'; // Deep motivation question
+    }
+    return 'about';
+  }
+
+  // === PROJECT & WORK QUESTIONS ===
+  if (/(what|show|tell).*\b(project|portfolio|work|built|made|created)\b/.test(lowerMessage)) {
+    return 'projects';
+  }
+
+  // === TECHNICAL SKILL QUESTIONS ===
+  const techTerms = ['react', 'node', 'python', 'java', 'dotnet', 'typescript', 'swift', 'kotlin', 'api', 'backend', 'frontend'];
+  if (techTerms.some(tech => lowerMessage.includes(tech))) {
+    return 'techStack';
+  }
+
+  // === PRICING & BUDGET QUESTIONS ===
+  if (/\b(cost|price|rate|fee|charge|budget|pay|expensive|cheap|afford)\b/.test(lowerMessage)) {
+    return 'pricing';
+  }
+
+  // === AVAILABILITY & TIMELINE QUESTIONS ===
+  if (/\b(available|availability|free|busy|time|when|start|begin)\b/.test(lowerMessage)) {
+    return 'availability';
+  }
+
+  // === CONTACT & NEXT STEPS ===
+  if (/\b(contact|reach|email|call|phone|get in touch|talk to|speak with)\b/.test(lowerMessage)) {
+    return 'contact';
+  }
+
+  // === "I" STATEMENTS (User expressing need/want) ===
+  if (/\b(i want|i need|i'm looking|looking for|interested in|i have)\b/.test(lowerMessage)) {
+    // User has a need - focus on how Muhammad can help
+    if (concepts.includes('work') || concepts.includes('hire') || concepts.includes('project')) {
+      return 'whyHire'; // Show value proposition
+    }
+  }
+
+  return null;
+}
+
 // Semantic reasoning: Try to understand what user is REALLY asking about
 function semanticIntentReasoning(message: string, concepts: string[]): string | null {
   const lowerMessage = message.toLowerCase();
@@ -1392,6 +1585,91 @@ function semanticIntentReasoning(message: string, concepts: string[]): string | 
   }
 
   return null;
+}
+
+// INTELLIGENT ANSWER CONSTRUCTION FROM ENTITIES - AI builds answers by reasoning about extracted data
+function constructAnswerFromEntities(message: string, entities: ExtractedEntity[], concepts: string[]): string | null {
+  const lowerMessage = message.toLowerCase();
+
+  // If user mentions specific technologies or project types, construct intelligent response
+  const technologies = entities.filter(e => e.type === 'technology').map(e => e.value);
+  const projectTypes = entities.filter(e => e.type === 'project_type').map(e => e.value);
+  const requirements = entities.filter(e => e.type === 'requirement').map(e => e.value);
+  const timeline = entities.find(e => e.type === 'timeline');
+  const budget = entities.find(e => e.type === 'budget');
+
+  // CASE 1: User asks about specific tech stack combination
+  if (technologies.length >= 2) {
+    const techList = technologies.join(', ');
+    return `Great question about **${techList}**!\n\nMuhammad has solid experience with this exact stack:\n\n${technologies.map(tech => {
+      const techInfo: Record<string, string> = {
+        react: '✅ **React & Next.js** - 4 years building production apps with SSR, SSG, and App Router',
+        nodejs: '✅ **Node.js & Express** - Backend APIs, real-time systems, microservices',
+        dotnet: '✅ **.NET 8** - His core strength! Clean Architecture, CQRS, enterprise systems',
+        postgresql: '✅ **PostgreSQL** - Complex queries, row-level security, multi-tenant architecture',
+        mongodb: '✅ **MongoDB** - NoSQL databases for flexible data models',
+        typescript: '✅ **TypeScript** - Type-safe code across frontend and backend',
+        python: '✅ **Python** - Scripting, data processing, AI/ML evaluation',
+        swift: '✅ **Swift** - Native iOS development',
+        kotlin: '✅ **Kotlin** - Native Android development'
+      };
+      return techInfo[tech] || `✅ **${tech}** - Experienced`;
+    }).join('\n\n')}\n\nHe's built **11+ major projects** using these technologies in production. Want to see specific examples?`;
+  }
+
+  // CASE 2: User mentions project type + technologies
+  if (projectTypes.length > 0 && technologies.length > 0) {
+    const projectType = projectTypes[0];
+    const projectTypeNames: Record<string, string> = {
+      saas: 'SaaS platform',
+      ecommerce: 'E-commerce system',
+      mobile_app: 'Mobile application',
+      api: 'API/Backend service',
+      dashboard: 'Analytics dashboard',
+      website: 'Website',
+      crm: 'CRM system'
+    };
+
+    return `Building a **${projectTypeNames[projectType] || projectType}** with **${technologies.join(', ')}**? That's right in Muhammad's wheelhouse!\n\nHere's what he brings:\n\n**Relevant Experience:**\n• Built **Nyra** - a full-stack SaaS with .NET backend, React frontend\n• Developed **Nubenta** - enterprise job portal with complex architecture\n• Created **11+ production applications** with similar tech stacks\n\n**What He Can Deliver:**\n${requirements.length > 0 ? requirements.map(req => {
+      const reqInfo: Record<string, string> = {
+        authentication: '✅ User authentication & authorization (JWT, OAuth)',
+        payment: '✅ Payment integration (Stripe, PayPal, billing systems)',
+        real_time: '✅ Real-time features (WebSockets, live updates)',
+        responsive: '✅ Fully responsive, mobile-friendly design',
+        seo: '✅ SEO optimization for better visibility'
+      };
+      return reqInfo[req] || `✅ ${req}`;
+    }).join('\n') : '✅ Clean, scalable architecture\n✅ Production-ready code\n✅ Full testing & deployment'}\n\n${timeline ? `**Timeline:** ${timeline.value.includes('urgent') ? 'He can start immediately and deliver fast!' : `Your ${timeline.value} timeline is doable with proper planning.`}` : ''}\n\n${budget ? `**Budget:** $${budget.value} - Let's discuss scope to maximize value!` : ''}\n\nReady to discuss your project? Use the **Contact Form** or ask me more questions!`;
+  }
+
+  // CASE 3: Project type mentioned alone
+  if (projectTypes.length > 0) {
+    const projectType = projectTypes[0];
+    return `Looking to build a **${projectType}**? Muhammad has extensive experience:\n\n**Similar Projects:**\n• **Nyra** - Full-stack SaaS platform\n• **Nubenta** - Enterprise job portal\n• **11+ other production apps**\n\n**His Approach:**\n1. **Understand requirements** - Deep dive into your needs\n2. **Architecture design** - Scalable, maintainable systems\n3. **Iterative development** - Regular updates and feedback\n4. **Quality delivery** - Tested, documented, deployed\n\nWhat specific features does your ${projectType} need?`;
+  }
+
+  // CASE 4: Timeline or budget mentioned
+  if (timeline || budget) {
+    let response = "Let's talk about your project!\n\n";
+
+    if (timeline) {
+      if (timeline.value.includes('urgent')) {
+        response += "**Timeline:** You need this fast! Muhammad is available and can start immediately. With proper scoping, urgent projects are manageable.\n\n";
+      } else {
+        response += `**Timeline:** ${timeline.value} is a reasonable timeframe. Muhammad plans projects carefully to meet deadlines without sacrificing quality.\n\n`;
+      }
+    }
+
+    if (budget) {
+      response += `**Budget:** $${budget.value} - The key is matching scope to budget. Muhammad offers competitive rates and focuses on delivering maximum value.\n\n`;
+    }
+
+    response += "To give you accurate estimates, I'd need to know:\n• What type of project (web app, mobile, API, etc.)?\n• Key features and requirements?\n• Tech stack preferences?\n\nUse the **Contact Form** to discuss details!";
+
+    return response;
+  }
+
+  return null; // Can't construct intelligent answer from entities
 }
 
 // CONTEXTUAL CLARIFICATION QUESTIONS - Ask specific questions instead of generic "I don't understand"
@@ -1723,23 +2001,38 @@ export function generateResponse(message: string, context?: ConversationContext)
   // 3. EXTRACT KEY CONCEPTS from the message (semantic analysis)
   const concepts = extractKeyConceptsFromMessage(message);
 
-  // 4. ANALYZE CONVERSATION CONTEXT (for follow-ups and implicit questions)
+  // 4. EXTRACT STRUCTURED ENTITIES (technologies, project types, timelines, etc.)
+  const entities = extractEntities(message);
+
+  // 5. ANALYZE CONVERSATION CONTEXT (for follow-ups and implicit questions)
   const conversationAnalysis = analyzeConversationContext(message, context);
 
-  // 4. TRY TO DETECT INTENT (pattern matching first)
+  // 6. TRY TO DETECT INTENT (pattern matching first)
   let intent = detectIntent(message);
 
-  // 5. IF INTENT IS UNKNOWN, USE SEMANTIC REASONING to figure it out
+  // 7. IF INTENT IS UNKNOWN, USE SUPER BRAIN + DEEP REASONING (AI THINKS!)
   if (intent === 'unknown' || intent === 'clarification') {
-    // Try semantic reasoning based on concepts
-    const semanticIntent = semanticIntentReasoning(message, concepts);
-    if (semanticIntent) {
-      intent = semanticIntent;
-    } else if (context) {
-      // Try context-based inference
-      const inferredIntent = inferIntentFromContext(message, context);
-      if (inferredIntent) {
-        intent = inferredIntent;
+    // FIRST: Super Brain - handles short queries, emotional statements, single words
+    const superBrainIntent = superBrain(message, concepts, entities, sentiment);
+    if (superBrainIntent) {
+      intent = superBrainIntent;
+    } else {
+      // SECOND: Try deep reasoning - AI thinks about what user REALLY wants
+      const deepIntent = deepReasoningEngine(message, concepts, entities);
+      if (deepIntent) {
+        intent = deepIntent;
+      } else {
+        // THIRD: Try semantic reasoning based on concepts
+        const semanticIntent = semanticIntentReasoning(message, concepts);
+        if (semanticIntent) {
+          intent = semanticIntent;
+        } else if (context) {
+          // FOURTH: Try context-based inference
+          const inferredIntent = inferIntentFromContext(message, context);
+          if (inferredIntent) {
+            intent = inferredIntent;
+          }
+        }
       }
     }
   }
@@ -1778,7 +2071,13 @@ export function generateResponse(message: string, context?: ConversationContext)
   // 9. TRY KNOWLEDGE SYNTHESIS (AI generates NEW answers by combining facts!)
   let synthesizedAnswer = synthesizeAnswerFromKnowledge(message, concepts);
 
-  // 10. GET BASE RESPONSE FROM PATTERNS or USE INTELLIGENT FALLBACK
+  // 10. IF NO SYNTHESIS, TRY ENTITY-BASED INTELLIGENT ANSWER CONSTRUCTION
+  if (!synthesizedAnswer && entities.length > 0 && intent === 'unknown') {
+    // AI CONSTRUCTS answer by reasoning about extracted entities
+    synthesizedAnswer = constructAnswerFromEntities(message, entities, concepts);
+  }
+
+  // 11. GET BASE RESPONSE FROM PATTERNS or USE INTELLIGENT FALLBACK
   let response: string;
 
   if (synthesizedAnswer) {
