@@ -9,6 +9,7 @@ export interface ConversationContext {
   followUpContext?: string; // For understanding implicit questions
   lastIntent?: string;
   topicsDiscussed?: string[];
+  usedResponseVariants?: Map<string, Set<number>>; // Track which response variants were used
 }
 
 // Personal information
@@ -1271,7 +1272,7 @@ function semanticIntentReasoning(message: string, concepts: string[]): string | 
   return null;
 }
 
-// Intelligent fallback: construct answer from related info
+// CONTEXTUAL CLARIFICATION QUESTIONS - Ask specific questions instead of generic "I don't understand"
 function constructIntelligentFallback(message: string, concepts: string[]): string {
   const lowerMessage = message.toLowerCase();
 
@@ -1280,28 +1281,48 @@ function constructIntelligentFallback(message: string, concepts: string[]): stri
     return "Of course! Feel free to ask me anything about Muhammad - his projects, skills, experience, availability, or how to work with him. I'm here to help! What would you like to know?";
   }
 
-  // CASE: Mentions technology but unclear
+  // CASE: Vague capability question ("can he build...")
+  if (/\bcan\b.*\b(build|create|make|develop)\b/.test(lowerMessage) && concepts.includes('build')) {
+    return "I'd love to help clarify Muhammad's capabilities! Are you asking about:\n\n• A specific **technology** (React, Node.js, .NET, mobile apps)?\n• A **project type** (SaaS, e-commerce, dashboard, API)?\n• His **availability** to work on your project?\n\nLet me know and I'll give you a detailed answer!";
+  }
+
+  // CASE: Price question without context
+  if (concepts.some(c => ['cost', 'price', 'pay'].includes(c))) {
+    return "To help you with pricing, I need a bit more context:\n\n• What **type of project** are you considering? (web app, mobile, API, full-stack)\n• Do you have a **timeline** in mind?\n• Is this a **fixed-price project** or **hourly** arrangement?\n\nWith these details, I can guide you better!";
+  }
+
+  // CASE: Mentions technology but unclear what they're asking
   if (concepts.some(c => ['code', 'tech', 'software', 'app'].includes(c))) {
-    return `Muhammad is a full-stack software engineer with 4 years of experience. He specializes in:\n\n• .NET 8 & Node.js backends\n• React & Next.js frontends\n• AI/ML evaluation\n• Mobile apps (React Native, Swift, Kotlin)\n\nAre you asking about his technical skills, specific projects, or looking to hire him?`;
+    return `Muhammad is a full-stack software engineer with 4 years of experience. He specializes in:\n\n• **Backend**: .NET 8, Node.js, PostgreSQL\n• **Frontend**: React, Next.js, TypeScript\n• **Mobile**: React Native, Swift, Kotlin\n• **AI/ML**: LLM evaluation, prompt engineering\n\nAre you asking about:\n• His **technical skills**?\n• **Specific projects** he's built?\n• Whether he can **build your project**?\n• If he's **available for hire**?`;
+  }
+
+  // CASE: Work/experience question but vague
+  if (concepts.includes('work') && !concepts.includes('hire')) {
+    return "I can tell you about Muhammad's work! Which aspect interests you?\n\n• **Current work** (Hubuk Technology, Nyra startup)\n• **Past projects** (11+ major applications)\n• **Work style** (process, collaboration, communication)\n• **Work experience** (4 years, companies worked with)\n\nWhat would you like to explore?";
   }
 
   // CASE: Business-related but unclear
-  if (concepts.some(c => ['hire', 'work', 'cost', 'price'].includes(c))) {
-    return "Interested in working with Muhammad? Here's what you should know:\n\n• He's currently available for new projects\n• Rates depend on project scope\n• Works remotely globally\n• Experienced in full-stack, mobile, AI\n\nUse the **Contact Form** to discuss your project. What kind of project do you have in mind?";
+  if (concepts.some(c => ['hire', 'work', 'available'].includes(c))) {
+    return "Interested in working with Muhammad? Here's what you should know:\n\n✅ Currently **available** for new projects\n✅ Rates depend on project **scope and timeline**\n✅ Works **remotely** with global clients\n✅ Experienced in **full-stack, mobile, and AI**\n\nWhat would help you decide?\n• See his **portfolio projects**?\n• Discuss **pricing** for your project?\n• Learn about his **process**?\n• Get **contact information**?";
   }
 
-  // CASE: Comparative question
-  if (/(better|best|top|vs|versus)/i.test(message)) {
-    return "Muhammad stands out for:\n\n✅ Unique combo: .NET + React + AI\n✅ Startup founder experience\n✅ 4 years intensive practice\n✅ Competitive pricing\n\nWhat specific comparison interests you?";
+  // CASE: Comparative question without specifics
+  if (/(better|best|top|vs|versus|compared)/i.test(message)) {
+    return "Happy to help with comparisons! What would you like to compare?\n\n• Muhammad's skills **vs typical developers**?\n• **Different technologies** he uses?\n• **Project types** he specializes in?\n• His **approach vs others** in the market?\n\nBe specific and I'll break it down!";
   }
 
-  // DEFAULT: Smart unknown with context
+  // CASE: Question about quality/reliability
+  if (/(good|quality|reliable|professional|experienced)/i.test(message)) {
+    return "Great question about quality! Here's what sets Muhammad apart:\n\n✅ **4 years** of intensive daily coding\n✅ **11+ production apps** deployed\n✅ **Startup founder** (understands business + tech)\n✅ **Diverse stack** (.NET, React, Mobile, AI)\n\nAre you evaluating:\n• His **technical expertise**?\n• **Project quality** and delivery?\n• **Reliability** and communication?\n• **Value for money**?";
+  }
+
+  // DEFAULT: Smart unknown with helpful guidance
   const mainConcept = concepts.find(c => ['skill', 'project', 'work', 'hire', 'tech', 'experience'].includes(c));
   if (mainConcept) {
-    return `I can help with ${mainConcept}! Could you be more specific about what you'd like to know? I have detailed info about Muhammad's ${mainConcept === 'skill' ? 'technical skills' : mainConcept}s.`;
+    return `I can help with ${mainConcept}! Could you be more specific about what you'd like to know?\n\nFor example:\n• "What ${mainConcept}s does Muhammad have?"\n• "Show me ${mainConcept === 'skill' ? 'his skills' : 'his ' + mainConcept + 's'}"\n• "Tell me about his ${mainConcept === 'skill' ? 'technical abilities' : mainConcept}"\n\nWhat specific information would help you?`;
   }
 
-  return "I want to give you the best answer! Here's what I can help with:\n\n**Technical:** Skills, tech stack, projects, AI expertise\n**Business:** Availability, pricing, hiring\n**About:** Background, motivation, startup Nyra\n\nWhat interests you?";
+  return "I want to give you the best answer! Here's what I can help with:\n\n**Technical:**\n• Skills & technologies\n• Tech stack & tools  \n• Projects & portfolio\n• AI/ML expertise\n\n**Business:**\n• Availability & timeline\n• Pricing & rates\n• Hiring process\n• Work methodology\n\n**Personal:**\n• Background & story\n• Motivation & values\n• Startup Nyra\n• Why hire him\n\nWhat interests you most?";
 }
 
 // SENTIMENT ANALYSIS & EMOTIONAL INTELLIGENCE
@@ -1645,9 +1666,10 @@ export function generateResponse(message: string, context?: ConversationContext)
     // USE INTELLIGENT FALLBACK - construct answer from concepts
     response = constructIntelligentFallback(message, concepts);
   } else {
-    // Use predefined patterns
+    // Use predefined patterns with intelligent variation selection
     const responses = responsePatterns[intent] || responsePatterns.unknown;
-    response = responses[Math.floor(Math.random() * responses.length)];
+    const variantIndex = selectResponseVariant(intent, responses.length, context);
+    response = responses[variantIndex];
   }
 
   // 11. ADD CONTEXTUAL BRIDGE if it's a follow-up conversation (skip for synthesized answers)
@@ -1921,4 +1943,46 @@ export function generateSmartSuggestions(
       return priorityMap[b.priority] - priorityMap[a.priority];
     })
     .slice(0, 3); // Return top 3
+}
+
+// DYNAMIC RESPONSE VARIATION TRACKING - Prevents repetitive responses
+function selectResponseVariant(
+  intent: string,
+  variantCount: number,
+  context?: ConversationContext
+): number {
+  // Initialize usedResponseVariants if not exists
+  if (!context?.usedResponseVariants) {
+    return Math.floor(Math.random() * variantCount);
+  }
+
+  const usedVariants = context.usedResponseVariants;
+
+  // Get or create set for this intent
+  if (!usedVariants.has(intent)) {
+    usedVariants.set(intent, new Set());
+  }
+
+  const used = usedVariants.get(intent)!;
+
+  // If all variants have been used, reset
+  if (used.size >= variantCount) {
+    used.clear();
+  }
+
+  // Select unused variant
+  let variantIndex: number;
+  let attempts = 0;
+  do {
+    variantIndex = Math.floor(Math.random() * variantCount);
+    attempts++;
+    // Prevent infinite loop if something goes wrong
+    if (attempts > variantCount * 2) {
+      variantIndex = Math.floor(Math.random() * variantCount);
+      break;
+    }
+  } while (used.has(variantIndex) && used.size < variantCount);
+
+  used.add(variantIndex);
+  return variantIndex;
 }
