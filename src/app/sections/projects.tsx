@@ -233,6 +233,7 @@ const ProjectAudioPlayer = ({ project }: { project: Project }) => {
 
 
 const ProjectItem = ({ project, index }: { project: Project, index: number }) => {
+  const [isNear, setIsNear] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -251,15 +252,37 @@ const ProjectItem = ({ project, index }: { project: Project, index: number }) =>
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          observer.unobserve(entry.target);
+        } else {
+          setIsVisible(false);
+          if (videoRef.current) {
+            videoRef.current.pause();
+          }
         }
       },
       { threshold: 0.15 }
     );
 
+    const nearObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsNear(true);
+          nearObserver.disconnect();
+        }
+      },
+      { rootMargin: '400px' }
+    );
+
     const currentRef = ref.current;
-    if (currentRef) observer.observe(currentRef);
-    return () => { if (currentRef) observer.unobserve(currentRef); };
+    if (currentRef) {
+      observer.observe(currentRef);
+      nearObserver.observe(currentRef);
+    }
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+        nearObserver.unobserve(currentRef);
+      }
+    };
   }, []);
 
   return (
@@ -280,12 +303,12 @@ const ProjectItem = ({ project, index }: { project: Project, index: number }) =>
             <div className="relative aspect-video w-full overflow-hidden">
               <video
                 ref={videoRef}
-                src={project.video}
+                src={isNear ? project.video : undefined}
                 autoPlay
                 muted
                 loop
                 playsInline
-                preload="auto"
+                preload="metadata"
                 poster={project.image?.imageUrl}
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
