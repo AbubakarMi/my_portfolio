@@ -235,7 +235,16 @@ const ProjectAudioPlayer = ({ project }: { project: Project }) => {
 const ProjectItem = ({ project, index }: { project: Project, index: number }) => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const isReversed = index % 2 !== 0;
+
+  useEffect(() => {
+    if (isVisible && videoRef.current) {
+      videoRef.current.play().catch(error => {
+        console.warn("Video autoplay failed:", error);
+      });
+    }
+  }, [isVisible]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -270,11 +279,13 @@ const ProjectItem = ({ project, index }: { project: Project, index: number }) =>
           {project.video ? (
             <div className="relative aspect-video w-full overflow-hidden">
               <video
+                ref={videoRef}
                 src={project.video}
                 autoPlay
                 muted
                 loop
                 playsInline
+                preload="auto"
                 poster={project.image?.imageUrl}
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
