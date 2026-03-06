@@ -1,17 +1,17 @@
 {
   "placeholderImages": [
-   {
-  "id": "hero-portrait",
-  "description": "Professional portrait of Muhammad Idris Abubakar",
-  "imageUrl": "/images/Muhammad.JPG",
-  "imageHint": "professional portrait"
-},
-   {
-  "id": "about-profile",
-  "description": "Profile image for the about section",
-  "imageUrl": "/images/about.jpeg",
-  "imageHint": "man working"
-},
+    {
+      "id": "hero-portrait",
+      "description": "Professional portrait of Muhammad Idris Abubakar",
+      "imageUrl": "/images/Muhammad.JPG",
+      "imageHint": "professional portrait"
+    },
+    {
+      "id": "about-profile",
+      "description": "Profile image for the about section",
+      "imageUrl": "/images/about.jpeg",
+      "imageHint": "man working"
+    },
     {
       "id": "project-nyra",
       "description": "Image representing a productivity application",
@@ -77,6 +77,24 @@
       "description": "Thumbnail for blog post about starting Nyra Technology",
       "imageUrl": "https://images.unsplash.com/photo-1594235046256-90e5572fd5f9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzdGFydHVwJTIwb2ZmaWNlfGVufDB8fHx8MTc2MTY0OTYzN3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "startup office"
+    },
+    {
+      "id": "project-kredinou",
+      "description": "Image for KrediNou digital bank and marketplace",
+      "imageUrl": "/images/kredinou.png",
+      "imageHint": "digital banking and marketplace"
+    },
+    {
+      "id": "project-bizscan360",
+      "description": "Dashboard for BizScan360 business health platform",
+      "imageUrl": "/images/bizscan360.png",
+      "imageHint": "business dashboard health score"
+    },
+    {
+      "id": "project-ajacademy",
+      "description": "Thumbnail for AJ Academy English learning platform",
+      "imageUrl": "/images/ajacademy.png",
+      "imageHint": "English learning online classes"
     },
     {
       "id": "blog-scaling-systems",

@@ -126,7 +126,7 @@ export function Hero() {
             {/* Stats row */}
             <div className="flex items-center justify-center gap-8 sm:gap-12 pt-4">
               <div className="text-center">
-                <p className="text-2xl sm:text-3xl font-bold text-foreground">4+</p>
+                <p className="text-2xl sm:text-3xl font-bold text-foreground">5+</p>
                 <p className="text-xs sm:text-sm text-foreground/60">Years Exp</p>
               </div>
               <div className="h-8 w-px bg-border" />
@@ -136,8 +136,8 @@ export function Hero() {
               </div>
               <div className="h-8 w-px bg-border" />
               <div className="text-center">
-                <p className="text-2xl sm:text-3xl font-bold text-foreground">2</p>
-                <p className="text-xs sm:text-sm text-foreground/60">Startups</p>
+                <p className="text-2xl sm:text-3xl font-bold text-foreground">1</p>
+                <p className="text-xs sm:text-sm text-foreground/60">Startup</p>
               </div>
             </div>
           </div>
@@ -151,7 +151,7 @@ export function Hero() {
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="group rounded-full border-2 px-8 py-6 text-base font-medium hover:bg-secondary hover:text-secondary-foreground hover:border-secondary transition-all duration-300">
-              <a href="https://drive.google.com/file/d/1P51URCIY7UCDsIQuxrzlb5FvD4mZxNDp/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+              <a href="/Muhammad Idris Abubakar Resume.pdf" target="_blank" rel="noopener noreferrer">
                 <Download className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5" />
                 My Resume
               </a>

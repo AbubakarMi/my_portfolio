@@ -14,6 +14,36 @@ import { textToSpeech } from '@/ai/flows/tts-flow';
 
 const projects = [
   {
+    title: "AJ Academy",
+    description: "An interactive English learning web app featuring live classes, structured lessons, and progress tracking for students and professionals.",
+    tech: ["Web App", "Live Classes", "Education", "Interactive Learning"],
+    image: PlaceHolderImages.find(p => p.id === "project-ajacademy"),
+    video: "/aj-academy-demo.mp4",
+    link: "https://aj-academy.netlify.app",
+    role: "Lead Developer",
+    summaryScript: "AJ Academy is a specialized English learning platform that connects students and professionals with live interactive classes. It features structured lessons in grammar, vocabulary, and speaking, alongside real-time instructor engagement. The platform offers a seamless web-based experience with progress tracking to help learners reach their language proficiency goals efficiently."
+  },
+  {
+    title: "BizScan360",
+    description: "A comprehensive SaaS platform that analyzes complex financial and operational data to provide a 0-100 Business Health Score and actionable insights.",
+    tech: ["SaaS", "Data Analysis", "React", "Financial KPIs"],
+    image: PlaceHolderImages.find(p => p.id === "project-bizscan360"),
+    video: "/bizscan360-demo.mp4",
+    link: "https://bizscan360.com",
+    role: "Lead Developer",
+    summaryScript: "BizScan360 is a business health evaluation platform that helps companies understand their financial and operational performance. It calculates a numerical health score from 0 to 100, identifies risks and opportunities, and provides automated KPI analysis through interactive dashboards. It's built for startups, SMEs, and investors to make data-driven decisions quickly and efficiently."
+  },
+  {
+    title: "KrediNou",
+    description: "A hybrid digital bank and marketplace that facilitates secure multi-currency transactions, peer-to-peer transfers, and local economic growth through driver and agent networks.",
+    tech: ["Next.js", "Financial Services", "Marketplace", "Logistics"],
+    image: PlaceHolderImages.find(p => p.id === "project-kredinou"),
+    video: "/kredinou-demo.mp4",
+    link: "https://www.kredinou.com/",
+    role: "Lead Developer",
+    summaryScript: "KrediNou is a digital bank and marketplace combined into one platform. It helps people in the region keep their money safe in different currencies, like US Dollars and Haitian Gourdes, and send money easily. It also empowers the local economy by providing jobs for drivers and local agents who facilitate cash-to-digital exchanges. In the future, it aims to be an all-in-one platform for daily needs, from online shopping with guaranteed delivery to small business credit based on user history."
+  },
+  {
     title: "Nubenta Care",
     description: "An AI-driven health management system designed to digitize hospital operations. It connects admin, doctors, pharmacy, lab, and finance into one intelligent platform.",
     tech: ["Node.js", "PostgreSQL", "AI/NLP", "SendGrid"],
@@ -105,7 +135,16 @@ const projects = [
   }
 ];
 
-type Project = (typeof projects)[0];
+interface Project {
+  title: string;
+  description: string;
+  tech: string[];
+  image: (typeof PlaceHolderImages)[0] | undefined;
+  video?: string;
+  link: string;
+  role: string;
+  summaryScript: string;
+}
 
 const ProjectAudioPlayer = ({ project }: { project: Project }) => {
   const [audioState, setAudioState] = useState<'idle' | 'loading' | 'playing' | 'error'>('idle');
@@ -228,7 +267,19 @@ const ProjectItem = ({ project, index }: { project: Project, index: number }) =>
         <div className="absolute -inset-4 rounded-3xl bg-primary/5 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100" />
 
         <div className="relative overflow-hidden rounded-2xl shadow-lg ring-1 ring-border/50 transition-all duration-500 group-hover:shadow-2xl group-hover:ring-primary/30 group-hover:scale-[1.02]" style={{ transformStyle: 'preserve-3d' }}>
-          {project.image && (
+          {project.video ? (
+            <div className="relative aspect-video w-full overflow-hidden">
+              <video
+                src={project.video}
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster={project.image?.imageUrl}
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+            </div>
+          ) : project.image && (
             <Image
               src={project.image.imageUrl}
               alt={project.title}
