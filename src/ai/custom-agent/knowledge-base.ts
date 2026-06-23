@@ -48,12 +48,14 @@ export const profile = {
     responseTime: '24-48 hours',
   },
   startup: {
-    name: 'Nyra',
+    name: 'Forge',
     role: 'Founder & CEO',
-    description: 'AI-powered communication and productivity platform',
-    vision: 'Break language barriers and make collaboration effortless',
-    features: ['Live translation', 'Transcription', 'Meeting summaries', 'Action points'],
-    future: 'Nyra Chat - integrated hub for messaging, groups, and meetings with real-time translation',
+    description: 'AI-powered bulk payment and disbursement platform for African businesses',
+    vision: 'Build reliable financial infrastructure for African businesses',
+    features: ['AI account validation', 'Auto-correction of bank details', 'Bulk disbursement', 'Near-zero failure rate'],
+    future: 'Anvil - an augmented-reality land measurement app that lets users measure and map land directly through their phone camera, removing the need for surveyors and expensive equipment',
+    url: 'forgeapis.xyz',
+    status: 'Pre-Launch',
   },
   dream: {
     vision: 'To build one of the biggest startups in Africa and the entire world',
@@ -66,13 +68,23 @@ export const profile = {
 
 export const projects: Project[] = [
   {
-    id: 'nyra-connect',
-    name: 'Nyra Connect',
-    description: 'AI productivity app with journals and insights, currently under active development. Muhammad\'s flagship startup project focused on breaking language barriers. Developed under his startup Nyra where he serves as Founder & CEO.',
-    techStack: ['.NET 8', 'React', 'PostgreSQL'],
-    features: ['Live translation', 'Transcription', 'Meeting summaries', 'Journal insights'],
-    type: 'AI Productivity App',
+    id: 'forge',
+    name: 'Forge',
+    description: 'AI-powered bulk payment and disbursement platform for African businesses, currently Pre-Launch. A Python AI engine validates and auto-corrects bank account details (wrong numbers, mismatched names, duplicates, bank-name normalisation), then disburses clean data with a near-zero failure rate. Muhammad\'s flagship startup, founded after he personally managed a 30,000-beneficiary disbursement that took weeks of manual cleaning. He serves as Founder & CEO.',
+    techStack: ['Python', '.NET', 'React', 'PostgreSQL'],
+    features: ['AI account validation', 'Auto-correction of bank details', 'Duplicate detection', 'Bank-name normalisation', 'Bulk disbursement with near-zero failure rate'],
+    type: 'Fintech / Bulk Payment Platform',
     role: 'Founder & CEO / Lead Developer',
+  },
+  {
+    id: 'anvil',
+    name: 'Anvil',
+    description: 'An augmented-reality land measurement app that lets users measure and map land directly through their phone camera, with no surveyor, no waiting, and no expensive equipment. Built in Flutter for the Nigerian market, where land disputes and inaccessible surveying services are everyday realities.',
+    techStack: ['Flutter', 'Augmented Reality', 'Mobile'],
+    features: ['AR-based land measurement', 'Camera-driven mapping', 'No surveyor or special equipment required', 'Built for the Nigerian land market'],
+    type: 'Augmented-Reality Mobile App',
+    role: 'Founder & Lead Developer',
+    targetUsers: 'Landowners, buyers, and agents who need fast, accessible land measurement',
   },
   {
     id: 'shoplynk',
@@ -241,7 +253,7 @@ export const skills: Skill[] = [
     category: 'Programming Languages',
     proficiency: 'expert',
     description: 'Type-safe JavaScript development, Next.js applications',
-    relatedProjects: ['nyra-connect'],
+    relatedProjects: ['forge'],
   },
   {
     name: 'Python',
@@ -260,7 +272,7 @@ export const skills: Skill[] = [
     category: 'Programming Languages',
     proficiency: 'expert',
     description: '.NET applications, APIs, enterprise systems',
-    relatedProjects: ['nyra-connect', 'smarted-erp'],
+    relatedProjects: ['forge', 'smarted-erp'],
   },
   {
     name: 'SQL',
@@ -274,7 +286,7 @@ export const skills: Skill[] = [
     category: 'Frontend',
     proficiency: 'expert',
     description: 'Component-based UIs, state management, hooks',
-    relatedProjects: ['nyra-connect', 'buildtrack-pro'],
+    relatedProjects: ['forge', 'buildtrack-pro'],
   },
   {
     name: 'Next.js',
@@ -295,7 +307,7 @@ export const skills: Skill[] = [
     category: 'Backend',
     proficiency: 'expert',
     description: 'RESTful APIs, clean architecture',
-    relatedProjects: ['nyra-connect', 'smarted-erp'],
+    relatedProjects: ['forge', 'smarted-erp'],
   },
   {
     name: 'Express',
@@ -309,7 +321,7 @@ export const skills: Skill[] = [
     category: 'Databases',
     proficiency: 'expert',
     description: 'Primary database, optimization, complex queries',
-    relatedProjects: ['nyra-connect', 'invotrek', 'nubenta-care', 'smarted-erp'],
+    relatedProjects: ['forge', 'invotrek', 'nubenta-care', 'smarted-erp'],
   },
   {
     name: 'MongoDB',

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     template: '%s | Muhammad Idris Abubakar',
   },
   description:
-    'Personal portfolio of Muhammad Idris Abubakar, a Software Engineer and Founder of Nyra, specializing in scalable SaaS and custom software solutions.',
+    'Personal portfolio of Muhammad Idris Abubakar, a Backend & Full-Stack Developer and Founder of Forge, specializing in secure, scalable systems across AI healthcare, fintech, and SaaS.',
 };
 
 export default function RootLayout({
@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn(GeistSans.variable, GeistMono.variable, 'scroll-smooth')}>
-      <body className={cn('font-body bg-background text-foreground antialiased cursor-none md:cursor-none')}>
+      <body className={cn('font-body bg-background text-foreground antialiased overflow-x-hidden cursor-none md:cursor-none')}>
         {/* <AnalyticsProvider /> */}
         <CursorFollower />
         <ScrollProgress />

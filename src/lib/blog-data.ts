@@ -16,30 +16,25 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
-    slug: "why-i-started-nyra-technology",
-    title: "Why I Started Nyra",
-    excerpt: "A personal reflection on the journey, motivation, and vision behind founding a tech startup aimed at simplifying business operations and driving growth through software.",
-    image: PlaceHolderImages.find(p => p.id === "blog-nyra-tech"),
+    slug: "why-i-started-forge",
+    title: "Why I Started Forge",
+    excerpt: "A personal reflection on the journey, motivation, and vision behind founding Forge, an AI-powered bulk payment and disbursement platform built to make moving money across Africa reliable.",
+    image: PlaceHolderImages.find(p => p.id === "blog-forge-startup"),
     date: "2025-10-01",
     category: "Entrepreneurship",
     readingTime: 7,
     featured: true,
-    tags: ["Startup", "Vision", "Nigeria", "Innovation"],
+    tags: ["Startup", "Fintech", "AI", "Africa"],
     content: `
-      <p>Starting Nyra wasn't just about building another tech product it was about solving a real problem that I deeply cared about. As someone passionate about communication and technology, I've always believed that the ability to connect and understand one another should never be limited by language or distance.</p>
-      <p>The idea came to me when I realized how many people and companies struggle to collaborate effectively across different languages. Imagine two people one who speaks only Hausa and another who speaks only English trying to hold an important meeting. In today's globalized world, this kind of barrier still exists everywhere. I wanted to change that.</p>
-      <p>Nyra was born from this mission: to make communication between people and businesses seamless, no matter what language they speak. Through live translation and transcription, Nyra helps people understand each other instantly, making collaboration more natural and inclusive.</p>
-      <p>But Nyra isn't only about conversation it's also about productivity. Many organizations waste valuable time taking notes, filling forms, and managing paperwork after every meeting. I wanted Nyra to simplify that by automatically summarizing meetings, extracting key action points, and keeping records of important discussions, all within one platform.</p>
+      <h3 class="font-headline text-2xl font-bold mt-8 mb-4">The Story Behind Forge</h3>
+      <p>It started with a real problem. While working on a disbursement project involving over 30,000 beneficiaries, I watched weeks disappear into manual data cleaning: wrong account numbers, duplicate entries, formatting errors, all standing between funds and the people who needed them. The process was broken, slow, and exhausting. That frustration became the seed for Forge.</p>
+      <p>Forge is an AI-powered bulk payment and disbursement platform built for African businesses. The vision is simple but ambitious: make mass payments as effortless as sending a single transfer. Forge's AI validates, cleans, and processes bulk payment data automatically, catching errors before they cause failed transactions, saving businesses time, money, and the kind of operational pain I lived firsthand. The long-term goal is to become the infrastructure layer that powers how African organizations, from NGOs and fintechs to payroll teams and government agencies, move money at scale, reliably and intelligently.</p>
 
-      <h3 class="font-headline text-2xl font-bold mt-8 mb-4">The Vision for Nyra</h3>
-      <p>My vision for Nyra goes far beyond meetings. I want Nyra to become a global productivity platform that redefines how people connect, collaborate, and communicate. The dream is to see Nyra used worldwide from startups in Africa to enterprises in Silicon Valley helping teams break barriers, save time, and work smarter.</p>
-      <p>In the near future, I plan to introduce Nyra Chat, an all-in-one communication hub that combines chats, groups, feeds, and meetings into a single powerful app. Nyra Chat will also include live transcription and language translation, allowing people from different regions to communicate effortlessly in real time.</p>
-      <p>My ultimate goal is to make Nyra a globally recognized brand built from Africa a product that reflects innovation, inclusion, and excellence. I want it to show that young Nigerians can build technology that competes at a world-class level.</p>
+      <h3 class="font-headline text-2xl font-bold mt-8 mb-4">Anvil, A Different Angle</h3>
+      <p>Anvil came from a different frustration: the inefficiency of traditional land measurement in Nigeria. Using augmented reality, Anvil lets users measure and map land directly through their phone camera, with no surveyor, no waiting, and no expensive equipment. It's built in Flutter and targets a market where land disputes and inaccessible surveying services are everyday realities.</p>
 
-      <h3 class="font-headline text-2xl font-bold mt-8 mb-4">From Passion to Profession</h3>
-      <p>My journey into technology started with a simple curiosity about how software could solve real problems. Over time, that curiosity grew into a passion and then into a purpose. I've seen how well-built software can change how people work and live, and I wanted to be part of that change.</p>
-      <p>Founding Nyra has been a deeply personal mission for me. It's not just about creating an app; it's about proving that with the right vision and discipline, you can start from anywhere and build something meaningful.</p>
-      <p>To be sincere, one of my biggest motivations is to become the youngest Nigerian founder to build a startup that reaches the global stage. I want Nyra to be a living example that innovation can come from anywhere even from a young dreamer in Nigeria who believed in the power of software to unite people.</p>
+      <h3 class="font-headline text-2xl font-bold mt-8 mb-4">Where I'm Headed</h3>
+      <p>Both products share the same thread: using technology to solve problems that have been normalized as "just how things are" in Africa. Forge is the bigger bet, the one I'm building toward full-time. The goal is to reach a point where stable employment funds the runway, Forge reaches its first paying enterprise clients, and the platform grows into something that genuinely reshapes financial operations across the continent.</p>
     `
   },
   {

@@ -24,8 +24,8 @@ const highlights = [
   },
   {
     icon: <Code className="h-5 w-5" />,
-    value: "AI",
-    label: "Evaluation"
+    value: "Fintech",
+    label: "& Healthcare"
   }
 ];
 
@@ -148,11 +148,12 @@ export function About() {
               </h3>
               <div className="space-y-4 text-base leading-relaxed text-foreground/70">
                 <p>
-                  My journey into technology was driven by a passion for building scalable systems and a fascination with artificial intelligence. As a detail-driven Software & AI Evaluation Engineer, I have over four years of experience designing SaaS applications, conducting AI evaluation workflows, and turning complex problems into high-impact technology.
+                  My journey into technology was driven by a passion for building scalable, secure systems. As a results-driven Backend &amp; Full-Stack Developer with 4+ years of experience, I&apos;ve shipped production systems across AI healthcare, fintech, education, and transport, proficient in C# .NET, Python, Django, ASP.NET Core, Node.js, Next.js, React, EF Core, and PostgreSQL. I&apos;m currently engineering AI-driven healthcare products at Techserv Intelligence.
                 </p>
                 <p>
-                  In addition to my engineering work, I founded the startup{' '}
-                  <span className="font-semibold text-primary">Nyra</span>, with a mission to build world-class productivity software. My goal is to design reproducible test scenarios, apply metrics like precision and recall to improve AI model behavior, and deliver exceptional user experiences through my products.
+                  Beyond my engineering work, I&apos;m the Founder &amp; CEO of{' '}
+                  <span className="font-semibold text-primary">Forge</span>, an AI-powered bulk payment and disbursement platform for African businesses, and I&apos;m building{' '}
+                  <span className="font-semibold text-primary">Anvil</span>, an augmented-reality land measurement app. My goal is to design scalable REST APIs, implement robust JWT auth and RBAC, and turn complex problems into reliable, high-impact products.
                 </p>
               </div>
 

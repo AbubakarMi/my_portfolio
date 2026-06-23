@@ -38,44 +38,49 @@ export const agentConfig: AgentConfig = {
 
 export const portfolioContext = `
 Professional Summary:
-Analytical and detail-driven Software & AI Evaluation Engineer with 4+ years of experience building scalable systems, conducting AI evaluation workflows, and designing SaaS applications. Proficient in Python, Java, JavaScript, C#, and React, with strong knowledge of QA testing, NLP annotation, and LLM prompt evaluation. Founder of Nyra Startup.
+Muhammad Idris Abubakar is a results-driven Backend & Full-Stack Developer with 4+ years of experience building secure, high-performance systems across AI healthcare, fintech, education, and transport. He is proficient in C# .NET, Python, Django, ASP.NET Core, Node.js, Next.js, React, EF Core, and PostgreSQL, and skilled in designing scalable REST APIs, implementing JWT authentication and RBAC, integrating AI model pipelines, and architecting compliant backend systems. He is currently engineering AI-driven healthcare products at Techserv Intelligence, and is the Founder & CEO of Forge.
 
-About Nyra Startup:
-Nyra is an AI-powered communication and productivity platform designed to break language barriers and make collaboration effortless. It enables live translation, transcription, and generates summaries and action points after meetings. The vision is to become a global, all-in-one productivity platform for chat, meetings, and collaboration, built from Africa. The future roadmap includes Nyra Chat, an integrated hub for messaging, groups, and meetings with real-time translation.
+About Forge:
+Forge (forgeapis.xyz, Pre-Launch) is an AI-powered bulk payment and disbursement platform for African businesses. A Python AI engine validates and auto-corrects bank account details (wrong numbers, mismatched names, duplicates, bank-name normalisation), then disburses clean data with a near-zero failure rate. It is built with Python (AI layer), a .NET backend, a React frontend, and PostgreSQL. Muhammad founded it after personally managing a 30,000-beneficiary disbursement that took weeks of manual cleaning, and as founder he handled product, pre-seed fundraising, investor negotiations, accelerator applications, and produced the pitch deck, financial model, investment memo, and product demo. The vision is to build reliable financial infrastructure for African businesses and prove world-class fintech can be built from Africa.
+
+About Anvil:
+Anvil is an augmented-reality land measurement app, built in Flutter, that lets users measure and map land directly through their phone camera, with no surveyor, no waiting, and no expensive equipment. It targets the Nigerian market, where land disputes and inaccessible surveying services are everyday realities.
 
 Core Competencies:
-- LLM Evaluation & Prompt Testing
-- QA Scenario Design & Reproducibility
-- NLP Annotation & Data Labeling
-- JSON/YAML Scenario Modeling
-- Full-Stack Development (React, Node.js, .NET, Java)
-- Clean Architecture & API Design
-- PostgreSQL Optimization
+- Scalable REST API design
+- JWT authentication & RBAC
+- AI model integration
+- Backend architecture (C# .NET, Python/Django, Node.js)
+- Full-Stack development (React, Next.js)
+- PostgreSQL & EF Core data access
+- Clean code, Agile/Scrum, health data compliance
 
 Work Experience:
-- Software Engineer at Hubuk Technology Limited (June 2022 – Present): Designed modular REST APIs with ASP.NET Core 8 & PostgreSQL, improving efficiency by 25%. Developed automated QA scripts for AI models.
-- Freelance AI/QA Contributor (2024 – Present): Evaluated LLM outputs, authored test cases using JSON/YAML, and applied metrics like precision and recall.
-
-Internship Experience:
-- Backend Engineering Intern at FlexiSAF Solutions Limited (Sept 2025 – Dec 2025): Assisted in backend development with Java and Spring.
-- Frontend Developer Intern at Torvix AI (Nov 2025 – Dec 2025): Built responsive UIs and integrated APIs for AI model visualization.
+- Software Engineer at Techserv Intelligence, Enugu (Remote) (May 2026 – Present): Builds and maintains backend services for Clinex and Vitalink, AI-driven healthcare products, using C# .NET, React, and PostgreSQL; architects scalable APIs and role-based access control.
+- Founder & CEO at Forge, Kano (Jan 2024 – Present): Architected Forge solo, an AI-powered bulk payment platform; engineered intelligent account validation that reduced failure rates to near zero; drove fundraising and produced full investor materials.
+- Backend Developer at Hubuk Technology Limited, Kano (Jun 2023 – Present): Built scalable REST APIs with ASP.NET Core (cut dev cycle time by 25%); engineered JWT auth and RBAC; delivered budgeting, payments, and analytics dashboards with PostgreSQL and EF Core.
+- Lead Developer at BizScan360 and Kredinou (2024 – Present): Built a business health evaluation platform (Next.js, Node.js, PostgreSQL) trusted by 2,800+ users, and KrediNou, a cross-border fintech super-app for the Haitian diaspora that is live and has moved over $46,000 to date.
+- Frontend Developer Intern at Torvix AI, Remote/India (Sep – Oct 2025): Built reusable React components for an AI workflow automation platform.
+- Backend Engineering Intern at FlexiSAF Solutions Limited, Abuja (Sep – Dec 2025): Built backend features in Java and Spring; wrote optimised SQL.
 
 Key Projects:
-- Nyra Connect: AI productivity app with journals and insights. (.NET 8, React, PostgreSQL) - Muhammad's flagship startup project focused on breaking language barriers.
-- InvoTrek: Multi-tenant SaaS for smart document automation with AI-assisted field detection. (Node.js, PostgreSQL)
-- BuildTrack Pro: Construction expense tracking platform for contractors. (React, Node.js)
-- Nubenta Care: AI-driven health management system for hospitals, featuring smart consultations and prescription suggestions. (Node.js, PostgreSQL, AI/NLP)
-- Adustech Bus Tracker: Real-time bus booking and tracking platform. (Node.js, Firebase)
-- SmartEd ERP: Comprehensive school management system. (ASP.NET Core 8, PostgreSQL)
+- Vitalink (vitalink.tech): Smart patient monitoring and vital-signs platform with real-time health data pipelines and clinical alerting. (C# .NET, React, PostgreSQL) - Software Engineer at Techserv Intelligence.
+- Forge: AI-powered bulk payment and disbursement platform for African businesses. (Python, .NET, React, PostgreSQL) - Founder & CEO.
+- Anvil: Augmented-reality land measurement app built in Flutter. (Flutter) - Founder & Lead Developer.
+- BizScan360 (bizscan360.com): Business health evaluation platform with a 0-100 health score, KPI analysis, and PDF reports; 2,800+ users. (Next.js, Node.js, PostgreSQL)
+- Kredinou (kredinou.com): A cross-border fintech super-app for the Haitian diaspora across North America, the Dominican Republic, and Mexico. Multi-currency wallets (USD/HTG/DOP/MXN), instant P2P transfers, international remittance over live FX corridors, an agent cash network, merchant/marketplace suite, ride-hailing, virtual cards, and micro-loans, built on an auditable double-entry ledger with atomic, lock-protected money movement, 2FA/OTP, and escrow. Live, moving over $46,000 to date. (Next.js 16, TypeScript, Prisma 7, PostgreSQL, NextAuth)
+- Appointment Booking System: Multi-industry, multi-tenant booking with automated SendGrid emails. (ASP.NET Core 8, PostgreSQL, JWT)
+- Hospital Management System: Patient registration, scheduling, billing, and pharmacy inventory. (Node.js, Express, PostgreSQL, Firebase Auth)
 
 Education:
-- B.Sc. (Hons) Computer Science from Aliko Dangote University of Science and Technology (2020 – 2025).
+- B.Sc. (Hons) Computer Science from Aliko Dangote University of Science and Technology, Kano (2020 – 2025), graduated with Honours.
 
 Technical Skills:
-- Languages: Python, Java, JavaScript, C#, SQL, TypeScript
-- Frameworks: ASP.NET Core, Node.js, Express, React, Next.js
-- Databases: PostgreSQL, MongoDB, Firebase Firestore
-- AI/Testing: LLM Evaluation, QA Design, Precision/Recall Metrics
+- Languages: C#, Python, JavaScript (ES6+), SQL, Java
+- Frameworks: ASP.NET Core, Django, EF Core, Node.js, Express, Next.js, React, Spring
+- Databases: PostgreSQL, Firebase Firestore
+- Tools: Git, GitHub, VS Code, Visual Studio, Postman, Swagger
+- Specializations: REST API Design, JWT Auth, RBAC, AI Model Integration, Agile/Scrum, Health Data Compliance
 
 Availability & Work:
 - Currently available for freelance projects and full-time opportunities
@@ -105,7 +110,7 @@ RESPONSE GUIDELINES:
 AVAILABLE ACTIONS:
 You can suggest actions to help visitors. Include these in your response when relevant:
 - Navigate to sections: about, skills, experience, projects, blog, contact
-- Show specific projects: nyra-connect, invotrek, buildtrack-pro, nubenta-care, adustech-bus-tracker, smarted-erp
+- Show specific projects: forge, invotrek, buildtrack-pro, nubenta-care, adustech-bus-tracker, smarted-erp
 - Open contact form for inquiries
 - Suggest booking a meeting for serious inquiries
 

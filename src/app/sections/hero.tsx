@@ -13,7 +13,7 @@ export function Hero() {
   const [isMounted, setIsMounted] = useState(false);
   const [textIndex, setTextIndex] = useState(0);
 
-  const roles = ['Software Engineer', 'AI Evaluator', 'Startup Founder', 'Full-Stack Developer'];
+  const roles = ['Backend Developer', 'Full-Stack Developer', 'Founder & CEO of Forge', 'Software Engineer'];
 
   useEffect(() => {
     setIsMounted(true);
@@ -96,7 +96,7 @@ export function Hero() {
             {/* Badge */}
             <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-5 py-2 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20 backdrop-blur-sm">
               <Sparkles className="h-4 w-4" />
-              <span>Building the future of communication</span>
+              <span>Engineering AI healthcare & fintech systems</span>
             </div>
 
             {/* Main headline with animated role */}
@@ -118,15 +118,16 @@ export function Hero() {
 
             {/* Description */}
             <p className="mx-auto max-w-2xl text-base text-foreground/60 sm:text-lg md:text-xl leading-relaxed">
-              I build scalable systems and conduct AI evaluation workflows. As the founder of{' '}
-              <span className="font-semibold text-primary">Nyra</span>, my mission is to create world-class
-              productivity software that makes communication seamless across languages.
+              I build secure, high-performance backend systems across AI healthcare, fintech, and SaaS.
+              As the founder of{' '}
+              <span className="font-semibold text-primary">Forge</span>, I&apos;m building reliable financial
+              infrastructure for African businesses, proving world-class software can be built from Africa.
             </p>
 
             {/* Stats row */}
-            <div className="flex items-center justify-center gap-8 sm:gap-12 pt-4">
+            <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-12 pt-4">
               <div className="text-center">
-                <p className="text-2xl sm:text-3xl font-bold text-foreground">5+</p>
+                <p className="text-2xl sm:text-3xl font-bold text-foreground">4+</p>
                 <p className="text-xs sm:text-sm text-foreground/60">Years Exp</p>
               </div>
               <div className="h-8 w-px bg-border" />
@@ -136,8 +137,8 @@ export function Hero() {
               </div>
               <div className="h-8 w-px bg-border" />
               <div className="text-center">
-                <p className="text-2xl sm:text-3xl font-bold text-foreground">1</p>
-                <p className="text-xs sm:text-sm text-foreground/60">Startup</p>
+                <p className="text-2xl sm:text-3xl font-bold text-foreground">Forge</p>
+                <p className="text-xs sm:text-sm text-foreground/60">Founder &amp; CEO</p>
               </div>
             </div>
           </div>

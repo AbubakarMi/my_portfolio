@@ -4,6 +4,7 @@ import { ai } from '@/ai/genkit';
 import { type Message, type Role } from 'genkit';
 import { z } from 'zod';
 import { googleAI } from '@genkit-ai/google-genai';
+import { portfolioContext } from '@/lib/agent-config';
 
 const MessageSchema = z.object({
   role: z.enum(['user', 'assistant']),
@@ -32,47 +33,10 @@ const chatFlow = ai.defineFlow(
     outputSchema: ChatOutputSchema,
   },
   async input => {
-    const portfolioContext = `
-      Professional Summary:
-      Analytical and detail-driven Software & AI Evaluation Engineer with 4+ years of experience building scalable systems, conducting AI evaluation workflows, and designing SaaS applications. Proficient in Python, Java, JavaScript, C#, and React, with strong knowledge of QA testing, NLP annotation, and LLM prompt evaluation. Founder of Nyra Startup.
-
-      About Nyra Startup:
-      Nyra is an AI-powered communication and productivity platform designed to break language barriers and make collaboration effortless. It enables live translation, transcription, and generates summaries and action points after meetings. The vision is to become a global, all-in-one productivity platform for chat, meetings, and collaboration, built from Africa. The future roadmap includes Nyra Chat, an integrated hub for messaging, groups, and meetings with real-time translation.
-
-      Core Competencies:
-      - LLM Evaluation & Prompt Testing
-      - QA Scenario Design & Reproducibility
-      - NLP Annotation & Data Labeling
-      - JSON/YAML Scenario Modeling
-      - Full-Stack Development (React, Node.js, .NET, Java)
-      - Clean Architecture & API Design
-      - PostgreSQL Optimization
-
-      Work Experience:
-      - Software Engineer at Hubuk Technology Limited (June 2022 – Present): Designed modular REST APIs with ASP.NET Core 8 & PostgreSQL, improving efficiency by 25%. Developed automated QA scripts for AI models.
-      - Freelance AI/QA Contributor (2024 – Present): Evaluated LLM outputs, authored test cases using JSON/YAML, and applied metrics like precision and recall.
-
-      Internship Experience:
-      - Backend Engineering Intern at FlexiSAF Solutions Limited (Sept 2025 – Dec 2025): Assisted in backend development with Java and Spring.
-      - Frontend Developer Intern at Torvix AI (Nov 2025 – Dec 2025): Built responsive UIs and integrated APIs for AI model visualization.
-
-      Key Projects:
-      - Nyra Connect: AI productivity app with journals and insights. (.NET 8, React, PostgreSQL)
-      - InvoTrek: Multi-tenant SaaS for smart document automation with AI-assisted field detection. (Node.js, PostgreSQL)
-      - BuildTrack Pro: Construction expense tracking platform for contractors. (React, Node.js)
-      - Nubenta Care: AI-driven health management system for hospitals, featuring smart consultations and prescription suggestions. (Node.js, PostgreSQL, AI/NLP)
-      - Adustech Bus Tracker: Real-time bus booking and tracking platform. (Node.js, Firebase)
-      - SmartEd ERP: Comprehensive school management system. (ASP.NET Core 8, PostgreSQL)
-
-      Education:
-      - B.Sc. (Hons) Computer Science from Aliko Dangote University of Science and Technology (2020 – 2025).
-
-      Technical Skills:
-      - Languages: Python, Java, JavaScript, C#, SQL, TypeScript
-      - Frameworks: ASP.NET Core, Node.js, Express, React, Next.js
-      - Databases: PostgreSQL, MongoDB, Firebase Firestore
-      - AI/Testing: LLM Evaluation, QA Design, Precision/Recall Metrics
-    `;
+    // Fast-fail when the LLM isn't configured so the client can fall back instantly.
+    if (!process.env.GEMINI_API_KEY) {
+      throw new Error('LLM_UNAVAILABLE');
+    }
 
     const systemPrompt = `You are a helpful, professional, and friendly AI assistant for the portfolio of Muhammad Idris Abubakar. Your role is to answer questions about his skills, experience, and projects based on the context provided below.
 
@@ -91,7 +55,7 @@ const chatFlow = ai.defineFlow(
       content: [{ text: h.content }],
     }));
 
-    const maxRetries = 3;
+    const maxRetries = 2;
     let attempt = 0;
 
     while (attempt < maxRetries) {

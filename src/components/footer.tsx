@@ -38,7 +38,7 @@ export function Footer() {
                 <span className="transition-colors duration-300 group-hover:text-primary">Muhammad Idris Abubakar</span>
               </Link>
               <p className="text-sm text-secondary-foreground/70 max-w-md leading-relaxed">
-                Software & AI Evaluation Engineer building scalable systems and conducting AI evaluation workflows. Founder of Nyra, on a mission to make communication seamless across languages.
+                Backend & Full-Stack Developer building secure, high-performance systems across AI healthcare, fintech, and SaaS. Founder & CEO of Forge, building reliable financial infrastructure from Africa.
               </p>
               {/* Newsletter or CTA */}
               <div className="pt-2">

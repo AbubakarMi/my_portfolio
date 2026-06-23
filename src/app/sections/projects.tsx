@@ -14,6 +14,34 @@ import { textToSpeech } from '@/ai/flows/tts-flow';
 
 const projects = [
   {
+    title: "Vitalink",
+    description: "A smart patient monitoring and vital-signs tracking platform with real-time health data pipelines, clinical alerting, and role-based clinician dashboards. Integrates with Clinex, Techserv Intelligence's AI-driven healthcare ecosystem.",
+    tech: ["C# .NET", "React", "PostgreSQL", "Health Data"],
+    image: PlaceHolderImages.find(p => p.id === "project-vitalink"),
+    video: "/vitalink-demo.mp4",
+    link: "https://vitalink.tech",
+    role: "Software Engineer @ Techserv Intelligence",
+    summaryScript: "Vitalink is a smart patient monitoring platform that tracks vital signs through real-time health data pipelines. It powers clinical alerting systems and role-based dashboards for care teams, and integrates with Clinex, Techserv Intelligence's broader AI-driven healthcare ecosystem. It's built with C# .NET, React, and PostgreSQL for secure, compliant performance."
+  },
+  {
+    title: "Forge",
+    description: "An AI-powered bulk payment and disbursement platform for African businesses. The Python AI engine validates and auto-corrects bank account details, including wrong numbers, mismatched names, duplicates, and bank-name normalisation, then disburses clean data with a near-zero failure rate.",
+    tech: ["Python", ".NET", "React", "PostgreSQL"],
+    image: PlaceHolderImages.find(p => p.id === "project-forge"),
+    link: "https://forgeapis.xyz",
+    role: "Founder & CEO",
+    summaryScript: "Forge is an AI-powered bulk payment and disbursement platform for African businesses. Its Python AI engine validates and auto-corrects bank account details, then disburses clean data with a near-zero failure rate. I founded Forge after personally managing a thirty-thousand-beneficiary disbursement that required weeks of manual cleaning, and built it with a Python AI layer, a .NET backend, a React frontend, and PostgreSQL."
+  },
+  {
+    title: "Anvil",
+    description: "An augmented-reality land measurement app that lets users measure and map land directly through their phone camera, with no surveyor, no waiting, and no expensive equipment. Built in Flutter for a market where land disputes and inaccessible surveying services are everyday realities.",
+    tech: ["Flutter", "Augmented Reality", "Mobile"],
+    image: PlaceHolderImages.find(p => p.id === "project-anvil"),
+    link: "#",
+    role: "Founder & Lead Developer",
+    summaryScript: "Anvil is an augmented-reality land measurement app. Using AR, it lets users measure and map land directly through their phone camera, with no surveyor, no waiting, and no expensive equipment. Built in Flutter, it targets the Nigerian market where land disputes and inaccessible surveying services are everyday realities."
+  },
+  {
     title: "AJ Academy",
     description: "An interactive English learning web app featuring live classes, structured lessons, and progress tracking for students and professionals.",
     tech: ["Web App", "Live Classes", "Education", "Interactive Learning"],
@@ -35,13 +63,13 @@ const projects = [
   },
   {
     title: "KrediNou",
-    description: "A hybrid digital bank and marketplace that facilitates secure multi-currency transactions, peer-to-peer transfers, and local economic growth through driver and agent networks.",
-    tech: ["Next.js", "Financial Services", "Marketplace", "Logistics"],
+    description: "A multi-currency fintech super-app connecting the Haitian diaspora across North America, the Dominican Republic, and Mexico with families back home. It combines USD/HTG/DOP/MXN wallets, instant P2P transfers, international remittance with live FX corridors, an agent cash-in/cash-out network, a merchant and marketplace suite, ride-hailing, food ordering, virtual cards, and micro-loans, all built on an auditable double-entry ledger with atomic, lock-protected money movement. Live and moving over $46,000 to date.",
+    tech: ["Next.js 16", "TypeScript", "PostgreSQL", "Prisma 7", "NextAuth", "Fintech"],
     image: PlaceHolderImages.find(p => p.id === "project-kredinou"),
     video: "/kredinou-demo.mp4",
     link: "https://www.kredinou.com/",
     role: "Lead Developer",
-    summaryScript: "KrediNou is a digital bank and marketplace combined into one platform. It helps people in the region keep their money safe in different currencies, like US Dollars and Haitian Gourdes, and send money easily. It also empowers the local economy by providing jobs for drivers and local agents who facilitate cash-to-digital exchanges. In the future, it aims to be an all-in-one platform for daily needs, from online shopping with guaranteed delivery to small business credit based on user history."
+    summaryScript: "KrediNou is a cross-border fintech super-app for the Haitian diaspora. It lets users hold multi-currency wallets in US dollars, Haitian gourdes, Dominican pesos, and Mexican pesos, send instant peer-to-peer transfers, and move money home through live remittance corridors backed by a real agent cash network. It also bundles a merchant and marketplace suite, ride-hailing, food ordering, virtual cards, and micro-loans, all built on an auditable double-entry ledger with atomic, lock-protected money movement. As Lead Developer I built the platform end to end, and it is live and has moved over forty-six thousand dollars to date."
   },
   {
     title: "Nubenta Care",
@@ -53,13 +81,22 @@ const projects = [
     summaryScript: "Nubenta Care is an AI-powered health management system that digitizes and connects all hospital departments. By integrating administration, doctors, and labs, it streamlines operations and improves patient care through smart, automated workflows."
   },
   {
-    title: "Nyra Connect",
-    description: "A scalable modular system for an AI-powered productivity app. Features include journals, AI insights, focus sessions, and notifications.",
-    tech: [".NET 8", "React", "PostgreSQL", "Clean Architecture"],
-    image: PlaceHolderImages.find(p => p.id === "project-nyra"),
+    title: "Appointment Booking System",
+    description: "A scalable, multi-industry booking platform serving health clinics, beauty salons, and hospitality. Supports multi-role access, dynamic service and slot configuration, real-time availability checks, and automated confirmation emails. Designed for multi-tenancy.",
+    tech: ["ASP.NET Core 8", "PostgreSQL", "JWT", "SendGrid"],
+    image: PlaceHolderImages.find(p => p.id === "project-booking"),
     link: "#",
-    role: "Founder & Lead Developer",
-    summaryScript: "Nyra Connect is an AI-driven productivity application built on a scalable, modular architecture using .NET and React. It enhances focus and organization through intelligent journals, AI-powered insights, and integrated notification systems."
+    role: "Backend Developer",
+    summaryScript: "This Appointment Booking System is a scalable, multi-industry platform serving health clinics, beauty salons, and hospitality businesses. Built with ASP.NET Core 8 and PostgreSQL, it supports multi-role access, dynamic service and slot configuration, real-time availability checks, and automated confirmation emails via SendGrid, all designed for multi-tenancy."
+  },
+  {
+    title: "Hospital Management System",
+    description: "A multi-role Hospital Management System digitising core clinical and administrative workflows. Covers patient registration, appointment scheduling with conflict detection, multi-tier billing, pharmacy inventory tracking, and real-time staff dashboards with role-based views.",
+    tech: ["Node.js", "PostgreSQL", "Express", "Firebase Auth"],
+    image: PlaceHolderImages.find(p => p.id === "project-hospital"),
+    link: "#",
+    role: "Full-Stack Developer",
+    summaryScript: "This Hospital Management System is a multi-role platform that digitises core clinical and administrative workflows. Built with Node.js, Express, and PostgreSQL, it covers patient registration, appointment scheduling with conflict detection, multi-tier billing, pharmacy inventory tracking, and real-time staff dashboards with role-based views."
   },
   {
     title: "InvoTrek",

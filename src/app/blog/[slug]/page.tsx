@@ -219,10 +219,10 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                 <div className="text-center sm:text-left">
                   <h3 className="font-headline text-lg font-bold text-foreground">Muhammad Idris Abubakar</h3>
                   <p className="text-sm text-foreground/60 mt-1">
-                    Software & AI Evaluation Engineer | Founder of Nyra
+                    Backend & Full-Stack Developer | Founder & CEO of Forge
                   </p>
                   <p className="text-sm text-foreground/70 mt-3 leading-relaxed">
-                    I'm passionate about building scalable software and sharing insights on technology, entrepreneurship, and AI.
+                    I'm passionate about building scalable software and sharing insights on technology, entrepreneurship, and fintech.
                   </p>
                 </div>
               </div>

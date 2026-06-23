@@ -96,20 +96,20 @@ const intentPatterns: IntentPattern[] = [
   {
     intent: 'startup',
     patterns: [
-      /\b(nyra|startup|start-up|founded|founder)\b/i,
-      /\b(language\s*barrier|translation|transcription)\b/i,
+      /\b(forge|anvil|startup|start-up|founded|founder)\b/i,
+      /\b(bulk\s*payment|disbursement|fintech|remittance)\b/i,
     ],
-    keywords: ['nyra', 'startup', 'founder', 'translation'],
+    keywords: ['forge', 'anvil', 'startup', 'founder', 'fintech'],
     priority: 7,
   },
   {
     intent: 'specific_project',
     patterns: [
-      /\b(nyra\s*connect|shoplynk|shop\s*lynk|invotrek|buildtrack|nubenta|adustech|smarted|bulkpay|rewardify|rental\s*management)\b/i,
+      /\b(forge|anvil|shoplynk|shop\s*lynk|invotrek|buildtrack|nubenta|adustech|smarted|bulkpay|rewardify|rental\s*management)\b/i,
       /tell\s*me\s*(about|more)\s*(the\s*)?\w+\s*project/i,
-      /what\s*is\s*(nyra|invotrek|buildtrack|nubenta|shoplynk|bulkpay|rewardify|rental)/i,
+      /what\s*is\s*(forge|anvil|invotrek|buildtrack|nubenta|shoplynk|bulkpay|rewardify|rental)/i,
     ],
-    keywords: ['nyra connect', 'shoplynk', 'invotrek', 'buildtrack', 'nubenta', 'smarted', 'adustech', 'bulkpay', 'rewardify', 'rental', 'whatsapp store'],
+    keywords: ['forge', 'anvil', 'shoplynk', 'invotrek', 'buildtrack', 'nubenta', 'smarted', 'adustech', 'bulkpay', 'rewardify', 'rental', 'whatsapp store'],
     priority: 7,
   },
   {
@@ -223,8 +223,8 @@ function extractEntities(message: string): IntentResult['entities'] {
 
   // Extract project names
   const projectPatterns: Record<string, string> = {
-    'nyra connect': 'nyra-connect',
-    'nyra-connect': 'nyra-connect',
+    'forge': 'forge',
+    'anvil': 'anvil',
     'shoplynk': 'shoplynk',
     'shop lynk': 'shoplynk',
     'whatsapp store': 'shoplynk',

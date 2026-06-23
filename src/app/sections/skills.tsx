@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
-import { BrainCircuit, TestTube2, FileJson, Sparkles, GitBranch, Mail, Wind } from 'lucide-react';
+import { BrainCircuit, FileJson, Sparkles, GitBranch, Wind, ShieldCheck, Workflow, Database } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -85,33 +85,35 @@ const CodeIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 
 const skills = {
-  "AI & Testing": [
-    { name: 'LLM Evaluation', icon: BrainCircuit, description: 'Quality assessment of language models' },
-    { name: 'QA Design', icon: TestTube2, description: 'Test scenario design & automation' },
-    { name: 'NLP Annotation', icon: CodeIcon, description: 'Data labeling & model training' },
-    { name: 'JSON/YAML Modeling', icon: FileJson, description: 'Schema design & validation' },
-  ],
   "Languages": [
-    { name: 'Python', icon: PythonIcon, description: 'AI/ML & automation scripts' },
-    { name: 'Java', icon: JavaIcon, description: 'Enterprise applications' },
-    { name: 'C#', icon: CSharpIcon, description: '.NET development' },
-    { name: 'TypeScript', icon: TypeScriptIcon, description: 'Type-safe JavaScript' },
+    { name: 'C#', icon: CSharpIcon, description: '.NET backend development' },
+    { name: 'Python', icon: PythonIcon, description: 'AI layers, Django & automation' },
+    { name: 'JavaScript', icon: TypeScriptIcon, description: 'ES6+ across the stack' },
+    { name: 'Java', icon: JavaIcon, description: 'Spring enterprise backends' },
+    { name: 'SQL', icon: FileJson, description: 'Queries & data modeling' },
   ],
   "Backend": [
-    { name: '.NET 8', icon: DotNetIcon, description: 'Modern API development' },
-    { name: 'Node.js', icon: (props: any) => <FontAwesomeIcon icon={faNodeJs} {...props} />, description: 'Fast server-side JS' },
-    { name: 'PostgreSQL', icon: PostgresqlIcon, description: 'Relational database' },
-    { name: 'Clean Architecture', icon: GitBranch, description: 'Scalable code patterns' },
+    { name: 'ASP.NET Core', icon: DotNetIcon, description: 'Scalable REST APIs' },
+    { name: 'Node.js / Express', icon: (props: any) => <FontAwesomeIcon icon={faNodeJs} {...props} />, description: 'Fast server-side JS' },
+    { name: 'Django', icon: PythonIcon, description: 'Python web framework' },
+    { name: 'EF Core', icon: DotNetIcon, description: 'ORM & data access' },
+    { name: 'Spring', icon: JavaIcon, description: 'Java enterprise APIs' },
   ],
   "Frontend": [
     { name: 'React', icon: ReactIcon, description: 'Component-based UIs' },
     { name: 'Next.js', icon: NextjsIcon, description: 'Full-stack React framework' },
     { name: 'Tailwind CSS', icon: Wind, description: 'Utility-first styling' },
   ],
-  "DevOps & Tools": [
-    { name: 'Docker', icon: DockerIcon, description: 'Container orchestration' },
-    { name: 'SendGrid', icon: Mail, description: 'Email delivery service' },
-    { name: 'Git & GitHub', icon: GitBranch, description: 'Version control' },
+  "Databases": [
+    { name: 'PostgreSQL', icon: PostgresqlIcon, description: 'Primary relational database' },
+    { name: 'Firebase', icon: Database, description: 'Firestore & authentication' },
+    { name: 'Docker', icon: DockerIcon, description: 'Containerized deployments' },
+  ],
+  "Specializations": [
+    { name: 'REST API Design', icon: Workflow, description: 'Clean, scalable API architecture' },
+    { name: 'JWT Auth & RBAC', icon: ShieldCheck, description: 'Secure role-based access control' },
+    { name: 'AI Model Integration', icon: BrainCircuit, description: 'Embedding AI into products' },
+    { name: 'Agile / Scrum', icon: GitBranch, description: 'Iterative team delivery' },
   ]
 };
 
@@ -223,7 +225,7 @@ export function Skills() {
             "transition-all duration-1000 ease-out delay-200",
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           )}>
-            <Tabs defaultValue="AI & Testing" className="w-full">
+            <Tabs defaultValue="Languages" className="w-full">
               <TabsList className="mx-auto mb-12 flex h-auto max-w-3xl flex-wrap items-center justify-center gap-2 rounded-2xl bg-muted/50 p-2">
                 {Object.keys(skills).map((category) => (
                   <TabsTrigger

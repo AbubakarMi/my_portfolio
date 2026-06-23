@@ -25,7 +25,7 @@ export interface GeneratedResponse {
 
 // Response templates for variety and personality
 const greetingResponses = [
-  `Hello! 👋 I'm Muhammad's AI assistant. I know everything about his work - from the React apps he's built to his AI startups Nyra and ShopLynk. What catches your interest?`,
+  `Hello! 👋 I'm Muhammad's AI assistant. I know everything about his work - from the React apps he's built to his startups Forge and ShopLynk. What catches your interest?`,
   `Hey there! Welcome to Muhammad's portfolio. I'm here to give you the inside scoop on his ${projects.length} projects, skills, and what he's working on. Fire away with any questions!`,
   `Hi! Great to have you here. Whether you're curious about Muhammad's tech stack, want to see his projects, or thinking about working with him - I've got you covered. What would you like to explore?`,
   `Welcome! I'm Muhammad's digital assistant. Fun fact: he built me from scratch! I can tell you about his ${projects.length} major projects, his ${profile.yearsOfExperience}+ years of experience, or his startups. What sounds interesting?`,
@@ -46,11 +46,11 @@ const thanksResponses = [
 
 // Fun facts to sprinkle in responses - these rotate randomly
 const funFacts = [
-  `Fun fact: Muhammad's startup Nyra can translate conversations in real-time!`,
+  `Fun fact: Muhammad's startup Forge uses a Python AI engine to clean and auto-correct bank details before bulk disbursement!`,
   `Did you know? Muhammad has built ${projects.length} production-ready applications across different industries.`,
   `Here's something cool: Muhammad evaluates AI models for quality - he literally tests other AIs!`,
   `Interesting tidbit: Muhammad improved his company's system efficiency by 25% with his API designs.`,
-  `Quick fact: Muhammad founded two startups - Nyra (AI communication) and ShopLynk (WhatsApp e-commerce)!`,
+  `Quick fact: Muhammad founded two startups - Forge (AI-powered bulk payments) and ShopLynk (WhatsApp e-commerce)!`,
   `Pro tip: Muhammad responds to inquiries within ${profile.availability.responseTime} - he's pretty quick!`,
   `Behind the scenes: Muhammad built this AI assistant from scratch - no external APIs needed!`,
   `Cool stat: Muhammad has expertise in ${skills.filter(s => s.proficiency === 'expert').length} technologies at expert level!`,
@@ -94,7 +94,7 @@ function containsSynonym(message: string, key: string): boolean {
 
 // Helper to check if something exists in the data
 function checkCompanyExists(companyName: string): boolean {
-  const knownCompanies = ['hubuk', 'hubuk technology', 'flexisaf', 'torvix', 'torvix ai', 'nyra', 'shoplynk'];
+  const knownCompanies = ['hubuk', 'hubuk technology', 'flexisaf', 'torvix', 'torvix ai', 'forge', 'anvil', 'shoplynk'];
   return knownCompanies.some(c => companyName.toLowerCase().includes(c) || c.includes(companyName.toLowerCase()));
 }
 
@@ -163,17 +163,17 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
     }
 
     // Check for topics
-    if (topic.includes('nyra') || topic.includes('startup')) {
+    if (topic.includes('forge') || topic.includes('anvil') || topic.includes('startup')) {
       return {
-        text: `Nyra is Muhammad's flagship startup! 🌍 He founded it as CEO to break language barriers globally. Nyra Connect (currently under development) will feature real-time translation, transcription, and meeting summaries. Built with .NET 8, React, and PostgreSQL. His dream is to ${profile.dream.vision.toLowerCase()}!`,
-        suggestions: ['What is ShopLynk?', 'What is his biggest dream?'],
+        text: `Forge is Muhammad's flagship startup (Pre-Launch, forgeapis.xyz)! 💸 He founded it as CEO to build reliable financial infrastructure for African businesses. It's an AI-powered bulk payment and disbursement platform: a Python AI engine validates and auto-corrects bank account details - wrong numbers, mismatched names, duplicates, bank-name normalisation - then disburses clean data with a near-zero failure rate. Built with Python (AI layer), .NET, React, and PostgreSQL. He's also building Anvil, an augmented-reality land measurement app that lets users measure land straight from their phone camera.`,
+        suggestions: ['What is Anvil?', 'What is ShopLynk?', 'What is his biggest dream?'],
       };
     }
 
     if (topic.includes('shoplynk') || topic.includes('whatsapp')) {
       return {
         text: `ShopLynk is Muhammad's e-commerce startup (currently under development)! 📱 He's the Founder & Lead Developer. It lets small businesses create mini stores from WhatsApp chats - auto-listing products, managing orders, and collecting payments. Built with React, Node.js, React Native, and PostgreSQL.`,
-        suggestions: ['What is Nyra?', 'What is his biggest dream?'],
+        suggestions: ['What is Forge?', 'What is his biggest dream?'],
       };
     }
 
@@ -195,8 +195,8 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
 
     if (topic.includes('dream') || topic.includes('goal') || topic.includes('vision') || topic.includes('ambition')) {
       return {
-        text: `🌟 Muhammad's biggest dream? ${profile.dream.vision}! Starting from a local area in Africa, he's determined to ${profile.dream.goal.toLowerCase()}. His ultimate aspiration is to ${profile.dream.aspiration.toLowerCase()}. That's what drives him to build Nyra and ShopLynk!`,
-        suggestions: ['Tell me about Nyra', 'What is ShopLynk?'],
+        text: `🌟 Muhammad's biggest dream? ${profile.dream.vision}! Starting from a local area in Africa, he's determined to ${profile.dream.goal.toLowerCase()}. His ultimate aspiration is to ${profile.dream.aspiration.toLowerCase()}. That's what drives him to build Forge and ShopLynk!`,
+        suggestions: ['Tell me about Forge', 'What is ShopLynk?'],
       };
     }
 
@@ -209,7 +209,7 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
 
     if (topic.includes('himself') || topic.includes('muhammad') || topic.includes('background')) {
       return {
-        text: `Muhammad is a ${profile.title} with ${profile.yearsOfExperience}+ years of experience. He's a Software Engineer at Hubuk, Founder & CEO of Nyra, and Founder & Lead Developer of ShopLynk. His dream is to ${profile.dream.vision.toLowerCase()}. He's built ${projects.length} production projects across AI, e-commerce, healthcare, and more!`,
+        text: `Muhammad is a ${profile.title} with ${profile.yearsOfExperience}+ years of experience. He's a Software Engineer at Hubuk, Founder & CEO of Forge, and Founder & Lead Developer of ShopLynk. His dream is to ${profile.dream.vision.toLowerCase()}. He's built ${projects.length} production projects across fintech, e-commerce, healthcare, and more!`,
         actions: [{ type: 'scroll_to_section', payload: { section: 'about' }, label: 'View About Section' }],
         suggestions: ['What are his skills?', 'Show me his projects', 'What is his dream?'],
       };
@@ -222,22 +222,22 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
     const askedRole = roleAtMatch[1].trim().toLowerCase();
     const askedPlace = roleAtMatch[2].trim().toLowerCase();
 
-    // Check if asking about Nyra
-    if (askedPlace.includes('nyra')) {
-      const nyraProject = projects.find(p => p.id === 'nyra-connect');
-      if (nyraProject) {
+    // Check if asking about Forge
+    if (askedPlace.includes('forge') || askedPlace.includes('anvil')) {
+      const forgeProject = projects.find(p => p.id === 'forge');
+      if (forgeProject) {
         // Check if the asked role matches
         if (askedRole.includes('backend') || askedRole.includes('frontend') || askedRole.includes('developer') || askedRole.includes('engineer')) {
           return {
-            text: `Not just a ${askedRole}! Muhammad is the Founder & CEO of Nyra, and also serves as the Lead Developer. So yes, he does development work (including backend with .NET 8), but his primary role is as the founder running the company. Nyra Connect is currently under active development - he's building it to break language barriers globally!`,
-            suggestions: ['Tell me more about Nyra', 'What technologies does Nyra use?', 'What is his dream?'],
+            text: `Not just a ${askedRole}! Muhammad is the Founder & CEO of Forge, and also serves as the Lead Developer. So yes, he does development work (Python AI layer, .NET backend, React frontend), but his primary role is as the founder running the company. Forge is currently Pre-Launch - an AI-powered bulk payment and disbursement platform for African businesses!`,
+            suggestions: ['Tell me more about Forge', 'What technologies does Forge use?', 'What is his dream?'],
           };
         }
         // If asking specifically about founder/CEO
         if (askedRole.includes('founder') || askedRole.includes('ceo') || askedRole.includes('owner')) {
           return {
-            text: `Yes! Muhammad is the Founder & CEO of Nyra. He started the company to break language barriers globally and serves as both the visionary leader and lead developer. Nyra Connect is currently under active development.`,
-            suggestions: ['Tell me more about Nyra', 'What is his dream?'],
+            text: `Yes! Muhammad is the Founder & CEO of Forge. He started the company to build reliable financial infrastructure for African businesses, and serves as both the visionary leader and lead developer. Forge is currently Pre-Launch.`,
+            suggestions: ['Tell me more about Forge', 'What is his dream?'],
           };
         }
       }
@@ -251,13 +251,13 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
         if (askedRole.includes('backend') || askedRole.includes('frontend') || askedRole.includes('developer') || askedRole.includes('engineer')) {
           return {
             text: `Muhammad is the Founder & Lead Developer of ShopLynk, not just a ${askedRole}. He founded the company and leads all development - both frontend (React, React Native) and backend (Node.js). He's building it to help small businesses sell through WhatsApp!`,
-            suggestions: ['Tell me more about ShopLynk', 'What is Nyra?', 'What is his dream?'],
+            suggestions: ['Tell me more about ShopLynk', 'What is Forge?', 'What is his dream?'],
           };
         }
         if (askedRole.includes('founder') || askedRole.includes('owner')) {
           return {
             text: `Yes! Muhammad is the Founder & Lead Developer of ShopLynk. He created it to help small businesses create e-commerce stores through WhatsApp.`,
-            suggestions: ['Tell me more about ShopLynk', 'What is Nyra?'],
+            suggestions: ['Tell me more about ShopLynk', 'What is Forge?'],
           };
         }
       }
@@ -273,8 +273,8 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
       }
       if (askedRole.includes('founder') || askedRole.includes('ceo') || askedRole.includes('owner')) {
         return {
-          text: `No, Muhammad is not the founder of Hubuk. He works there as a Software Engineer. However, he IS the founder of two other companies: Nyra (as CEO) and ShopLynk (as Lead Developer).`,
-          suggestions: ['Tell me about Nyra', 'What is ShopLynk?'],
+          text: `No, Muhammad is not the founder of Hubuk. He works there as a Software Engineer. However, he IS the founder of two other companies: Forge (as CEO) and ShopLynk (as Lead Developer).`,
+          suggestions: ['Tell me about Forge', 'What is ShopLynk?'],
         };
       }
     }
@@ -299,8 +299,8 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
       if (!exists) {
         const companies = experiences.map(e => e.company).join(', ');
         return {
-          text: `No, Muhammad has not worked at ${entity.value}. His work experience includes: ${companies}. He also founded Nyra and ShopLynk. Would you like to know more about any of these?`,
-          suggestions: ['Tell me about Hubuk', 'What is Nyra?', 'What is ShopLynk?'],
+          text: `No, Muhammad has not worked at ${entity.value}. His work experience includes: ${companies}. He also founded Forge and ShopLynk. Would you like to know more about any of these?`,
+          suggestions: ['Tell me about Hubuk', 'What is Forge?', 'What is ShopLynk?'],
         };
       }
     }
@@ -324,7 +324,7 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
         return {
           text: `I don't have a project called "${entity.value}" in Muhammad's portfolio. He has built ${projects.length} projects including: ${projects.slice(0, 5).map(p => p.name).join(', ')}, and more. Would you like to know about any of these?`,
           actions: [{ type: 'scroll_to_section', payload: { section: 'projects' }, label: 'View All Projects' }],
-          suggestions: ['List all projects', 'Tell me about Nyra Connect'],
+          suggestions: ['List all projects', 'Tell me about Forge'],
         };
       }
     }
@@ -335,32 +335,32 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
       /\b(what|which)\s*(company|startup|business).*\b(ceo|coo|cto|founder|own)/i.test(lowerMessage) ||
       /is\s*(muhammad|he)\s*(the\s*)?(ceo|founder|owner)\s*(of\s*what|of\s*which)/i.test(lowerMessage)) {
     return {
-      text: `Muhammad is the Founder & CEO of Nyra - an AI-powered communication platform that breaks language barriers with real-time translation, transcription, and meeting summaries. He's also the Founder & Lead Developer of ShopLynk, a WhatsApp store builder for small businesses.`,
-      actions: [{ type: 'show_project', payload: { projectId: 'nyra-connect' }, label: 'View Nyra Connect' }],
-      suggestions: ['Tell me more about Nyra', 'What is ShopLynk?', 'What other projects?'],
+      text: `Muhammad is the Founder & CEO of Forge - an AI-powered bulk payment and disbursement platform for African businesses that validates and auto-corrects bank account details before disbursing with a near-zero failure rate. He's also the Founder & Lead Developer of ShopLynk, a WhatsApp store builder for small businesses.`,
+      actions: [{ type: 'show_project', payload: { projectId: 'forge' }, label: 'View Forge' }],
+      suggestions: ['Tell me more about Forge', 'What is ShopLynk?', 'What other projects?'],
     };
   }
 
   // Direct "what company" questions
   if (/\b(what|which)\s*(company|companies|startup|startups)\s*(does|did|has)\s*(he|muhammad)\s*(found|start|own|create)/i.test(lowerMessage)) {
     return {
-      text: `Muhammad founded two companies: 1) Nyra - an AI communication platform for breaking language barriers (he's the CEO), and 2) ShopLynk - a WhatsApp e-commerce platform for small businesses. Both are actively being developed!`,
-      suggestions: ['Tell me about Nyra', 'What is ShopLynk?'],
+      text: `Muhammad founded two companies: 1) Forge - an AI-powered bulk payment and disbursement platform for African businesses (he's the CEO), and 2) ShopLynk - a WhatsApp e-commerce platform for small businesses. Both are actively being developed!`,
+      suggestions: ['Tell me about Forge', 'What is ShopLynk?'],
     };
   }
 
   // "Where does he work" questions
   if (/\b(where|which\s*company)\s*(does|did)\s*(he|muhammad)\s*work/i.test(lowerMessage)) {
     return {
-      text: `Muhammad works as a Software Engineer at Hubuk Technology Limited (since June 2022), where he designs REST APIs and develops automated QA scripts for AI models. He also runs his own startups: Nyra (as Founder & CEO) and ShopLynk (as Founder & Lead Developer).`,
-      suggestions: ['Tell me about Nyra', 'What does he do at Hubuk?'],
+      text: `Muhammad works as a Software Engineer at Hubuk Technology Limited (since June 2022), where he designs REST APIs and develops automated QA scripts for AI models. He also runs his own startups: Forge (as Founder & CEO) and ShopLynk (as Founder & Lead Developer).`,
+      suggestions: ['Tell me about Forge', 'What does he do at Hubuk?'],
     };
   }
 
   // "How many projects" questions
   if (/how\s*many\s*(projects|apps|applications|systems)/i.test(lowerMessage)) {
     return {
-      text: `Muhammad has built ${projects.length} major production projects! These span multiple industries: AI/productivity, e-commerce, healthcare, education, construction, transportation, and more. He's the Lead Developer on most of them, and Founder on two (Nyra Connect and ShopLynk).`,
+      text: `Muhammad has built ${projects.length} major production projects! These span multiple industries: fintech, e-commerce, healthcare, education, construction, transportation, and more. He's the Lead Developer on most of them, and Founder on two (Forge and ShopLynk).`,
       actions: [{ type: 'scroll_to_section', payload: { section: 'projects' }, label: 'View All Projects' }],
       suggestions: ['List all projects', 'Which ones is he founder of?'],
     };
@@ -371,16 +371,16 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
   if (roleAtPlaceMatch) {
     const place = roleAtPlaceMatch[1].trim().toLowerCase();
 
-    if (place.includes('nyra')) {
+    if (place.includes('forge') || place.includes('anvil')) {
       return {
-        text: `At Nyra, Muhammad is the Founder & CEO / Lead Developer. He founded the company to break language barriers globally and leads both the business vision and technical development.`,
-        suggestions: ['Tell me more about Nyra', 'What is ShopLynk?'],
+        text: `At Forge, Muhammad is the Founder & CEO / Lead Developer. He founded the company to build reliable financial infrastructure for African businesses and leads both the business vision and technical development.`,
+        suggestions: ['Tell me more about Forge', 'What is ShopLynk?'],
       };
     }
     if (place.includes('shoplynk') || place.includes('shop lynk')) {
       return {
         text: `At ShopLynk, Muhammad is the Founder & Lead Developer. He created the platform to help small businesses create e-commerce stores through WhatsApp.`,
-        suggestions: ['Tell me more about ShopLynk', 'What is Nyra?'],
+        suggestions: ['Tell me more about ShopLynk', 'What is Forge?'],
       };
     }
     if (place.includes('hubuk')) {
@@ -405,8 +405,8 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
   if (/what\s*(is|are)\s*(his|muhammad'?s?)\s*(role|job|position|title)/i.test(lowerMessage) ||
       /what\s*does\s*(he|muhammad)\s*do/i.test(lowerMessage)) {
     return {
-      text: `Muhammad wears multiple hats! He's a Software Engineer at Hubuk Technology Limited (his day job), Founder & CEO of Nyra (his AI startup), Founder & Lead Developer of ShopLynk (e-commerce platform), and a freelance AI/QA Contributor evaluating LLM outputs. His main title is Software & AI Evaluation Engineer.`,
-      suggestions: ['Tell me about Hubuk', 'What is Nyra?', 'What is ShopLynk?'],
+      text: `Muhammad wears multiple hats! He's a Software Engineer at Hubuk Technology Limited (his day job), Founder & CEO of Forge (his fintech startup), Founder & Lead Developer of ShopLynk (e-commerce platform), and a freelance AI/QA Contributor evaluating LLM outputs. His main title is Software & AI Evaluation Engineer.`,
+      suggestions: ['Tell me about Hubuk', 'What is Forge?', 'What is ShopLynk?'],
     };
   }
 
@@ -431,8 +431,8 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
   // "Is he a founder/CEO" questions
   if (/is\s*(he|muhammad)\s*(a\s*)?(founder|ceo|owner)/i.test(lowerMessage)) {
     return {
-      text: `Yes! Muhammad is the Founder & CEO of Nyra (an AI communication platform) and Founder & Lead Developer of ShopLynk (a WhatsApp e-commerce platform). He started both companies to solve real problems he observed.`,
-      suggestions: ['Tell me about Nyra', 'What is ShopLynk?'],
+      text: `Yes! Muhammad is the Founder & CEO of Forge (an AI-powered bulk payment platform) and Founder & Lead Developer of ShopLynk (a WhatsApp e-commerce platform). He started both companies to solve real problems he observed.`,
+      suggestions: ['Tell me about Forge', 'What is ShopLynk?'],
     };
   }
 
@@ -447,25 +447,25 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
   // "What are his achievements" questions
   if (/\b(achievements?|accomplish|accomplished|achieved)\b/i.test(lowerMessage)) {
     return {
-      text: `Muhammad's key achievements include: 1) Founding two tech startups (Nyra and ShopLynk), 2) Improving system efficiency by 25% at Hubuk through API design, 3) Building ${projects.length} production-ready projects across multiple industries, and 4) Working as an AI evaluator testing LLM outputs for quality.`,
-      suggestions: ['Tell me about Nyra', 'Show me his projects', 'What technologies does he use?'],
+      text: `Muhammad's key achievements include: 1) Founding two tech startups (Forge and ShopLynk), 2) Improving system efficiency by 25% at Hubuk through API design, 3) Building ${projects.length} production-ready projects across multiple industries, and 4) Working as an AI evaluator testing LLM outputs for quality.`,
+      suggestions: ['Tell me about Forge', 'Show me his projects', 'What technologies does he use?'],
     };
   }
 
   // "What is his best/favorite project" questions
   if (/\b(best|favorite|favourite|top|main|flagship)\s*(project|work|app|application)/i.test(lowerMessage)) {
     return {
-      text: `Muhammad's flagship project is Nyra Connect - his AI-powered communication platform that breaks language barriers with real-time translation, transcription, and meeting summaries. He founded it as CEO to solve a global problem. Another key project is ShopLynk, which turns WhatsApp into an e-commerce platform for small businesses.`,
-      actions: [{ type: 'show_project', payload: { projectId: 'nyra-connect' }, label: 'View Nyra Connect' }],
-      suggestions: ['Tell me more about Nyra', 'What is ShopLynk?', 'Show all projects'],
+      text: `Muhammad's flagship project is Forge - his AI-powered bulk payment and disbursement platform for African businesses. A Python AI engine validates and auto-corrects bank account details before disbursing with a near-zero failure rate. He founded it as CEO to solve a real problem he faced. Another key project is ShopLynk, which turns WhatsApp into an e-commerce platform for small businesses.`,
+      actions: [{ type: 'show_project', payload: { projectId: 'forge' }, label: 'View Forge' }],
+      suggestions: ['Tell me more about Forge', 'What is ShopLynk?', 'Show all projects'],
     };
   }
 
   // "Does he have a startup/company" questions
   if (/does\s+(?:he|muhammad)\s+(?:have|own|run)\s+(?:a\s+)?(?:startup|company|business)/i.test(lowerMessage)) {
     return {
-      text: `Yes! Muhammad has founded two companies: 1) Nyra - an AI communication platform where he serves as Founder & CEO, and 2) ShopLynk - a WhatsApp e-commerce platform where he's the Founder & Lead Developer. Both are actively being developed!`,
-      suggestions: ['Tell me about Nyra', 'What is ShopLynk?', 'What other projects?'],
+      text: `Yes! Muhammad has founded two companies: 1) Forge - an AI-powered bulk payment platform where he serves as Founder & CEO, and 2) ShopLynk - a WhatsApp e-commerce platform where he's the Founder & Lead Developer. Both are actively being developed!`,
+      suggestions: ['Tell me about Forge', 'What is ShopLynk?', 'What other projects?'],
     };
   }
 
@@ -531,7 +531,7 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
   // "When did he start/begin" questions
   if (/when\s+did\s+(?:he|muhammad)\s+(?:start|begin|commence)/i.test(lowerMessage)) {
     return {
-      text: `Muhammad started his professional career in June 2022 at Hubuk Technology Limited. He's been building projects and gaining experience for ${profile.yearsOfExperience}+ years now. He started his startups (Nyra and ShopLynk) along the way while working full-time.`,
+      text: `Muhammad started his professional career in June 2022 at Hubuk Technology Limited. He's been building projects and gaining experience for ${profile.yearsOfExperience}+ years now. He started his startups (Forge and ShopLynk) along the way while working full-time.`,
       suggestions: ['What does he do at Hubuk?', 'Tell me about his startups'],
     };
   }
@@ -542,7 +542,7 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
     return {
       text: `Here are all ${projects.length} of Muhammad's projects: ${projectList}. Each project solves real problems for real users. Would you like details on any specific one?`,
       actions: [{ type: 'scroll_to_section', payload: { section: 'projects' }, label: 'View All Projects' }],
-      suggestions: ['Tell me about Nyra Connect', 'What is ShopLynk?', 'Which ones is he founder of?'],
+      suggestions: ['Tell me about Forge', 'What is ShopLynk?', 'Which ones is he founder of?'],
     };
   }
 
@@ -551,16 +551,16 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
       /what\s+(?:is|are)\s+(?:his|muhammad'?s?)\s+(?:dream|goal|vision|aspiration|ambition)/i.test(lowerMessage) ||
       /what\s+does\s+(?:he|muhammad)\s+(?:want|hope|aspire|dream)/i.test(lowerMessage)) {
     return {
-      text: `🌟 Muhammad's biggest dream? ${profile.dream.vision}! Starting from a local area in Africa, he's determined to ${profile.dream.goal.toLowerCase()}. His ultimate aspiration is to ${profile.dream.aspiration.toLowerCase()}. He's not just building software - he's on a mission to ${profile.dream.mission.toLowerCase()}. That's the drive behind Nyra and ShopLynk!`,
-      suggestions: ['Tell me about Nyra', 'What is ShopLynk?', 'What motivates him?'],
+      text: `🌟 Muhammad's biggest dream? ${profile.dream.vision}! Starting from a local area in Africa, he's determined to ${profile.dream.goal.toLowerCase()}. His ultimate aspiration is to ${profile.dream.aspiration.toLowerCase()}. He's not just building software - he's on a mission to ${profile.dream.mission.toLowerCase()}. That's the drive behind Forge and ShopLynk!`,
+      suggestions: ['Tell me about Forge', 'What is ShopLynk?', 'What motivates him?'],
     };
   }
 
   // Motivation/Why questions
   if (/\b(motivat|inspir|driv|passion|why\s+does\s+he|what\s+makes\s+him)\b/i.test(lowerMessage)) {
     return {
-      text: `What drives Muhammad? His dream to ${profile.dream.vision.toLowerCase()}! 🔥 He started from a local area with the ambition to ${profile.dream.goal.toLowerCase()}. Every project he builds - from Nyra (breaking language barriers) to ShopLynk (empowering small businesses) - is a step toward proving that ${profile.dream.mission.toLowerCase()}.`,
-      suggestions: ['What is his biggest dream?', 'Tell me about Nyra', 'What is ShopLynk?'],
+      text: `What drives Muhammad? His dream to ${profile.dream.vision.toLowerCase()}! 🔥 He started from a local area with the ambition to ${profile.dream.goal.toLowerCase()}. Every project he builds - from Forge (reliable financial infrastructure for African businesses) to ShopLynk (empowering small businesses) - is a step toward proving that ${profile.dream.mission.toLowerCase()}.`,
+      suggestions: ['What is his biggest dream?', 'Tell me about Forge', 'What is ShopLynk?'],
     };
   }
 
@@ -568,7 +568,7 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
   if (/where\s+(?:does|will)\s+(?:he|muhammad)\s+see\s+(?:himself|his)/i.test(lowerMessage) ||
       /\b(future|5\s*years?|10\s*years?|long\s*term)\b/i.test(lowerMessage)) {
     return {
-      text: `Muhammad sees himself becoming ${profile.dream.aspiration.toLowerCase()}. His vision is clear: ${profile.dream.vision.toLowerCase()}, starting from Africa and scaling globally. With Nyra tackling language barriers and ShopLynk empowering small businesses, he's building the foundation for that future right now.`,
+      text: `Muhammad sees himself becoming ${profile.dream.aspiration.toLowerCase()}. His vision is clear: ${profile.dream.vision.toLowerCase()}, starting from Africa and scaling globally. With Forge building reliable financial infrastructure for African businesses and ShopLynk empowering small businesses, he's building the foundation for that future right now.`,
       suggestions: ['Tell me about his startups', 'What projects has he built?'],
     };
   }
@@ -577,7 +577,7 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
   if (/\b(africa|african|nigeria|nigerian|local|where.*from|origin|background|where.*live|where.*based|location|kano)\b/i.test(lowerMessage)) {
     return {
       text: `Muhammad is from ${profile.location}! 🌍 He's proudly building from Africa, with a dream to ${profile.dream.vision.toLowerCase()}. His mission is to ${profile.dream.mission.toLowerCase()}. He's proving that world-class tech can come from anywhere - and he's on track to become ${profile.dream.aspiration.toLowerCase()}.`,
-      suggestions: ['What is his biggest dream?', 'Tell me about Nyra', 'How old is he?'],
+      suggestions: ['What is his biggest dream?', 'Tell me about Forge', 'How old is he?'],
     };
   }
 
@@ -594,7 +594,7 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
     }
 
     return {
-      text: `Muhammad was born on ${profile.birthdate} in ${profile.location}, making him ${age} years old! 🎂 Despite his young age, he's already built ${projects.length} production projects, founded 2 startups (Nyra and ShopLynk), and has ${profile.yearsOfExperience}+ years of professional experience. His dream is to ${profile.dream.aspiration.toLowerCase()}!`,
+      text: `Muhammad was born on ${profile.birthdate} in ${profile.location}, making him ${age} years old! 🎂 Despite his young age, he's already built ${projects.length} production projects, founded 2 startups (Forge and ShopLynk), and has ${profile.yearsOfExperience}+ years of professional experience. His dream is to ${profile.dream.aspiration.toLowerCase()}!`,
       suggestions: ['What is his biggest dream?', 'Tell me about his startups', 'Where did he study?'],
     };
   }
@@ -602,28 +602,28 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
   // "How did he learn/start" questions
   if (/how\s+did\s+(?:he|muhammad)\s+(?:learn|start|begin|get\s+into)/i.test(lowerMessage)) {
     return {
-      text: `Muhammad started his journey with a ${profile.education.degree} from ${profile.education.institution}. He began professional work in June 2022 at Hubuk Technology Limited. Since then, he's continuously learning and building - ${projects.length} projects and 2 startups so far! His passion for breaking language barriers led him to found Nyra.`,
+      text: `Muhammad started his journey with a ${profile.education.degree} from ${profile.education.institution}. He began professional work in June 2022 at Hubuk Technology Limited. Since then, he's continuously learning and building - ${projects.length} projects and 2 startups so far! After personally managing a 30,000-beneficiary disbursement that took weeks of manual cleaning, he founded Forge.`,
       suggestions: ['What is his education?', 'Tell me about his work experience'],
     };
   }
 
   // "Why did he create/build X" questions
   if (/why\s+did\s+(?:he|muhammad)\s+(?:create|build|make|start|found)/i.test(lowerMessage)) {
-    if (lowerMessage.includes('nyra')) {
+    if (lowerMessage.includes('forge') || lowerMessage.includes('anvil')) {
       return {
-        text: `Muhammad created Nyra to break language barriers globally! His vision is to ${profile.dream.vision.toLowerCase()}. He saw how language differences limit global collaboration and wanted to solve it with AI-powered real-time translation.`,
-        suggestions: ['Tell me more about Nyra', 'What is his dream?'],
+        text: `Muhammad created Forge after personally managing a 30,000-beneficiary disbursement that took weeks of manual cleaning! He wanted to build reliable financial infrastructure for African businesses, so Forge uses a Python AI engine to validate and auto-correct bank account details before disbursing with a near-zero failure rate.`,
+        suggestions: ['Tell me more about Forge', 'What is his dream?'],
       };
     }
     if (lowerMessage.includes('shoplynk')) {
       return {
         text: `Muhammad created ShopLynk to empower small businesses! He noticed many small business owners in Africa use WhatsApp for selling but lack proper e-commerce tools. ShopLynk lets them create stores directly from WhatsApp - no coding needed!`,
-        suggestions: ['Tell me more about ShopLynk', 'What is Nyra?'],
+        suggestions: ['Tell me more about ShopLynk', 'What is Forge?'],
       };
     }
     return {
-      text: `Muhammad builds solutions to real problems! He founded Nyra to break language barriers and ShopLynk to empower small businesses. Each of his ${projects.length} projects solves a specific problem - from healthcare (Nubenta Care) to education (SmartEd ERP) to construction (BuildTrack Pro).`,
-      suggestions: ['Tell me about Nyra', 'What is ShopLynk?', 'Show me all projects'],
+      text: `Muhammad builds solutions to real problems! He founded Forge to build reliable financial infrastructure for African businesses and ShopLynk to empower small businesses. Each of his ${projects.length} projects solves a specific problem - from healthcare (Nubenta Care) to education (SmartEd ERP) to construction (BuildTrack Pro).`,
+      suggestions: ['Tell me about Forge', 'What is ShopLynk?', 'Show me all projects'],
     };
   }
 
@@ -649,8 +649,8 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
   if (/which\s+(?:project|one)\s+(?:is|should|would)/i.test(lowerMessage) ||
       /what\s+(?:is\s+)?(?:his\s+)?(?:best|most|favorite|main)/i.test(lowerMessage)) {
     return {
-      text: `Muhammad's flagship project is Nyra Connect - his AI startup for breaking language barriers. He's the Founder & CEO. For e-commerce, ShopLynk (also founder) helps small businesses sell via WhatsApp. Among client projects, Nubenta Care (AI healthcare) and InvoTrek (document automation) showcase his AI integration skills.`,
-      suggestions: ['Tell me about Nyra', 'What is InvoTrek?', 'Show all projects'],
+      text: `Muhammad's flagship project is Forge - his AI-powered bulk payment and disbursement platform for African businesses. He's the Founder & CEO. For e-commerce, ShopLynk (also founder) helps small businesses sell via WhatsApp. Among client projects, Nubenta Care (AI healthcare) and InvoTrek (document automation) showcase his AI integration skills.`,
+      suggestions: ['Tell me about Forge', 'What is InvoTrek?', 'Show all projects'],
     };
   }
 
@@ -668,9 +668,9 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
     // Projects
     if (/^(projects?|portfolio|work)$/i.test(lowerMessage.trim())) {
       return {
-        text: `Muhammad has built ${projects.length} production projects! Highlights: Nyra Connect (AI translation - Founder & CEO), ShopLynk (WhatsApp e-commerce - Founder), InvoTrek (document automation), Nubenta Care (AI healthcare), and more.`,
+        text: `Muhammad has built ${projects.length} production projects! Highlights: Forge (AI-powered bulk payments - Founder & CEO), ShopLynk (WhatsApp e-commerce - Founder), InvoTrek (document automation), Nubenta Care (AI healthcare), and more.`,
         actions: [{ type: 'scroll_to_section', payload: { section: 'projects' }, label: 'View All Projects' }],
-        suggestions: ['Tell me about Nyra', 'What is ShopLynk?'],
+        suggestions: ['Tell me about Forge', 'What is ShopLynk?'],
       };
     }
     // Contact
@@ -684,7 +684,7 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
     // Experience
     if (/^(experience|career|history)$/i.test(lowerMessage.trim())) {
       return {
-        text: `Muhammad has ${profile.yearsOfExperience}+ years of experience. Currently: Software Engineer at Hubuk Technology (since 2022), Founder & CEO of Nyra, Founder & Lead Developer of ShopLynk, and freelance AI/QA Contributor.`,
+        text: `Muhammad has ${profile.yearsOfExperience}+ years of experience. Currently: Software Engineer at Hubuk Technology (since 2022), Founder & CEO of Forge, Founder & Lead Developer of ShopLynk, and freelance AI/QA Contributor.`,
         suggestions: ['Tell me about Hubuk', 'What are his startups?'],
       };
     }
@@ -727,15 +727,15 @@ export function generateResponse(intent: IntentResult, message: string): Generat
 
     case 'capabilities':
       return {
-        text: `I'm pretty knowledgeable! 🧠 I can tell you about Muhammad's tech stack (he's an expert in React, Node.js, .NET, and Python), walk you through his ${projects.length} major projects, share his work history, or help you get in touch. I even know fun facts about his startups Nyra and ShopLynk! What sounds interesting?`,
+        text: `I'm pretty knowledgeable! 🧠 I can tell you about Muhammad's tech stack (he's an expert in React, Node.js, .NET, and Python), walk you through his ${projects.length} major projects, share his work history, or help you get in touch. I even know fun facts about his startups Forge and ShopLynk! What sounds interesting?`,
         suggestions: ['Show me his best projects', 'What makes him unique?', 'Is he available to hire?'],
       };
 
     case 'about':
       return {
-        text: `Muhammad is a ${profile.title} with ${profile.yearsOfExperience}+ years of hands-on experience. But here's what makes him stand out: he's not just a coder - he's a founder! He built Nyra, an AI platform that breaks language barriers. By day, he's at Hubuk Technology Limited designing REST APIs that improved efficiency by 25%. By night, he's evaluating AI models and building his startup. Pretty impressive, right?`,
+        text: `Muhammad is a ${profile.title} with ${profile.yearsOfExperience}+ years of hands-on experience. But here's what makes him stand out: he's not just a coder - he's a founder! He built Forge, an AI-powered bulk payment platform for African businesses. By day, he's at Hubuk Technology Limited designing REST APIs that improved efficiency by 25%. By night, he's evaluating AI models and building his startup. Pretty impressive, right?`,
         actions: [{ type: 'scroll_to_section', payload: { section: 'about' }, label: 'View About Section' }],
-        suggestions: ['Tell me about Nyra', 'What projects has he built?', 'What are his top skills?'],
+        suggestions: ['Tell me about Forge', 'What projects has he built?', 'What are his top skills?'],
       };
 
     case 'skills':
@@ -761,9 +761,9 @@ export function generateResponse(intent: IntentResult, message: string): Generat
 
     case 'startup':
       return {
-        text: `Ah, Nyra - this is Muhammad's passion project! 🌍 He founded it as CEO to break language barriers globally. Nyra Connect is currently under active development and will feature real-time translation during meetings, instant transcription, and AI-generated summaries. It's being built with .NET 8, React, and PostgreSQL. The vision? Making Nyra the go-to platform for global collaboration - built from Africa for the world!`,
-        actions: [{ type: 'show_project', payload: { projectId: 'nyra-connect' }, label: 'View Nyra Connect' }],
-        suggestions: ['What other projects has he built?', 'How can I contact him about Nyra?'],
+        text: `Ah, Forge - this is Muhammad's passion project! 💸 He founded it as CEO to build reliable financial infrastructure for African businesses. Forge (Pre-Launch, forgeapis.xyz) is an AI-powered bulk payment and disbursement platform: a Python AI engine validates and auto-corrects bank account details - wrong numbers, mismatched names, duplicates, bank-name normalisation - then disburses clean data with a near-zero failure rate. It's built with Python (AI layer), .NET, React, and PostgreSQL. He's also building Anvil, an augmented-reality land measurement app that lets users measure land straight from their phone camera. The vision? Prove world-class fintech can be built from Africa!`,
+        actions: [{ type: 'show_project', payload: { projectId: 'forge' }, label: 'View Forge' }],
+        suggestions: ['What other projects has he built?', 'How can I contact him about Forge?'],
       };
 
     case 'availability':
@@ -872,24 +872,24 @@ function generateProjectsResponse(hints: string[]): GeneratedResponse {
     const topProjects = projects.slice(0, 3);
     const projectList = topProjects.map(p => `${p.name} (${p.type})`).join(', ');
     return {
-      text: `🌟 Muhammad's crown jewels: ${projectList}. Nyra Connect is his baby - it's an AI platform that translates conversations in real-time! Imagine talking to anyone in the world without language barriers. Want the details on any of these?`,
+      text: `🌟 Muhammad's crown jewels: ${projectList}. Forge is his baby - it's an AI-powered bulk payment platform that auto-corrects bank details and disburses with a near-zero failure rate! Want the details on any of these?`,
       actions: [{ type: 'scroll_to_section', payload: { section: 'projects' }, label: 'View All Projects' }],
-      suggestions: ['Tell me about Nyra Connect', 'What is InvoTrek?'],
+      suggestions: ['Tell me about Forge', 'What is InvoTrek?'],
     };
   }
 
   const projectNames = projects.map(p => p.name).join(', ');
 
   const projectResponses = [
-    `Muhammad has built ${projects.length} production-ready projects! 🚀 Here's the lineup: ${projectNames}. From AI translation to healthcare systems to construction management - he's tackled diverse industries. Which one catches your eye?`,
-    `Check this out - ${projects.length} complete projects: ${projectNames}. 💼 Each one solves a real problem for real users. My personal favorite? Nyra Connect - it's breaking language barriers! What would you like to explore?`,
-    `Muhammad's portfolio spans ${projects.length} major projects: ${projectNames}. 🎨 What's cool is the variety - AI apps, SaaS platforms, healthcare systems, even a bus tracking app! Want me to deep-dive into any of these?`,
+    `Muhammad has built ${projects.length} production-ready projects! 🚀 Here's the lineup: ${projectNames}. From AI-powered fintech to healthcare systems to construction management - he's tackled diverse industries. Which one catches your eye?`,
+    `Check this out - ${projects.length} complete projects: ${projectNames}. 💼 Each one solves a real problem for real users. My personal favorite? Forge - it's bringing reliable bulk payments to African businesses! What would you like to explore?`,
+    `Muhammad's portfolio spans ${projects.length} major projects: ${projectNames}. 🎨 What's cool is the variety - fintech apps, SaaS platforms, healthcare systems, even a bus tracking app! Want me to deep-dive into any of these?`,
   ];
 
   return {
     text: pickRandom(projectResponses),
     actions: [{ type: 'scroll_to_section', payload: { section: 'projects' }, label: 'View Projects' }],
-    suggestions: ['Tell me about Nyra Connect', 'What is BuildTrack Pro?', 'Show me InvoTrek'],
+    suggestions: ['Tell me about Forge', 'What is BuildTrack Pro?', 'Show me InvoTrek'],
   };
 }
 
@@ -906,7 +906,8 @@ function generateSpecificProjectResponse(intent: IntentResult): GeneratedRespons
 
     // Different intros based on project type
     const projectIntros: Record<string, string> = {
-      'nyra-connect': `🌍 Nyra Connect is Muhammad's passion project and flagship startup!`,
+      'forge': `💸 Forge is Muhammad's passion project and flagship startup - an AI-powered bulk payment platform for African businesses!`,
+      'anvil': `🌍 Anvil is an augmented-reality land measurement app Muhammad is building - measure and map land straight from your phone camera, no surveyor needed!`,
       'shoplynk': `📱 ShopLynk is Muhammad's latest venture as Founder & Lead Developer - turning WhatsApp into a full e-commerce platform!`,
       'invotrek': `📄 InvoTrek is a clever SaaS solution Muhammad built for businesses drowning in paperwork!`,
       'rental-management': `🏠 The Rental Management System showcases Muhammad's full-stack skills with a complete property booking platform!`,
@@ -961,12 +962,12 @@ function generateExperienceResponse(): GeneratedResponse {
     response += ` On the side, he evaluates LLM outputs for AI companies - yes, he literally tests other AIs! 🤖`;
   }
 
-  response += ` Oh, and he's building a startup (${profile.startup.name}) that's tackling global language barriers. The man stays busy!`;
+  response += ` Oh, and he's building a startup (${profile.startup.name}) that's bringing reliable bulk payments to African businesses. The man stays busy!`;
 
   return {
     text: response,
     actions: [{ type: 'scroll_to_section', payload: { section: 'experience' }, label: 'View Full Experience' }],
-    suggestions: ['Tell me about Nyra', 'What projects has he built?', 'What are his skills?'],
+    suggestions: ['Tell me about Forge', 'What projects has he built?', 'What are his skills?'],
   };
 }
 
@@ -980,7 +981,7 @@ function generateUnknownResponse(message: string): GeneratedResponse {
   if (/\b(code|coding|program|programming|develop|developer|software|engineer|tech|technical)\b/.test(lowerMessage)) {
     const expertSkills = skills.filter(s => s.proficiency === 'expert').map(s => s.name).slice(0, 5).join(', ');
     return {
-      text: `Muhammad is a skilled Software Engineer with ${profile.yearsOfExperience}+ years of experience! His expert-level skills include ${expertSkills}. He's built ${projects.length} production projects and is currently working on his startups Nyra and ShopLynk. What specific aspect would you like to know more about?`,
+      text: `Muhammad is a skilled Software Engineer with ${profile.yearsOfExperience}+ years of experience! His expert-level skills include ${expertSkills}. He's built ${projects.length} production projects and is currently working on his startups Forge and ShopLynk. What specific aspect would you like to know more about?`,
       suggestions: ['What are his top skills?', 'Show me his projects', 'Tell me about his startups'],
     };
   }
@@ -988,16 +989,16 @@ function generateUnknownResponse(message: string): GeneratedResponse {
   // Check for any project-related words
   if (/\b(build|built|create|created|make|made|app|application|system|platform|product)\b/.test(lowerMessage)) {
     return {
-      text: `Muhammad has built ${projects.length} production-ready projects across various industries - from AI translation (Nyra Connect) to e-commerce (ShopLynk) to healthcare (Nubenta Care). He's the founder of two startups and lead developer on most projects. Would you like to explore any specific one?`,
+      text: `Muhammad has built ${projects.length} production-ready projects across various industries - from AI-powered bulk payments (Forge) to e-commerce (ShopLynk) to healthcare (Nubenta Care). He's the founder of two startups and lead developer on most projects. Would you like to explore any specific one?`,
       actions: [{ type: 'scroll_to_section', payload: { section: 'projects' }, label: 'View Projects' }],
-      suggestions: ['Tell me about Nyra Connect', 'What is ShopLynk?', 'List all projects'],
+      suggestions: ['Tell me about Forge', 'What is ShopLynk?', 'List all projects'],
     };
   }
 
   // Check for success/achievement related words
   if (/\b(success|successful|achieve|achievement|accomplish|best|greatest|impressive)\b/.test(lowerMessage)) {
     return {
-      text: `Muhammad's biggest achievements include: founding two tech startups (Nyra and ShopLynk), building ${projects.length} production projects, improving system efficiency by 25% at Hubuk, and working toward his dream to ${profile.dream.aspiration.toLowerCase()}. He's proving that world-changing innovation can come from Africa!`,
+      text: `Muhammad's biggest achievements include: founding two tech startups (Forge and ShopLynk), building ${projects.length} production projects, improving system efficiency by 25% at Hubuk, and working toward his dream to ${profile.dream.aspiration.toLowerCase()}. He's proving that world-changing innovation can come from Africa!`,
       suggestions: ['What is his biggest dream?', 'Tell me about his startups', 'Show me his projects'],
     };
   }
@@ -1005,8 +1006,8 @@ function generateUnknownResponse(message: string): GeneratedResponse {
   // Check for business/startup related words
   if (/\b(business|company|startup|entrepreneur|founder|ceo|own|owner)\b/.test(lowerMessage)) {
     return {
-      text: `Muhammad is the Founder & CEO of Nyra (AI communication platform) and Founder & Lead Developer of ShopLynk (WhatsApp e-commerce). His dream is to ${profile.dream.vision.toLowerCase()}! He wants to become ${profile.dream.aspiration.toLowerCase()}.`,
-      suggestions: ['Tell me about Nyra', 'What is ShopLynk?', 'What is his biggest dream?'],
+      text: `Muhammad is the Founder & CEO of Forge (AI-powered bulk payment platform) and Founder & Lead Developer of ShopLynk (WhatsApp e-commerce). His dream is to ${profile.dream.vision.toLowerCase()}! He wants to become ${profile.dream.aspiration.toLowerCase()}.`,
+      suggestions: ['Tell me about Forge', 'What is ShopLynk?', 'What is his biggest dream?'],
     };
   }
 
@@ -1031,8 +1032,8 @@ function generateUnknownResponse(message: string): GeneratedResponse {
   // News/current events
   if (/\b(news|happening|world|politics|sports|game|match)\b/.test(lowerMessage)) {
     return {
-      text: `I don't follow the news, but I know a lot about Muhammad's work! He's built projects like Nyra Connect (AI translation app) and InvoTrek (document automation). Would you like to hear more?`,
-      suggestions: ['Tell me about Nyra', 'What other projects?'],
+      text: `I don't follow the news, but I know a lot about Muhammad's work! He's built projects like Forge (AI-powered bulk payment platform) and InvoTrek (document automation). Would you like to hear more?`,
+      suggestions: ['Tell me about Forge', 'What other projects?'],
     };
   }
 
@@ -1048,12 +1049,12 @@ function generateUnknownResponse(message: string): GeneratedResponse {
   if (/\b(joke|funny|laugh|humor|tell me a)\b/.test(lowerMessage)) {
     const funnyResponses = [
       `I'm better at tech talk than comedy, but here's something fun: Muhammad evaluates AI models for a living - so technically, I'm being graded by someone who tests AIs! 😅 Want to hear about his work instead?`,
-      `Why did the developer quit? Because he didn't get arrays! 😄 Okay, that's my best shot. What I'm actually good at is telling you about Muhammad's impressive projects. Want to hear about Nyra?`,
-      `My humor algorithms need work, but here's a cool fact: Muhammad is building Nyra to let people chat across languages in real-time. That's kind of like a universal translator from Star Trek! Want details?`,
+      `Why did the developer quit? Because he didn't get arrays! 😄 Okay, that's my best shot. What I'm actually good at is telling you about Muhammad's impressive projects. Want to hear about Forge?`,
+      `My humor algorithms need work, but here's a cool fact: Muhammad is building Forge to clean up messy bank details and disburse bulk payments with a near-zero failure rate. Fintech magic! Want details?`,
     ];
     return {
       text: pickRandom(funnyResponses),
-      suggestions: ['Tell me about Nyra', 'What else has he built?'],
+      suggestions: ['Tell me about Forge', 'What else has he built?'],
     };
   }
 
@@ -1092,8 +1093,8 @@ function generateUnknownResponse(message: string): GeneratedResponse {
   // Greetings in different languages
   if (/\b(bonjour|hola|ciao|guten tag|konnichiwa|salaam|namaste|olá)\b/i.test(lowerMessage)) {
     return {
-      text: `Hello! 👋 Great to meet you! I speak tech fluently, but Muhammad's Nyra project is actually built to break language barriers with real-time translation! I can tell you about his ${projects.length}+ projects, skills, or availability. What interests you?`,
-      suggestions: ['Tell me about Nyra', 'What are his skills?', 'Is he available?'],
+      text: `Hello! 👋 Great to meet you! I speak tech fluently. Muhammad's flagship project, Forge, is an AI-powered bulk payment platform for African businesses! I can tell you about his ${projects.length}+ projects, skills, or availability. What interests you?`,
+      suggestions: ['Tell me about Forge', 'What are his skills?', 'Is he available?'],
     };
   }
 
@@ -1125,16 +1126,16 @@ function generateUnknownResponse(message: string): GeneratedResponse {
   // Questions about hobbies/interests
   if (/\b(hobby|hobbies|free time|fun|interests|like to do)\b/.test(lowerMessage)) {
     return {
-      text: `Muhammad is passionate about building things that solve real problems! His startup Nyra is his main passion project - breaking language barriers globally. He also evaluates AI models and stays on top of the latest tech trends. Want to know more about his projects?`,
-      suggestions: ['Tell me about Nyra', 'What projects has he built?'],
+      text: `Muhammad is passionate about building things that solve real problems! His startup Forge is his main passion project - building reliable financial infrastructure for African businesses. He also evaluates AI models and stays on top of the latest tech trends. Want to know more about his projects?`,
+      suggestions: ['Tell me about Forge', 'What projects has he built?'],
     };
   }
 
   // Questions about languages spoken
   if (/\b(speak|language|languages|english|french|arabic)\b/.test(lowerMessage) && !/\b(programming|coding)\b/.test(lowerMessage)) {
     return {
-      text: `Muhammad speaks English fluently. And fun fact - his startup Nyra is designed to help people communicate across ANY language with real-time translation! 🌍 Want to know more about it?`,
-      suggestions: ['Tell me about Nyra', 'How can I contact him?'],
+      text: `Muhammad speaks English fluently. And fun fact - his startup Forge is an AI-powered bulk payment platform that cleans up messy bank details and disburses funds reliably for African businesses! 💸 Want to know more about it?`,
+      suggestions: ['Tell me about Forge', 'How can I contact him?'],
     };
   }
 
@@ -1157,7 +1158,7 @@ function generateUnknownResponse(message: string): GeneratedResponse {
   // Thank you / appreciation
   if (/\b(awesome|great|nice|cool|amazing|impressive|wow)\b/.test(lowerMessage)) {
     return {
-      text: `Thanks! 😊 Muhammad's work is pretty impressive - ${projects.length}+ projects, a 25% efficiency improvement at his job, and a startup tackling global language barriers. Want to dive deeper into any of these?`,
+      text: `Thanks! 😊 Muhammad's work is pretty impressive - ${projects.length}+ projects, a 25% efficiency improvement at his job, and a startup tackling reliable bulk payments for African businesses. Want to dive deeper into any of these?`,
       suggestions: ['Tell me more about his achievements', 'Show me his projects', 'Is he available?'],
     };
   }
@@ -1184,14 +1185,14 @@ function generateUnknownResponse(message: string): GeneratedResponse {
   // If message contains question words, acknowledge it's a question
   if (/^(what|who|where|when|why|how|is|are|does|did|can|will)\b/i.test(lowerMessage)) {
     return {
-      text: `That's a specific question! While I focus on Muhammad's portfolio, I can tell you: he's a Software Engineer with ${profile.yearsOfExperience}+ years of experience, founder of 2 startups (Nyra and ShopLynk), and has built ${projects.length} projects. His dream is to ${profile.dream.vision.toLowerCase()}. What aspect would you like to explore?`,
+      text: `That's a specific question! While I focus on Muhammad's portfolio, I can tell you: he's a Software Engineer with ${profile.yearsOfExperience}+ years of experience, founder of 2 startups (Forge and ShopLynk), and has built ${projects.length} projects. His dream is to ${profile.dream.vision.toLowerCase()}. What aspect would you like to explore?`,
       suggestions: ['What is his biggest dream?', 'Tell me about his startups', 'Show me his projects'],
     };
   }
 
   const fallbackResponses = [
     `I want to give you a helpful answer! I know about Muhammad's ${projects.length} projects, his skills (React, Node.js, .NET, Python), his work experience at Hubuk, and his dream to ${profile.dream.vision.toLowerCase()}. Could you ask me about any of these specifically?`,
-    `Let me help you learn about Muhammad! He's a Software Engineer who founded Nyra (AI communication) and ShopLynk (WhatsApp e-commerce). His goal is to ${profile.dream.goal.toLowerCase()}. What would you like to know - skills, projects, or his vision?`,
+    `Let me help you learn about Muhammad! He's a Software Engineer who founded Forge (AI-powered bulk payments) and ShopLynk (WhatsApp e-commerce). His goal is to ${profile.dream.goal.toLowerCase()}. What would you like to know - skills, projects, or his vision?`,
     `I'm here to tell you about Muhammad's journey - from building ${projects.length} projects to founding 2 startups to his dream of becoming ${profile.dream.aspiration.toLowerCase()}. What interests you most?`,
   ];
 

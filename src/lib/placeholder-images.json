@@ -13,10 +13,34 @@
       "imageHint": "man working"
     },
     {
-      "id": "project-nyra",
-      "description": "Image representing a productivity application",
-      "imageUrl": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHx2aWRlbyUyMGNvbmZlcmVuY2V8ZW58MHx8fHwxNzYxNjUzMDE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "productivity app"
+      "id": "project-vitalink",
+      "description": "Image representing the Vitalink AI healthcare monitoring platform",
+      "imageUrl": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxoZWFsdGhjYXJlJTIwdGVjaG5vbG9neXxlbnwwfHx8fDE3NjE3MTIzMzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "healthcare monitoring dashboard"
+    },
+    {
+      "id": "project-forge",
+      "description": "Image representing the Forge AI bulk payment and disbursement platform",
+      "imageUrl": "https://images.unsplash.com/photo-1554224155-1696413565d3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwYXlyb2xsfGVufDB8fHx8MTc2MjE4NjgwNHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fintech payments disbursement"
+    },
+    {
+      "id": "project-anvil",
+      "description": "Image representing the Anvil augmented-reality land measurement app",
+      "imageUrl": "https://images.unsplash.com/photo-1627805460755-0f4a9a90c5f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjb25zdHJ1Y3Rpb24lMjBkYXNoYm9hcmR8ZW58MHx8fHwxNzYxNjUzMDE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "land measurement augmented reality"
+    },
+    {
+      "id": "project-booking",
+      "description": "Image for a multi-industry appointment booking system",
+      "imageUrl": "https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxpbnZvaWNlJTIwbWFuYWdlbWVudHxlbnwwfHx8fDE3NjIyMDYwODV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "appointment scheduling calendar"
+    },
+    {
+      "id": "project-hospital",
+      "description": "Image for a hospital management system",
+      "imageUrl": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzY2hvb2wlMjBtYW5hZ2VtZW50fGVufDB8fHx8MTc2MTk3NTQ4N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "hospital management workflow"
     },
     {
       "id": "project-buildtrack",
@@ -73,8 +97,8 @@
       "imageHint": "architecture diagram"
     },
     {
-      "id": "blog-nyra-tech",
-      "description": "Thumbnail for blog post about starting Nyra Technology",
+      "id": "blog-forge-startup",
+      "description": "Thumbnail for blog post about founding Forge",
       "imageUrl": "https://images.unsplash.com/photo-1594235046256-90e5572fd5f9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzdGFydHVwJTIwb2ZmaWNlfGVufDB8fHx8MTc2MTY0OTYzN3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "startup office"
     },

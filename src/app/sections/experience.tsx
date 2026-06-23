@@ -1,64 +1,106 @@
 "use client";
 
 import Link from 'next/link';
-import { Building, Rocket, GraduationCap, Code, ArrowUpRight } from 'lucide-react';
+import { Building, Rocket, GraduationCap, Code, ArrowUpRight, Stethoscope, LineChart, Banknote } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const experiences = [
   {
+    company: "Techserv Intelligence",
+    link: "#",
+    role: "Software Engineer",
+    duration: "May 2026 – Present",
+    icon: Stethoscope,
+    description: [
+      "Building and maintaining backend services for Clinex and Vitalink, AI-driven healthcare products, using C# .NET, React, and PostgreSQL.",
+      "Architecting scalable APIs and implementing secure, role-based access control across platform modules.",
+      "Collaborating with cross-functional teams to ship compliant, high-performance health data systems."
+    ],
+    value: "techserv",
+    current: true
+  },
+  {
+    company: "Forge",
+    link: "https://forgeapis.xyz",
+    role: "Founder & CEO",
+    duration: "Jan 2024 – Present",
+    icon: Rocket,
+    description: [
+      "Architected Forge solo, an AI-powered bulk payment and disbursement platform for African businesses, using Python (AI layer), .NET, React, and PostgreSQL.",
+      "Engineered intelligent account validation that reduced bulk payment failure rates to near zero across large-scale datasets.",
+      "Drove pre-seed fundraising, investor negotiations, and accelerator applications, producing the pitch deck, financial model, and product demo."
+    ],
+    value: "forge",
+    current: true
+  },
+  {
     company: "Hubuk Technology Limited",
     link: "https://hubuk.ng",
-    role: "Full Stack Developer",
-    duration: "June 2022 – Present",
-    icon: Building,
+    role: "Backend Developer",
+    duration: "Jun 2023 – Present",
+    icon: Code,
     description: [
-      "Designed modular REST APIs with ASP.NET Core 8 & PostgreSQL, improving response efficiency by 25%.",
-      "Developed automated QA and reproducibility scripts for AI models.",
-      "Built internal AI-powered dashboards and wrote technical documentation."
+      "Architected and deployed scalable REST APIs with ASP.NET Core, reducing dev cycle time by 25%.",
+      "Engineered JWT authentication and RBAC systems securing access across all platform modules.",
+      "Delivered budgeting, payments, and analytics dashboards powered by PostgreSQL and EF Core, and drove Agile ceremonies."
     ],
     value: "hubuk",
     current: true
   },
   {
-    company: "Freelance Contributor",
-    link: "#",
-    role: "AI / QA Evaluation",
-    duration: "2024 – Present",
-    icon: Code,
+    company: "BizScan360",
+    link: "https://bizscan360.com",
+    role: "Lead Developer",
+    duration: "2024 – 2025",
+    icon: LineChart,
     description: [
-      "Evaluated LLM outputs for accuracy and logical consistency.",
-      "Authored test cases using JSON/YAML and applied precision, recall, and coverage metrics.",
-      "Collaborated on prompt iteration and rubric definition."
+      "Led full-stack development of a business health evaluation platform now trusted by 2,800+ users.",
+      "Built automated KPI analysis, one-click PDF reports, and interactive dashboards with trend charts and anomaly detection.",
+      "Architected the platform with Next.js, Node.js, and PostgreSQL behind a clean REST API and multi-tier subscriptions."
     ],
-    value: "freelance",
-    current: true
+    value: "bizscan360",
+    current: false
   },
   {
-    company: "FlexiSAF Edusoft Limited",
-    link: "https://flexisaf.com",
-    role: "Backend Engineering Intern",
-    duration: "Sept 2025 – Dec 2025",
-    icon: GraduationCap,
+    company: "Kredinou",
+    link: "https://kredinou.com",
+    role: "Lead Developer",
+    duration: "2024 – Present",
+    icon: Banknote,
     description: [
-      "Assisted in backend feature development using Java, Spring-based frameworks, and SQL.",
-      "Gained hands-on experience in a professional software development environment."
+      "Built a cross-border fintech super-app for the Haitian diaspora with multi-currency wallets (USD/HTG/DOP/MXN), instant P2P transfers, and international remittance over live FX corridors, now moving over $46,000 to date.",
+      "Engineered an auditable double-entry ledger with atomic, pessimistically-locked money movement and fixed-precision Decimal math to prevent double-spend and race conditions.",
+      "Delivered an agent cash network, merchant and marketplace suite, ride-hailing, virtual cards, and micro-loans, secured with NextAuth, RBAC, 2FA/OTP, and escrow protection."
     ],
-    value: "flexisaf",
+    value: "kredinou",
     current: false
   },
   {
     company: "Torvix AI",
     link: "#",
     role: "Frontend Developer Intern",
-    duration: "Oct 2025 – Nov 2025",
-    icon: Rocket,
+    duration: "Sep – Oct 2025",
+    icon: Building,
     description: [
-      "Built responsive UIs for AI model visualization using modern frontend frameworks.",
-      "Integrated backend APIs to display real-time data from AI systems."
+      "Developed reusable React.js components for an AI-powered workflow automation platform.",
+      "Optimised component state management and improved performance across key automation modules."
     ],
     value: "torvix",
+    current: false
+  },
+  {
+    company: "FlexiSAF Solutions Limited",
+    link: "https://flexisaf.com",
+    role: "Backend Engineering Intern",
+    duration: "Sep – Dec 2025",
+    icon: GraduationCap,
+    description: [
+      "Built backend features in Java and Spring; wrote optimised SQL for enterprise-grade modules.",
+      "Collaborated with senior engineers to deliver secure, maintainable internal APIs and tools."
+    ],
+    value: "flexisaf",
     current: false
   }
 ];

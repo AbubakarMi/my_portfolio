@@ -55,7 +55,7 @@ const actionPatterns = {
     contact: /\b(contact|reach|email|message|hire|work with)\b/i,
   },
   projects: {
-    'nyra-connect': /\b(nyra|translation|productivity|startup)\b/i,
+    'forge': /\b(forge|anvil|payment|disbursement|fintech|startup)\b/i,
     'invotrek': /\b(invotrek|invoice|document|automation)\b/i,
     'buildtrack-pro': /\b(buildtrack|construction|expense|contractor)\b/i,
     'nubenta-care': /\b(nubenta|health|hospital|medical)\b/i,
@@ -143,8 +143,8 @@ export async function agentChat(input: AgentInput): Promise<AgentOutput> {
 const fallbackResponses: Record<string, string> = {
   greeting: "Hello! I'm Muhammad Idris Abubakar's AI assistant. While I'm having some connection issues, you can still explore the portfolio sections above or use the contact form to reach out directly.",
   skills: "Muhammad specializes in React, Next.js, Node.js, ASP.NET Core, and PostgreSQL. He also has experience with AI/ML evaluation and LLM integration. Feel free to explore the Skills section for more details.",
-  projects: "Muhammad has worked on several projects including Nyra Connect (AI productivity app), InvoTrek (document automation), BuildTrack Pro (construction tracking), and more. Check out the Projects section to see them all.",
-  experience: "Muhammad has 4+ years of experience as a Software & AI Evaluation Engineer at Hubuk Technology Limited, plus freelance AI/QA work. He's also the founder of Nyra Startup.",
+  projects: "Muhammad has worked on several projects including Forge (AI-powered bulk payment platform), InvoTrek (document automation), BuildTrack Pro (construction tracking), and more. Check out the Projects section to see them all.",
+  experience: "Muhammad has 4+ years of experience as a Software & AI Evaluation Engineer at Hubuk Technology Limited, plus freelance AI/QA work. He's also the Founder & CEO of Forge.",
   contact: "You can reach Muhammad through the contact form below. He's currently available for freelance projects and full-time opportunities.",
   availability: "Muhammad is currently available for freelance projects and full-time opportunities. He's open to remote work. Use the contact form to discuss your project needs.",
   default: "Thanks for your interest! While I'm having some technical issues, you can explore the portfolio sections above or use the contact form to reach Muhammad directly. He'll get back to you soon!",

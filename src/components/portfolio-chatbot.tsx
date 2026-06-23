@@ -9,6 +9,7 @@ import { MessageCircle, X, Send, Bot, User, Minimize2, Sparkles, Zap } from 'luc
 import { cn } from '@/lib/utils';
 import { generateResponse, ConversationContext, detectIntent } from '@/lib/portfolio-ai-knowledge';
 import { sendTranscriptAction } from '@/actions/send-transcript';
+import { chat } from '@/ai/flows/chat-flow';
 
 interface ChatMessage {
   id: string;
@@ -139,37 +140,44 @@ export function PortfolioChatbot() {
       conversationContextRef.current.topicsDiscussed?.push(userIntent);
     }
 
-    // Simulate typing delay for natural feel (3 seconds)
-    setTimeout(() => {
-      // Generate response WITH CONTEXT for intelligent conversations
-      const response = generateResponse(
-        userMessageContent,
-        conversationContextRef.current
-      );
+    // Prior turns (excluding the message we're about to send) for the LLM.
+    const priorHistory = (conversationContextRef.current.conversationHistory ?? [])
+      .slice(0, -1)
+      .map(h => ({ role: h.role, content: h.content }));
 
-      const assistantMessage: ChatMessage = {
-        id: `assistant-${Date.now()}`,
-        role: 'assistant',
-        content: response,
-        timestamp: new Date(),
-        intent: userIntent
-      };
+    let response: string;
+    try {
+      // Try the smart LLM first (Gemini) for genuine, free-form understanding.
+      const result = await chat({ history: priorHistory, message: userMessageContent });
+      response = result.response?.trim()
+        || generateResponse(userMessageContent, conversationContextRef.current);
+    } catch (error) {
+      // LLM unavailable (e.g. no API key): fall back to the built-in knowledge engine.
+      response = generateResponse(userMessageContent, conversationContextRef.current);
+    }
 
-      setMessages(prev => [...prev, assistantMessage]);
+    const assistantMessage: ChatMessage = {
+      id: `assistant-${Date.now()}`,
+      role: 'assistant',
+      content: response,
+      timestamp: new Date(),
+      intent: userIntent
+    };
 
-      // Update conversation context with assistant response
-      conversationContextRef.current.conversationHistory?.push({
-        role: 'assistant',
-        content: response,
-        intent: userIntent
-      });
+    setMessages(prev => [...prev, assistantMessage]);
 
-      // Update context for next message
-      conversationContextRef.current.lastIntent = userIntent;
-      conversationContextRef.current.lastTopic = userIntent;
+    // Update conversation context with assistant response
+    conversationContextRef.current.conversationHistory?.push({
+      role: 'assistant',
+      content: response,
+      intent: userIntent
+    });
 
-      setIsTyping(false);
-    }, 3000);
+    // Update context for next message
+    conversationContextRef.current.lastIntent = userIntent;
+    conversationContextRef.current.lastTopic = userIntent;
+
+    setIsTyping(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
