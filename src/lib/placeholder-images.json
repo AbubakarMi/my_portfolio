@@ -26,9 +26,9 @@
     },
     {
       "id": "project-anvil",
-      "description": "Image representing the Anvil augmented-reality land measurement app",
+      "description": "Image representing the Anvil cross-border fintech money transfer app",
       "imageUrl": "https://images.unsplash.com/photo-1627805460755-0f4a9a90c5f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjb25zdHJ1Y3Rpb24lMjBkYXNoYm9hcmR8ZW58MHx8fHwxNzYxNjUzMDE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "land measurement augmented reality"
+      "imageHint": "mobile money transfer fintech"
     },
     {
       "id": "project-booking",

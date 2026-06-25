@@ -153,7 +153,7 @@ export function About() {
                 <p>
                   Beyond my engineering work, I&apos;m the Founder &amp; CEO of{' '}
                   <span className="font-semibold text-primary">Forge</span>, an AI-powered bulk payment and disbursement platform for African businesses, and I&apos;m building{' '}
-                  <span className="font-semibold text-primary">Anvil</span>, an augmented-reality land measurement app. My goal is to design scalable REST APIs, implement robust JWT auth and RBAC, and turn complex problems into reliable, high-impact products.
+                  <span className="font-semibold text-primary">Anvil</span>, a cross-border fintech app for seamless international money transfers across the African remittance corridor. My goal is to design scalable REST APIs, implement robust JWT auth and RBAC, and turn complex problems into reliable, high-impact products.
                 </p>
               </div>
 

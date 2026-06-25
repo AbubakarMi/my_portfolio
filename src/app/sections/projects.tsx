@@ -34,12 +34,12 @@ const projects = [
   },
   {
     title: "Anvil",
-    description: "An augmented-reality land measurement app that lets users measure and map land directly through their phone camera, with no surveyor, no waiting, and no expensive equipment. Built in Flutter for a market where land disputes and inaccessible surveying services are everyday realities.",
-    tech: ["Flutter", "Augmented Reality", "Mobile"],
+    description: "A cross-border fintech mobile app enabling seamless international money transfers. A sender in Nigeria or any country initiates a transfer and the recipient automatically receives funds in their local currency, with no P2P exchange or manual conversion step. Built as a product under Forge, targeting the African remittance corridor.",
+    tech: ["Flutter", ".NET", "PostgreSQL", "Fintech"],
     image: PlaceHolderImages.find(p => p.id === "project-anvil"),
     link: "#",
     role: "Founder & Lead Developer",
-    summaryScript: "Anvil is an augmented-reality land measurement app. Using AR, it lets users measure and map land directly through their phone camera, with no surveyor, no waiting, and no expensive equipment. Built in Flutter, it targets the Nigerian market where land disputes and inaccessible surveying services are everyday realities."
+    summaryScript: "Anvil is a cross-border fintech mobile app for seamless international money transfers. A sender in Nigeria or any country initiates a transfer and the recipient automatically receives funds in their local currency, with no peer-to-peer exchange or manual conversion step. Built in Flutter with a .NET backend and PostgreSQL as a product under Forge, it targets the African remittance corridor."
   },
   {
     title: "AJ Academy",

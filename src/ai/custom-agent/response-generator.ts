@@ -165,7 +165,7 @@ function handleDirectQuestion(message: string): GeneratedResponse | null {
     // Check for topics
     if (topic.includes('forge') || topic.includes('anvil') || topic.includes('startup')) {
       return {
-        text: `Forge is Muhammad's flagship startup (Pre-Launch, forgeapis.xyz)! 💸 He founded it as CEO to build reliable financial infrastructure for African businesses. It's an AI-powered bulk payment and disbursement platform: a Python AI engine validates and auto-corrects bank account details - wrong numbers, mismatched names, duplicates, bank-name normalisation - then disburses clean data with a near-zero failure rate. Built with Python (AI layer), .NET, React, and PostgreSQL. He's also building Anvil, an augmented-reality land measurement app that lets users measure land straight from their phone camera.`,
+        text: `Forge is Muhammad's flagship startup (Pre-Launch, forgeapis.xyz)! 💸 He founded it as CEO to build reliable financial infrastructure for African businesses. It's an AI-powered bulk payment and disbursement platform: a Python AI engine validates and auto-corrects bank account details - wrong numbers, mismatched names, duplicates, bank-name normalisation - then disburses clean data with a near-zero failure rate. Built with Python (AI layer), .NET, React, and PostgreSQL. He's also building Anvil, a cross-border fintech app for seamless international money transfers, where recipients automatically receive funds in their local currency, built as a product under Forge for the African remittance corridor.`,
         suggestions: ['What is Anvil?', 'What is ShopLynk?', 'What is his biggest dream?'],
       };
     }
@@ -761,7 +761,7 @@ export function generateResponse(intent: IntentResult, message: string): Generat
 
     case 'startup':
       return {
-        text: `Ah, Forge - this is Muhammad's passion project! 💸 He founded it as CEO to build reliable financial infrastructure for African businesses. Forge (Pre-Launch, forgeapis.xyz) is an AI-powered bulk payment and disbursement platform: a Python AI engine validates and auto-corrects bank account details - wrong numbers, mismatched names, duplicates, bank-name normalisation - then disburses clean data with a near-zero failure rate. It's built with Python (AI layer), .NET, React, and PostgreSQL. He's also building Anvil, an augmented-reality land measurement app that lets users measure land straight from their phone camera. The vision? Prove world-class fintech can be built from Africa!`,
+        text: `Ah, Forge - this is Muhammad's passion project! 💸 He founded it as CEO to build reliable financial infrastructure for African businesses. Forge (Pre-Launch, forgeapis.xyz) is an AI-powered bulk payment and disbursement platform: a Python AI engine validates and auto-corrects bank account details - wrong numbers, mismatched names, duplicates, bank-name normalisation - then disburses clean data with a near-zero failure rate. It's built with Python (AI layer), .NET, React, and PostgreSQL. He's also building Anvil, a cross-border fintech app for seamless international money transfers, where recipients automatically receive funds in their local currency, built as a product under Forge for the African remittance corridor. The vision? Prove world-class fintech can be built from Africa!`,
         actions: [{ type: 'show_project', payload: { projectId: 'forge' }, label: 'View Forge' }],
         suggestions: ['What other projects has he built?', 'How can I contact him about Forge?'],
       };
@@ -907,7 +907,7 @@ function generateSpecificProjectResponse(intent: IntentResult): GeneratedRespons
     // Different intros based on project type
     const projectIntros: Record<string, string> = {
       'forge': `💸 Forge is Muhammad's passion project and flagship startup - an AI-powered bulk payment platform for African businesses!`,
-      'anvil': `🌍 Anvil is an augmented-reality land measurement app Muhammad is building - measure and map land straight from your phone camera, no surveyor needed!`,
+      'anvil': `🌍 Anvil is a cross-border fintech app Muhammad is building - send money internationally and the recipient automatically receives funds in their local currency, no manual conversion. It's a product under Forge for the African remittance corridor.`,
       'shoplynk': `📱 ShopLynk is Muhammad's latest venture as Founder & Lead Developer - turning WhatsApp into a full e-commerce platform!`,
       'invotrek': `📄 InvoTrek is a clever SaaS solution Muhammad built for businesses drowning in paperwork!`,
       'rental-management': `🏠 The Rental Management System showcases Muhammad's full-stack skills with a complete property booking platform!`,

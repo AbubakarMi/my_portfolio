@@ -44,7 +44,7 @@ About Forge:
 Forge (forgeapis.xyz, Pre-Launch) is an AI-powered bulk payment and disbursement platform for African businesses. A Python AI engine validates and auto-corrects bank account details (wrong numbers, mismatched names, duplicates, bank-name normalisation), then disburses clean data with a near-zero failure rate. It is built with Python (AI layer), a .NET backend, a React frontend, and PostgreSQL. Muhammad founded it after personally managing a 30,000-beneficiary disbursement that took weeks of manual cleaning, and as founder he handled product, pre-seed fundraising, investor negotiations, accelerator applications, and produced the pitch deck, financial model, investment memo, and product demo. The vision is to build reliable financial infrastructure for African businesses and prove world-class fintech can be built from Africa.
 
 About Anvil:
-Anvil is an augmented-reality land measurement app, built in Flutter, that lets users measure and map land directly through their phone camera, with no surveyor, no waiting, and no expensive equipment. It targets the Nigerian market, where land disputes and inaccessible surveying services are everyday realities.
+Anvil is a cross-border fintech mobile app, built in Flutter with a .NET backend and PostgreSQL, that enables seamless international money transfers. A sender in Nigeria or any country initiates a transfer and the recipient automatically receives funds in their local currency, with no P2P exchange or manual conversion step. It is built as a product under Forge and targets the African remittance corridor. It is currently under development.
 
 Core Competencies:
 - Scalable REST API design
@@ -66,7 +66,7 @@ Work Experience:
 Key Projects:
 - Vitalink (vitalink.tech): Smart patient monitoring and vital-signs platform with real-time health data pipelines and clinical alerting. (C# .NET, React, PostgreSQL) - Software Engineer at Techserv Intelligence.
 - Forge: AI-powered bulk payment and disbursement platform for African businesses. (Python, .NET, React, PostgreSQL) - Founder & CEO.
-- Anvil: Augmented-reality land measurement app built in Flutter. (Flutter) - Founder & Lead Developer.
+- Anvil: Cross-border fintech mobile app for seamless international money transfers, where recipients automatically receive funds in their local currency with no P2P exchange or manual conversion. A product under Forge, targeting the African remittance corridor; currently under development. (Flutter, .NET, PostgreSQL) - Founder & Lead Developer.
 - BizScan360 (bizscan360.com): Business health evaluation platform with a 0-100 health score, KPI analysis, and PDF reports; 2,800+ users. (Next.js, Node.js, PostgreSQL)
 - Kredinou (kredinou.com): A cross-border fintech super-app for the Haitian diaspora across North America, the Dominican Republic, and Mexico. Multi-currency wallets (USD/HTG/DOP/MXN), instant P2P transfers, international remittance over live FX corridors, an agent cash network, merchant/marketplace suite, ride-hailing, virtual cards, and micro-loans, built on an auditable double-entry ledger with atomic, lock-protected money movement, 2FA/OTP, and escrow. Live, moving over $46,000 to date. (Next.js 16, TypeScript, Prisma 7, PostgreSQL, NextAuth)
 - Appointment Booking System: Multi-industry, multi-tenant booking with automated SendGrid emails. (ASP.NET Core 8, PostgreSQL, JWT)
