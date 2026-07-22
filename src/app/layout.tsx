@@ -11,6 +11,8 @@ import {
   FULL_NAME,
   HEADLINE,
   KEYWORDS,
+  META_DESCRIPTION,
+  PAGE_TITLE,
   SHORT_BIO,
   SITE_URL,
   SAME_AS,
@@ -20,10 +22,10 @@ import {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${FULL_NAME} | Lead Developer at Kredinou & BizScan360`,
+    default: PAGE_TITLE,
     template: `%s | ${FULL_NAME}`,
   },
-  description: SHORT_BIO,
+  description: META_DESCRIPTION,
   keywords: KEYWORDS,
   authors: [{ name: FULL_NAME, url: SITE_URL }],
   creator: FULL_NAME,
@@ -35,8 +37,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'profile',
     siteName: `${FULL_NAME} — Portfolio`,
-    title: `${FULL_NAME} | Lead Developer at Kredinou & BizScan360`,
-    description: SHORT_BIO,
+    title: `${FULL_NAME} | ${HEADLINE}`,
+    description: META_DESCRIPTION,
     url: SITE_URL,
     locale: 'en_US',
     firstName: 'Muhammad',
@@ -46,7 +48,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: `${FULL_NAME} | ${HEADLINE}`,
-    description: SHORT_BIO,
+    description: META_DESCRIPTION,
     creator: '@AbubakarM93064',
   },
   robots: {

@@ -4,7 +4,9 @@
       "Bash(tree:*)",
       "Bash(cat:*)",
       "PowerShell(Get-ChildItem *)",
-      "PowerShell($r=\"C:\\\\Users\\\\lenovo\\\\Documents\\\\DevFlux\\\\my_portfolio\"; git -C $r remote -v; git -C $r log -1 --format=\"%h %ad %s\" --date=short)"
+      "PowerShell($r=\"C:\\\\Users\\\\lenovo\\\\Documents\\\\DevFlux\\\\my_portfolio\"; git -C $r remote -v; git -C $r log -1 --format=\"%h %ad %s\" --date=short)",
+      "WebFetch(domain:developers.google.com)",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"https://www.abubakarmi.netlify.app/\" -MaximumRedirection 0 -ErrorAction Stop -TimeoutSec 15; \"www status: $\\($r.StatusCode\\)\" } catch { \"www request failed: $\\($_.Exception.Message\\)\" }; try { $r2 = Invoke-WebRequest -Uri \"https://abubakarmi.netlify.app/\" -MaximumRedirection 0 -ErrorAction Stop -TimeoutSec 15; \"non-www status: $\\($r2.StatusCode\\)\"; \"X-Powered-By: $\\($r2.Headers['X-Powered-By']\\)\" } catch { \"non-www failed: $\\($_.Exception.Message\\)\" })"
     ],
     "deny": [],
     "ask": []

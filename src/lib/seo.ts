@@ -17,8 +17,27 @@ export const JOB_TITLE = 'Lead Developer';
 /** The one-line identity used under the h1 and in metadata. */
 export const HEADLINE = 'Lead Developer at Kredinou & BizScan360 · Software Engineer';
 
+/**
+ * Page title. Kept under ~580px (~55 chars) so Google shows it in full rather
+ * than truncating. BizScan360 is carried by META_DESCRIPTION instead — there
+ * is not room for both company names inside the pixel budget.
+ */
+export const PAGE_TITLE = 'Muhammad Idris Abubakar | Lead Developer at Kredinou';
+
+/**
+ * Longer prose form. Used in JSON-LD `description`, where length is not
+ * penalised. Do NOT use this as the meta description — see META_DESCRIPTION.
+ */
 export const SHORT_BIO =
   'Muhammad Idris Abubakar is a Lead Developer at Kredinou and BizScan360, and a software engineer with 4+ years building secure, scalable systems across fintech, AI healthcare and SaaS.';
+
+/**
+ * Meta description. Google truncates snippets at roughly 160 characters, so
+ * this is deliberately shorter than SHORT_BIO and front-loads the full name —
+ * the term people actually search for.
+ */
+export const META_DESCRIPTION =
+  'Muhammad Idris Abubakar — Lead Developer at Kredinou and BizScan360, building secure fintech, AI healthcare and SaaS systems.';
 
 /**
  * Profiles that belong to the same person. This array is the single most
@@ -36,6 +55,11 @@ export const EMPLOYERS = [
   { name: 'BizScan360', url: 'https://bizscan360.com' },
 ];
 
+/**
+ * Note: Google ignores the `keywords` meta tag entirely ("Google Search doesn't
+ * use the keywords meta tag" — Google SEO Starter Guide). This is kept only
+ * because Bing gives it minor weight. Do not expect it to affect Google rank.
+ */
 export const KEYWORDS = [
   'Muhammad Idris Abubakar',
   'Muhammad Idris Abubakar developer',
@@ -45,7 +69,7 @@ export const KEYWORDS = [
   'Lead Developer Kredinou',
   'Lead Developer BizScan360',
   'Nigerian software engineer',
-  'full-stack developer Nigeria',
+  'software engineer Nigeria',
   'backend developer .NET',
   'fintech developer Africa',
 ];
@@ -78,7 +102,7 @@ export const personSchema = {
   knowsAbout: [
     'Software Engineering',
     'Backend Development',
-    'Full-Stack Development',
+    'Web Development',
     'C# .NET',
     'ASP.NET Core',
     'Python',

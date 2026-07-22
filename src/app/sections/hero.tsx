@@ -71,7 +71,7 @@ export function Hero() {
                 <div className="absolute inset-0 rounded-full bg-background" />
                 <Image
                   src={heroImage.imageUrl}
-                  alt="Muhammad Idris Abubakar"
+                  alt="Portrait of Muhammad Idris Abubakar, Lead Developer at Kredinou and BizScan360"
                   width={200}
                   height={200}
                   className="relative rounded-full object-cover shadow-2xl ring-4 ring-background transition-transform duration-500 group-hover:scale-105"

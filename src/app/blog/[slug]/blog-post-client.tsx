@@ -219,7 +219,7 @@ export function BlogPostClient({ slug }: { slug: string }) {
                 <div className="text-center sm:text-left">
                   <h3 className="font-headline text-lg font-bold text-foreground">Muhammad Idris Abubakar</h3>
                   <p className="text-sm text-foreground/60 mt-1">
-                    Backend & Full-Stack Developer | Founder & CEO of Forge
+                    Lead Developer at Kredinou &amp; BizScan360 | Software Engineer
                   </p>
                   <p className="text-sm text-foreground/70 mt-3 leading-relaxed">
                     I'm passionate about building scalable software and sharing insights on technology, entrepreneurship, and fintech.

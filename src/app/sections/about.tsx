@@ -148,7 +148,7 @@ export function About() {
               </h3>
               <div className="space-y-4 text-base leading-relaxed text-foreground/70">
                 <p>
-                  My journey into technology was driven by a passion for building scalable, secure systems. As a results-driven Backend &amp; Full-Stack Developer with 4+ years of experience, I&apos;ve shipped production systems across AI healthcare, fintech, education, and transport, proficient in C# .NET, Python, Django, ASP.NET Core, Node.js, Next.js, React, EF Core, and PostgreSQL. I&apos;m currently engineering AI-driven healthcare products at Techserv Intelligence.
+                  My journey into technology was driven by a passion for building scalable, secure systems. As a results-driven Software Engineer with 4+ years of experience, I&apos;ve shipped production systems across AI healthcare, fintech, education, and transport, proficient in C# .NET, Python, Django, ASP.NET Core, Node.js, Next.js, React, EF Core, and PostgreSQL. I&apos;m currently engineering AI-driven healthcare products at Techserv Intelligence.
                 </p>
                 <p>
                   Beyond my engineering work, I&apos;m the Founder &amp; CEO of{' '}
