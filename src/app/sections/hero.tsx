@@ -13,7 +13,7 @@ export function Hero() {
   const [isMounted, setIsMounted] = useState(false);
   const [textIndex, setTextIndex] = useState(0);
 
-  const roles = ['Backend Developer', 'Full-Stack Developer', 'Founder & CEO of Forge', 'Software Engineer'];
+  const roles = ['Lead Developer', 'Software Engineer', 'Backend Developer', 'Founder & CEO of Forge'];
 
   useEffect(() => {
     setIsMounted(true);
@@ -101,14 +101,26 @@ export function Hero() {
 
             {/* Main headline with animated role */}
             <div className="space-y-6">
-              <h1 className="font-headline text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
-                <span className="block">Hi, I'm</span>
-                <span className="block text-primary">Muhammad</span>
+              {/* The h1 must carry the full name — it is the strongest on-page
+                  signal for a search on "Muhammad Idris Abubakar". */}
+              <p className="text-lg sm:text-xl font-medium text-foreground/60">Hi, I&apos;m</p>
+              <h1 className="font-headline text-4xl font-bold tracking-tight text-primary sm:text-5xl md:text-6xl lg:text-7xl">
+                Muhammad Idris Abubakar
               </h1>
 
+              {/* Static, server-rendered title. The rotating roles below are
+                  decorative and never reach the crawler, so the real job title
+                  has to live here. */}
+              <p className="mx-auto max-w-2xl text-lg sm:text-xl md:text-2xl font-medium text-foreground/80">
+                Lead Developer at{' '}
+                <a href="https://www.kredinou.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Kredinou</a>
+                {' '}&amp;{' '}
+                <a href="https://bizscan360.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">BizScan360</a>
+              </p>
+
               {/* Animated role text */}
-              <div className="h-12 sm:h-14 md:h-16 flex items-center justify-center overflow-hidden">
-                <p className="text-xl sm:text-2xl md:text-3xl font-medium text-foreground/80 transition-all duration-500">
+              <div className="h-12 sm:h-14 md:h-16 flex items-center justify-center overflow-hidden" aria-hidden="true">
+                <p className="text-base sm:text-lg md:text-xl font-medium text-foreground/60 transition-all duration-500">
                   <span key={textIndex} className="inline-block animate-fade-in-up">
                     {roles[textIndex]}
                   </span>
@@ -118,10 +130,13 @@ export function Hero() {
 
             {/* Description */}
             <p className="mx-auto max-w-2xl text-base text-foreground/60 sm:text-lg md:text-xl leading-relaxed">
-              I build secure, high-performance backend systems across AI healthcare, fintech, and SaaS.
-              As the founder of{' '}
-              <span className="font-semibold text-primary">Forge</span>, I&apos;m building reliable financial
-              infrastructure for African businesses, proving world-class software can be built from Africa.
+              I&apos;m a software engineer with 4+ years building secure, high-performance
+              systems across fintech, AI healthcare, and SaaS. I lead development at{' '}
+              <span className="font-semibold text-primary">Kredinou</span>, a multi-currency fintech
+              super-app, and at <span className="font-semibold text-primary">BizScan360</span>, a business
+              analytics SaaS platform. I&apos;m also the founder of{' '}
+              <span className="font-semibold text-primary">Forge</span>, building reliable financial
+              infrastructure for African businesses.
             </p>
 
             {/* Stats row */}

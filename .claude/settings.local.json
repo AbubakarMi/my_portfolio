@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(tree:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "PowerShell(Get-ChildItem *)",
+      "PowerShell($r=\"C:\\\\Users\\\\lenovo\\\\Documents\\\\DevFlux\\\\my_portfolio\"; git -C $r remote -v; git -C $r log -1 --format=\"%h %ad %s\" --date=short)"
     ],
     "deny": [],
     "ask": []
