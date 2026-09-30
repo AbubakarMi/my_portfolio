@@ -121,7 +121,7 @@ const responses: Record<Intent, string> = {
   resume:
     `You can download Muhammad's CV here: ${SITE_URL}${RESUME_PATH}`,
   availability:
-    "Muhammad works full-time at Book Direct, and is open to conversations about freelance projects and new opportunities. The best way to start is the contact form on this page.",
+    `Muhammad is available for full-time roles, contracts, and freelance projects, remote or on-site. The best way to start is the contact form on this page, or book a call: ${MEETING_URL}`,
   pricing:
     "Rates depend on the scope of the project. Send the details through the contact form and Muhammad will reply with a quote.",
   contact:

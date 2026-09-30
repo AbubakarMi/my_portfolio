@@ -97,7 +97,7 @@ Technical Skills:
 - Specializations: REST API Design, JWT Auth, RBAC, AI Model Integration, Agile/Scrum, Health Data Compliance
 
 Availability & Work:
-- Currently available for freelance projects and full-time opportunities
+- Currently available for full-time roles, contracts, and freelance projects. If asked, say he is open to the right full-time offer; do not describe new work as something he would do "alongside" or "on the side of" his current job
 - Open to remote work and collaboration
 - Rates depend on project scope and complexity
 - Preferred communication: Email or scheduled call

@@ -70,7 +70,7 @@ export function Contact() {
               Thank you, {data.name}!
             </p>
             <p className="text-sm text-muted-foreground">
-              I've received your message and will reach out as soon as possible.
+              I&apos;ve received your message and will reach out as soon as possible.
             </p>
           </div>
         </div>

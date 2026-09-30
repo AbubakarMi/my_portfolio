@@ -29,7 +29,7 @@ const experiences: Experience[] = [
     type: "Full-time",
     description: [
       "Help build a highly scalable backend with clean architecture for bookdirect.ng, a platform for booking from thousands of hotels and shortlet apartments across Nigeria, part of the Staylier Group.",
-      "The platform runs on a Next.js frontend and a Node.js backend, pairing guest-facing search and booking with tools for hotel owners and shortlet managers."
+      "The Node.js backend powers what you can see live on bookdirect.ng: hotel and shortlet search by city (Lagos, Abuja, Ibadan, Ikeja, and more), listings with guest ratings, and nightly pricing, behind a Next.js frontend."
     ],
     tech: ["Next.js", "Node.js"],
     current: true
@@ -112,6 +112,7 @@ const experiences: Experience[] = [
     description: [
       "Built BizScan360 from the ground up as Lead Developer: a business health evaluation platform now trusted by 2,800+ users and 500+ businesses worldwide.",
       "Built automated KPI analysis, one-click PDF reports, and interactive dashboards with trend charts and anomaly detection.",
+      "Shipped the features live on bizscan360.com today: a 0-100 health score with Weak, Stable, and Strong bands, CSV bulk import, and four subscription tiers from Starter to Enterprise.",
       "Architected the platform with Next.js, Node.js, and PostgreSQL behind a clean REST API and multi-tier subscriptions."
     ],
     tech: ["Next.js", "Node.js", "PostgreSQL", "REST APIs"],

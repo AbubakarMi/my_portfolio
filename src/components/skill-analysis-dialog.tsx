@@ -118,7 +118,7 @@ export function SkillAnalysisDialog({ skillName, open, onOpenChange }: SkillAnal
                     <BookOpen className="h-4 w-4" />
                   </div>
                   <h3 className="font-headline text-lg font-bold text-foreground">
-                    Why It's Important
+                    Why It&apos;s Important
                   </h3>
                 </div>
                 <p className="text-sm leading-relaxed text-foreground/80">{analysis.importance}</p>

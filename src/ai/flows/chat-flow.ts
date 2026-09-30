@@ -1,7 +1,7 @@
 
 'use server';
 import { ai } from '@/ai/genkit';
-import { type Message, type Role } from 'genkit';
+import { type MessageData } from 'genkit';
 import { z } from 'zod';
 import { googleAI } from '@genkit-ai/google-genai';
 import { portfolioContext } from '@/lib/agent-config';
@@ -50,8 +50,9 @@ const chatFlow = ai.defineFlow(
       ${portfolioContext}
     `;
 
-    const history: Message[] = input.history.map(h => ({
-      role: h.role as Role,
+    // Genkit calls the assistant role "model".
+    const history: MessageData[] = input.history.map(h => ({
+      role: h.role === 'assistant' ? 'model' : 'user',
       content: [{ text: h.content }],
     }));
 
@@ -62,7 +63,7 @@ const chatFlow = ai.defineFlow(
       try {
         const response = await ai.generate({
           model: googleAI.model('gemini-2.5-flash'),
-          history,
+          messages: history,
           prompt: input.message,
           system: systemPrompt,
         });
@@ -71,7 +72,7 @@ const chatFlow = ai.defineFlow(
         return {
           response: responseText ?? "I'm sorry, I couldn't generate a response. Please try again.",
         };
-      } catch (error: any) {
+      } catch (error) {
         attempt++;
         if (attempt >= maxRetries) {
           console.error(`Chat flow failed after ${maxRetries} attempts:`, error);

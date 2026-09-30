@@ -222,7 +222,7 @@ export function BlogPostClient({ slug }: { slug: string }) {
                     Lead Developer at Kredinou &amp; BizScan360 | Software Engineer
                   </p>
                   <p className="text-sm text-foreground/70 mt-3 leading-relaxed">
-                    I'm passionate about building scalable software and sharing insights on technology, entrepreneurship, and fintech.
+                    I&apos;m passionate about building scalable software and sharing insights on technology, entrepreneurship, and fintech.
                   </p>
                 </div>
               </div>

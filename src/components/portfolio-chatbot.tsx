@@ -272,7 +272,7 @@ export function PortfolioChatbot() {
             </span>
           </div>
           <div>
-            <h3 className="font-bold text-base tracking-tight">Muhammad's AI</h3>
+            <h3 className="font-bold text-base tracking-tight">Muhammad&apos;s AI</h3>
             <div className="flex items-center gap-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
               <p className="text-xs text-primary-foreground/80">Online now</p>

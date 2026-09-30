@@ -43,7 +43,7 @@ export function Hero() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
               </span>
-              <span className="truncate">Available for work · Software Engineer at Book Direct</span>
+              <span className="truncate">Available for full-time, contract, and freelance work</span>
             </div>
 
             {/* The h1 must carry the full name — it is the strongest on-page
