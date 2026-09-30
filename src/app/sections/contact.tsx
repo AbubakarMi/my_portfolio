@@ -8,13 +8,15 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { Github, Linkedin, Mail, Phone, Twitter, Send, MapPin, Clock, ArrowUpRight } from 'lucide-react';
+import { Github, Linkedin, Mail, Phone, Twitter, Send, MapPin, Clock, ArrowUpRight, CalendarDays } from 'lucide-react';
 import { sendContactFormEmail } from '@/ai/flows/send-email-flow';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Reveal } from '@/components/reveal';
 import { SectionHeading } from '@/components/section-heading';
-import { GITHUB_URL, LINKEDIN_URL, X_URL } from '@/lib/seo';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { GITHUB_URL, LINKEDIN_URL, X_URL, MEETING_URL, WHATSAPP_URL } from '@/lib/seo';
 
 const contactFormSchema = z.object({
   name: z.string().min(2, "Please enter your name."),
@@ -24,10 +26,14 @@ const contactFormSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
+const WhatsAppIcon = ({ className }: { className?: string }) => (
+  <FontAwesomeIcon icon={faWhatsapp} className={className} />
+);
+
 const contactDetails = [
   { icon: Mail, label: 'Email', value: 'abubakarmi131@gmail.com', href: 'mailto:abubakarmi131@gmail.com' },
   { icon: Phone, label: 'Phone', value: '+234 704 252 6971', href: 'tel:+2347042526971' },
-  { icon: Phone, label: 'Alternate phone', value: '+234 706 916 3505', href: 'tel:+2347069163505' },
+  { icon: WhatsAppIcon, label: 'WhatsApp', value: '+234 704 252 6971', href: WHATSAPP_URL },
   { icon: Linkedin, label: 'LinkedIn', value: 'Muhammad Idris Abubakar', href: LINKEDIN_URL },
   { icon: MapPin, label: 'Location', value: 'Kano, Nigeria · Remote-friendly', href: undefined },
 ];
@@ -109,12 +115,20 @@ export function Contact() {
                   Open to freelance projects and full-time roles, remote worldwide.
                 </p>
               </div>
-              <Button asChild size="lg" className="h-12 flex-shrink-0 rounded-full px-7 text-base">
-                <a href="mailto:abubakarmi131@gmail.com">
-                  <Mail className="h-4 w-4" />
-                  Email me directly
-                </a>
-              </Button>
+              <div className="flex flex-shrink-0 flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
+                <Button asChild size="lg" className="h-12 rounded-full px-7 text-base">
+                  <a href={MEETING_URL} target="_blank" rel="noopener noreferrer">
+                    <CalendarDays className="h-4 w-4" />
+                    Book a call
+                  </a>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="h-12 rounded-full bg-card/60 px-7 text-base hover:bg-muted hover:text-foreground">
+                  <a href="mailto:abubakarmi131@gmail.com">
+                    <Mail className="h-4 w-4" />
+                    Email me
+                  </a>
+                </Button>
+              </div>
             </div>
           </div>
         </Reveal>

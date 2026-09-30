@@ -1,6 +1,12 @@
 import Link from 'next/link';
 import { Github, Linkedin, Twitter, ArrowUp, ArrowUpRight, Mail } from 'lucide-react';
-import { GITHUB_URL, LINKEDIN_URL, X_URL, RESUME_PATH } from '@/lib/seo';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { GITHUB_URL, LINKEDIN_URL, X_URL, RESUME_PATH, MEETING_URL, WHATSAPP_URL } from '@/lib/seo';
+
+const WhatsAppIcon = ({ className }: { className?: string }) => (
+  <FontAwesomeIcon icon={faWhatsapp} className={className} />
+);
 
 const navLinks = [
   { name: 'About', href: '/#about' },
@@ -15,6 +21,7 @@ const socialLinks = [
   { name: 'GitHub', href: GITHUB_URL, icon: Github },
   { name: 'LinkedIn', href: LINKEDIN_URL, icon: Linkedin },
   { name: 'X (Twitter)', href: X_URL, icon: Twitter },
+  { name: 'WhatsApp', href: WHATSAPP_URL, icon: WhatsAppIcon },
   { name: 'Email', href: 'mailto:abubakarmi131@gmail.com', icon: Mail },
 ];
 
@@ -75,6 +82,18 @@ export function Footer() {
                   Start a conversation
                   <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </Link>
+              </li>
+              <li>
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2 text-sm text-foreground/80 transition-colors duration-200 hover:text-primary">
+                  <WhatsAppIcon className="h-4 w-4 text-emerald-500" />
+                  Chat on WhatsApp · 0704 252 6971
+                </a>
+              </li>
+              <li>
+                <a href={MEETING_URL} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-1.5 text-sm text-foreground/80 transition-colors duration-200 hover:text-primary">
+                  Book a call
+                  <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </a>
               </li>
               <li>
                 <a href={RESUME_PATH} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-1.5 text-sm text-foreground/80 transition-colors duration-200 hover:text-primary">

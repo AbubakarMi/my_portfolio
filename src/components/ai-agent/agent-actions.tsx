@@ -1,5 +1,6 @@
 'use client';
 
+import { MEETING_URL } from '@/lib/seo';
 import { AgentAction } from './types';
 
 export function createActionHandler() {
@@ -59,9 +60,7 @@ export function createActionHandler() {
   };
 
   const bookMeeting = () => {
-    // Open calendar link in new tab
-    // Replace with actual Calendly or similar link
-    window.open('https://calendly.com/your-link', '_blank');
+    window.open(MEETING_URL, '_blank', 'noopener,noreferrer');
   };
 
   const filterProjects = (technology: string) => {

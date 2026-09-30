@@ -50,6 +50,12 @@ export const X_URL = 'https://x.com/AbubakarM93064';
 
 export const SAME_AS = [GITHUB_URL, LINKEDIN_URL, X_URL];
 
+/** Opens a WhatsApp chat with +234 704 252 6971. */
+export const WHATSAPP_URL = 'https://wa.me/2347042526971';
+
+/** Calendly page for booking a call. */
+export const MEETING_URL = 'https://calendly.com/abubakarmi131/meet-me';
+
 /** The downloadable CV served from /public. */
 export const RESUME_PATH = '/Muhammad_Idris_Abubakar_CV.pdf';
 

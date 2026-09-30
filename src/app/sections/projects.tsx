@@ -13,19 +13,32 @@ import { SectionHeading } from '@/components/section-heading';
 
 const projects = [
   {
+    title: "Book Direct",
+    description: "A platform for booking from thousands of hotels and shortlet apartments across Nigeria, including Lagos, Abuja, Ibadan, Port Harcourt, Enugu, and Kano. Part of the Staylier Group, it pairs guest-facing search and booking with tools for hotel owners and shortlet managers.",
+    status: "Live",
+    tech: ["Next.js", "Node.js", "Hotel Booking"],
+    image: PlaceHolderImages.find(p => p.id === "project-bookdirect"),
+    video: "/bookdirect-demo.mp4",
+    // The recording includes the browser toolbar; anchor to the bottom so it is cropped out.
+    mediaClass: "object-bottom",
+    link: "https://bookdirect.ng",
+    role: "Software Engineer @ Book Direct",
+    summaryScript: "Book Direct is a platform for booking from thousands of hotels and shortlet apartments across Nigeria, in cities like Lagos, Abuja, Ibadan, Port Harcourt, Enugu, and Kano. It is part of the Staylier Group and pairs guest-facing search and booking with tools for hotel owners and shortlet managers. It is built with a Next.js frontend and a Node.js backend, and I work on it as a remote Software Engineer."
+  },
+  {
     title: "Kano State Pension Management System",
     description: "A production pension administration platform for the Kano State pension system, managing records for over 50,000 pensioners. Covers pensioner enrollment, data verification, and disbursement tracking, with role-based admin dashboards for pension board staff to manage records, monitor verification status, and generate reports.",
     status: "Live",
     metric: "50,000+ pensioners",
     tech: ["ASP.NET Core MVC", "PostgreSQL", "EF Core", "RBAC"],
-    image: undefined,
+    image: PlaceHolderImages.find(p => p.id === "project-pension"),
     link: "#",
     role: "Full-Stack Developer @ Hubuk Technology",
     summaryScript: "The Kano State Pension Management System is a production pension administration platform that now manages records for over fifty thousand pensioners. As a full-stack developer at Hubuk Technology, I built the backend modules and database schema for pensioner enrollment, data verification, and disbursement tracking, and delivered role-based admin dashboards so pension board staff can manage records, monitor verification status, and generate reports. It's built with ASP.NET Core MVC, PostgreSQL, and EF Core."
   },
   {
     title: "KrediNou",
-    description: "A multi-currency fintech super-app connecting the Haitian diaspora across North America, the Dominican Republic, and Mexico with families back home. It combines USD/HTG/DOP/MXN wallets, instant P2P transfers, international remittance, credit scoring and micro-loans, an agent cash network, and a merchant and marketplace suite, built on an auditable double-entry ledger with end-to-end encryption and RBAC. Live, with over $73,869 processed and settled to date.",
+    description: "A multi-currency fintech super-app connecting the Haitian diaspora across North America, the Dominican Republic, and Mexico with families back home. It combines USD/HTG/DOP/MXN wallets, instant P2P transfers, international remittance, credit scoring and micro-loans, an agent cash network, and a merchant and marketplace suite, built on an auditable double-entry ledger with end-to-end encryption and RBAC. I rebuilt it from a non-working app that had processed $0; it is now live with over $73,869 processed and settled, and over $12,299 in loans recovered.",
     status: "Live",
     metric: "$73,869 settled",
     tech: ["Next.js 16", "TypeScript", "PostgreSQL", "Prisma 7", "NextAuth", "Fintech"],
@@ -33,7 +46,7 @@ const projects = [
     video: "/kredinou-demo.mp4",
     link: "https://www.kredinou.com/",
     role: "Lead Developer",
-    summaryScript: "KrediNou is a cross-border fintech super-app for the Haitian diaspora. It lets users hold multi-currency wallets in US dollars, Haitian gourdes, Dominican pesos, and Mexican pesos, send instant peer-to-peer transfers, and move money home through live remittance corridors backed by a real agent cash network. It also offers credit scoring, micro-loans, and a merchant and marketplace suite, all built on an auditable double-entry ledger. As Lead Developer I built the platform end to end, and it is live and has processed and settled over seventy-three thousand dollars to date.",
+    summaryScript: "KrediNou is a cross-border fintech super-app for the Haitian diaspora. It lets users hold multi-currency wallets in US dollars, Haitian gourdes, Dominican pesos, and Mexican pesos, send instant peer-to-peer transfers, and move money home through live remittance corridors backed by a real agent cash network. It also offers credit scoring, micro-loans, and a merchant and marketplace suite, all built on an auditable double-entry ledger. When I joined as Lead Developer the existing app was not working and had processed nothing. I rebuilt it and took it live, and it has since processed and settled over seventy-three thousand dollars and helped recover over twelve thousand dollars in loans.",
   },
   {
     title: "BizScan360",
@@ -53,7 +66,10 @@ const projects = [
     status: "Live",
     metric: "Built for Sterling Bank",
     tech: ["Full-Stack", "Structured Finance", "Renewable Energy"],
-    image: undefined,
+    image: PlaceHolderImages.find(p => p.id === "project-sfmp"),
+    video: "/sterloan-demo.mp4",
+    // The recording includes the browser toolbar; anchor to the bottom so it is cropped out.
+    mediaClass: "object-bottom",
     link: "https://sterloan.hubuk.ng",
     role: "Full-Stack Developer @ Hubuk Technology",
     summaryScript: "SFMP, the Sustainable Finance Marketplace, is a renewable-energy structured-finance marketplace built for and powered by Sterling Bank. It connects borrowers, financiers, and administrators on one platform. As a full-stack developer at Hubuk Technology, I worked on the features that support the end-to-end structured-finance workflow between borrowers and financiers."
@@ -221,6 +237,7 @@ interface Project {
   tech: string[];
   image: (typeof PlaceHolderImages)[0] | undefined;
   video?: string;
+  mediaClass?: string;
   link: string;
   role: string;
   summaryScript: string;
@@ -369,7 +386,7 @@ const ProjectMedia = ({ project }: { project: Project }) => {
           preload="metadata"
           poster={project.image?.imageUrl}
           aria-label={`${project.title} demo`}
-          className="h-full w-full object-cover"
+          className={cn("h-full w-full object-cover", project.mediaClass)}
         />
       ) : project.image ? (
         <Image
@@ -378,7 +395,7 @@ const ProjectMedia = ({ project }: { project: Project }) => {
           width={800}
           height={450}
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className={cn("h-full w-full object-cover transition-transform duration-700 group-hover:scale-105", project.mediaClass)}
           data-ai-hint={project.image.imageHint}
         />
       ) : (

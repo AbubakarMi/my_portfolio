@@ -15,7 +15,7 @@ const highlights = [
   {
     icon: Banknote,
     metric: "$73,869 settled",
-    text: "Built KrediNou's full-stack fintech infrastructure, processing real transactions."
+    text: "Rebuilt KrediNou from a non-working app into a live fintech platform, and helped recover over $12,299 in loans."
   },
   {
     icon: Leaf,
@@ -54,7 +54,7 @@ export function About() {
               <div className="space-y-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
                 <p>
                   I&apos;m a results-driven Software Engineer and Mobile App Developer with{' '}
-                  <span className="font-medium text-foreground">5+ years of experience</span> building secure,
+                  <span className="font-medium text-foreground">5+ years of experience</span>, in the industry since 2021, building secure,
                   high-performance systems across fintech, healthcare, government, education, transport, and
                   hospitality. My toolkit spans C# .NET, Python, Django, Node.js, Next.js, React, Flutter,
                   PHP Laravel, and PostgreSQL.
@@ -62,8 +62,10 @@ export function About() {
                 <p>
                   I&apos;m currently a remote Software Engineer at{' '}
                   <a href="https://bookdirect.ng" target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline-offset-4 hover:underline">Book Direct</a>,
-                  a hotel booking platform for Nigeria. Before that I engineered AI-driven healthcare products at
-                  Techserv Intelligence and fintech and government platforms at Hubuk Technology.
+                  a hotel and shortlet booking platform for Nigeria. I learned the craft on the job, not in a
+                  lecture hall: I joined Hubuk Technology in 2021, interned there in 2022, and grew from junior
+                  backend developer to full-stack developer by 2025, shipping fintech and government platforms
+                  along the way. I also engineered AI-driven healthcare products at Techserv Intelligence.
                 </p>
                 <p>
                   Alongside that work I founded{' '}

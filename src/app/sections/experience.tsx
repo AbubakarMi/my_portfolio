@@ -4,17 +4,66 @@ import { cn } from '@/lib/utils';
 import { Reveal } from '@/components/reveal';
 import { SectionHeading } from '@/components/section-heading';
 
-const experiences = [
+type Experience = {
+  company: string;
+  link: string;
+  role: string;
+  duration: string;
+  location: string;
+  /** Employment type shown under the role, e.g. "Part-time". */
+  type?: string;
+  /** Titles held at the same company, oldest first. */
+  progression?: { year: string; title: string }[];
+  description: string[];
+  tech: string[];
+  current: boolean;
+};
+
+const experiences: Experience[] = [
   {
     company: "Book Direct",
     link: "https://bookdirect.ng",
     role: "Software Engineer",
     duration: "Sep 2026 – Present",
     location: "Nigeria · Remote",
+    type: "Full-time",
     description: [
-      "Software engineer on bookdirect.ng, a platform for booking hotels across Nigeria."
+      "Software engineer on bookdirect.ng, a platform for booking from thousands of hotels and shortlet apartments across Nigeria, including Lagos, Abuja, Port Harcourt, Enugu, and Kano.",
+      "The platform, part of the Staylier Group, pairs guest-facing search and booking with tools for hotel owners and shortlet managers: a booking engine, metasearch, a channel manager, and property listings."
     ],
-    tech: [],
+    tech: ["Next.js", "Node.js"],
+    current: true
+  },
+  {
+    company: "Kredinou",
+    link: "https://kredinou.com",
+    role: "Lead Developer",
+    duration: "Feb 2026 – Present",
+    location: "Remote",
+    type: "Part-time",
+    description: [
+      "Joined when the existing app was not working and had processed $0, rebuilt it, and took it live. It has since processed and settled over $73,869.",
+      "Helped the business recover over $12,299 in outstanding loans.",
+      "Rebuilt it as a cross-border fintech super-app for the Haitian diaspora: multi-currency wallets (USD/HTG/DOP/MXN), instant P2P transfers, and international remittance over live FX corridors, on an auditable double-entry ledger with atomic, lock-protected money movement.",
+      "Now supporting the live platform part-time, handling fixes and improvements as they are needed."
+    ],
+    tech: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "NextAuth"],
+    current: true
+  },
+  {
+    company: "Forge",
+    link: "https://forgeapis.xyz",
+    role: "Founder",
+    duration: "Jan 2024 – Present",
+    location: "Kano, Nigeria",
+    type: "Own venture",
+    description: [
+      "Architected Forge solo, an AI-powered bulk payment and disbursement platform for African businesses, using Python (AI layer), a .NET backend, a React frontend, and PostgreSQL.",
+      "Engineered intelligent account validation, reducing bulk payment failure rates to near zero across large-scale datasets.",
+      "Navigated pre-seed fundraising, investor negotiations, and accelerator applications while managing end-to-end product development.",
+      "Produced full investor-facing materials: pitch deck, financial model, investment memo, and product demo."
+    ],
+    tech: ["Python", ".NET", "React", "PostgreSQL"],
     current: true
   },
   {
@@ -31,54 +80,18 @@ const experiences = [
     current: false
   },
   {
-    company: "Forge",
-    link: "https://forgeapis.xyz",
-    role: "Founder",
-    duration: "Jan 2024 – Present",
-    location: "Kano, Nigeria",
-    description: [
-      "Architected Forge solo, an AI-powered bulk payment and disbursement platform for African businesses, using Python (AI layer), a .NET backend, a React frontend, and PostgreSQL.",
-      "Engineered intelligent account validation, reducing bulk payment failure rates to near zero across large-scale datasets.",
-      "Navigated pre-seed fundraising, investor negotiations, and accelerator applications while managing end-to-end product development.",
-      "Produced full investor-facing materials: pitch deck, financial model, investment memo, and product demo."
-    ],
-    tech: ["Python", ".NET", "React", "PostgreSQL"],
-    current: true
-  },
-  {
-    company: "Kredinou",
-    link: "https://kredinou.com",
-    role: "Lead Developer",
-    duration: "2024 – Present",
-    location: "Remote",
-    description: [
-      "Built a cross-border fintech super-app for the Haitian diaspora with multi-currency wallets (USD/HTG/DOP/MXN), instant P2P transfers, and international remittance over live FX corridors, with over $73,869 processed and settled to date.",
-      "Engineered an auditable double-entry ledger with atomic, pessimistically-locked money movement and fixed-precision Decimal math to prevent double-spend and race conditions.",
-      "Delivered an agent cash network, merchant and marketplace suite, ride-hailing, virtual cards, and micro-loans, secured with NextAuth, RBAC, 2FA/OTP, and escrow protection."
-    ],
-    tech: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "NextAuth"],
-    current: true
-  },
-  {
-    company: "BizScan360",
-    link: "https://bizscan360.com",
-    role: "Lead Developer",
-    duration: "2024 – 2025",
-    location: "Remote",
-    description: [
-      "Led full-stack development of a business health evaluation platform now trusted by 2,800+ users and 500+ businesses worldwide.",
-      "Built automated KPI analysis, one-click PDF reports, and interactive dashboards with trend charts and anomaly detection.",
-      "Architected the platform with Next.js, Node.js, and PostgreSQL behind a clean REST API and multi-tier subscriptions."
-    ],
-    tech: ["Next.js", "Node.js", "PostgreSQL", "REST APIs"],
-    current: false
-  },
-  {
     company: "Hubuk Technology Limited",
     link: "https://hubuk.ng",
     role: "Backend / Full-Stack Developer",
-    duration: "Jun 2023 – Aug 2026",
+    duration: "2021 – Aug 2026",
     location: "Kano, Nigeria",
+    progression: [
+      { year: "2021", title: "Joined as trainee" },
+      { year: "2022", title: "Intern" },
+      { year: "2023", title: "Junior Backend Developer" },
+      { year: "2024", title: "Backend Developer" },
+      { year: "2025", title: "Full-Stack Developer" },
+    ],
     description: [
       "Architected and deployed scalable REST APIs with ASP.NET Core, reducing dev cycle time by 25%.",
       "Engineered JWT authentication and RBAC systems securing access across all platform modules.",
@@ -91,16 +104,17 @@ const experiences = [
     current: false
   },
   {
-    company: "Torvix AI",
-    link: "#",
-    role: "Frontend Developer Intern",
-    duration: "Sep – Oct 2025",
-    location: "India · Remote",
+    company: "BizScan360",
+    link: "https://bizscan360.com",
+    role: "Lead Developer",
+    duration: "Nov 2025 – Mar 2026",
+    location: "Remote",
     description: [
-      "Developed reusable React.js components for an AI-powered workflow automation platform.",
-      "Optimised component state management and improved performance across key automation modules."
+      "Led full-stack development of a business health evaluation platform now trusted by 2,800+ users and 500+ businesses worldwide.",
+      "Built automated KPI analysis, one-click PDF reports, and interactive dashboards with trend charts and anomaly detection.",
+      "Architected the platform with Next.js, Node.js, and PostgreSQL behind a clean REST API and multi-tier subscriptions."
     ],
-    tech: ["React.js"],
+    tech: ["Next.js", "Node.js", "PostgreSQL", "REST APIs"],
     current: false
   },
   {
@@ -109,11 +123,26 @@ const experiences = [
     role: "Backend Engineering Intern",
     duration: "Sep – Dec 2025",
     location: "Abuja, Nigeria",
+    type: "Internship",
     description: [
       "Built backend features in Java and Spring; wrote optimised SQL for enterprise-grade modules.",
       "Collaborated with senior engineers to deliver secure, maintainable internal APIs and tools."
     ],
     tech: ["Java", "Spring", "SQL"],
+    current: false
+  },
+  {
+    company: "Torvix AI",
+    link: "#",
+    role: "Frontend Developer Intern",
+    duration: "Sep – Oct 2025",
+    location: "India · Remote",
+    type: "Internship",
+    description: [
+      "Developed reusable React.js components for an AI-powered workflow automation platform.",
+      "Optimised component state management and improved performance across key automation modules."
+    ],
+    tech: ["React.js"],
     current: false
   }
 ];
@@ -125,7 +154,7 @@ export function Experience() {
         <SectionHeading
           eyebrow="Experience"
           title="Professional journey"
-          description="Where I've worked and what I shipped there."
+          description="Where I've worked and what I shipped there, since joining Hubuk in 2021."
         />
 
         <div className="relative">
@@ -183,6 +212,12 @@ export function Experience() {
                           )}
                         </div>
 
+                        {experience.type && (
+                          <p className="mt-2 inline-flex rounded-md border border-border/70 px-2 py-0.5 text-xs text-muted-foreground">
+                            {experience.type}
+                          </p>
+                        )}
+
                         {/* Date (mobile) */}
                         <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground md:hidden">
                           <span className="font-code font-medium text-foreground/90">{experience.duration}</span>
@@ -191,6 +226,17 @@ export function Experience() {
                             {experience.location}
                           </span>
                         </div>
+
+                        {experience.progression && (
+                          <ol className="mt-4 flex flex-wrap gap-2" aria-label={`Career progression at ${experience.company}`}>
+                            {experience.progression.map((step) => (
+                              <li key={step.year} className="flex items-center gap-2 rounded-lg bg-muted px-2.5 py-1.5 text-xs">
+                                <span className="font-code font-medium text-primary">{step.year}</span>
+                                <span className="text-foreground/90">{step.title}</span>
+                              </li>
+                            ))}
+                          </ol>
+                        )}
 
                         <ul className="mt-4 space-y-2.5 text-sm leading-relaxed text-muted-foreground sm:text-[0.95rem]">
                           {experience.description.map((item) => (
