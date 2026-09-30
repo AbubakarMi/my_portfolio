@@ -30,7 +30,7 @@ const highlights = [
   {
     icon: LineChart,
     metric: "2,800+ users",
-    text: "Led BizScan360, a business health platform trusted by 500+ companies worldwide."
+    text: "Built BizScan360 from the ground up, a business health platform trusted by 500+ companies worldwide."
   },
   {
     icon: Smartphone,
@@ -54,7 +54,7 @@ export function About() {
               <div className="space-y-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
                 <p>
                   I&apos;m a results-driven Software Engineer and Mobile App Developer with{' '}
-                  <span className="font-medium text-foreground">5+ years of experience</span>, in the industry since 2020, building secure,
+                  <span className="font-medium text-foreground">5+ years of experience</span> building secure,
                   high-performance systems across fintech, healthcare, government, education, transport, and
                   hospitality. My toolkit spans C# .NET, Python, Django, Node.js, Next.js, React, Flutter,
                   PHP Laravel, and PostgreSQL.
@@ -62,8 +62,9 @@ export function About() {
                 <p>
                   I&apos;m currently a remote Software Engineer at{' '}
                   <a href="https://bookdirect.ng" target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline-offset-4 hover:underline">Book Direct</a>,
-                  a hotel and shortlet booking platform for Nigeria. I learned the craft on the job, not in a
-                  lecture hall: I joined Hubuk Technology in 2021, interned there in 2022, and grew from junior
+                  a hotel and shortlet booking platform for Nigeria. I started teaching myself
+                  to code in 2020, but the real training began on the job: I joined Hubuk Technology in 2021,
+                  interned there in 2022, and grew from junior
                   backend developer to full-stack developer by 2025, shipping fintech and government platforms
                   along the way. I also engineered AI-driven healthcare products at Techserv Intelligence.
                 </p>

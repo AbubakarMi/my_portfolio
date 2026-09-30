@@ -38,14 +38,14 @@ export const agentConfig: AgentConfig = {
 
 export const portfolioContext = `
 Professional Summary:
-Muhammad Idris Abubakar is a results-driven Software Engineer and Mobile App Developer with 5+ years of experience (in the industry since 2020) building secure, high-performance systems across fintech, healthcare, government, education, transport, and hospitality. He is proficient in C# .NET, Python, Django, ASP.NET Core, Node.js, Next.js, React.js, Flutter, PHP Laravel, EF Core, and PostgreSQL, and skilled in designing scalable REST APIs, implementing JWT authentication and RBAC, integrating AI model pipelines, and architecting compliant backend and mobile systems. He is currently a remote Software Engineer at Book Direct (bookdirect.ng), and is the Founder of Forge.
+Muhammad Idris Abubakar is a results-driven Software Engineer and Mobile App Developer with 5+ years of experience (writing software since 2020) building secure, high-performance systems across fintech, healthcare, government, education, transport, and hospitality. He is proficient in C# .NET, Python, Django, ASP.NET Core, Node.js, Next.js, React.js, Flutter, PHP Laravel, EF Core, and PostgreSQL, and skilled in designing scalable REST APIs, implementing JWT authentication and RBAC, integrating AI model pipelines, and architecting compliant backend and mobile systems. He is currently a remote Software Engineer at Book Direct (bookdirect.ng), and is the Founder of Forge.
 
 Career Highlights:
-- Shipped the Kano State Pension Management System, live in production managing records for over 50,000 pensioners.
+- Shipped the Kano State Pension Management System, live in production managing records for over 50,000 pensioners (about 40,000 verified and active; the rest are deceased, unverified, or disabled records).
 - Rebuilt KrediNou from a non-working app that had processed $0 into a live fintech platform that has processed and settled over $73,869, and helped recover over $12,299 in loans.
 - Contributed as Full-Stack Developer to SFMP (Sustainable Finance Marketplace), a renewable-energy structured-finance marketplace built for Sterling Bank.
 - Founded and architected Forge after personally cleaning a 30,000-beneficiary disbursement by hand.
-- Led BizScan360 to 2,800+ users, trusted by 500+ companies worldwide.
+- Built BizScan360 from the ground up and led it to 2,800+ users, trusted by 500+ companies worldwide.
 - Launched AbiiApp, a social super-app live on the Google Play Store and Apple App Store.
 
 About Forge:
@@ -64,15 +64,15 @@ Core Competencies:
 - Clean code, Agile/Scrum, health data compliance
 
 Work Experience:
-- Software Engineer at Book Direct (bookdirect.ng), Nigeria (Remote, full-time) (Sep 2026 – Present): Software engineer on bookdirect.ng, a platform for booking hotels and shortlet apartments across Nigeria, part of the Staylier Group, built with a Next.js frontend and a Node.js backend. This is his current full-time job.
+- Software Engineer at Book Direct (bookdirect.ng), Nigeria (Remote, full-time) (Sep 2026 – Present): Helps build a highly scalable backend with clean architecture for bookdirect.ng, a platform for booking hotels and shortlet apartments across Nigeria, part of the Staylier Group, built with a Next.js frontend and a Node.js backend. This is his current full-time job.
 - Lead Developer at Kredinou (part-time) (Feb 2026 – Present): KrediNou, a cross-border fintech super-app for the Haitian diaspora, already existed when he joined but was not working and had processed $0. He rebuilt it and took it live; it has since processed and settled over $73,869, and he helped recover over $12,299 in loans. He now supports it part-time, only when there are issues to fix or improvements to make.
 - Founder at Forge, Kano (Jan 2024 – Present): Architected Forge solo, an AI-powered bulk payment platform; engineered intelligent account validation that reduced failure rates to near zero; drove pre-seed fundraising and produced full investor materials (pitch deck, financial model, investment memo, product demo).
 - Software Engineer at Techserv Intelligence, Enugu (Remote) (May 2026 – 14 Sep 2026, no longer there): Built and maintained backend services for Clinex and Vitalink, AI-driven healthcare products, using C# .NET, React, and PostgreSQL; architected scalable APIs and role-based access control.
 - Hubuk Technology Limited, Kano (2021 – 31 Aug 2026, no longer there): Joined in 2021 and learned on the job, interned in 2022, became Junior Backend Developer in 2023, Backend Developer in 2024, and Full-Stack Developer in 2025. Built scalable REST APIs with ASP.NET Core (cut dev cycle time by 25%); engineered JWT auth and RBAC; delivered budgeting, payments, and analytics dashboards with PostgreSQL and EF Core; shipped the Kano State Pension Management System (50,000+ pensioners); contributed to SFMP for Sterling Bank; drove Agile ceremonies and authored technical documentation.
-- Lead Developer at BizScan360 (Nov 2025 – Mar 2026, no longer there): Led development of a business health evaluation platform (Next.js, Node.js, PostgreSQL) trusted by 2,800+ users.
+- Lead Developer at BizScan360 (Nov 2025 – Mar 2026, no longer there): Built BizScan360 from the ground up, a business health evaluation platform (Next.js, Node.js, PostgreSQL) trusted by 2,800+ users.
 - Backend Engineering Intern at FlexiSAF Solutions Limited, Abuja (Sep – Dec 2025): Built backend features in Java and Spring; wrote optimised SQL.
 - Frontend Developer Intern at Torvix AI, Remote/India (Sep – Oct 2025): Built reusable React components for an AI workflow automation platform.
-- He has been in the industry since 2020 and joined Hubuk in 2021. He learned software engineering on the job rather than at university.
+- He started teaching himself to code in 2020 (self-study and video courses); his real training began when he joined Hubuk in 2021. He learned software engineering on the job rather than at university.
 
 Key Projects:
 - Kano State Pension Management System (Live, 50,000+ pensioners): Production pension administration platform with pensioner enrollment, data verification, disbursement tracking, and role-based admin dashboards. (ASP.NET Core MVC, PostgreSQL, EF Core) - Full-Stack Developer at Hubuk Technology.

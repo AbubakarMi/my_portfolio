@@ -14,7 +14,7 @@ import { SectionHeading } from '@/components/section-heading';
 const projects = [
   {
     title: "Book Direct",
-    description: "A platform for booking from thousands of hotels and shortlet apartments across Nigeria, including Lagos, Abuja, Ibadan, Port Harcourt, Enugu, and Kano. Part of the Staylier Group, it pairs guest-facing search and booking with tools for hotel owners and shortlet managers.",
+    description: "A platform for booking from thousands of hotels and shortlet apartments across Nigeria, including Lagos, Abuja, Ibadan, Port Harcourt, Enugu, and Kano. Part of the Staylier Group, it pairs guest-facing search and booking with tools for hotel owners and shortlet managers. I help build its scalable backend with clean architecture.",
     status: "Live",
     tech: ["Next.js", "Node.js", "Hotel Booking"],
     image: PlaceHolderImages.find(p => p.id === "project-bookdirect"),
@@ -23,13 +23,14 @@ const projects = [
     mediaClass: "object-bottom",
     link: "https://bookdirect.ng",
     role: "Software Engineer @ Book Direct",
-    summaryScript: "Book Direct is a platform for booking from thousands of hotels and shortlet apartments across Nigeria, in cities like Lagos, Abuja, Ibadan, Port Harcourt, Enugu, and Kano. It is part of the Staylier Group and pairs guest-facing search and booking with tools for hotel owners and shortlet managers. It is built with a Next.js frontend and a Node.js backend, and I work on it as a remote Software Engineer."
+    summaryScript: "Book Direct is a platform for booking from thousands of hotels and shortlet apartments across Nigeria, in cities like Lagos, Abuja, Ibadan, Port Harcourt, Enugu, and Kano. It is part of the Staylier Group and pairs guest-facing search and booking with tools for hotel owners and shortlet managers. It is built with a Next.js frontend and a Node.js backend, and I help build its scalable, clean-architecture backend as a remote Software Engineer."
   },
   {
     title: "Kano State Pension Management System",
     description: "A production pension administration platform for the Kano State pension system, managing records for over 50,000 pensioners. Covers pensioner enrollment, data verification, and disbursement tracking, with role-based admin dashboards for pension board staff to manage records, monitor verification status, and generate reports.",
     status: "Live",
     metric: "50,000+ pensioners",
+    note: "The dashboard shows verified, active pensioners. The remaining records are deceased, unverified, or disabled.",
     tech: ["ASP.NET Core MVC", "PostgreSQL", "EF Core", "RBAC"],
     image: PlaceHolderImages.find(p => p.id === "project-pension"),
     link: "#",
@@ -50,7 +51,7 @@ const projects = [
   },
   {
     title: "BizScan360",
-    description: "A Business Health Evaluation Platform trusted by 500+ growing businesses worldwide. It turns complex financial and operational data into a clear 0-100 Business Health Score, with automated KPI analysis, one-click PDF reports, interactive dashboards with trend charts and anomaly detection, and a multi-tier subscription model.",
+    description: "A Business Health Evaluation Platform I built from the ground up, trusted by 500+ growing businesses worldwide. It turns complex financial and operational data into a clear 0-100 Business Health Score, with automated KPI analysis, one-click PDF reports, interactive dashboards with trend charts and anomaly detection, and a multi-tier subscription model.",
     status: "Live",
     metric: "2,800+ users",
     tech: ["Next.js", "Node.js", "PostgreSQL", "REST APIs"],
@@ -234,6 +235,8 @@ interface Project {
   description: string;
   status?: string;
   metric?: string;
+  /** Small print shown under the description, e.g. to explain a screenshot. */
+  note?: string;
   tech: string[];
   image: (typeof PlaceHolderImages)[0] | undefined;
   video?: string;
@@ -432,6 +435,9 @@ const ProjectCard = ({ project }: { project: Project }) => (
       )}
 
       <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{project.description}</p>
+      {project.note && (
+        <p className="mt-2 border-l-2 border-primary/40 pl-3 text-xs leading-relaxed text-muted-foreground">{project.note}</p>
+      )}
 
       <div className="mt-4 flex flex-wrap gap-1.5">
         {project.tech.map((t) => (

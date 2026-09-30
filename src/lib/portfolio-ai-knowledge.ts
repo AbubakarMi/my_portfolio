@@ -87,19 +87,19 @@ const responses: Record<Intent, string> = {
   goodbye:
     "Thanks for stopping by! If you'd like to work with Muhammad, the contact form on this page reaches him directly.",
   about:
-    "Muhammad Idris Abubakar is a Software Engineer and Mobile App Developer based in Kano, Nigeria, with 5+ years in the industry (since 2020). He works across fintech, healthcare, and government systems with C# .NET, Python, Node.js, Next.js, React, Flutter, Laravel, and PostgreSQL. He is currently a Software Engineer at Book Direct, part-time Lead Developer at Kredinou, and the founder of Forge.",
+    "Muhammad Idris Abubakar is a Software Engineer and Mobile App Developer based in Kano, Nigeria, with 5+ years of writing software (since 2020). He works across fintech, healthcare, and government systems with C# .NET, Python, Node.js, Next.js, React, Flutter, Laravel, and PostgreSQL. He is currently a Software Engineer at Book Direct, part-time Lead Developer at Kredinou, and the founder of Forge.",
   current_role:
     "Muhammad's full-time role is Software Engineer at Book Direct (bookdirect.ng), a hotel and shortlet booking platform for Nigeria, which he joined in September 2026. He also supports Kredinou part-time as Lead Developer and is building his own startup, Forge.",
   experience:
-    "Muhammad has 5+ years of experience. He has been in the industry since 2020 and joined Hubuk Technology in 2021.\n\n- Book Direct: Software Engineer, Sep 2026 to present (full-time)\n- Kredinou: Lead Developer, Feb 2026 to present (part-time)\n- Forge: Founder, Jan 2024 to present\n- Techserv Intelligence: Software Engineer, May to Sep 2026\n- Hubuk Technology: 2021 to Aug 2026, rising from trainee to Full-Stack Developer\n- BizScan360: Lead Developer, Nov 2025 to Mar 2026\n- Internships at FlexiSAF and Torvix AI in 2025",
+    "Muhammad has been writing software for 5+ years. He started teaching himself in 2020, and his real training began when he joined Hubuk Technology in 2021.\n\n- Book Direct: Software Engineer, Sep 2026 to present (full-time)\n- Kredinou: Lead Developer, Feb 2026 to present (part-time)\n- Forge: Founder, Jan 2024 to present\n- Techserv Intelligence: Software Engineer, May to Sep 2026\n- Hubuk Technology: 2021 to Aug 2026, rising from trainee to Full-Stack Developer\n- BizScan360: Lead Developer, Nov 2025 to Mar 2026\n- Internships at FlexiSAF and Torvix AI in 2025",
   hubuk:
     "Muhammad was at Hubuk Technology Limited in Kano from 2021 to August 2026. He joined in 2021 and learned on the job, interned in 2022, became a Junior Backend Developer in 2023, Backend Developer in 2024, and Full-Stack Developer in 2025. There he shipped the Kano State Pension Management System and worked on SFMP for Sterling Bank.",
   bookdirect:
-    "Book Direct (bookdirect.ng) is a platform for booking hotels and shortlet apartments across Nigeria, part of the Staylier Group, built with Next.js and Node.js. Muhammad has been a remote Software Engineer there since September 2026. It is his current full-time role.",
+    "Book Direct (bookdirect.ng) is a platform for booking hotels and shortlet apartments across Nigeria, part of the Staylier Group, built with Next.js and Node.js. Muhammad has been a remote Software Engineer there since September 2026, helping build its scalable, clean-architecture backend. It is his current full-time role.",
   kredinou:
     "KrediNou is a cross-border fintech super-app for the Haitian diaspora: multi-currency wallets, instant P2P transfers, remittance, and micro-loans on an auditable double-entry ledger. Muhammad joined as Lead Developer in February 2026, when the existing app was not working and had processed $0. He rebuilt it and took it live; it has since processed and settled over $73,869 and he helped recover over $12,299 in loans. He now supports it part-time.",
   bizscan360:
-    "BizScan360 is a business health evaluation platform that turns financial data into a 0-100 health score, with KPI analysis, PDF reports, and dashboards. It has 2,800+ users and is trusted by 500+ businesses. Muhammad was its Lead Developer from November 2025 until March 2026.",
+    "BizScan360 is a business health evaluation platform that turns financial data into a 0-100 health score, with KPI analysis, PDF reports, and dashboards. It has 2,800+ users and is trusted by 500+ businesses. Muhammad built it from the ground up as Lead Developer, from November 2025 until March 2026.",
   forge:
     "Forge is the startup Muhammad founded in January 2024: an AI-powered bulk payment and disbursement platform for African businesses. Its Python AI engine validates and auto-corrects bank account details before disbursing, bringing failure rates close to zero. He started it after cleaning a 30,000-beneficiary disbursement by hand. It is currently pre-launch.",
   anvil:
@@ -117,7 +117,7 @@ const responses: Record<Intent, string> = {
   skills:
     "Muhammad's core stack:\n\n- Languages: C#, Python, JavaScript, PHP, Java, SQL\n- Backend: ASP.NET Core, Node.js/Express, Django, Laravel, EF Core\n- Frontend and mobile: React, Next.js, Flutter\n- Data: PostgreSQL, Firebase\n- Strengths: REST API design, JWT auth and RBAC, system design, AI model integration",
   education:
-    "Muhammad holds a B.Sc. (Hons) in Computer Science from Aliko Dangote University of Science and Technology, Kano (2020 to 2025). Most of his engineering skill came from working in industry alongside his studies; he has been in the industry since 2020 and joined Hubuk Technology in 2021.",
+    "Muhammad holds a B.Sc. (Hons) in Computer Science from Aliko Dangote University of Science and Technology, Kano (2020 to 2025). Most of his engineering skill came from working in industry alongside his studies; he started teaching himself in 2020 and joined Hubuk Technology in 2021.",
   resume:
     `You can download Muhammad's CV here: ${SITE_URL}${RESUME_PATH}`,
   availability:

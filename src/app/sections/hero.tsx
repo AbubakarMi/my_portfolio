@@ -6,7 +6,7 @@ import { ArrowRight, Download, Github, Linkedin, Twitter } from 'lucide-react';
 import { GITHUB_URL, LINKEDIN_URL, X_URL, RESUME_PATH } from '@/lib/seo';
 
 const stats = [
-  { value: '5+', label: 'Years in the industry, since 2020' },
+  { value: '5+', label: 'Years writing software, since 2020' },
   { value: '50,000+', label: 'Pensioners on the Kano State pension platform' },
   { value: '$73,869', label: 'Settled through KrediNou' },
   { value: '2,800+', label: 'Users on BizScan360' },

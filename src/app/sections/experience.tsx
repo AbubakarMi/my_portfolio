@@ -28,8 +28,8 @@ const experiences: Experience[] = [
     location: "Nigeria · Remote",
     type: "Full-time",
     description: [
-      "Software engineer on bookdirect.ng, a platform for booking from thousands of hotels and shortlet apartments across Nigeria, including Lagos, Abuja, Port Harcourt, Enugu, and Kano.",
-      "The platform, part of the Staylier Group, pairs guest-facing search and booking with tools for hotel owners and shortlet managers: a booking engine, metasearch, a channel manager, and property listings."
+      "Help build a highly scalable backend with clean architecture for bookdirect.ng, a platform for booking from thousands of hotels and shortlet apartments across Nigeria, part of the Staylier Group.",
+      "The platform runs on a Next.js frontend and a Node.js backend, pairing guest-facing search and booking with tools for hotel owners and shortlet managers."
     ],
     tech: ["Next.js", "Node.js"],
     current: true
@@ -110,7 +110,7 @@ const experiences: Experience[] = [
     duration: "Nov 2025 – Mar 2026",
     location: "Remote",
     description: [
-      "Led full-stack development of a business health evaluation platform now trusted by 2,800+ users and 500+ businesses worldwide.",
+      "Built BizScan360 from the ground up as Lead Developer: a business health evaluation platform now trusted by 2,800+ users and 500+ businesses worldwide.",
       "Built automated KPI analysis, one-click PDF reports, and interactive dashboards with trend charts and anomaly detection.",
       "Architected the platform with Next.js, Node.js, and PostgreSQL behind a clean REST API and multi-tier subscriptions."
     ],
