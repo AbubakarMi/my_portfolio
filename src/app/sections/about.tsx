@@ -1,193 +1,153 @@
-"use client";
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Download, Layers, Code, Rocket, Award, ArrowUpRight } from 'lucide-react';
+import { Download, ArrowUpRight, Landmark, Banknote, Leaf, Rocket, LineChart, Smartphone, GraduationCap, Languages } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { useEffect, useRef, useState } from 'react';
-import { cn } from '@/lib/utils';
+import { Reveal } from '@/components/reveal';
+import { SectionHeading } from '@/components/section-heading';
+import { RESUME_PATH } from '@/lib/seo';
 
 const highlights = [
   {
-    icon: <Award className="h-5 w-5" />,
-    value: "4+",
-    label: "Years Experience"
+    icon: Landmark,
+    metric: "50,000+ pensioners",
+    text: "Shipped the Kano State Pension Management System, now live in production."
   },
   {
-    icon: <Rocket className="h-5 w-5" />,
-    value: "10+",
-    label: "Major Projects"
+    icon: Banknote,
+    metric: "$73,869 settled",
+    text: "Built KrediNou's full-stack fintech infrastructure, processing real transactions."
   },
   {
-    icon: <Layers className="h-5 w-5" />,
-    value: "Full",
-    label: "Stack Expertise"
+    icon: Leaf,
+    metric: "Built for Sterling Bank",
+    text: "Full-stack developer on SFMP, a renewable-energy structured-finance marketplace."
   },
   {
-    icon: <Code className="h-5 w-5" />,
-    value: "Fintech",
-    label: "& Healthcare"
-  }
+    icon: Rocket,
+    metric: "Founder of Forge",
+    text: "Architected an AI payment validation engine after cleaning a 30,000-beneficiary disbursement by hand."
+  },
+  {
+    icon: LineChart,
+    metric: "2,800+ users",
+    text: "Led BizScan360, a business health platform trusted by 500+ companies worldwide."
+  },
+  {
+    icon: Smartphone,
+    metric: "Live on both app stores",
+    text: "Launched AbiiApp, a social super-app on Google Play and the Apple App Store."
+  },
 ];
-
-const StatItem = ({ icon, value, label, index, isVisible }: { icon: React.ReactNode, value: string, label: string, index: number, isVisible: boolean }) => (
-  <div
-    className={cn(
-      "group relative overflow-hidden rounded-2xl bg-background p-5 shadow-sm ring-1 ring-border/50 transition-all duration-500 hover:shadow-xl hover:ring-primary/30 hover:-translate-y-1",
-      isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-    )}
-    style={{
-      transitionDelay: `${600 + index * 100}ms`,
-    }}
-  >
-    {/* Subtle shine effect on hover */}
-    <div className="absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent)] transition-transform duration-700 group-hover:translate-x-full" />
-
-    <div className="relative flex items-center gap-4">
-      <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-105">
-        {icon}
-      </div>
-      <div>
-        <p className="text-2xl font-bold tracking-tight text-foreground">{value}</p>
-        <p className="text-xs text-foreground/60">{label}</p>
-      </div>
-    </div>
-  </div>
-);
-
 
 export function About() {
   const aboutImage = PlaceHolderImages.find(p => p.id === "about-profile");
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.1 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
 
   return (
-    <section id="about" ref={sectionRef} className="relative overflow-hidden bg-muted/30 py-24 sm:py-32">
-      {/* Background decoration */}
-      <div aria-hidden="true" className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-1/4 h-64 w-64 rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 h-64 w-64 rounded-full bg-secondary/5 blur-3xl" />
-      </div>
-
+    <section id="about" className="relative py-20 sm:py-28">
       <div className="container mx-auto px-4 md:px-6">
-        {/* Section Header */}
-        <div className={cn(
-          "mb-16 text-center transition-all duration-700 ease-out",
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        )}>
-          <p className="mb-3 text-sm font-medium uppercase tracking-widest text-primary">
-            About Me
-          </p>
-          <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
-            My Story
-          </h2>
-        </div>
+        <SectionHeading eyebrow="About" title="Engineer, founder, and builder of systems people rely on" />
 
-        <div className={cn(
-          "grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20 transition-all duration-1000 ease-out delay-200",
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-        )}>
+        <div className="grid gap-6 lg:grid-cols-12">
+          {/* Story */}
+          <Reveal className="lg:col-span-7">
+            <div className="surface h-full p-6 sm:p-8">
+              <div className="space-y-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
+                <p>
+                  I&apos;m a results-driven Software Engineer and Mobile App Developer with{' '}
+                  <span className="font-medium text-foreground">5+ years of experience</span> building secure,
+                  high-performance systems across fintech, healthcare, government, education, transport, and
+                  hospitality. My toolkit spans C# .NET, Python, Django, Node.js, Next.js, React, Flutter,
+                  PHP Laravel, and PostgreSQL.
+                </p>
+                <p>
+                  I&apos;m currently a remote Software Engineer at{' '}
+                  <a href="https://bookdirect.ng" target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline-offset-4 hover:underline">Book Direct</a>,
+                  a hotel booking platform for Nigeria. Before that I engineered AI-driven healthcare products at
+                  Techserv Intelligence and fintech and government platforms at Hubuk Technology.
+                </p>
+                <p>
+                  Alongside that work I founded{' '}
+                  <a href="https://forgeapis.xyz" target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline-offset-4 hover:underline">Forge</a>,
+                  an AI-powered bulk payment and disbursement platform for African businesses, and I&apos;m building{' '}
+                  <span className="font-medium text-foreground">Anvil</span>, a cross-border money transfer app.
+                  I care about scalable REST APIs, airtight auth and RBAC, and turning messy real-world problems
+                  into reliable products.
+                </p>
+              </div>
 
-          {/* Image Column */}
-          <div className={cn(
-            "relative transition-all duration-1000 ease-out delay-300",
-            isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
-          )}>
-            <div className="relative">
-              {/* Decorative elements */}
-              <div className="absolute -top-4 -left-4 h-20 w-20 rounded-2xl bg-primary/10 transition-all duration-500 hover:bg-primary/20" />
-              <div className="absolute -bottom-4 -right-4 h-20 w-20 rounded-2xl bg-primary/5" />
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Button asChild size="lg" className="h-12 rounded-full px-7">
+                  <a href={RESUME_PATH} target="_blank" rel="noopener noreferrer">
+                    <Download className="h-4 w-4" />
+                    Download CV
+                  </a>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="group h-12 rounded-full px-7 hover:bg-muted hover:text-foreground">
+                  <a href="#contact">
+                    Let&apos;s Talk
+                    <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </a>
+                </Button>
+              </div>
+            </div>
+          </Reveal>
 
-              {/* Floating accent */}
-              <div className="absolute -top-8 right-8 h-3 w-3 rounded-full bg-primary/40 animate-pulse" />
-              <div className="absolute -bottom-6 left-12 h-2 w-2 rounded-full bg-primary/30 animate-pulse delay-500" />
-
+          {/* Photo + quick facts */}
+          <Reveal className="lg:col-span-5" delay={100}>
+            <div className="grid h-full gap-6 sm:grid-cols-2 lg:grid-cols-1">
               {aboutImage && (
-                <div className="group relative overflow-hidden rounded-3xl ring-1 ring-border/50">
+                <div className="surface overflow-hidden">
                   <Image
                     src={aboutImage.imageUrl}
                     alt={aboutImage.description}
-                    width={600}
-                    height={750}
-                    className="aspect-[4/5] w-full object-cover shadow-2xl transition-transform duration-700 group-hover:scale-105"
+                    width={800}
+                    height={600}
+                    sizes="(min-width: 1024px) 480px, (min-width: 640px) 50vw, 100vw"
+                    className="aspect-[4/3] h-full w-full object-cover"
                     data-ai-hint={aboutImage.imageHint}
                   />
-                  {/* Shine effect on hover */}
-                  <div className="absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent)] transition-transform duration-1000 group-hover:translate-x-full" />
                 </div>
               )}
-            </div>
-          </div>
-
-          {/* Content Column */}
-          <div className={cn(
-            "space-y-8 transition-all duration-1000 ease-out delay-500",
-            isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
-          )}>
-            <div className="space-y-6">
-              <h3 className="font-headline text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-                From Curiosity to Creator
-              </h3>
-              <div className="space-y-4 text-base leading-relaxed text-foreground/70">
-                <p>
-                  My journey into technology was driven by a passion for building scalable, secure systems. As a results-driven Software Engineer with 4+ years of experience, I&apos;ve shipped production systems across AI healthcare, fintech, education, and transport, proficient in C# .NET, Python, Django, ASP.NET Core, Node.js, Next.js, React, EF Core, and PostgreSQL. I&apos;m currently engineering AI-driven healthcare products at Techserv Intelligence.
-                </p>
-                <p>
-                  Beyond my engineering work, I&apos;m the Founder &amp; CEO of{' '}
-                  <span className="font-semibold text-primary">Forge</span>, an AI-powered bulk payment and disbursement platform for African businesses, and I&apos;m building{' '}
-                  <span className="font-semibold text-primary">Anvil</span>, a cross-border fintech app for seamless international money transfers across the African remittance corridor. My goal is to design scalable REST APIs, implement robust JWT auth and RBAC, and turn complex problems into reliable, high-impact products.
-                </p>
-              </div>
-
-              <div className="flex flex-col gap-3 pt-2 sm:flex-row">
-                <Button asChild size="lg" className="group rounded-full px-8 shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
-                  <a href="https://drive.google.com/file/d/1P51URCIY7UCDsIQuxrzlb5FvD4mZxNDp/view?usp=sharing" target="_blank" rel="noopener noreferrer">
-                    <Download className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5" />
-                    Download Resume
-                  </a>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="group rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-300">
-                  <a href="#contact">
-                    Let's Talk
-                    <ArrowUpRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </a>
-                </Button>
+              <div className="surface flex flex-col justify-center gap-5 p-6">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <GraduationCap className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">B.Sc. (Hons) Computer Science</p>
+                    <p className="mt-0.5 text-sm text-muted-foreground">Aliko Dangote University of Science and Technology, Kano · 2020 – 2025</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <Languages className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">Languages</p>
+                    <p className="mt-0.5 text-sm text-muted-foreground">English (professional) · Hausa (native)</p>
+                  </div>
+                </div>
               </div>
             </div>
+          </Reveal>
+        </div>
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 gap-3">
-              {highlights.map((highlight, index) => (
-                <StatItem
-                  key={highlight.label}
-                  icon={highlight.icon}
-                  value={highlight.value}
-                  label={highlight.label}
-                  index={index}
-                  isVisible={isVisible}
-                />
-              ))}
-            </div>
-          </div>
-
+        {/* Career highlights */}
+        <h3 className="mb-5 mt-14 font-code text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+          Career highlights
+        </h3>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {highlights.map((highlight, index) => (
+            <Reveal key={highlight.metric} delay={index * 60}>
+              <div className="surface surface-glow group h-full p-5 transition-colors duration-300 hover:border-primary/50 sm:p-6">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
+                  <highlight.icon className="h-5 w-5" />
+                </div>
+                <p className="font-headline text-lg font-bold tracking-tight text-foreground">{highlight.metric}</p>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{highlight.text}</p>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>

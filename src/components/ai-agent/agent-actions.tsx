@@ -52,10 +52,9 @@ export function createActionHandler() {
 
   const downloadResume = () => {
     // Create a link to download resume
-    // You'll need to add your resume file to the public folder
     const link = document.createElement('a');
-    link.href = '/resume.pdf';
-    link.download = 'Muhammad_Idris_Abubakar_Resume.pdf';
+    link.href = '/Muhammad_Idris_Abubakar_CV.pdf';
+    link.download = 'Muhammad_Idris_Abubakar_CV.pdf';
     link.click();
   };
 

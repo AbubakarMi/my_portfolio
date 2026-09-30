@@ -9,13 +9,12 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Github, Linkedin, Mail, Phone, Twitter, Send, MapPin, Clock, ArrowUpRight } from 'lucide-react';
-import Link from 'next/link';
-import { Card } from '@/components/ui/card';
 import { sendContactFormEmail } from '@/ai/flows/send-email-flow';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { useEffect, useRef, useState } from 'react';
-import { cn } from '@/lib/utils';
+import { Reveal } from '@/components/reveal';
+import { SectionHeading } from '@/components/section-heading';
+import { GITHUB_URL, LINKEDIN_URL, X_URL } from '@/lib/seo';
 
 const contactFormSchema = z.object({
   name: z.string().min(2, "Please enter your name."),
@@ -25,35 +24,27 @@ const contactFormSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
+const contactDetails = [
+  { icon: Mail, label: 'Email', value: 'abubakarmi131@gmail.com', href: 'mailto:abubakarmi131@gmail.com' },
+  { icon: Phone, label: 'Phone', value: '+234 704 252 6971', href: 'tel:+2347042526971' },
+  { icon: Phone, label: 'Alternate phone', value: '+234 706 916 3505', href: 'tel:+2347069163505' },
+  { icon: Linkedin, label: 'LinkedIn', value: 'Muhammad Idris Abubakar', href: LINKEDIN_URL },
+  { icon: MapPin, label: 'Location', value: 'Kano, Nigeria · Remote-friendly', href: undefined },
+];
+
+const socialLinks = [
+  { name: 'GitHub', href: GITHUB_URL, icon: Github },
+  { name: 'LinkedIn', href: LINKEDIN_URL, icon: Linkedin },
+  { name: 'X (Twitter)', href: X_URL, icon: Twitter },
+];
+
 export function Contact() {
   const { toast } = useToast();
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero-portrait');
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: { name: "", email: "", message: "" },
   });
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.1 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
 
   async function onSubmit(data: ContactFormValues) {
     toast({
@@ -94,121 +85,110 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" ref={sectionRef} className="relative bg-background py-24 sm:py-32">
-      {/* Background decoration */}
-      <div aria-hidden="true" className="absolute inset-0 -z-10">
-        <div className="absolute top-1/4 left-0 h-96 w-96 rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 h-64 w-64 rounded-full bg-secondary/5 blur-3xl" />
-      </div>
-
+    <section id="contact" className="relative py-20 sm:py-28">
       <div className="container mx-auto px-4 md:px-6">
-        {/* Section Header */}
-        <div className={cn(
-          "text-center mb-16 transition-all duration-700 ease-out",
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        )}>
-          <p className="mb-3 text-sm font-medium uppercase tracking-widest text-primary">
-            Get in Touch
-          </p>
-          <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
-            Let's Build Something Great
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-foreground/60">
-            Have a project in mind, a question, or just want to connect? I'd love to hear from you.
-          </p>
-        </div>
+        <SectionHeading
+          eyebrow="Contact"
+          title="Let's build something great"
+          description="Have a project in mind, a role to fill, or just want to connect? I'd love to hear from you."
+        />
 
-        <Card className={cn(
-          "relative overflow-hidden rounded-3xl shadow-2xl ring-1 ring-border/50 transition-all duration-1000 ease-out delay-200",
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-        )}>
-          <div className="grid lg:grid-cols-5">
-            {/* Left Side - Contact Info */}
-            <div className="lg:col-span-2 relative bg-secondary p-8 md:p-10 lg:p-12 text-secondary-foreground overflow-hidden">
-              {/* Decorative circles */}
-              <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-primary/10 blur-2xl" />
-              <div className="absolute -bottom-10 -left-10 w-32 h-32 rounded-full bg-primary/5 blur-xl" />
+        <Reveal className="mb-6">
+          <div className="relative overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/15 via-card to-card p-6 sm:p-8">
+            <div aria-hidden="true" className="bg-grid absolute inset-0 opacity-40 [mask-image:linear-gradient(to_left,black,transparent_70%)]" />
+            <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="flex items-center gap-2 text-sm font-medium text-primary">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                  </span>
+                  Available for work
+                </p>
+                <p className="mt-2 font-headline text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+                  Open to freelance projects and full-time roles, remote worldwide.
+                </p>
+              </div>
+              <Button asChild size="lg" className="h-12 flex-shrink-0 rounded-full px-7 text-base">
+                <a href="mailto:abubakarmi131@gmail.com">
+                  <Mail className="h-4 w-4" />
+                  Email me directly
+                </a>
+              </Button>
+            </div>
+          </div>
+        </Reveal>
 
-              <div className="relative h-full flex flex-col">
-                <div className="space-y-4 mb-8">
-                  <h3 className="font-headline text-2xl font-bold sm:text-3xl">Contact Information</h3>
-                  <p className="text-secondary-foreground/70 text-sm leading-relaxed">
-                    Fill out the form, or get in touch using the details below. I look forward to connecting with you!
-                  </p>
-                </div>
-
-                <div className="space-y-4 mb-8">
-                  <a href="tel:+2347042526971" className="group flex items-center gap-4 p-3 -m-3 rounded-xl text-sm transition-all duration-300 hover:bg-white/5">
-                    <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg shadow-black/10">
-                      <Phone className="h-4 w-4" />
+        <Reveal>
+          <div className="grid gap-6 lg:grid-cols-5">
+            {/* Contact details */}
+            <div className="space-y-3 lg:col-span-2">
+              {contactDetails.map((detail) => {
+                const content = (
+                  <>
+                    <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors duration-200 group-hover:bg-primary group-hover:text-primary-foreground">
+                      <detail.icon className="h-5 w-5" />
                     </div>
-                    <span className="group-hover:text-primary transition-colors duration-300">+234 704 252 6971</span>
+                    <div className="min-w-0">
+                      <p className="text-xs text-muted-foreground">{detail.label}</p>
+                      <p className="truncate text-sm font-medium text-foreground sm:text-base">{detail.value}</p>
+                    </div>
+                  </>
+                );
+                return detail.href ? (
+                  <a
+                    key={detail.value}
+                    href={detail.href}
+                    target={detail.href.startsWith('http') ? '_blank' : undefined}
+                    rel="noopener noreferrer"
+                    className="surface group flex items-center gap-4 p-4 transition-colors duration-200 hover:border-primary/50"
+                  >
+                    {content}
+                    <ArrowUpRight className="ml-auto h-4 w-4 flex-shrink-0 text-muted-foreground transition-colors duration-200 group-hover:text-primary" />
                   </a>
-                  <a href="tel:+2347069163505" className="group flex items-center gap-4 p-3 -m-3 rounded-xl text-sm transition-all duration-300 hover:bg-white/5">
-                    <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg shadow-black/10">
-                      <Phone className="h-4 w-4" />
-                    </div>
-                    <span className="group-hover:text-primary transition-colors duration-300">+234 706 916 3505</span>
-                  </a>
-                  <a href="mailto:abubakarmi131@gmail.com" className="group flex items-center gap-4 p-3 -m-3 rounded-xl text-sm transition-all duration-300 hover:bg-white/5">
-                    <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg shadow-black/10">
-                      <Mail className="h-4 w-4" />
-                    </div>
-                    <span className="group-hover:text-primary transition-colors duration-300">abubakarmi131@gmail.com</span>
-                  </a>
-                  <div className="flex items-center gap-4 p-3 -m-3 rounded-xl text-sm text-secondary-foreground/70">
-                    <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 shadow-lg shadow-black/10">
-                      <MapPin className="h-4 w-4" />
-                    </div>
-                    <span>Kano State, Nigeria</span>
+                ) : (
+                  <div key={detail.value} className="surface flex items-center gap-4 p-4">
+                    {content}
                   </div>
-                  <div className="flex items-center gap-4 p-3 -m-3 rounded-xl text-sm text-secondary-foreground/70">
-                    <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 shadow-lg shadow-black/10">
-                      <Clock className="h-4 w-4" />
-                    </div>
-                    <span>Response within 24-48 hours</span>
-                  </div>
-                </div>
+                );
+              })}
 
-                <div className="mt-auto pt-8 border-t border-white/10">
-                  <p className="text-xs font-medium uppercase tracking-wider text-secondary-foreground/50 mb-4">Connect with me</p>
-                  <div className="flex gap-3">
-                    <Button asChild variant="outline" size="icon" className="h-11 w-11 rounded-xl bg-white/10 border-none hover:bg-primary hover:text-primary-foreground hover:scale-110 hover:rotate-6 transition-all duration-300 shadow-lg shadow-black/10">
-                      <Link href="https://github.com/AbubakarMi" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                        <Github className="h-4 w-4" />
-                      </Link>
-                    </Button>
-                    <Button asChild variant="outline" size="icon" className="h-11 w-11 rounded-xl bg-white/10 border-none hover:bg-primary hover:text-primary-foreground hover:scale-110 hover:rotate-6 transition-all duration-300 shadow-lg shadow-black/10">
-                      <Link href="https://www.linkedin.com/in/muhammad-idris-abubakar" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                        <Linkedin className="h-4 w-4" />
-                      </Link>
-                    </Button>
-                    <Button asChild variant="outline" size="icon" className="h-11 w-11 rounded-xl bg-white/10 border-none hover:bg-primary hover:text-primary-foreground hover:scale-110 hover:rotate-6 transition-all duration-300 shadow-lg shadow-black/10">
-                      <Link href="https://x.com/AbubakarM93064" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                        <Twitter className="h-4 w-4" />
-                      </Link>
-                    </Button>
-                  </div>
+              <div className="surface flex items-center justify-between gap-4 p-4">
+                <p className="text-sm text-muted-foreground">Find me on</p>
+                <div className="flex gap-2">
+                  {socialLinks.map((social) => (
+                    <a
+                      key={social.name}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.name}
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-border/70 text-muted-foreground transition-colors duration-200 hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                    >
+                      <social.icon className="h-4 w-4" />
+                    </a>
+                  ))}
                 </div>
               </div>
             </div>
 
-            {/* Right Side - Form */}
-            <div className="lg:col-span-3 p-8 md:p-10 lg:p-12 bg-card">
+            {/* Form */}
+            <div className="surface p-5 sm:p-8 lg:col-span-3">
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <div className="grid gap-6 sm:grid-cols-2">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+                  <div className="grid gap-5 sm:grid-cols-2">
                     <FormField
                       control={form.control}
                       name="name"
                       render={({ field }) => (
-                        <FormItem className="group">
-                          <FormLabel className="text-sm font-medium transition-colors group-focus-within:text-primary">Full Name</FormLabel>
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium">Full Name</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="Your Name"
+                              placeholder="Your name"
+                              autoComplete="name"
                               {...field}
-                              className="h-12 rounded-xl border-border/50 bg-muted/30 focus:bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300"
+                              className="h-12 rounded-xl bg-background text-base"
                             />
                           </FormControl>
                           <FormMessage />
@@ -219,13 +199,15 @@ export function Contact() {
                       control={form.control}
                       name="email"
                       render={({ field }) => (
-                        <FormItem className="group">
-                          <FormLabel className="text-sm font-medium transition-colors group-focus-within:text-primary">Email Address</FormLabel>
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium">Email Address</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="your.email@example.com"
+                              type="email"
+                              placeholder="you@example.com"
+                              autoComplete="email"
                               {...field}
-                              className="h-12 rounded-xl border-border/50 bg-muted/30 focus:bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300"
+                              className="h-12 rounded-xl bg-background text-base"
                             />
                           </FormControl>
                           <FormMessage />
@@ -237,42 +219,48 @@ export function Contact() {
                     control={form.control}
                     name="message"
                     render={({ field }) => (
-                      <FormItem className="group">
-                        <FormLabel className="text-sm font-medium transition-colors group-focus-within:text-primary">Message</FormLabel>
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium">Message</FormLabel>
                         <FormControl>
                           <Textarea
                             placeholder="Tell me about your project, question, or just say hello..."
                             {...field}
-                            className="min-h-[160px] rounded-xl border-border/50 bg-muted/30 focus:bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300 resize-none"
+                            className="min-h-[170px] resize-none rounded-xl bg-background text-base"
                           />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                  <Button
-                    type="submit"
-                    size="lg"
-                    className="group w-full rounded-xl py-6 text-base font-medium shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
-                    disabled={form.formState.isSubmitting}
-                  >
-                    {form.formState.isSubmitting ? (
-                      <>
-                        <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        Send Message
-                        <Send className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" />
-                      </>
-                    )}
-                  </Button>
+                  <div className="flex flex-col-reverse items-center gap-4 sm:flex-row sm:justify-between">
+                    <p className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <Clock className="h-3.5 w-3.5" />
+                      I usually reply within 24-48 hours
+                    </p>
+                    <Button
+                      type="submit"
+                      size="lg"
+                      className="group h-12 w-full rounded-full px-8 text-base sm:w-auto"
+                      disabled={form.formState.isSubmitting}
+                    >
+                      {form.formState.isSubmitting ? (
+                        <>
+                          <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          Send Message
+                          <Send className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-1" />
+                        </>
+                      )}
+                    </Button>
+                  </div>
                 </form>
               </Form>
             </div>
           </div>
-        </Card>
+        </Reveal>
       </div>
     </section>
   );

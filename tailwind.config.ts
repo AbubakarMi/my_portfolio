@@ -155,6 +155,10 @@ export default {
             backgroundPosition: '200% 0',
           },
         },
+        'marquee': {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(calc(-50% - 0.375rem))' },
+        },
         'spin-slow': {
           from: { transform: 'rotate(0deg)' },
           to: { transform: 'rotate(360deg)' },
@@ -184,7 +188,8 @@ export default {
         'fade-in-left': 'fade-in-left 0.5s ease-out forwards',
         'fade-in-right': 'fade-in-right 0.5s ease-out forwards',
         'scale-in': 'scale-in 0.5s ease-out forwards',
-        'float': 'float 3s ease-in-out infinite',
+        'float': 'float 5s ease-in-out infinite',
+        'marquee': 'marquee 40s linear infinite',
         'shimmer': 'shimmer 2s linear infinite',
         'spin-slow': 'spin-slow 20s linear infinite',
         'spin-slow-reverse': 'spin-slow-reverse 20s linear infinite',

@@ -5,7 +5,6 @@ import './globals.css';
 import { AnalyticsProvider } from '@/components/analytics-provider';
 import { GeistSans, GeistMono } from 'geist/font';
 import { ScrollProgress } from '@/components/scroll-progress';
-import { CursorFollower } from '@/components/cursor-follower';
 import { PortfolioChatbot } from '@/components/portfolio-chatbot';
 import {
   FULL_NAME,
@@ -101,8 +100,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn(GeistSans.variable, GeistMono.variable, 'scroll-smooth')}>
+    <html lang="en" className={cn(GeistSans.variable, GeistMono.variable, 'dark scroll-smooth')} suppressHydrationWarning>
       <head>
+        {/* Dark is the default; apply a saved light preference before first paint. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(localStorage.getItem('theme')==='light')document.documentElement.classList.remove('dark')}catch(e){}`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -111,9 +116,8 @@ export default function RootLayout({
           <link key={url} rel="me" href={url} />
         ))}
       </head>
-      <body className={cn('font-body bg-background text-foreground antialiased overflow-x-hidden cursor-none md:cursor-none')}>
+      <body className={cn('font-body bg-background text-foreground antialiased overflow-x-hidden')}>
         {/* <AnalyticsProvider /> */}
-        <CursorFollower />
         <ScrollProgress />
         {children}
         <PortfolioChatbot />

@@ -44,16 +44,16 @@ export const personalInfo = {
   name: "Muhammad Idris Abubakar",
   title: "Software & AI Evaluation Engineer",
   location: "Kano State, Nigeria",
-  experience: "4+ years",
+  experience: "5+ years",
   age: 22,
   email: "abubakarmi131@gmail.com",
   phone: ["+234 704 252 6971", "+234 706 916 3505"],
   github: "https://github.com/AbubakarMi",
-  linkedin: "https://linkedin.com/in/muhammad-idris-abubakar",
+  linkedin: "https://www.linkedin.com/in/muhammad-idris-abubakar-1853752a5",
   twitter: "https://x.com/AbubakarM93064",
   startup: "Forge",
   startupMission: "Building reliable financial infrastructure for African businesses",
-  resumeLink: "https://drive.google.com/file/d/1P51URCIY7UCDsIQuxrzlb5FvD4mZxNDp/view?usp=sharing",
+  resumeLink: "https://abubakarmi.netlify.app/Muhammad_Idris_Abubakar_CV.pdf",
   education: {
     degree: "BSc in Computer Science",
     university: "Aliko Dangote University of Science and Technology, Wudil",
@@ -125,7 +125,7 @@ export const projectsData = {
     ],
     status: "Live",
     link: "https://www.kredinou.com/",
-    impact: "Live and moving over $46,000 to date, connecting the diaspora with families in Haiti"
+    impact: "Live and moving over $73,869 to date, connecting the diaspora with families in Haiti"
   },
   "InvoTrek": {
     description: "A multi-tenant SaaS for smart document automation",

@@ -1024,7 +1024,7 @@ function generateUnknownResponse(message: string): GeneratedResponse {
   // Time/date questions
   if (/\b(time|date|day|today|tomorrow|yesterday|clock)\b/.test(lowerMessage)) {
     return {
-      text: `I can't tell you the time, but I can tell you that Muhammad is currently available for new projects! He's a Software Engineer with 4+ years of experience. Want to learn more about his work?`,
+      text: `I can't tell you the time, but I can tell you that Muhammad is currently available for new projects! He's a Software Engineer with 5+ years of experience. Want to learn more about his work?`,
       suggestions: ['Is he available for hire?', 'What does he specialize in?'],
     };
   }

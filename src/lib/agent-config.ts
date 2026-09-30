@@ -38,7 +38,15 @@ export const agentConfig: AgentConfig = {
 
 export const portfolioContext = `
 Professional Summary:
-Muhammad Idris Abubakar is a results-driven Backend & Full-Stack Developer with 4+ years of experience building secure, high-performance systems across AI healthcare, fintech, education, and transport. He is proficient in C# .NET, Python, Django, ASP.NET Core, Node.js, Next.js, React, EF Core, and PostgreSQL, and skilled in designing scalable REST APIs, implementing JWT authentication and RBAC, integrating AI model pipelines, and architecting compliant backend systems. He is currently engineering AI-driven healthcare products at Techserv Intelligence, and is the Founder & CEO of Forge.
+Muhammad Idris Abubakar is a results-driven Software Engineer and Mobile App Developer with 5+ years of experience building secure, high-performance systems across fintech, healthcare, government, education, transport, and hospitality. He is proficient in C# .NET, Python, Django, ASP.NET Core, Node.js, Next.js, React.js, Flutter, PHP Laravel, EF Core, and PostgreSQL, and skilled in designing scalable REST APIs, implementing JWT authentication and RBAC, integrating AI model pipelines, and architecting compliant backend and mobile systems. He is currently a remote Software Engineer at Book Direct (bookdirect.ng), and is the Founder of Forge.
+
+Career Highlights:
+- Shipped the Kano State Pension Management System, live in production managing records for over 50,000 pensioners.
+- Built KrediNou's full-stack fintech infrastructure, which has processed and settled over $73,869 in transactions.
+- Contributed as Full-Stack Developer to SFMP (Sustainable Finance Marketplace), a renewable-energy structured-finance marketplace built for Sterling Bank.
+- Founded and architected Forge after personally cleaning a 30,000-beneficiary disbursement by hand.
+- Led BizScan360 to 2,800+ users, trusted by 500+ companies worldwide.
+- Launched AbiiApp, a social super-app live on the Google Play Store and Apple App Store.
 
 About Forge:
 Forge (forgeapis.xyz, Pre-Launch) is an AI-powered bulk payment and disbursement platform for African businesses. A Python AI engine validates and auto-corrects bank account details (wrong numbers, mismatched names, duplicates, bank-name normalisation), then disburses clean data with a near-zero failure rate. It is built with Python (AI layer), a .NET backend, a React frontend, and PostgreSQL. Muhammad founded it after personally managing a 30,000-beneficiary disbursement that took weeks of manual cleaning, and as founder he handled product, pre-seed fundraising, investor negotiations, accelerator applications, and produced the pitch deck, financial model, investment memo, and product demo. The vision is to build reliable financial infrastructure for African businesses and prove world-class fintech can be built from Africa.
@@ -56,28 +64,32 @@ Core Competencies:
 - Clean code, Agile/Scrum, health data compliance
 
 Work Experience:
-- Software Engineer at Techserv Intelligence, Enugu (Remote) (May 2026 – Present): Builds and maintains backend services for Clinex and Vitalink, AI-driven healthcare products, using C# .NET, React, and PostgreSQL; architects scalable APIs and role-based access control.
-- Founder & CEO at Forge, Kano (Jan 2024 – Present): Architected Forge solo, an AI-powered bulk payment platform; engineered intelligent account validation that reduced failure rates to near zero; drove fundraising and produced full investor materials.
-- Backend Developer at Hubuk Technology Limited, Kano (Jun 2023 – Present): Built scalable REST APIs with ASP.NET Core (cut dev cycle time by 25%); engineered JWT auth and RBAC; delivered budgeting, payments, and analytics dashboards with PostgreSQL and EF Core.
-- Lead Developer at BizScan360 and Kredinou (2024 – Present): Built a business health evaluation platform (Next.js, Node.js, PostgreSQL) trusted by 2,800+ users, and KrediNou, a cross-border fintech super-app for the Haitian diaspora that is live and has moved over $46,000 to date.
+- Software Engineer at Book Direct (bookdirect.ng), Nigeria (Remote) (Sep 2026 – Present): Software engineer on bookdirect.ng, a platform for booking hotels across Nigeria.
+- Software Engineer at Techserv Intelligence, Enugu (Remote) (May 2026 – Sep 2026): Built and maintained backend services for Clinex and Vitalink, AI-driven healthcare products, using C# .NET, React, and PostgreSQL; architected scalable APIs and role-based access control.
+- Founder at Forge, Kano (Jan 2024 – Present): Architected Forge solo, an AI-powered bulk payment platform; engineered intelligent account validation that reduced failure rates to near zero; drove pre-seed fundraising and produced full investor materials (pitch deck, financial model, investment memo, product demo).
+- Backend / Full-Stack Developer at Hubuk Technology Limited, Kano (Jun 2023 – Aug 2026): Built scalable REST APIs with ASP.NET Core (cut dev cycle time by 25%); engineered JWT auth and RBAC; delivered budgeting, payments, and analytics dashboards with PostgreSQL and EF Core; shipped the Kano State Pension Management System (50,000+ pensioners); contributed to SFMP for Sterling Bank; drove Agile ceremonies and authored technical documentation.
+- Lead Developer at Kredinou (2024 – Present) and BizScan360 (2024 – 2025): Built KrediNou, a cross-border fintech super-app for the Haitian diaspora that is live and has processed and settled over $73,869, and BizScan360, a business health evaluation platform (Next.js, Node.js, PostgreSQL) trusted by 2,800+ users.
 - Frontend Developer Intern at Torvix AI, Remote/India (Sep – Oct 2025): Built reusable React components for an AI workflow automation platform.
 - Backend Engineering Intern at FlexiSAF Solutions Limited, Abuja (Sep – Dec 2025): Built backend features in Java and Spring; wrote optimised SQL.
 
 Key Projects:
-- Vitalink (vitalink.tech): Smart patient monitoring and vital-signs platform with real-time health data pipelines and clinical alerting. (C# .NET, React, PostgreSQL) - Software Engineer at Techserv Intelligence.
-- Forge: AI-powered bulk payment and disbursement platform for African businesses. (Python, .NET, React, PostgreSQL) - Founder & CEO.
-- Anvil: Cross-border fintech mobile app for seamless international money transfers, where recipients automatically receive funds in their local currency with no P2P exchange or manual conversion. A product under Forge, targeting the African remittance corridor; currently under development. (Flutter, .NET, PostgreSQL) - Founder & Lead Developer.
-- BizScan360 (bizscan360.com): Business health evaluation platform with a 0-100 health score, KPI analysis, and PDF reports; 2,800+ users. (Next.js, Node.js, PostgreSQL)
-- Kredinou (kredinou.com): A cross-border fintech super-app for the Haitian diaspora across North America, the Dominican Republic, and Mexico. Multi-currency wallets (USD/HTG/DOP/MXN), instant P2P transfers, international remittance over live FX corridors, an agent cash network, merchant/marketplace suite, ride-hailing, virtual cards, and micro-loans, built on an auditable double-entry ledger with atomic, lock-protected money movement, 2FA/OTP, and escrow. Live, moving over $46,000 to date. (Next.js 16, TypeScript, Prisma 7, PostgreSQL, NextAuth)
-- Appointment Booking System: Multi-industry, multi-tenant booking with automated SendGrid emails. (ASP.NET Core 8, PostgreSQL, JWT)
-- Hospital Management System: Patient registration, scheduling, billing, and pharmacy inventory. (Node.js, Express, PostgreSQL, Firebase Auth)
+- Kano State Pension Management System (Live, 50,000+ pensioners): Production pension administration platform with pensioner enrollment, data verification, disbursement tracking, and role-based admin dashboards. (ASP.NET Core MVC, PostgreSQL, EF Core) - Full-Stack Developer at Hubuk Technology.
+- SFMP: Sustainable Finance Marketplace (Live, sterloan.hubuk.ng): Renewable-energy structured-finance marketplace connecting borrowers, financiers, and administrators, built for and powered by Sterling Bank. - Full-Stack Developer at Hubuk Technology.
+- AbiiApp (Live on Google Play and the App Store): Social super-app combining a mobile social network, AI-powered content moderation and ranking, an in-app wallet and marketplace, and a unified social inbox across Facebook, Instagram, X, Threads, and LinkedIn. (PHP, Laravel, Mobile) - Lead Developer, delivered as a client project through Infira Technology.
+- Vitalink (vitalink.tech, In Development): Smart patient monitoring and vital-signs platform with real-time health data pipelines and role-based clinician dashboards; integrates with Clinex. (C# .NET, React, PostgreSQL) - Software Engineer at Techserv Intelligence.
+- Forge (forgeapis.xyz, Pre-Launch): AI-powered bulk payment and disbursement platform for African businesses. (Python, .NET, React, PostgreSQL) - Founder.
+- Anvil (Under Development): Cross-border fintech mobile app for seamless international money transfers, where recipients automatically receive funds in their local currency with no manual conversion. (Flutter, .NET, PostgreSQL) - Founder & Lead Developer.
+- BizScan360 (bizscan360.com, Live): Business health evaluation platform with a 0-100 health score, KPI analysis, and PDF reports; 2,800+ users, trusted by 500+ businesses. (Next.js, Node.js, PostgreSQL) - Lead Developer.
+- KrediNou (kredinou.com, Live): Fintech platform for the Haitian diaspora with multi-currency wallets, P2P transfers, remittance, credit scoring, and loan management, secured with end-to-end encryption and RBAC. Has processed and settled over $73,869 in transactions. (Next.js, Node.js, PostgreSQL) - Lead Developer.
+- Appointment Booking System (Delivered): Multi-industry, multi-tenant booking with automated SendGrid emails. (ASP.NET Core 8, PostgreSQL, JWT)
+- Hospital Management System (Delivered): Patient registration, scheduling, billing, and pharmacy inventory. (Node.js, Express, PostgreSQL, Firebase Auth)
 
 Education:
-- B.Sc. (Hons) Computer Science from Aliko Dangote University of Science and Technology, Kano (2020 – 2025), graduated with Honours.
+- B.Sc. (Hons) Computer Science from Aliko Dangote University of Science and Technology, Kano (Mar 2020 – Sep 2025), graduated with Honours.
 
 Technical Skills:
-- Languages: C#, Python, JavaScript (ES6+), SQL, Java
-- Frameworks: ASP.NET Core, Django, EF Core, Node.js, Express, Next.js, React, Spring
+- Languages: C#, Python, JavaScript (ES6+), PHP, SQL, Java
+- Frameworks: ASP.NET Core (MVC & API), Django, EF Core, Node.js, Express, Laravel, Flutter, Next.js, React, Spring
 - Databases: PostgreSQL, Firebase Firestore
 - Tools: Git, GitHub, VS Code, Visual Studio, Postman, Swagger
 - Specializations: REST API Design, JWT Auth, RBAC, AI Model Integration, Agile/Scrum, Health Data Compliance

@@ -2,12 +2,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, Calendar, User, Clock, Tag, Sparkles, BookOpen } from 'lucide-react';
+import { ArrowRight, Calendar, User, Clock, Tag, Sparkles } from 'lucide-react';
 import { blogPosts } from '@/lib/blog-data';
 import { format } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
+import { SectionHeading } from '@/components/section-heading';
 
 export function Blog() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -37,30 +38,13 @@ export function Blog() {
   const regularPosts = blogPosts.filter(post => !post.featured);
 
   return (
-    <section id="blog" ref={sectionRef} className="relative bg-background py-24 sm:py-32">
-      {/* Background decoration */}
-      <div aria-hidden="true" className="absolute inset-0 -z-10">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute top-1/4 right-1/4 h-64 w-64 rounded-full bg-primary/3 blur-3xl" />
-      </div>
-
+    <section id="blog" ref={sectionRef} className="relative py-20 sm:py-28">
       <div className="container mx-auto px-4 md:px-6">
-        {/* Section Header */}
-        <div className={cn(
-          "text-center mb-16 transition-all duration-700 ease-out",
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        )}>
-          <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 mb-4">
-            <BookOpen className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium text-primary">Blog</span>
-          </div>
-          <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
-            Insights & Reflections
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-foreground/60">
-            Sharing my thoughts on technology, software development, and entrepreneurship.
-          </p>
-        </div>
+        <SectionHeading
+          eyebrow="Blog"
+          title="Insights & reflections"
+          description="Sharing my thoughts on technology, software development, and entrepreneurship."
+        />
 
         {/* Featured Post */}
         {featuredPost && (
@@ -69,7 +53,7 @@ export function Blog() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           )}>
             <Link href={`/blog/${featuredPost.slug}`} className="group block">
-              <Card className="overflow-hidden rounded-3xl bg-card shadow-lg ring-1 ring-border/50 transition-all duration-500 group-hover:shadow-2xl group-hover:ring-primary/30">
+              <Card className="overflow-hidden rounded-2xl border-border/70 bg-card shadow-sm transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-xl">
                 <div className="grid md:grid-cols-2 gap-0">
                   {/* Image */}
                   {featuredPost.image && (
@@ -96,7 +80,7 @@ export function Blog() {
                   )}
 
                   {/* Content */}
-                  <div className="flex flex-col justify-center p-8 md:p-10">
+                  <div className="flex flex-col justify-center p-6 md:p-10">
                     {/* Category & Reading time */}
                     <div className="flex items-center gap-3 mb-4">
                       <Badge variant="secondary" className="rounded-full">
@@ -154,7 +138,7 @@ export function Blog() {
 
         {/* Regular Posts Grid */}
         <div className={cn(
-          "grid grid-cols-1 gap-8 md:grid-cols-2 transition-all duration-1000 ease-out delay-300",
+          "grid grid-cols-1 gap-6 md:grid-cols-2 transition-all duration-1000 ease-out delay-300",
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         )}>
           {regularPosts.map((post, index) => (
@@ -164,7 +148,7 @@ export function Blog() {
               className="group block"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <Card className="flex h-full flex-col overflow-hidden rounded-2xl bg-card shadow-sm ring-1 ring-border/50 transition-all duration-500 group-hover:shadow-2xl group-hover:ring-primary/30 group-hover:-translate-y-2">
+              <Card className="flex h-full flex-col overflow-hidden rounded-2xl border-border/70 bg-card shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:border-primary/50 group-hover:shadow-xl">
                 {/* Image */}
                 {post.image && (
                   <div className="relative overflow-hidden">

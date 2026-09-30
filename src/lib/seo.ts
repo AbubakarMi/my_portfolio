@@ -29,7 +29,7 @@ export const PAGE_TITLE = 'Muhammad Idris Abubakar | Lead Developer at Kredinou'
  * penalised. Do NOT use this as the meta description — see META_DESCRIPTION.
  */
 export const SHORT_BIO =
-  'Muhammad Idris Abubakar is a Lead Developer at Kredinou and BizScan360, and a software engineer with 4+ years building secure, scalable systems across fintech, AI healthcare and SaaS.';
+  'Muhammad Idris Abubakar is a Lead Developer at Kredinou and BizScan360, and a software engineer and mobile app developer with 5+ years building secure, scalable systems across fintech, healthcare, government and SaaS. He is currently a Software Engineer at Book Direct and the founder of Forge.';
 
 /**
  * Meta description. Google truncates snippets at roughly 160 characters, so
@@ -44,15 +44,20 @@ export const META_DESCRIPTION =
  * important SEO signal on the site: it is what fuses the portfolio, GitHub,
  * LinkedIn and X into one entity in Google's Knowledge Graph.
  */
-export const SAME_AS = [
-  'https://github.com/AbubakarMi',
-  'https://www.linkedin.com/in/muhammad-idris-abubakar',
-  'https://x.com/AbubakarM93064',
-];
+export const GITHUB_URL = 'https://github.com/AbubakarMi';
+export const LINKEDIN_URL = 'https://www.linkedin.com/in/muhammad-idris-abubakar-1853752a5';
+export const X_URL = 'https://x.com/AbubakarM93064';
+
+export const SAME_AS = [GITHUB_URL, LINKEDIN_URL, X_URL];
+
+/** The downloadable CV served from /public. */
+export const RESUME_PATH = '/Muhammad_Idris_Abubakar_CV.pdf';
 
 export const EMPLOYERS = [
   { name: 'Kredinou', url: 'https://www.kredinou.com' },
   { name: 'BizScan360', url: 'https://bizscan360.com' },
+  { name: 'Book Direct', url: 'https://bookdirect.ng' },
+  { name: 'Forge', url: 'https://forgeapis.xyz' },
 ];
 
 /**
@@ -110,6 +115,9 @@ export const personSchema = {
     'Node.js',
     'Next.js',
     'React',
+    'Flutter',
+    'Laravel',
+    'Mobile App Development',
     'TypeScript',
     'PostgreSQL',
     'Entity Framework Core',
