@@ -87,11 +87,11 @@ const responses: Record<Intent, string> = {
   goodbye:
     "Thanks for stopping by! If you'd like to work with Muhammad, the contact form on this page reaches him directly.",
   about:
-    "Muhammad Idris Abubakar is a Software Engineer and Mobile App Developer based in Kano, Nigeria, with 5+ years in the industry (since 2021). He works across fintech, healthcare, and government systems with C# .NET, Python, Node.js, Next.js, React, Flutter, Laravel, and PostgreSQL. He is currently a Software Engineer at Book Direct, part-time Lead Developer at Kredinou, and the founder of Forge.",
+    "Muhammad Idris Abubakar is a Software Engineer and Mobile App Developer based in Kano, Nigeria, with 5+ years in the industry (since 2020). He works across fintech, healthcare, and government systems with C# .NET, Python, Node.js, Next.js, React, Flutter, Laravel, and PostgreSQL. He is currently a Software Engineer at Book Direct, part-time Lead Developer at Kredinou, and the founder of Forge.",
   current_role:
     "Muhammad's full-time role is Software Engineer at Book Direct (bookdirect.ng), a hotel and shortlet booking platform for Nigeria, which he joined in September 2026. He also supports Kredinou part-time as Lead Developer and is building his own startup, Forge.",
   experience:
-    "Muhammad has 5+ years of experience, starting at Hubuk Technology in 2021.\n\n- Book Direct: Software Engineer, Sep 2026 to present (full-time)\n- Kredinou: Lead Developer, Feb 2026 to present (part-time)\n- Forge: Founder, Jan 2024 to present\n- Techserv Intelligence: Software Engineer, May to Sep 2026\n- Hubuk Technology: 2021 to Aug 2026, rising from trainee to Full-Stack Developer\n- BizScan360: Lead Developer, Nov 2025 to Mar 2026\n- Internships at FlexiSAF and Torvix AI in 2025",
+    "Muhammad has 5+ years of experience. He has been in the industry since 2020 and joined Hubuk Technology in 2021.\n\n- Book Direct: Software Engineer, Sep 2026 to present (full-time)\n- Kredinou: Lead Developer, Feb 2026 to present (part-time)\n- Forge: Founder, Jan 2024 to present\n- Techserv Intelligence: Software Engineer, May to Sep 2026\n- Hubuk Technology: 2021 to Aug 2026, rising from trainee to Full-Stack Developer\n- BizScan360: Lead Developer, Nov 2025 to Mar 2026\n- Internships at FlexiSAF and Torvix AI in 2025",
   hubuk:
     "Muhammad was at Hubuk Technology Limited in Kano from 2021 to August 2026. He joined in 2021 and learned on the job, interned in 2022, became a Junior Backend Developer in 2023, Backend Developer in 2024, and Full-Stack Developer in 2025. There he shipped the Kano State Pension Management System and worked on SFMP for Sterling Bank.",
   bookdirect:
@@ -117,7 +117,7 @@ const responses: Record<Intent, string> = {
   skills:
     "Muhammad's core stack:\n\n- Languages: C#, Python, JavaScript, PHP, Java, SQL\n- Backend: ASP.NET Core, Node.js/Express, Django, Laravel, EF Core\n- Frontend and mobile: React, Next.js, Flutter\n- Data: PostgreSQL, Firebase\n- Strengths: REST API design, JWT auth and RBAC, system design, AI model integration",
   education:
-    "Muhammad holds a B.Sc. (Hons) in Computer Science from Aliko Dangote University of Science and Technology, Kano (2020 to 2025). Most of his engineering skill came from working in industry alongside his studies, starting at Hubuk Technology in 2021.",
+    "Muhammad holds a B.Sc. (Hons) in Computer Science from Aliko Dangote University of Science and Technology, Kano (2020 to 2025). Most of his engineering skill came from working in industry alongside his studies; he has been in the industry since 2020 and joined Hubuk Technology in 2021.",
   resume:
     `You can download Muhammad's CV here: ${SITE_URL}${RESUME_PATH}`,
   availability:

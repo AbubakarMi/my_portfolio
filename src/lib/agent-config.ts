@@ -38,7 +38,7 @@ export const agentConfig: AgentConfig = {
 
 export const portfolioContext = `
 Professional Summary:
-Muhammad Idris Abubakar is a results-driven Software Engineer and Mobile App Developer with 5+ years of experience (in the industry since 2021) building secure, high-performance systems across fintech, healthcare, government, education, transport, and hospitality. He is proficient in C# .NET, Python, Django, ASP.NET Core, Node.js, Next.js, React.js, Flutter, PHP Laravel, EF Core, and PostgreSQL, and skilled in designing scalable REST APIs, implementing JWT authentication and RBAC, integrating AI model pipelines, and architecting compliant backend and mobile systems. He is currently a remote Software Engineer at Book Direct (bookdirect.ng), and is the Founder of Forge.
+Muhammad Idris Abubakar is a results-driven Software Engineer and Mobile App Developer with 5+ years of experience (in the industry since 2020) building secure, high-performance systems across fintech, healthcare, government, education, transport, and hospitality. He is proficient in C# .NET, Python, Django, ASP.NET Core, Node.js, Next.js, React.js, Flutter, PHP Laravel, EF Core, and PostgreSQL, and skilled in designing scalable REST APIs, implementing JWT authentication and RBAC, integrating AI model pipelines, and architecting compliant backend and mobile systems. He is currently a remote Software Engineer at Book Direct (bookdirect.ng), and is the Founder of Forge.
 
 Career Highlights:
 - Shipped the Kano State Pension Management System, live in production managing records for over 50,000 pensioners.
@@ -72,7 +72,7 @@ Work Experience:
 - Lead Developer at BizScan360 (Nov 2025 – Mar 2026, no longer there): Led development of a business health evaluation platform (Next.js, Node.js, PostgreSQL) trusted by 2,800+ users.
 - Backend Engineering Intern at FlexiSAF Solutions Limited, Abuja (Sep – Dec 2025): Built backend features in Java and Spring; wrote optimised SQL.
 - Frontend Developer Intern at Torvix AI, Remote/India (Sep – Oct 2025): Built reusable React components for an AI workflow automation platform.
-- His 5+ years of experience count from 2021, when he joined Hubuk. He learned software engineering on the job rather than at university.
+- He has been in the industry since 2020 and joined Hubuk in 2021. He learned software engineering on the job rather than at university.
 
 Key Projects:
 - Kano State Pension Management System (Live, 50,000+ pensioners): Production pension administration platform with pensioner enrollment, data verification, disbursement tracking, and role-based admin dashboards. (ASP.NET Core MVC, PostgreSQL, EF Core) - Full-Stack Developer at Hubuk Technology.

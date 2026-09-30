@@ -54,7 +54,7 @@ export function About() {
               <div className="space-y-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
                 <p>
                   I&apos;m a results-driven Software Engineer and Mobile App Developer with{' '}
-                  <span className="font-medium text-foreground">5+ years of experience</span>, in the industry since 2021, building secure,
+                  <span className="font-medium text-foreground">5+ years of experience</span>, in the industry since 2020, building secure,
                   high-performance systems across fintech, healthcare, government, education, transport, and
                   hospitality. My toolkit spans C# .NET, Python, Django, Node.js, Next.js, React, Flutter,
                   PHP Laravel, and PostgreSQL.

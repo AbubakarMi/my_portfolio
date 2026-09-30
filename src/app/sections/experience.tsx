@@ -154,7 +154,7 @@ export function Experience() {
         <SectionHeading
           eyebrow="Experience"
           title="Professional journey"
-          description="Where I've worked and what I shipped there, since joining Hubuk in 2021."
+          description="Where I've worked and what I shipped there."
         />
 
         <div className="relative">
